@@ -11,8 +11,6 @@ gameTemplate.innerHTML = `
 
 `;
 
-
-
 class LeanGame extends HTMLElement {
   constructor() {
     super();
@@ -30,8 +28,8 @@ class LeanGame extends HTMLElement {
   connectedCallback() {
     this.rounds = 5;
     this.time = 180; // Time in seconds
-    this.stock = new Stock()
-    this.stock.newRound()
+    this.stock = new Stock();
+    this.stock.newRound();
     this.workstations = [
       new Workstation(1, "Frame"),
       new Workstation(2, "Door"),
@@ -99,13 +97,12 @@ class LeanGame extends HTMLElement {
 
   addPart() {
     const currentStation = this.workstations[this.currentWorkstationIndex];
-    if (!currentStation.completed){
+    if (!currentStation.completed) {
       this.stock.usePart(currentStation.part.name);
-    }
-    else{
+    } else {
       this.stock.detachPart(currentStation.part.name);
     }
-    currentStation.completed = !currentStation.completed; 
+    currentStation.completed = !currentStation.completed;
 
     // Check if all workstations are done
     if (this.workstations.every((station) => station.completed)) {
@@ -113,22 +110,21 @@ class LeanGame extends HTMLElement {
       // Stop the game loop (optional)
       return;
     }
-
-
     this.updateMessage();
   }
 
   goToPreviousWorkstation() {
-    this.currentWorkstationIndex = (this.currentWorkstationIndex - 1 + this.workstations.length) % this.workstations.length;
-    this.updateMessage();
-  }
-  
-  goToNextWorkstation() {
-    this.currentWorkstationIndex = (this.currentWorkstationIndex + 1) % this.workstations.length;
+    this.currentWorkstationIndex =
+      (this.currentWorkstationIndex - 1 + this.workstations.length) %
+      this.workstations.length;
     this.updateMessage();
   }
 
-  
+  goToNextWorkstation() {
+    this.currentWorkstationIndex =
+      (this.currentWorkstationIndex + 1) % this.workstations.length;
+    this.updateMessage();
+  }
 }
 
 customElements.define("lean-game", LeanGame);
