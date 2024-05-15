@@ -6,9 +6,10 @@ gameTemplate.innerHTML = `
 `;
 
 class Workstation {
-  constructor(id) {
+  constructor(id, part) {
     this.id = id;
     this.completed = false;
+    this.part = part;
   }
 }
 
@@ -27,8 +28,8 @@ class LeanGame extends HTMLElement {
     this.rounds = 5;
     this.time = 180; // Time in seconds
     this.workstations = [
-      new Workstation(1),
-      new Workstation(2),
+      new Workstation(1, "Frame"),
+      new Workstation(2, "Door"),
       // Add more workstations here as needed
     ];
     this.currentWorkstationIndex = 0;
@@ -48,9 +49,8 @@ class LeanGame extends HTMLElement {
 
   draw() {
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-    // Draw game visuals based on state (e.g., highlight completed stations)
-
-    // Example: Draw a simple rectangle for each workstation
+  
+    // Draw game visuals based on state
     for (let i = 0; i < this.workstations.length; i++) {
       const station = this.workstations[i];
       const x = (i * this.canvas.width) / this.workstations.length;
@@ -59,12 +59,19 @@ class LeanGame extends HTMLElement {
       const height = 20;
       this.ctx.fillStyle = station.completed ? "green" : "red";
       this.ctx.fillRect(x, y, width, height);
+  
+      // Display part name next to the rectangle
+      this.ctx.fillStyle = "black";
+      this.ctx.font = "12px Arial";
+      const partText = `${station.part}`;
+      this.ctx.fillText(partText, x + 5, y + 15); // Adjust positioning as needed
     }
   }
 
   updateMessage() {
     const currentStation = this.workstations[this.currentWorkstationIndex];
     this.messageEl.textContent = `Work on Workstation ${currentStation.id}`;
+    this.addButton.textContent = `Add ${currentStation.part}`;
   }
 
   addPart() {
