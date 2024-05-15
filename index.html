@@ -1,16 +1,66 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Welcome to Glitch!</title>
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LEAN Game</title>
-</head>
+    <style>
+      .historyContainer .item {
+        border: 15px solid black;
+        overflow: hidden;
+        padding: 20px;
+      }    
+    </style>
+    
+    <script src="https://cdn.ably.io/lib/ably.min-1.js"></script>    
 
-<body>
-    <lean-game></lean-game>
-    <lean-game></lean-game>
-    <script type="module" src="index.js"></script>
-</body>
+  </head>
+  <body>
+    <header>
+      <h1>Ably Promises API demo with client side auth.</h1>
+    </header>
 
+    <main>
+      <h2>Oh hi, let me just grab some history from Ably!</h2>
+      <div id="history" class="historyContainer"></div>
+    </main>
+
+    <script>
+      console.log("Oh hai! 🖤");
+      
+      const resultsDiv = document.getElementById("history");
+      
+      function connect() {
+                
+        const ably = new Ably.Realtime({ authUrl: 'http://localhost:5000/api/createTokenRequest' });
+        const channelId = `[product:ably-tfl/tube]tube:northern:940GZZLUEUS:arrivals`;
+        const channel = ably.channels.get(channelId);          
+          
+        channel.attach((err, r) => {
+
+          channel.subscribe((message) => {
+            console.log(message.data);
+          });
+
+
+          // You can do stuff here
+          
+          const resultPage = channel.history({ untilAttach: true, limit: 1 }, (err, resultPage) => {
+
+            for (const item of resultPage.items) {
+              const result = document.createElement("div");
+              result.classList.add("item");
+              result.innerHTML = JSON.stringify(item);
+              resultsDiv.appendChild(result);
+            }
+          });
+        });
+        
+      }
+            
+      connect(); 
+
+    </script>    
+    
+  </body>
 </html>
