@@ -1,9 +1,11 @@
+import { Part } from "./part.js";
+
 class Workstation {
   constructor(id, part) {
     this.id = id;
     this.completed = false;
-    this.part = part;
+    this.part = new Part(part,0);
   }
 }
 
-export {Workstation}
+export { Workstation };

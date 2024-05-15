@@ -1,4 +1,4 @@
-import { Workstation } from "./Models/Workstation.js";
+import { Workstation } from "./Models/workstation.js";
 
 const gameTemplate = document.createElement("template");
 gameTemplate.innerHTML = `
@@ -68,7 +68,7 @@ class LeanGame extends HTMLElement {
       // Display part name next to the rectangle
       this.ctx.fillStyle = "black";
       this.ctx.font = "12px Arial";
-      const partText = `${station.part}`;
+      const partText = `${station.part.name}`;
       this.ctx.fillText(partText, x + 5, y + 15); // Adjust positioning as needed
     }
   }
@@ -87,8 +87,8 @@ class LeanGame extends HTMLElement {
     const currentStation = this.workstations[this.currentWorkstationIndex];
     this.messageEl.textContent = `Work on Workstation ${currentStation.id}`;
     this.addButton.textContent = currentStation.completed
-      ? "Remove " + currentStation.part
-      : "Add " + currentStation.part;
+      ? "Remove " + currentStation.part.name
+      : "Add " + currentStation.part.name;
     this.previousButton.disabled = this.currentWorkstationIndex === 0; // Disable prev button at first station
     this.nextButton.disabled =
       this.currentWorkstationIndex === this.workstations.length - 1; // Disable next button if all completed
