@@ -1,3 +1,4 @@
+import { Stock } from "./Models/Stock.js";
 import { Workstation } from "./Models/workstation.js";
 
 const gameTemplate = document.createElement("template");
@@ -29,6 +30,8 @@ class LeanGame extends HTMLElement {
   connectedCallback() {
     this.rounds = 5;
     this.time = 180; // Time in seconds
+    this.stock = new Stock()
+    this.stock.newRound()
     this.workstations = [
       new Workstation(1, "Frame"),
       new Workstation(2, "Door"),
@@ -96,6 +99,12 @@ class LeanGame extends HTMLElement {
 
   addPart() {
     const currentStation = this.workstations[this.currentWorkstationIndex];
+    if (!currentStation.completed){
+      this.stock.usePart(currentStation.part.name);
+    }
+    else{
+      this.stock.detachPart(currentStation.part.name);
+    }
     currentStation.completed = !currentStation.completed; 
 
     // Check if all workstations are done
