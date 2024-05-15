@@ -1,6 +1,7 @@
 import { Car } from "./Models/Car.js";
 import { Stock } from "./Models/Stock.js";
-import { Workstation } from "./Models/workstation.js";
+import { Workstation } from "./Models/Workstation.js";
+import { Round } from "./Models/Round.js";
 
 const gameTemplate = document.createElement("template");
 gameTemplate.innerHTML = `
@@ -26,8 +27,8 @@ class LeanGame extends HTMLElement {
   }
 
   connectedCallback() {
-    this.rounds = 5;
-    this.time = 180; // Time in seconds
+    this.round = new Round();
+    this.round.start()
     this.stock = new Stock();
     this.stock.newRound();
     this.car = new Car();
