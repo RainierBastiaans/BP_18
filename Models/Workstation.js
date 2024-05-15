@@ -1,5 +1,9 @@
 class Workstation {
-    constructor(stock) {
-      this.stock = stock;
-    }
+  constructor(id, part) {
+    this.id = id;
+    this.completed = false;
+    this.part = part;
+  }
 }
+
+export {Workstation}
