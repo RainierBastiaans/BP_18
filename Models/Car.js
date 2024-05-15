@@ -5,8 +5,8 @@ class Car {
       frame: false,
       interior: false,
       door: false,
-      windows: false,
-      tires: false,
+      window: false,
+      tire: false,
     };
   }
 
@@ -15,3 +15,5 @@ class Car {
     return Object.values(this.parts).every(partComplete => partComplete);
   }
 }
+
+export {Car}

@@ -1,14 +1,14 @@
+import { Car } from "./Models/Car.js";
 import { Stock } from "./Models/Stock.js";
 import { Workstation } from "./Models/workstation.js";
 
 const gameTemplate = document.createElement("template");
 gameTemplate.innerHTML = `
   <p id="message">Work on Workstation 1</p>
-  <canvas id="bp-game-canvas" width="300" height="300"></canvas>
+  <canvas id="bp-game-canvas" width="500" height="300"></canvas>
   <button id="previous-station-button">Previous Station</button>
   <button id="add-part-button">Add Part</button>
   <button id="next-station-button">Next Station</button>
-
 `;
 
 class LeanGame extends HTMLElement {
@@ -30,9 +30,14 @@ class LeanGame extends HTMLElement {
     this.time = 180; // Time in seconds
     this.stock = new Stock();
     this.stock.newRound();
+    this.car = new Car();
     this.workstations = [
-      new Workstation(1, "Frame"),
-      new Workstation(2, "Door"),
+      new Workstation(1, "frame"),
+      new Workstation(2, "interior"),
+      new Workstation(3, "door"),
+      new Workstation(4, "window"),
+      new Workstation(5, "tire"),
+
       // Add more workstations here as needed
     ];
     this.currentWorkstationIndex = 0;
@@ -63,7 +68,7 @@ class LeanGame extends HTMLElement {
       const y = 10;
       const width = this.canvas.width / this.workstations.length - 10;
       const height = 20;
-      this.ctx.fillStyle = station.completed ? "green" : "red";
+      this.ctx.fillStyle = this.car.parts[station.part.name] ? "green" : "red";
       this.ctx.fillRect(x, y, width, height);
 
       // Display part name next to the rectangle
@@ -86,8 +91,13 @@ class LeanGame extends HTMLElement {
 
   updateMessage() {
     const currentStation = this.workstations[this.currentWorkstationIndex];
-    this.messageEl.textContent = `Work on Workstation ${currentStation.id}`;
-    this.addButton.textContent = currentStation.completed
+    // Check if the car is complete using Car instance
+    if (this.car.isComplete()) {
+      this.messageEl.textContent = "Car Complete!";
+    } else {
+      this.messageEl.textContent = `Work on Workstation ${currentStation.id}`;
+    }
+    this.addButton.textContent = this.car.parts[currentStation.part.name]
       ? "Remove " + currentStation.part.name
       : "Add " + currentStation.part.name;
     this.previousButton.disabled = this.currentWorkstationIndex === 0; // Disable prev button at first station
@@ -97,19 +107,17 @@ class LeanGame extends HTMLElement {
 
   addPart() {
     const currentStation = this.workstations[this.currentWorkstationIndex];
-    if (!currentStation.completed) {
+    if (this.car.parts[currentStation.part.name]) {
       this.stock.usePart(currentStation.part.name);
     } else {
       this.stock.detachPart(currentStation.part.name);
     }
-    currentStation.completed = !currentStation.completed;
 
-    // Check if all workstations are done
-    if (this.workstations.every((station) => station.completed)) {
-      this.messageEl.textContent = "Game Complete!";
-      // Stop the game loop (optional)
-      return;
-    }
+    this.car.parts[currentStation.part.name] =
+      !this.car.parts[currentStation.part.name];
+
+    console.log(this.car.parts);
+
     this.updateMessage();
   }
 

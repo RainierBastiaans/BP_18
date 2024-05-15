@@ -1,6 +1,6 @@
 class Stock {
   constructor() {
-    this.parts = { Frame: 0, Door: 0 }; // Hardcoded Dictionary to store parts and their counts
+    this.parts = { frame: 0, interior: 0, door: 0, window: 0, tire: 0}; // Hardcoded Dictionary to store parts and their counts
   }
 
   newRound() {
@@ -13,7 +13,7 @@ class Stock {
     if (part in this.parts && this.parts[part] > 0) {
       this.parts[part] -= 1;
     } else {
-      throw new Error(`Part '${part}' is not in stock`);
+      throw new Error(`'${part}' is not in stock`);
     }
   }
 
