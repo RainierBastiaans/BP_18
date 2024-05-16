@@ -20,15 +20,30 @@ class ShowStats extends HTMLElement {
             <div class="statistics-container">
                 <h2 class="statistics-heading">Game Statistics</h2>
                 <p class="statistics-info">Your final score: <span id="finalScore">0</span> cars completed!</p>
+                <p class="statistics-info">Your total profit: <span id="finalProfit">0</span>€</p>
+                <p class="statistics-info">Your final stock: <span id="finalStock">0</span> parts!</p>
+                <p class="statistics-info">Your final capital: <span id="finalCapital">0</span>€</p>
                 <!-- Add more statistics here if needed -->
             </div>
         `;
     this.finalScoreElement = this.shadowRoot.querySelector("#finalScore");
+    this.finalProfitElement = this.shadowRoot.querySelector("#finalProfit");
+    this.finalStockElement = this.shadowRoot.querySelector("#finalStock");
+    this.finalCapitalElement = this.shadowRoot.querySelector("#finalCapital");
   }
 
-  // Method to update the final score
+  // Methods to update the final stats
   updateScore(score) {
     this.finalScoreElement.textContent = score;
+    this.finalProfitElement.textContent = score * 2000;
+  }
+
+  updateStock(stock) {
+    this.finalStockElement.textContent = stock;
+  }
+
+  updateCapital(capital) {
+    this.finalCapitalElement.textContent = capital;
   }
 }
 

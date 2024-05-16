@@ -15,6 +15,9 @@ class GameDescription extends HTMLElement {
             <p>
                 This is an exciting game where you can test your LEAN skills<br>and challenge your friends.
             </p>
+            <p>
+                
+            </p>
         `;
   }
 }

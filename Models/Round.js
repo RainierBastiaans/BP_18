@@ -1,4 +1,5 @@
 class Round {
+  // voorlopig nog niet nodig/gebruikt
   constructor() {
     this.timeLeft = 30; // Time in seconds
     this.timerInterval = null;

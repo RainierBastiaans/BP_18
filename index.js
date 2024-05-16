@@ -78,7 +78,11 @@ class LeanGame extends HTMLElement {
     alert("Game Over!");
     this.dispatchEvent(
       new CustomEvent("gameover", {
-        detail: { score: this.game.completedCars },
+        detail: {
+          score: this.game.completedCars,
+          stock: 20, //TODO zoek een goede manier om overige stock te tonen
+          capital: this.game.capital,
+        },
         bubbles: true,
         composed: true,
       })
