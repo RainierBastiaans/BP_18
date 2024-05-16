@@ -28,7 +28,6 @@ class LeanGame extends HTMLElement {
 
   connectedCallback() {
     this.round = new Round();
-    this.round.start()
     this.stock = new Stock();
     this.stock.newRound();
     this.car = new Car();
