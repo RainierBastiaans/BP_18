@@ -20,7 +20,8 @@ class Round {
 
   endGame() {
     clearInterval(this.timerInterval);
-    alert("round Over!");
+    alert("Game Over!");
+    location.reload();
   }
 }
 export { Round };

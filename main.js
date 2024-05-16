@@ -1,9 +1,6 @@
 import "./game.js";
 
 document.addEventListener("DOMContentLoaded", () => {
-  document.getElementById("stats-container").innerHTML =
-    "<show-stats></show-stats>";
-
   //Game start
   document.querySelector("start-button").addEventListener("startgame", () => {
     document.querySelector("game-header").classList.add("hidden");
