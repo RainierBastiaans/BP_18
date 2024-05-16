@@ -1,6 +1,6 @@
 class Round {
   constructor() {
-    this.timeLeft = 30; // Time in seconds
+    this.timeLeft = 10; // Time in seconds
     this.timerInterval = null;
   }
 
@@ -11,7 +11,6 @@ class Round {
   startTimer() {
     this.timerInterval = setInterval(() => {
       this.timeLeft--;
-      //this.timeLeftElement.textContent = this.timeLeft;
 
       if (this.timeLeft <= 0) {
         this.endGame();
