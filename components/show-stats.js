@@ -19,7 +19,7 @@ class ShowStats extends HTMLElement {
             </style>
             <div class="statistics-container">
                 <h2 class="statistics-heading">Game Statistics</h2>
-                <p class="statistics-info">Your final score: <span id="finalScore">0</span></p>
+                <p class="statistics-info">Your final score: <span id="finalScore">0</span> cars completed!</p>
                 <!-- Add more statistics here if needed -->
             </div>
         `;
