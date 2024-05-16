@@ -5,10 +5,13 @@ import { Game } from "./Models/Game.js";
 
 const gameTemplate = document.createElement("template");
 gameTemplate.innerHTML = `
-  <p id="message">Work on Workstation</p>
-  <canvas id="bp-game-canvas" width="500" height="300"></canvas>
-  <button id="previous-station-button">Previous Station</button>
-  <button id="next-station-button">Next Station</button>
+<p id="message">Work on Workstation</p>
+<canvas id="bp-game-canvas" width="500" height="300"></canvas>
+<button id="previous-station-button">Previous Station</button>
+<button id="next-station-button">Next Station</button>
+<p id="completedCarsElement">Cars completed: 0</p>
+<p id="partsAddedElement">0/0 parts added</p>
+
 `;
 
 class LeanGame extends HTMLElement {
@@ -21,6 +24,8 @@ class LeanGame extends HTMLElement {
     this.canvas = shadowRoot.getElementById("bp-game-canvas");
     this.previousButton = shadowRoot.getElementById("previous-station-button");
     this.nextButton = shadowRoot.getElementById("next-station-button");
+    this.completedCarsElement = shadowRoot.getElementById("completedCarsElement");
+    this.partsAddedElement = shadowRoot.getElementById("partsAddedElement");
     this.previousButton.disabled = true; // Initially disabled
   }
 
@@ -32,10 +37,9 @@ class LeanGame extends HTMLElement {
     this.stock.newRound();
     this.car = new Car(this.game.parts);
 
-
     //Create workstations
     this.workstations = [];
-    for (let i = 0; i < this.game.parts.length/4; i++) {
+    for (let i = 0; i < this.game.parts.length / 4; i++) {
       const startIndex = i * 4; // Starting index for each workstation (multiples of 4)
       const partList = this.game.parts.slice(startIndex, startIndex + 4); // Slice the first 4 parts
       this.workstations.push(new Workstation(i + 1, partList));
@@ -70,7 +74,7 @@ class LeanGame extends HTMLElement {
       const height = 20;
 
       const allPartsAdded = station.parts.every(
-        (part) =>  this.car.parts[part.name]          
+        (part) => this.car.parts[part.name]
       );
       this.ctx.fillStyle = allPartsAdded ? "green" : "red";
       this.ctx.fillRect(x, y, width, height);
@@ -100,10 +104,14 @@ class LeanGame extends HTMLElement {
       // Add the part to the car and update stock
       this.car.addPart(partName);
       this.stock.usePart(partName);
+
+      if(this.car.isComplete()){
+        this.game.completedCars +=1;
+        this.car = new Car(this.game.parts)
+      }
     } catch (error) {
       console.error(error.message); // Handle stock-related errors gracefully (e.g., display message to user)
     }
-    console.log(this.car)
     this.updateMessage();
   }
 
@@ -115,6 +123,17 @@ class LeanGame extends HTMLElement {
 
     this.clearPartButtons();
     this.createPartButtons();
+
+    // Update parts added/total parts display
+    const partsAdded = Object.values(this.car.parts).filter(
+      (part) => part
+    ).length;
+    const totalParts = Object.keys(this.car.parts).length;
+    const partsMessage = `${partsAdded}/${totalParts} parts added`;
+
+    // Update UI elements (assuming you have elements for displaying messages)
+    this.completedCarsElement.textContent = `Cars completed: ${this.game.completedCars}`;
+    this.partsAddedElement.textContent = partsMessage;
   }
 
   clearPartButtons() {
