@@ -1,4 +1,4 @@
-import "./game.js";
+import "./index.js";
 
 document.addEventListener("DOMContentLoaded", () => {
   document.getElementById("stats-container").innerHTML =
