@@ -2,6 +2,7 @@ import { Car } from "./Models/Car.js";
 import { Stock } from "./Models/Stock.js";
 import { Workstation } from "./Models/workstation.js";
 import { Game } from "./Models/Game.js";
+import { Round } from "./Models/Round.js";
 
 const gameTemplate = document.createElement("template");
 gameTemplate.innerHTML = `
@@ -34,6 +35,9 @@ class LeanGame extends HTMLElement {
     this.rounds = 5;
     this.time = 180; // Time in seconds
     this.stock = new Stock(this.game.parts);
+    this.capital = 500;
+    this.round = new Round();
+    this.round.startTimer();
     this.stock.newRound();
     this.car = new Car(this.game.parts);
 
