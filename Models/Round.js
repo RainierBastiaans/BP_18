@@ -1,6 +1,6 @@
 class Round {
   constructor() {
-    this.timeLeft = 10; // Time in seconds
+    this.timeLeft = 30; // Time in seconds
     this.timerInterval = null;
   }
 
@@ -21,7 +21,7 @@ class Round {
   endGame() {
     clearInterval(this.timerInterval);
     alert("Game Over!");
-    location.reload();
+    this.over = true;
   }
 }
 export { Round };

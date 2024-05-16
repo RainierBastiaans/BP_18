@@ -1,6 +1,6 @@
 import { Car } from "./Models/Car.js";
 import { Stock } from "./Models/Stock.js";
-import { Workstation } from "./Models/workstation.js";
+import { Workstation } from "./Models/Workstation.js";
 import { Game } from "./Models/Game.js";
 import { Round } from "./Models/Round.js";
 
@@ -25,19 +25,21 @@ class LeanGame extends HTMLElement {
     this.canvas = shadowRoot.getElementById("bp-game-canvas");
     this.previousButton = shadowRoot.getElementById("previous-station-button");
     this.nextButton = shadowRoot.getElementById("next-station-button");
-    this.completedCarsElement = shadowRoot.getElementById("completedCarsElement");
+    this.completedCarsElement = shadowRoot.getElementById(
+      "completedCarsElement"
+    );
     this.partsAddedElement = shadowRoot.getElementById("partsAddedElement");
     this.previousButton.disabled = true; // Initially disabled
+    this.timeLeft = 30; // Time in seconds
+    this.timerInterval = null;
   }
 
   connectedCallback() {
     this.game = new Game();
     this.rounds = 5;
-    this.time = 180; // Time in seconds
     this.stock = new Stock(this.game.parts);
-    this.capital = 500;
-    this.round = new Round();
-    this.round.startTimer();
+    //this.round = new Round();
+    //this.round.startTimer();
     this.stock.newRound();
     this.car = new Car(this.game.parts);
 
@@ -58,6 +60,29 @@ class LeanGame extends HTMLElement {
 
     this.updateMessage();
     this.startGameLoop();
+    this.startTimer();
+  }
+
+  startTimer() {
+    this.timerInterval = setInterval(() => {
+      this.timeLeft--;
+
+      if (this.timeLeft <= 0) {
+        this.endGame();
+      }
+    }, 1000);
+  }
+
+  endGame() {
+    clearInterval(this.timerInterval);
+    alert("Game Over!");
+    this.dispatchEvent(
+      new CustomEvent("gameover", {
+        detail: { score: this.game.completedCars },
+        bubbles: true,
+        composed: true,
+      })
+    );
   }
 
   startGameLoop() {
@@ -109,9 +134,9 @@ class LeanGame extends HTMLElement {
       this.car.addPart(partName);
       this.stock.usePart(partName);
 
-      if(this.car.isComplete()){
-        this.game.completedCars +=1;
-        this.car = new Car(this.game.parts)
+      if (this.car.isComplete()) {
+        this.game.completedCars += 1;
+        this.car = new Car(this.game.parts);
       }
     } catch (error) {
       console.error(error.message); // Handle stock-related errors gracefully (e.g., display message to user)
