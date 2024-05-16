@@ -22,6 +22,10 @@ class StartButton extends HTMLElement {
             <button id="startButton">Start Game</button>
         `;
 
+    /* 
+        This allows any event listeners on the main document or other parent elements to detect
+        and handle the startgame event, facilitating interaction between encapsulated components and the broader application.
+    */
     this.shadowRoot
       .querySelector("#startButton")
       .addEventListener("click", () => {
