@@ -19,10 +19,10 @@ class ShowStats extends HTMLElement {
             </style>
             <div class="statistics-container">
                 <h2 class="statistics-heading">Game Statistics</h2>
-                <p class="statistics-info">Your final score: <span id="finalScore">0</span> cars completed!</p>
-                <p class="statistics-info">Your total profit: <span id="finalProfit">0</span>€</p>
-                <p class="statistics-info">Your final stock: <span id="finalStock">0</span> parts!</p>
-                <p class="statistics-info">Your final capital: <span id="finalCapital">0</span>€</p>
+                <p class="statistics-info">Total cars completed: <span id="finalScore">0</span></p>
+                <p class="statistics-info">Total profit: <span id="finalProfit">0</span>€</p>
+                <p class="statistics-info">Final stock: <span id="finalStock">0</span> parts!</p>
+                <p class="statistics-info">Final capital: <span id="finalCapital">0</span>€</p>
                 <!-- Add more statistics here if needed -->
             </div>
         `;
@@ -35,7 +35,7 @@ class ShowStats extends HTMLElement {
   // Methods to update the final stats
   updateScore(score) {
     this.finalScoreElement.textContent = score;
-    this.finalProfitElement.textContent = score * 2000;
+    this.finalProfitElement.textContent = score * 20000;
   }
 
   updateStock(stock) {

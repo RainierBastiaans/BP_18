@@ -1,8 +1,8 @@
 class Game {
   constructor() {
-    this.capital = 0;
+    this.capital = 500000;
     this.cost = 0;
-    this.completedCars = 0
+    this.completedCars = 0;
     this.parts = [
       { name: "chassis" },
       { name: "hood" },
