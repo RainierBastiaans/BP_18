@@ -159,6 +159,7 @@ class LeanGame extends HTMLElement {
       button.textContent = part.name;
       button.dataset.partName = part.name;
       button.addEventListener("click", this.handleClick.bind(this));
+      button.disabled = this.car.isAdded(part) //disable button if already added
       buttonContainer.appendChild(button);
     });
 
@@ -166,17 +167,27 @@ class LeanGame extends HTMLElement {
   }
 
   goToPreviousWorkstation() {
-    this.currentWorkstationIndex =
-      (this.currentWorkstationIndex - 1 + this.workstations.length) %
-      this.workstations.length;
+    // Decrement index with modulo to handle wrap-around
+    this.currentWorkstationIndex = (this.currentWorkstationIndex - 1 + this.workstations.length) % this.workstations.length;
+  
+    // Update button states
+    this.previousButton.disabled = this.currentWorkstationIndex === 0;
+    this.nextButton.disabled = false; // Reset next button
+  
     this.updateMessage();
   }
-
+  
   goToNextWorkstation() {
-    this.currentWorkstationIndex =
-      (this.currentWorkstationIndex + 1) % this.workstations.length;
+    // Increment index with modulo to handle wrap-around
+    this.currentWorkstationIndex = (this.currentWorkstationIndex + 1) % this.workstations.length;
+  
+    // Update button states
+    this.previousButton.disabled = false; // Reset previous button
+    this.nextButton.disabled = this.currentWorkstationIndex === this.workstations.length - 1;
+  
     this.updateMessage();
   }
+  
 }
 
 customElements.define("lean-game", LeanGame);

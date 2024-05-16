@@ -1,6 +1,6 @@
 class Round {
   constructor() {
-    this.timeLeft = 10; // Time in seconds
+    this.timeLeft = 100; // Time in seconds
     this.timerInterval = null;
   }
 

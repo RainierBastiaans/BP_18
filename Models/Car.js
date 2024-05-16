@@ -26,6 +26,10 @@ class Car {
       throw new Error(`Invalid part name: ${part}`);
     }
   }
+
+  isAdded(part) {
+    return this.parts[part.name];
+  }
 }
 
 export { Car };
