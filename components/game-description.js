@@ -13,7 +13,7 @@ class GameDescription extends HTMLElement {
                 }
             </style>
             <p>
-                This is an exciting game where you can test your skills and challenge your friends. Get ready for an adventure!
+                This is an exciting game where you can test your LEAN skills<br>and challenge your friends.
             </p>
         `;
   }

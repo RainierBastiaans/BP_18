@@ -15,23 +15,32 @@
         <game-header></game-header>
         <game-description></game-description>
         <start-button></start-button>
+        <show-stats></show-stats> <!-- delete after implementing end of round/game-->
     </div>
-
-    <!-- home-page scripts -->
-    <script src="components/game-header.js" type="module"></script>
-    <script src="components/game-description.js" type="module"></script>
-    <script src="components/start-button.js" type="module"></script>
 
     <!-- game -->
     <div id="game-container" class="hidden">
         <!-- game content wil go here -->
     </div>
 
-    <!-- game scripts -->
-    <script type="module" src="game.js"></script>
+    <!-- stats -->
+    <div id="stats-container" class="hidden">
+        <!-- stats wil go here -->
+    </div>
 
+    <!-- Scripts -->
     <!-- main logic script -->
     <script src="main.js" type="module"></script>
+
+    <!-- home-page scripts -->
+    <script src="components/game-header.js" type="module"></script>
+    <script src="components/game-description.js" type="module"></script>
+    <script src="components/start-button.js" type="module"></script>
+    <script src="components/show-stats.js" type="module"></script>
+
+    <!-- game scripts -->
+    <script src="game.js"  type="module"></script>
+
 
 </body>
 

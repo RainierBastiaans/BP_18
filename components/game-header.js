@@ -12,7 +12,7 @@ class GameHeader extends HTMLElement {
                     text-align: center;
                 }
             </style>
-            <h1>Welcome to the Game</h1>
+            <h1>Welcome to the LEAN Game</h1>
         `;
   }
 }

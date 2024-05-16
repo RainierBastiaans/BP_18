@@ -10,5 +10,24 @@ document.addEventListener("DOMContentLoaded", () => {
     // Here you can initialize your game logic
     document.getElementById("game-container").innerHTML =
       "<lean-game></lean-game>";
+
+    // Here you can initialize your stats
+    document.getElementById("stats-container").innerHTML =
+      "<show-stats></show-stats>";
+  });
+
+  document.addEventListener("gameover", (event) => {
+    const score = event.detail.score;
+
+    // Update statistics
+    const showStatsComponent = document.querySelector("show-stats");
+    showStatsComponent.updateScore(score);
+
+    // Show statistics and reset home screen
+    gameContainer.classList.add("hidden");
+    gameHeader.classList.remove("hidden");
+    gameDescription.classList.remove("hidden");
+    startButton.classList.remove("hidden");
+    statisticsContainer.classList.remove("hidden");
   });
 });
