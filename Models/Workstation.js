@@ -1,9 +1,9 @@
 import { Part } from "./part.js";
 
 class Workstation {
-  constructor(id, part) {
+  constructor(id, partsList) {
     this.id = id;
-    this.part = new Part(part,0);
+    this.parts = partsList.map(partData => new Part(partData.name, partData.price)); // Create Part objects from data
   }
 }
 
