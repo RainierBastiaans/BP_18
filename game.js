@@ -27,6 +27,7 @@ class LeanGame extends HTMLElement {
   }
 
   connectedCallback() {
+    this.capital = 500;
     this.round = new Round();
     this.round.startTimer();
     this.stock = new Stock();
