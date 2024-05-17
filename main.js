@@ -15,13 +15,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
   //Game end
   document.addEventListener("gameover", (event) => {
-    const score = event.detail.score;
-    const stock = event.detail.stock;
-    const capital = event.detail.capital;
+    const { score, stock, capital } = event.detail;
+
+    //update statistics
     const showStatsComponent = document.querySelector("show-stats");
-    showStatsComponent.updateScore(score);
-    showStatsComponent.updateStock(stock);
-    showStatsComponent.updateCapital(capital);
+    showStatsComponent.updateStatistics(score, stock, capital);
 
     // Show statistics and reset home screen
     document.querySelector("game-header").classList.remove("hidden");

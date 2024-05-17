@@ -30,7 +30,7 @@ class LeanGame extends HTMLElement {
     );
     this.partsAddedElement = shadowRoot.getElementById("partsAddedElement");
     this.previousButton.disabled = true; // Initially disabled
-    this.timeLeft = 30; // Time in seconds
+    this.timeLeft = 20; // Time in seconds
     this.timerInterval = null;
   }
 
