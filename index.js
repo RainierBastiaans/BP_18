@@ -32,6 +32,7 @@ class LeanGame extends HTMLElement {
     this.previousButton.disabled = true; // Initially disabled
     this.timeLeft = 20; // Time in seconds
     this.timerInterval = null;
+    this.options = JSON.parse(this.getAttribute("options") || "[]"); // Get the options attribute
   }
 
   connectedCallback() {
@@ -58,9 +59,18 @@ class LeanGame extends HTMLElement {
     this.previousButton.addEventListener("click", this.handleClick.bind(this));
     this.nextButton.addEventListener("click", this.handleClick.bind(this));
 
+    this.adjustSettingsForOptions();
     this.updateMessage();
     this.startGameLoop();
     this.startTimer();
+  }
+
+  adjustSettingsForOptions() {
+    if (this.options.includes("timeLimit")) {
+      this.timeLeft = 20;
+    } else {
+      this.timeLeft = 30;
+    }
   }
 
   startTimer() {
@@ -80,7 +90,7 @@ class LeanGame extends HTMLElement {
       new CustomEvent("gameover", {
         detail: {
           score: this.game.completedCars,
-          stock: 20, //TODO zoek een goede manier om overige stock te tonen
+          stock: 20, //JSON.stringify(this.stock.parts), //TODO zoek een goede manier om overige stock te tonen
           capital: this.game.capital,
         },
         bubbles: true,
