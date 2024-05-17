@@ -6,7 +6,7 @@ class GameOptions extends HTMLElement {
             <style>
                 .options-container {
                     text-align: center;
-                    margin-top: 20px;
+                    margin: 20px;
                 }
                 .options-heading {
                     font-size: 1.5em;
@@ -21,6 +21,18 @@ class GameOptions extends HTMLElement {
                 <div class="option">
                     <input type="checkbox" id="timeLimit" name="timeLimit">
                     <label for="timeLimit">Time Limit (20s)</label>
+                </div>
+                <div class="option">
+                    <input type="checkbox" id="kanban" name="kanban">
+                    <label for="kanban">KANBAN</label>
+                </div>
+                <div class="option">
+                    <input type="checkbox" id="jit" name="jit">
+                    <label for="jit">Just in time (JIT)</label>
+                </div>
+                <div class="option">
+                    <input type="checkbox" id="lineBalancing" name="lineBalancing">
+                    <label for="lineBalancing">Line Balancing</label>
                 </div>
             </div>
         `;
