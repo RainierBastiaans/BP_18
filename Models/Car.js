@@ -1,7 +1,13 @@
+import { AtWorkstationState } from "./state/at-workstation-state.js";
+import { State } from "./state/car-state.js";
+import { InLineForWorkstationState } from "./state/inline-for-workstation-state.js";
+
 class Car {
-  constructor(parts) {
+  constructor(id, parts) {
+    this.id = id;
     this.fixedPrice = 2000;
-    
+    this.state = new AtWorkstationState(1);
+
     // Create the parts dictionary from the provided parts
     this.parts = parts.reduce((acc, part) => {
       // Ensure each part is an object with a "name" property
@@ -20,11 +26,19 @@ class Car {
   }
 
   addPart(part) {
-    if (part in this.parts) {
-      this.parts[part] = true;
+    if (this.state instanceof AtWorkstationState) {
+      if (part in this.parts) {
+        this.parts[part] = true;
+      } else {
+        throw new Error(`Invalid part name: ${part}`);
+      }
     } else {
-      throw new Error(`Invalid part name: ${part}`);
+      throw new Error("Car is not at a workstation, part cannot be added.");
     }
+  }
+
+  moveCar(cars) {
+    this.state.next(this, cars);
   }
 
   isAdded(part) {

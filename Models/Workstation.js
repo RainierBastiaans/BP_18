@@ -1,10 +1,31 @@
 import { Part } from "./Part.js";
-
+import { Car } from "./car.js";
 class Workstation {
   constructor(id, partsList) {
     this.id = id;
     this.parts = partsList.map(partData => new Part(partData.name, partData.price)); // Create Part objects from data
+    this.occupant = null; // Reference to the current occupant (User or Bot)
   }
+
+  setOccupant(occupant) {
+    this.occupant = occupant;
+  }
+
+  workOnStation() {
+    if (this.occupant) {
+      this.occupant.isWorking(this); // Call occupant's work method with the workstation
+    }
+  }
+
+  isComplete(car) {
+    if (!car instanceof Car) {
+      throw new Error("Argument must be a Car object.");
+    }
+  
+    // Check if all parts in the workstation are marked as true in the car
+    return this.parts.every(part => car.parts[part.name] === true);
+  }
+  
 }
 
 export { Workstation };
