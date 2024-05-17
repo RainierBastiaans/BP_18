@@ -21,6 +21,10 @@ class Workstation {
     // Check if all parts in the workstation are marked as true in the car
     return this.parts.every(part => carParts[part.name] === true);
   }
+
+  getIncompletePart(carParts){
+    return this.parts.find(part => carParts[part.name] === false);
+  }
   
 }
 

@@ -1,7 +1,8 @@
 class Occupant {
-    constructor(name, workstation) {
+    constructor(name, workstationId, game) {
       this.name = name;
-      this.workstation = workstation
+      this.workstationId = workstationId
+      this.game = game
     }
   
     isWorking() {
