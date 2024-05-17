@@ -118,7 +118,6 @@ class LeanGame extends HTMLElement {
     this.clearPartButtons();
 
     this.messageEl.textContent = "Work On Workstation " + this.getCurrentWorkstation().id
-    this.messageEl.dataset = this.getCurrentWorkstation().id;
 
     if (this.game.getCarFromWorkstation(this.getCurrentWorkstation().id)){
     this.createPartButtons();
@@ -168,7 +167,12 @@ class LeanGame extends HTMLElement {
       });
   
       this.shadowRoot.appendChild(buttonContainer);
-        
+      if (this.getCurrentWorkstation().isComplete(this.game.getCarFromWorkstation(this.getCurrentWorkstation().id).parts)){
+        this.moveCarButton.disabled = false;
+      }
+      else{
+        this.moveCarButton.disabled = true;
+      }
     
   }
 

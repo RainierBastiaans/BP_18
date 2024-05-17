@@ -17,13 +17,9 @@ class Workstation {
     }
   }
 
-  isComplete(car) {
-    if (!car instanceof Car) {
-      throw new Error("Argument must be a Car object.");
-    }
-  
+  isComplete(carParts) {
     // Check if all parts in the workstation are marked as true in the car
-    return this.parts.every(part => car.parts[part.name] === true);
+    return this.parts.every(part => carParts[part.name] === true);
   }
   
 }

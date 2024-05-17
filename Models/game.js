@@ -68,12 +68,12 @@ class Game {
   }
 
   addPart(part, workstationId){
-    var car = this.getCarFromWorkstation(workstationId);
-    if (this.stock.hasEnoughParts()){
-      car.addPart(part)
+    const car = this.getCarFromWorkstation(workstationId);
+    if (this.stock.hasEnoughParts(part)){
+      this.cars.get(car.id).addPart(part)
       this.stock.usePart(part)
     }
-
+    
     if(car.isComplete()){
       this.completedCars +=1;
     }
