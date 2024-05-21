@@ -120,6 +120,7 @@ class Game {
 
   carCompleted(car){
     this.stats.updateOnCarCompletion(car)
+    this.currentRound.stats.updateOnCarCompletion(car)
   }
 
   addPartOrMoveBot(workstationId) {
