@@ -1,26 +1,26 @@
 class Round {
+  // voorlopig nog niet nodig/gebruikt
   constructor() {
     this.timeLeft = 10; // Time in seconds
     this.timerInterval = null;
-  }
-
-  connectedCallback() {
+    this.isOver = false;
     this.startTimer();
   }
+
 
   startTimer() {
     this.timerInterval = setInterval(() => {
       this.timeLeft--;
 
       if (this.timeLeft <= 0) {
-        this.endGame();
+        this.endRound();
       }
     }, 1000);
   }
 
-  endGame() {
+  endRound() {
     clearInterval(this.timerInterval);
-    alert("round Over!");
+    this.isOver = true;
   }
 }
 export { Round };

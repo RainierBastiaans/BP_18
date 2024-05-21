@@ -3,7 +3,6 @@ import { Workstation } from "./workstation.js";
 import { Stock } from "./Stock.js";
 import { Round } from "./Round.js";
 import { Bot } from "./bot.js";
-import data from "../data/parts.json";
 
 class Game {
   constructor() {
@@ -14,30 +13,28 @@ class Game {
     this.completedCars = 0;
     this.carId = 1;
     this.cars = new Map();
-    this.parts = data.parts;
-    
-    // [
-    //   { name: "chassis" },
-    //   { name: "hood" },
-    //   { name: "trunk" },
-    //   { name: "door" }, // Single door assumed, adjust for multiple doors if needed
-    //   { name: "engineBlock" },
-    //   { name: "cylinderHead" },
-    //   { name: "piston" }, // Quantity tracking might be needed later, adjust if applicable
-    //   { name: "sparkPlugs" }, // Can be a boolean for a set
-    //   { name: "dashboard" },
-    //   { name: "seat" }, // Quantity tracking might be needed later, adjust if applicable
-    //   { name: "steeringWheel" },
-    //   { name: "carpet" },
-    //   { name: "battery" },
-    //   { name: "alternator" },
-    //   { name: "headlights" }, // Can be a boolean for a pair
-    //   { name: "wiringHarness" },
-    //   { name: "tire" }, // Quantity tracking might be needed later, adjust if applicable
-    //   { name: "wheel" }, // Quantity tracking might be needed later, adjust if applicable
-    //   { name: "hubcap" }, // Can be a boolean for a set of 4
-    //   { name: "brakePads" }, // Can be a boolean for a set of 4
-    // ];
+    this.parts = [
+      { name: "chassis" },
+      { name: "hood" },
+      { name: "trunk" },
+      { name: "door" }, // Single door assumed, adjust for multiple doors if needed
+      { name: "engineBlock" },
+      { name: "cylinderHead" },
+      { name: "piston" }, // Quantity tracking might be needed later, adjust if applicable
+      { name: "sparkPlugs" }, // Can be a boolean for a set
+      { name: "dashboard" },
+      { name: "seat" }, // Quantity tracking might be needed later, adjust if applicable
+      { name: "steeringWheel" },
+      { name: "carpet" },
+      { name: "battery" },
+      { name: "alternator" },
+      { name: "headlights" }, // Can be a boolean for a pair
+      { name: "wiringHarness" },
+      { name: "tire" }, // Quantity tracking might be needed later, adjust if applicable
+      { name: "wheel" }, // Quantity tracking might be needed later, adjust if applicable
+      { name: "hubcap" }, // Can be a boolean for a set of 4
+      { name: "brakePads" }, // Can be a boolean for a set of 4
+    ];
 
     this.stock = new Stock(this.parts);
     for (let i = 0; i < this.parts.length / 4; i++) {
