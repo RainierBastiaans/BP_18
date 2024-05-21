@@ -3,7 +3,7 @@ import { Workstation } from "./workstation.js";
 import { Stock } from "./Stock.js";
 import { Round } from "./Round.js";
 import { Bot } from "./bot.js";
-import data from "../db/data.json";
+import data from "../db/parts.json" assert { type: "json" };
 
 class Game {
   constructor() {
