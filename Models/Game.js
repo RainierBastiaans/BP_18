@@ -1,13 +1,15 @@
 import { Car } from "./car.js";
 import { Workstation } from "./workstation.js";
 import { Stock } from "./Stock.js";
+import { Round } from "./Round.js";
+import { Bot } from "./bot.js";
 
 class Game {
   constructor() {
     this.workstations = new Map();
     this.capital = 0;
     this.cost = 0;
-    this.rounds = 5;
+    this.rounds = new Map();
     this.completedCars = 0;
     this.carId = 1;
     this.cars = new Map();
@@ -39,6 +41,33 @@ class Game {
       const startIndex = i * 4; // Starting index for each workstation (multiples of 4)
       const partList = this.parts.slice(startIndex, startIndex + 4); // Slice the first 4 parts
       this.workstations.set(i + 1, new Workstation(i + 1, partList));
+    }
+
+    this.bots = [];
+    for (let i = 1; i <= 5; i++) {
+      this.bots.push(new Bot(`bot${i}`, i, this));
+    }
+    this.isOver = false;
+  }
+
+  newGame() {
+    this.newCar();
+    this.newRound();
+  }
+
+  newRound() {
+    const newRound = new Round();
+    this.rounds.set(this.rounds.size + 1, newRound);
+    this.currentRound = newRound;
+    this.stock.newRound();
+    this.bots.forEach((bot) => bot.startWorking());
+  }
+
+  endRound() {
+    this.currentRound.endRound();
+    this.bots.forEach((bot) => bot.stopAddingParts());
+    if (this.rounds.size === 5){
+      this.endGame();
     }
   }
 
@@ -79,7 +108,6 @@ class Game {
 
     if (car.isComplete()) {
       this.completedCars++;
-      console.log(this.completedCars);
     }
   }
 
@@ -100,7 +128,9 @@ class Game {
         );
       }
     }
-    console.log(this.cars);
+  }
+  endGame() {
+    this.isOver = true;
   }
 }
 
