@@ -69,11 +69,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
   //Game end
   document.addEventListener("gameover", (event) => {
-    const { score, stock, capital } = event.detail;
+    const { gameStats, roundStats, capital } = event.detail;
 
     //update statistics
     const showStatsComponent = document.querySelector("show-stats");
-    showStatsComponent.updateStatistics(score, stock, capital);
+    showStatsComponent.updateStatistics(gameStats, roundStats, capital);
 
     // Show statistics and reset home screen
     document.querySelector("game-header").classList.remove("hidden");
