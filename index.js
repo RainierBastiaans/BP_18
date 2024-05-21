@@ -1,18 +1,19 @@
-import { Car } from "./Models/Car.js";
+import { Car } from "./Models/car.js";
 import { Stock } from "./Models/Stock.js";
 import { Workstation } from "./Models/Workstation.js";
 import { Game } from "./Models/Game.js";
 import { Round } from "./Models/Round.js";
+import { Bot } from "./Models/bot.js";
 
 const gameTemplate = document.createElement("template");
 gameTemplate.innerHTML = `
-<p id="message">Work on Workstation</p>
+<p id="message">Work On Workstation</p>
 <canvas id="bp-game-canvas" width="500" height="300"></canvas>
 <button id="previous-station-button">Previous Station</button>
 <button id="next-station-button">Next Station</button>
 <p id="completedCarsElement">Cars completed: 0</p>
 <p id="partsAddedElement">0/0 parts added</p>
-
+<button id="move-car-button">Move Car to Next Station</button>
 `;
 
 class LeanGame extends HTMLElement {
@@ -29,6 +30,7 @@ class LeanGame extends HTMLElement {
       "completedCarsElement"
     );
     this.partsAddedElement = shadowRoot.getElementById("partsAddedElement");
+    this.moveCarButton = shadowRoot.getElementById("move-car-button");
     this.previousButton.disabled = true; // Initially disabled
     this.timeLeft = 180; // Time in seconds
     this.timerInterval = null;
@@ -37,31 +39,38 @@ class LeanGame extends HTMLElement {
 
   connectedCallback() {
     this.game = new Game();
-    this.rounds = 5;
-    this.stock = new Stock(this.game.parts);
-    //this.round = new Round();
-    //this.round.startTimer();
-    this.stock.newRound();
-    this.car = new Car(this.game.parts);
+    this.game.newCar();
+    this.game.stock.newRound();
 
-    //Create workstations
-    this.workstations = [];
-    for (let i = 0; i < this.game.parts.length / 4; i++) {
-      const startIndex = i * 4; // Starting index for each workstation (multiples of 4)
-      const partList = this.game.parts.slice(startIndex, startIndex + 4); // Slice the first 4 parts
-      this.workstations.push(new Workstation(i + 1, partList));
-    }
+    this.bot1 = new Bot("bot1", 1, this.game);
+    this.bot2 = new Bot("bot2", 2, this.game);
+    this.bot3 = new Bot("bot3", 3, this.game);
+    this.bot4 = new Bot("bot4", 4, this.game);
+    this.bot5 = new Bot("bot5", 5, this.game);
 
-    this.currentWorkstationIndex = 0;
+    this.currentWorkstationIndex = 1;
+
     this.startTime = null;
     this.ctx = this.canvas.getContext("2d");
 
     this.previousButton.addEventListener("click", this.handleClick.bind(this));
     this.nextButton.addEventListener("click", this.handleClick.bind(this));
+    this.moveCarButton.addEventListener("click", this.handleClick.bind(this));
 
     this.adjustSettingsForOptions();
     this.updateMessage();
-    this.startGameLoop();
+    // this.startGameLoop();
+    this.bot1.startWorking();
+    this.bot2.startWorking();
+    this.bot3.startWorking();
+    this.bot4.startWorking();
+    this.bot5.startWorking();
+
+    // Add event listener for setInterval
+    this.intervalId = setInterval(() => {
+      this.draw();
+      this.updateMessage();
+    }, 500); // Call every 0.5 seconds (500 milliseconds)
     this.startTimer();
   }
 
@@ -69,7 +78,7 @@ class LeanGame extends HTMLElement {
     if (this.options.includes("timeLimit")) {
       this.timeLeft = 20;
     } else {
-      this.timeLeft = 30;
+      this.timeLeft = 100;
     }
   }
 
@@ -99,28 +108,32 @@ class LeanGame extends HTMLElement {
     );
   }
 
-  startGameLoop() {
-    this.startTime = this.startTime || Date.now();
-    this.draw();
-    requestAnimationFrame(this.startGameLoop.bind(this));
-  }
+  // startGameLoop() {
+  //   this.startTime = this.startTime || Date.now();
+  //   this.draw(this.game.workstations[this.currentWorkstationIndex]);
+  //   requestAnimationFrame(this.startGameLoop.bind(this));
+  // }
 
   draw() {
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
-    // Draw game visuals based on state
-    for (let i = 0; i < this.workstations.length; i++) {
-      const station = this.workstations[i];
-      const x = (i * this.canvas.width) / this.workstations.length;
-      const y = 10;
-      const width = this.canvas.width / this.workstations.length - 10;
-      const height = 20;
+    if (this.game.getCarFromWorkstation(this.getCurrentWorkstation().id)) {
+      // Draw game visuals based on state
+      for (let i = 0; i < this.game.workstations.length; i++) {
+        const station = this.game.workstations[i];
+        const x = (i * this.canvas.width) / this.game.workstations.length;
+        const y = 10;
+        const width = this.canvas.width / this.game.workstations.length - 10;
+        const height = 20;
 
-      const allPartsAdded = station.parts.every(
-        (part) => this.car.parts[part.name]
-      );
-      this.ctx.fillStyle = allPartsAdded ? "green" : "red";
-      this.ctx.fillRect(x, y, width, height);
+        const allPartsAdded = station.parts.every(
+          (part) =>
+            this.game.getCarFromWorkstation(this.getCurrentWorkstation().id)
+              .parts[part.name]
+        );
+        this.ctx.fillStyle = allPartsAdded ? "green" : "red";
+        this.ctx.fillRect(x, y, width, height);
+      }
     }
   }
 
@@ -131,90 +144,116 @@ class LeanGame extends HTMLElement {
       this.goToPreviousWorkstation();
     } else if (event.target === this.nextButton) {
       this.goToNextWorkstation();
+    } else if (event.target === this.moveCarButton) {
+      this.moveCar();
     }
+  }
+
+  moveCar() {
+    this.game
+      .getCarFromWorkstation(this.getCurrentWorkstation().id)
+      .moveCar(this.game.cars);
+    this.game.moveWaitingcars();
+    this.updateMessage();
   }
 
   handlePartButtonClick(button) {
     const partName = button.dataset.partName;
-    const currentStation = this.workstations[this.currentWorkstationIndex];
-
-    try {
-      // Check if enough parts are in stock before adding
-      if (!this.stock.hasEnoughParts(partName)) {
-        throw new Error(`Not enough ${partName} in stock!`);
-      }
-
-      // Add the part to the car and update stock
-      this.car.addPart(partName);
-      this.stock.usePart(partName);
-
-      if (this.car.isComplete()) {
-        this.game.completedCars += 1;
-        this.car = new Car(this.game.parts);
-      }
-    } catch (error) {
-      console.error(error.message); // Handle stock-related errors gracefully (e.g., display message to user)
-    }
+    this.game.addPart(partName, this.getCurrentWorkstation().id);
     this.updateMessage();
   }
 
   updateMessage() {
-    const currentStation = this.workstations[this.currentWorkstationIndex];
-    // ... (check for car completion)
-
     // ... (update previous/next button states)
-
     this.clearPartButtons();
-    this.createPartButtons();
 
-    // Update parts added/total parts display
-    const partsAdded = Object.values(this.car.parts).filter(
-      (part) => part
-    ).length;
-    const totalParts = Object.keys(this.car.parts).length;
-    const partsMessage = `${partsAdded}/${totalParts} parts added`;
-
+    this.messageEl.textContent =
+      "Work On Workstation " + this.getCurrentWorkstation().id;
     // Update UI elements (assuming you have elements for displaying messages)
     this.completedCarsElement.textContent = `Cars completed: ${this.game.completedCars}`;
-    this.partsAddedElement.textContent = partsMessage;
-  }
 
-  clearPartButtons() {
-    // Remove existing part buttons (if any)
-    const buttonContainer = this.shadowRoot.querySelector(".part-buttons");
-    if (buttonContainer) {
-      buttonContainer.remove();
+    if (this.game.getCarFromWorkstation(this.getCurrentWorkstation().id)) {
+      this.createPartButtons();
+
+      // Update parts added/total parts display
+      const partsAdded = Object.values(
+        this.game.getCarFromWorkstation(this.getCurrentWorkstation().id).parts
+      ).filter((part) => part).length;
+      const totalParts = Object.keys(
+        this.game.getCarFromWorkstation(this.getCurrentWorkstation().id).parts
+      ).length;
+      const partsMessage = `${partsAdded}/${totalParts} parts added`;
+      this.partsAddedElement.textContent = partsMessage;
+    } else {
+      const noCarContainer = document.createElement("div");
+      noCarContainer.classList.add("no-car");
+      noCarContainer.textContent = "No Car at the moment";
+      this.shadowRoot.appendChild(noCarContainer);
     }
   }
 
+  clearPartButtons() {
+    const buttonContainer = this.shadowRoot.querySelector(".part-buttons");
+    const noCarContainer = this.shadowRoot.querySelector(".no-car");
+
+    // Remove elements in a single line using optional chaining
+    buttonContainer?.remove();
+    noCarContainer?.remove();
+  }
+
   createPartButtons() {
-    const currentStation = this.workstations[this.currentWorkstationIndex];
     const buttonContainer = document.createElement("div");
     buttonContainer.classList.add("part-buttons");
 
-    currentStation.parts.forEach((part) => {
+    this.getCurrentWorkstation().parts.forEach((part) => {
       const button = document.createElement("button");
       button.classList.add("part-button");
       button.textContent = part.name;
       button.dataset.partName = part.name;
       button.addEventListener("click", this.handleClick.bind(this));
+      button.disabled = this.game
+        .getCarFromWorkstation(this.getCurrentWorkstation().id)
+        .isAdded(part); //disable button if already added
       buttonContainer.appendChild(button);
     });
 
     this.shadowRoot.appendChild(buttonContainer);
+    if (
+      this.getCurrentWorkstation().isComplete(
+        this.game.getCarFromWorkstation(this.getCurrentWorkstation().id).parts
+      )
+    ) {
+      this.moveCarButton.disabled = false;
+    } else {
+      this.moveCarButton.disabled = true;
+    }
   }
 
   goToPreviousWorkstation() {
-    this.currentWorkstationIndex =
-      (this.currentWorkstationIndex - 1 + this.workstations.length) %
-      this.workstations.length;
+    // Decrement index with modulo to handle wrap-around
+    this.currentWorkstationIndex--;
+
+    // Update button states
+    this.previousButton.disabled = this.currentWorkstationIndex === 1;
+    this.nextButton.disabled = false; // Reset next button
+
     this.updateMessage();
   }
 
   goToNextWorkstation() {
-    this.currentWorkstationIndex =
-      (this.currentWorkstationIndex + 1) % this.workstations.length;
+    // Increment index with modulo to handle wrap-around
+    this.currentWorkstationIndex++;
+
+    // Update button states
+    this.previousButton.disabled = false; // Reset previous button
+    this.nextButton.disabled =
+      this.currentWorkstationIndex === this.game.workstations.size;
+
     this.updateMessage();
+  }
+
+  getCurrentWorkstation() {
+    return this.game.workstations.get(this.currentWorkstationIndex);
   }
 }
 
