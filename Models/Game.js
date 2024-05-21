@@ -2,7 +2,7 @@ import { Car } from "./car.js";
 import { Workstation } from "./workstation.js";
 import { Stock } from "./Stock.js";
 import { Round } from "./Round.js";
-import { Bot } from "./bot.js";
+import { Bot } from "./occupant/bot.js";
 import { GameStats } from "./stats/game-stats.js";
 import { Money } from "./money.js";
 import { RoundStats } from "./stats/round-stats.js";

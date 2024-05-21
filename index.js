@@ -54,15 +54,14 @@ class LeanGame extends HTMLElement {
       if (this.game.currentRound.isOver) {
         this.endRound();
       }
-      
     }, 500); // Call every 0.5 seconds (500 milliseconds)
   }
 
   endRound() {
     clearInterval(this.intervalId);
     this.game.endRound();
-    
-    if(this.game.isOver){
+
+    if (this.game.isOver) {
       this.endGame();
       return;
     }
@@ -80,8 +79,8 @@ class LeanGame extends HTMLElement {
       })
     );
   }
-  
-  endGame(){
+
+  endGame() {
     clearInterval(this.intervalId);
     this.game.endRound();
 
@@ -181,19 +180,25 @@ class LeanGame extends HTMLElement {
     if (this.game.getCarFromWorkstation(this.getCurrentWorkstation().id)) {
       this.createPartButtons();
 
-      // Update parts added/total parts display
+      // Show added parts/total parts
       const partsAdded = Object.values(
-        this.game.getCarFromWorkstation(this.getCurrentWorkstation().id).parts
+        this.game.getCarFromWorkstation(this.getCurrentWorkstation().id)
+          ?.parts || {}
       ).filter((part) => part).length;
+
       const totalParts = Object.keys(
-        this.game.getCarFromWorkstation(this.getCurrentWorkstation().id).parts
+        this.game.getCarFromWorkstation(this.getCurrentWorkstation().id)
+          ?.parts || {}
       ).length;
+
       const partsMessage = `${partsAdded}/${totalParts} parts added`;
+
       this.partsAddedElement.textContent = partsMessage;
     } else {
       const noCarContainer = document.createElement("div");
       noCarContainer.classList.add("no-car");
       noCarContainer.textContent = "No Car at the moment";
+      this.partsAddedElement.textContent = "";
       this.shadowRoot.appendChild(noCarContainer);
     }
   }
