@@ -1,30 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="styles.css">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="styles.css" />
     <title>LEAN Game</title>
-</head>
+  </head>
 
-<body>
-
+  <body>
     <!-- home-page -->
     <div id="home-page">
-        <game-header></game-header>
-        <game-description></game-description>
-        <start-button></start-button>
+      <game-header></game-header>
+      <game-description></game-description>
+      <game-options></game-options>
+      <start-button></start-button>
     </div>
 
     <!-- game -->
     <div id="game-container" class="hidden">
-        <!-- game content wil go here -->
+      <!-- game content wil go here -->
     </div>
 
     <!-- stats -->
-    <div id="stats-container">
-        <!-- stats wil go here -->
+    <div id="stats-container" class="hidden">
+      <show-stats></show-stats>
     </div>
 
     <!-- Scripts -->
@@ -36,11 +35,9 @@
     <script src="components/game-description.js" type="module"></script>
     <script src="components/start-button.js" type="module"></script>
     <script src="components/show-stats.js" type="module"></script>
+    <script src="components/game-options.js" type="module"></script>
 
     <!-- game scripts -->
-    <script src="index.js"  type="module"></script>
-
-
-</body>
-
+    <script src="index.js" type="module"></script>
+  </body>
 </html>

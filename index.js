@@ -1,6 +1,6 @@
 import { Car } from "./Models/car.js";
 import { Stock } from "./Models/Stock.js";
-import { Workstation } from "./Models/workstation.js";
+import { Workstation } from "./Models/Workstation.js";
 import { Game } from "./Models/Game.js";
 import { Round } from "./Models/Round.js";
 import { Bot } from "./Models/bot.js";
@@ -32,12 +32,14 @@ class LeanGame extends HTMLElement {
     this.partsAddedElement = shadowRoot.getElementById("partsAddedElement");
     this.moveCarButton = shadowRoot.getElementById("move-car-button");
     this.previousButton.disabled = true; // Initially disabled
+    this.timeLeft = 180; // Time in seconds
+    this.timerInterval = null;
+    this.options = JSON.parse(this.getAttribute("options") || "[]"); // Get the options attribute
   }
 
   connectedCallback() {
     this.game = new Game();
     this.game.newCar();
-    this.capital = 500;
     this.game.stock.newRound();
 
     this.bot1 = new Bot("bot1", 1, this.game);
@@ -55,6 +57,7 @@ class LeanGame extends HTMLElement {
     this.nextButton.addEventListener("click", this.handleClick.bind(this));
     this.moveCarButton.addEventListener("click", this.handleClick.bind(this));
 
+    this.adjustSettingsForOptions();
     this.updateMessage();
     // this.startGameLoop();
     this.bot1.startWorking();
@@ -68,6 +71,41 @@ class LeanGame extends HTMLElement {
       this.draw();
       this.updateMessage();
     }, 500); // Call every 0.5 seconds (500 milliseconds)
+    this.startTimer();
+  }
+
+  adjustSettingsForOptions() {
+    if (this.options.includes("timeLimit")) {
+      this.timeLeft = 20;
+    } else {
+      this.timeLeft = 100;
+    }
+  }
+
+  startTimer() {
+    this.timerInterval = setInterval(() => {
+      this.timeLeft--;
+
+      if (this.timeLeft <= 0) {
+        this.endGame();
+      }
+    }, 1000);
+  }
+
+  endGame() {
+    clearInterval(this.timerInterval);
+    alert("Game Over!");
+    this.dispatchEvent(
+      new CustomEvent("gameover", {
+        detail: {
+          score: this.game.completedCars,
+          stock: 20, //JSON.stringify(this.stock.parts), //TODO zoek een goede manier om overige stock te tonen
+          capital: this.game.capital,
+        },
+        bubbles: true,
+        composed: true,
+      })
+    );
   }
 
   // startGameLoop() {

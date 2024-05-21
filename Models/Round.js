@@ -1,4 +1,5 @@
 class Round {
+  // voorlopig nog niet nodig/gebruikt
   constructor() {
     this.timeLeft = 100; // Time in seconds
     this.timerInterval = null;
@@ -20,7 +21,8 @@ class Round {
 
   endGame() {
     clearInterval(this.timerInterval);
-    alert("round Over!");
+    alert("Game Over!");
+    this.over = true;
   }
 }
 export { Round };
