@@ -3,14 +3,15 @@ import { Workstation } from "./workstation.js";
 import { Stock } from "./Stock.js";
 import { Round } from "./Round.js";
 import { Bot } from "./bot.js";
+import { GameStats } from "./stats/game-stats.js";
+import { Money } from "./money.js";
+import { RoundStats } from "./stats/round-stats.js";
 
 class Game {
   constructor() {
     this.workstations = new Map();
-    this.capital = 0;
     this.cost = 0;
     this.rounds = new Map();
-    this.completedCars = 0;
     this.carId = 1;
     this.cars = new Map();
     this.parts = [
@@ -48,16 +49,21 @@ class Game {
       this.bots.push(new Bot(`bot${i}`, i, this));
     }
     this.isOver = false;
+    this.capital = new Money(50000); // Use Money class
   }
+
+
 
   newGame() {
     this.newCar();
     this.newRound();
+    this.stats = new GameStats(this);
   }
 
   newRound() {
-    const newRound = new Round();
-    this.rounds.set(this.rounds.size + 1, newRound);
+    const roundnumber = this.rounds.size + 1;
+    const newRound = new Round(new RoundStats(roundnumber, this));
+    this.rounds.set(roundnumber, newRound);
     this.currentRound = newRound;
     this.stock.newRound();
     this.bots.forEach((bot) => bot.startWorking());
@@ -66,6 +72,7 @@ class Game {
   endRound() {
     this.currentRound.endRound();
     this.bots.forEach((bot) => bot.stopAddingParts());
+    this.capital.add(this.currentRound.stats.capital)
     if (this.rounds.size === 5){
       this.endGame();
     }
@@ -107,8 +114,12 @@ class Game {
     }
 
     if (car.isComplete()) {
-      this.completedCars++;
+      this.carCompleted(car)
     }
+  }
+
+  carCompleted(car){
+    this.stats.updateOnCarCompletion(car)
   }
 
   addPartOrMoveBot(workstationId) {

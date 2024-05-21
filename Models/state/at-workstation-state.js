@@ -1,5 +1,5 @@
-import { Car } from "../car.js";
 import { InLineForWorkstationState } from "./inline-for-workstation-state.js";
+import { State } from "./car-state.js";
 
 class AtWorkstationState extends State {
   constructor(workstationId) {

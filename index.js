@@ -1,9 +1,4 @@
-import { Car } from "./Models/car.js";
-import { Stock } from "./Models/Stock.js";
-import { Workstation } from "./Models/workstation.js";
-import { Game } from "./Models/Game.js";
-import { Round } from "./Models/Round.js";
-import { Bot } from "./Models/bot.js";
+import { Game } from "./Models/game.js";
 
 const gameTemplate = document.createElement("template");
 gameTemplate.innerHTML = `
@@ -72,12 +67,9 @@ class LeanGame extends HTMLElement {
       return;
     }
     const gameDetails = {
-      score: this.game.completedCars,
-      stock: Object.values(this.game.stock.parts).reduce(
-        (acc, partCount) => acc + partCount,
-        0
-      ),
-      capital: this.game.capital,
+      gameStats: this.game.stats,
+      roundStats: this.game.rounds,
+      capital: this.game.capital.amount,
     };
 
     this.dispatchEvent(
@@ -187,7 +179,7 @@ class LeanGame extends HTMLElement {
     this.messageEl.textContent =
       "Work On Workstation " + this.getCurrentWorkstation().id;
     // Update UI elements (assuming you have elements for displaying messages)
-    this.completedCarsElement.textContent = `Cars completed: ${this.game.completedCars}`;
+    this.completedCarsElement.textContent = `Cars completed: ${this.game.stats.carsCompleted}`;
 
     if (this.game.getCarFromWorkstation(this.getCurrentWorkstation().id)) {
       this.createPartButtons();
