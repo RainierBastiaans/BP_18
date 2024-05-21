@@ -1,4 +1,3 @@
-import { State } from "./car-state.js";
 import { Car } from "../car.js";
 import { InLineForWorkstationState } from "./inline-for-workstation-state.js";
 

@@ -1,4 +1,4 @@
-import { Part } from "./Part.js";
+import { Part } from "./part.js";
 import { Car } from "./car.js";
 class Workstation {
   constructor(id, partsList) {
