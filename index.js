@@ -1,6 +1,6 @@
 import { Car } from "./Models/car.js";
 import { Stock } from "./Models/Stock.js";
-import { Workstation } from "./Models/Workstation.js";
+import { Workstation } from "./Models/workstation.js";
 import { Game } from "./Models/Game.js";
 import { Round } from "./Models/Round.js";
 import { Bot } from "./Models/bot.js";
@@ -39,18 +39,10 @@ class LeanGame extends HTMLElement {
 
   connectedCallback() {
     this.game = new Game();
-    this.game.newCar();
-    this.game.stock.newRound();
-
-    this.bot1 = new Bot("bot1", 1, this.game);
-    this.bot2 = new Bot("bot2", 2, this.game);
-    this.bot3 = new Bot("bot3", 3, this.game);
-    this.bot4 = new Bot("bot4", 4, this.game);
-    this.bot5 = new Bot("bot5", 5, this.game);
+    this.game.newGame();
 
     this.currentWorkstationIndex = 1;
 
-    this.startTime = null;
     this.ctx = this.canvas.getContext("2d");
 
     this.previousButton.addEventListener("click", this.handleClick.bind(this));
@@ -59,60 +51,85 @@ class LeanGame extends HTMLElement {
 
     this.adjustSettingsForOptions();
     this.updateMessage();
-    // this.startGameLoop();
-    this.bot1.startWorking();
-    this.bot2.startWorking();
-    this.bot3.startWorking();
-    this.bot4.startWorking();
-    this.bot5.startWorking();
 
     // Add event listener for setInterval
     this.intervalId = setInterval(() => {
       this.draw();
       this.updateMessage();
-    }, 500); // Call every 0.5 seconds (500 milliseconds)
-    this.startTimer();
-  }
-
-  adjustSettingsForOptions() {
-    if (this.options.includes("timeLimit")) {
-      this.timeLeft = 20;
-    } else {
-      this.timeLeft = 100;
-    }
-  }
-
-  startTimer() {
-    this.timerInterval = setInterval(() => {
-      this.timeLeft--;
-
-      if (this.timeLeft <= 0) {
-        this.endGame();
+      if (this.game.currentRound.isOver) {
+        this.endRound();
       }
-    }, 1000);
+      
+    }, 500); // Call every 0.5 seconds (500 milliseconds)
   }
 
-  endGame() {
-    clearInterval(this.timerInterval);
-    alert("Game Over!");
+  endRound() {
+    clearInterval(this.intervalId);
+    this.game.endRound();
+    
+    if(this.game.isOver){
+      this.endGame();
+      return;
+    }
+    const gameDetails = {
+      score: this.game.completedCars,
+      stock: Object.values(this.game.stock.parts).reduce(
+        (acc, partCount) => acc + partCount,
+        0
+      ),
+      capital: this.game.capital,
+    };
+
+    this.dispatchEvent(
+      new CustomEvent("roundover", {
+        detail: gameDetails,
+        bubbles: true,
+        composed: true,
+      })
+    );
+  }
+  
+  endGame(){
+    clearInterval(this.intervalId);
+    this.game.endRound();
+
+    const gameDetails = {
+      score: this.game.completedCars,
+      stock: Object.values(this.game.stock.parts).reduce(
+        (acc, partCount) => acc + partCount,
+        0
+      ),
+      capital: this.game.capital,
+    };
+
     this.dispatchEvent(
       new CustomEvent("gameover", {
-        detail: {
-          score: this.game.completedCars,
-          stock: 20, //JSON.stringify(this.stock.parts), //TODO zoek een goede manier om overige stock te tonen
-          capital: this.game.capital,
-        },
+        detail: gameDetails,
         bubbles: true,
         composed: true,
       })
     );
   }
 
-  // startGameLoop() {
-  //   this.startTime = this.startTime || Date.now();
-  //   this.draw(this.game.workstations[this.currentWorkstationIndex]);
-  //   requestAnimationFrame(this.startGameLoop.bind(this));
-  // }
+  newRound() {
+    this.game.newRound();
+    // Add event listener for setInterval
+    this.intervalId = setInterval(() => {
+      this.draw();
+      this.updateMessage();
+      if (this.game.currentRound.isOver) {
+        this.endRound();
+      }
+    }, 500); // Call every 0.5 seconds (500 milliseconds)
+  }
+
+  adjustSettingsForOptions() {
+    if (this.options.includes("timeLimit")) {
+      this.timeLeft = 20;
+    } else {
+      this.timeLeft = 2;
+    }
+  }
 
   draw() {
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
