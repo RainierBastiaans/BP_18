@@ -1,7 +1,7 @@
 class GameStats {
-    constructor(game, capital) {
+    constructor(game) {
       this.game = game;
-      this.capital = capital;
+      this.capital = this.game.capital;
       this.carsCompleted = 0;
       this.totalTimeSpent = 0;
       this.totalIncome = 0;

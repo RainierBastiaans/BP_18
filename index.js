@@ -86,12 +86,9 @@ class LeanGame extends HTMLElement {
     this.game.endRound();
 
     const gameDetails = {
-      score: this.game.completedCars,
-      stock: Object.values(this.game.stock.parts).reduce(
-        (acc, partCount) => acc + partCount,
-        0
-      ),
-      capital: this.game.capital,
+      gameStats: this.game.stats,
+      roundStats: this.game.rounds,
+      capital: this.game.capital.amount,
     };
 
     this.dispatchEvent(
