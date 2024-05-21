@@ -1,4 +1,4 @@
-import data from "../db/parts.json";
+import data from "../db/parts.json" assert { type: "json" };
 
 class Game {
   constructor() {
