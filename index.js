@@ -8,7 +8,8 @@ gameTemplate.innerHTML = `
 <p id="message">Work On Workstation</p>
 <canvas id="bp-game-canvas" width="500" height="300"></canvas>
 <p></p>
-<div id="car-container"></div>
+<div id="car-container">
+</div>
 <button id="previous-station-button">Previous Station</button>
 <button id="next-station-button">Next Station</button>
 <p id="completedCarsElement">Cars completed: 0</p>
@@ -35,6 +36,7 @@ class LeanGame extends HTMLElement {
     this.timeLeft = 180; // Time in seconds
     this.timerInterval = null;
     this.options = JSON.parse(this.getAttribute("options") || "[]"); // Get the options attribute
+    this.varParts = 1; // need this for part position
   }
 
   connectedCallback() {
@@ -157,6 +159,7 @@ class LeanGame extends HTMLElement {
     //
     const carContainer = this.shadowRoot.getElementById("car-container");
     carContainer.innerHTML = "";
+    this.varParts = 1;
     //
     this.updateMessage();
   }
@@ -165,12 +168,16 @@ class LeanGame extends HTMLElement {
     const partName = button.dataset.partName;
     this.game.addPart(partName, this.getCurrentWorkstation().id);
     //
-    const carPart = document.createElement("img");
-    const carContainer = this.shadowRoot.getElementById("car-container");
-    carPart.className = "car-part";
-    carPart.src = `./img/${partName}.png`;
-    carPart.alt = `image of ${partName}`;
-    carContainer.appendChild(carPart);
+    if (this.varParts < 5) {
+      const carPart = document.createElement("img");
+      const carContainer = this.shadowRoot.getElementById("car-container");
+      carPart.className = "car-part";
+      carPart.src = `./img/${partName}.png`;
+      carPart.alt = `image of ${partName}`;
+      carPart.style.top = `${this.varParts * 55}px`; // Adjust positioning
+      carContainer.appendChild(carPart);
+      this.varParts++;
+    }
     //
     this.updateMessage();
   }
