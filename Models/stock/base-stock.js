@@ -4,19 +4,19 @@ class BaseStock {
 
   usePart(part) {
     if (this.hasEnoughParts(part)) {
-      this.parts[part] -= 1;
+      this.parts.get(part).quantity -= 1;
     } else {
       throw new Error(`${part} not in stock`);
     }
   }
 
-  hasEnoughParts(partName) {
+  hasEnoughParts(part) {
     // Check if the part exists and has sufficient quantity
-    return this.parts.hasOwnProperty(partName) && this.parts[partName] > 0;
+    return this.parts.get(part).quantity > 0;
   }
 
   addPartsToStock(part, count) {
-    this.parts[part] += count;
+    this.parts.get(part).quantity += count;
   }
 
   // Placeholder method for requestPart, subclasses will implement their own behavior
