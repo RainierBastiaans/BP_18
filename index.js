@@ -42,12 +42,9 @@ class LeanGame extends HTMLElement {
     this.timerInterval = null;
     this.options = JSON.parse(this.getAttribute("options") || "[]"); // Get the options attribute
 
-    const item = shadowRoot.querySelector(".item");
-    try {
-      item.addEventListener("dragstart", this.dragStart);
-    } catch (error) {
-      console.log(error);
-    }
+    //
+    const item = this.shadowRoot.querySelector(".item");
+    item.addEventListener("dragstart", this.dragStart);
   }
 
   connectedCallback() {
@@ -85,6 +82,44 @@ class LeanGame extends HTMLElement {
       this.updateMessage();
     }, 500); // Call every 0.5 seconds (500 milliseconds)
     this.startTimer();
+  }
+
+  dragStart(e) {
+    e.dataTransfer.setData("text/plain", e.target.id);
+    setTimeout(() => {
+      e.target.classList.add("hide");
+    }, 0);
+  }
+
+  dragEnter(e) {
+    e.preventDefault();
+    e.target.classList.add("drag-over");
+  }
+
+  dragOver(e) {
+    e.preventDefault();
+    e.target.classList.add("drag-over");
+  }
+
+  dragLeave(e) {
+    e.target.classList.remove("drag-over");
+  }
+
+  drop(e) {
+    e.target.classList.remove("drag-over");
+
+    // get the draggable element
+    const id = e.dataTransfer.getData("text/plain");
+    const draggable = this.shadowRoot.getElementById(id);
+
+    console.log(id);
+    console.log(draggable);
+
+    // add it to the drop target
+    e.target.appendChild(draggable);
+
+    // display the draggable element
+    draggable.classList.remove("hide");
   }
 
   adjustSettingsForOptions() {
@@ -205,43 +240,6 @@ class LeanGame extends HTMLElement {
     }
   }
 
-  dragStart(e) {
-    e.dataTransfer.setData("text/plain", e.target.id);
-    setTimeout(() => {
-      e.target.classList.add("hide");
-    }, 0);
-  }
-
-  dragEnter(e) {
-    e.preventDefault();
-    e.target.classList.add("drag-over");
-  }
-
-  dragOver(e) {
-    e.preventDefault();
-    e.target.classList.add("drag-over");
-  }
-
-  dragLeave(e) {
-    e.target.classList.remove("drag-over");
-  }
-
-  drop(e) {
-    e.target.classList.remove("drag-over");
-
-    // get the draggable element
-    const id = e.dataTransfer.getData("text/plain");
-    const draggable = document.getElementById(id);
-    console.log(id);
-    console.log(draggable);
-
-    // add it to the drop target
-    e.target.appendChild(draggable);
-
-    // display the draggable element
-    draggable.classList.remove("hide");
-  }
-
   clearPartButtons() {
     const buttonContainer = this.shadowRoot.querySelector(".part-buttons");
     const noCarContainer = this.shadowRoot.querySelector(".no-car");
@@ -262,7 +260,6 @@ class LeanGame extends HTMLElement {
       img.alt = `image of ${part.name}`;
       button.classList.add("part-button");
       button.append(img);
-      //button.classList.add("item"); //drag
       button.draggable = true; //drag
       button.id = part.name;
 
