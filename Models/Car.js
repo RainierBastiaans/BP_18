@@ -5,7 +5,7 @@ import { InLineForWorkstationState } from "./state/inline-for-workstation-state.
 class Car {
   constructor(id, parts) {
     this.id = id;
-    this.fixedPrice = 2000;
+    this.fixedPrice = 20000;
     this.state = new AtWorkstationState(1);
 
     // Create the parts dictionary from the provided parts
