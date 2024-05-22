@@ -1,6 +1,5 @@
 import { Car } from "./car.js";
 import { Workstation } from "./workstation.js";
-import { Stock } from "./Stock.js";
 import { Round } from "./Round.js";
 import { Bot } from "./occupant/bot.js";
 import data from "../db/parts.json" assert { type: "json" };
@@ -11,6 +10,7 @@ import { JustInTime } from "../lean-methods/just-in-time.js";
 import { CompositeLeanMethod } from "../lean-methods/composite-lean-method.js";
 import { QualityControl } from "../lean-methods/quality-control.js";
 import { TraditionalStock } from "./stock/traditional-stock.js";
+import { JITStock } from "./stock/jit-stock.js";
 class Game {
   constructor() {
     this.workstations = new Map();
@@ -33,7 +33,6 @@ class Game {
     this.isOver = false;
     this.capital = new Money(50000);
     this.stock = new TraditionalStock(this.parts);
-    //this.createLeanMethods();
   }
 
   newGame() {
@@ -89,15 +88,13 @@ class Game {
   }
 
   addPart(part, workstationId) {
-    console.log(this.stock)
+    console.log(this.stock);
     const car = this.getCarFromWorkstation(workstationId);
-    try{
+    try {
       this.stock.requestPart(part);
       this.cars.get(car.id).addPart(part);
-
-    }
-    catch (error){
-      console.error(error)
+    } catch (error) {
+      console.error(error);
     }
 
     if (car.isComplete()) {
@@ -132,14 +129,6 @@ class Game {
     this.isOver = true;
   }
 
-  createLeanMethods() {
-    this.leanMethodMap = new Map();
-    this.leanMethodMap.set('JIT', new JustInTime(this.stock));
-    this.leanMethodMap.set('QC', new QualityControl());
-    // Add more lean methods here following the same pattern
-
-    this.leanMethodMap.get('JIT').enableJustInTime()
-  }
   
 }
 
