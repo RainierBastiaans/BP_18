@@ -2,7 +2,7 @@ import { Car } from "./car.js";
 import { Workstation } from "./workstation.js";
 import { Stock } from "./Stock.js";
 import { Round } from "./Round.js";
-import { Bot } from "./bot.js";
+import { Bot } from "./occupant/bot.js";
 import data from "../db/parts.json" assert { type: "json" };
 import { GameStats } from "./stats/game-stats.js";
 import { Money } from "./money.js";
@@ -16,29 +16,6 @@ class Game {
     this.carId = 1;
     this.cars = new Map();
     this.parts = data.parts;
-
-    // [
-    //   { name: "chassis" },
-    //   { name: "hood" },
-    //   { name: "trunk" },
-    //   { name: "door" }, // Single door assumed, adjust for multiple doors if needed
-    //   { name: "engineBlock" },
-    //   { name: "cylinderHead" },
-    //   { name: "piston" }, // Quantity tracking might be needed later, adjust if applicable
-    //   { name: "sparkPlugs" }, // Can be a boolean for a set
-    //   { name: "dashboard" },
-    //   { name: "seat" }, // Quantity tracking might be needed later, adjust if applicable
-    //   { name: "steeringWheel" },
-    //   { name: "carpet" },
-    //   { name: "battery" },
-    //   { name: "alternator" },
-    //   { name: "headlights" }, // Can be a boolean for a pair
-    //   { name: "wiringHarness" },
-    //   { name: "tire" }, // Quantity tracking might be needed later, adjust if applicable
-    //   { name: "wheel" }, // Quantity tracking might be needed later, adjust if applicable
-    //   { name: "hubcap" }, // Can be a boolean for a set of 4
-    //   { name: "brakePads" }, // Can be a boolean for a set of 4
-    // ];
 
     this.stock = new Stock(this.parts);
     for (let i = 0; i < this.parts.length / 4; i++) {
