@@ -8,18 +8,12 @@ gameTemplate.innerHTML = `
 <p id="message">Work On Workstation</p>
 <canvas id="bp-game-canvas" width="500" height="300"></canvas>
 <p></p>
+<div id="car-container"></div>
 <button id="previous-station-button">Previous Station</button>
 <button id="next-station-button">Next Station</button>
 <p id="completedCarsElement">Cars completed: 0</p>
 <p id="partsAddedElement">0/0 parts added</p>
 <button id="move-car-button">Move Car to Next Station</button>
-<div class="drop-targets">
-    <div class="box">
-      <div class="item" id="item" draggable="true"></div>
-    </div>
-    <div class="box"></div>
-    <div class="box"></div>
-  </div>
 `;
 
 class LeanGame extends HTMLElement {
@@ -41,10 +35,6 @@ class LeanGame extends HTMLElement {
     this.timeLeft = 180; // Time in seconds
     this.timerInterval = null;
     this.options = JSON.parse(this.getAttribute("options") || "[]"); // Get the options attribute
-
-    //
-    const item = this.shadowRoot.querySelector(".item");
-    item.addEventListener("dragstart", this.dragStart);
   }
 
   connectedCallback() {
@@ -164,12 +154,23 @@ class LeanGame extends HTMLElement {
       .getCarFromWorkstation(this.getCurrentWorkstation().id)
       .moveCar(this.game.cars);
     this.game.moveWaitingcars();
+    //
+    const carContainer = this.shadowRoot.getElementById("car-container");
+    carContainer.innerHTML = "";
+    //
     this.updateMessage();
   }
 
   handlePartButtonClick(button) {
     const partName = button.dataset.partName;
     this.game.addPart(partName, this.getCurrentWorkstation().id);
+    //
+    const carPart = document.createElement("div");
+    const carContainer = this.shadowRoot.getElementById("car-container");
+    carPart.className = "car-part";
+    carPart.innerText = `Part ${partName}`;
+    carContainer.appendChild(carPart);
+    //
     this.updateMessage();
   }
 
@@ -222,18 +223,18 @@ class LeanGame extends HTMLElement {
       img.alt = `image of ${part.name}`;
       button.classList.add("part-button");
       button.append(img);
-      button.draggable = true; //drag
-      button.id = part.name;
+      //button.draggable = true; //drag
+      //button.id = part.name; //drag
+      //button.addEventListener("dragstart", this.dragStart); //drag
 
       button.dataset.partName = part.name;
-      button.addEventListener("dragstart", this.dragStart);
       button.addEventListener("click", this.handleClick.bind(this));
       button.disabled = this.game
         .getCarFromWorkstation(this.getCurrentWorkstation().id)
         .isAdded(part); //disable button if already added
       buttonContainer.appendChild(button);
     });
-
+    /* Drag stuff not working
     const boxes = this.shadowRoot.querySelectorAll(".box");
 
     boxes.forEach((box) => {
@@ -242,6 +243,7 @@ class LeanGame extends HTMLElement {
       box.addEventListener("dragleave", this.dragLeave);
       box.addEventListener("drop", this.drop);
     });
+*/
 
     this.shadowRoot.appendChild(buttonContainer);
     if (
@@ -282,6 +284,7 @@ class LeanGame extends HTMLElement {
     return this.game.workstations.get(this.currentWorkstationIndex);
   }
 
+  //DRAG stuff does not work
   dragStart(e) {
     e.dataTransfer.setData("text/plain", e.target.id);
     console.log("Drag Start: Setting ID", e.target.id);
