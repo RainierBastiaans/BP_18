@@ -10,6 +10,7 @@ import { RoundStats } from "./stats/round-stats.js";
 import { JustInTime } from "../lean-methods/just-in-time.js";
 import { CompositeLeanMethod } from "../lean-methods/composite-lean-method.js";
 import { QualityControl } from "../lean-methods/quality-control.js";
+import { TraditionalStock } from "./stock/traditional-stock.js";
 class Game {
   constructor() {
     this.workstations = new Map();
@@ -31,8 +32,8 @@ class Game {
     }
     this.isOver = false;
     this.capital = new Money(50000);
-    this.stock = new Stock(this.parts);
-    this.createLeanMethods();
+    this.stock = new TraditionalStock(this.parts);
+    //this.createLeanMethods();
   }
 
   newGame() {
@@ -46,7 +47,7 @@ class Game {
     const newRound = new Round(new RoundStats(roundnumber, this));
     this.rounds.set(roundnumber, newRound);
     this.currentRound = newRound;
-    this.stock.newRound(this.leanMethodMap);
+    this.stock.newRound();
     this.bots.forEach((bot) => bot.startWorking());
   }
 
@@ -91,7 +92,7 @@ class Game {
     console.log(this.stock)
     const car = this.getCarFromWorkstation(workstationId);
     try{
-      this.leanMethodMap.get('JIT').requestPart(part);
+      this.stock.requestPart(part);
       this.cars.get(car.id).addPart(part);
 
     }
