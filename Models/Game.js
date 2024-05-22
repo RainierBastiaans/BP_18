@@ -7,7 +7,9 @@ import data from "../db/parts.json" assert { type: "json" };
 import { GameStats } from "./stats/game-stats.js";
 import { Money } from "./money.js";
 import { RoundStats } from "./stats/round-stats.js";
-
+import { JustInTime } from "../lean-methods/just-in-time.js";
+import { CompositeLeanMethod } from "../lean-methods/composite-lean-method.js";
+import { QualityControl } from "../lean-methods/quality-control.js";
 class Game {
   constructor() {
     this.workstations = new Map();
@@ -17,7 +19,6 @@ class Game {
     this.cars = new Map();
     this.parts = data.parts;
 
-    this.stock = new Stock(this.parts);
     for (let i = 0; i < this.parts.length / 4; i++) {
       const startIndex = i * 4; // Starting index for each workstation (multiples of 4)
       const partList = this.parts.slice(startIndex, startIndex + 4); // Slice the first 4 parts
@@ -29,7 +30,9 @@ class Game {
       this.bots.push(new Bot(`bot${i}`, i, this));
     }
     this.isOver = false;
-    this.capital = new Money(50000); // Use Money class
+    this.capital = new Money(50000);
+    this.stock = new Stock(this.parts);
+    this.createLeanMethods();
   }
 
   newGame() {
@@ -43,7 +46,7 @@ class Game {
     const newRound = new Round(new RoundStats(roundnumber, this));
     this.rounds.set(roundnumber, newRound);
     this.currentRound = newRound;
-    this.stock.newRound();
+    this.stock.newRound(this.leanMethodMap);
     this.bots.forEach((bot) => bot.startWorking());
   }
 
@@ -85,10 +88,15 @@ class Game {
   }
 
   addPart(part, workstationId) {
+    console.log(this.stock)
     const car = this.getCarFromWorkstation(workstationId);
-    if (this.stock.hasEnoughParts(part)) {
+    try{
+      this.leanMethodMap.get('JIT').requestPart(part);
       this.cars.get(car.id).addPart(part);
-      this.stock.usePart(part);
+
+    }
+    catch (error){
+      console.error(error)
     }
 
     if (car.isComplete()) {
@@ -122,6 +130,16 @@ class Game {
   endGame() {
     this.isOver = true;
   }
+
+  createLeanMethods() {
+    this.leanMethodMap = new Map();
+    this.leanMethodMap.set('JIT', new JustInTime(this.stock));
+    this.leanMethodMap.set('QC', new QualityControl());
+    // Add more lean methods here following the same pattern
+
+    this.leanMethodMap.get('JIT').enableJustInTime()
+  }
+  
 }
 
 export { Game };

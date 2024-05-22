@@ -1,3 +1,5 @@
+import { JustInTime } from "../lean-methods/just-in-time.js";
+
 class Stock {
   constructor(parts) {
     // Create the parts dictionary from the provided parts
@@ -10,25 +12,35 @@ class Stock {
       acc[part.name] = 0; // Initialize quantity to 0
       return acc;
     }, {});
+
+    this.justInTime;
   }
 
-  newRound() {
-    for (const part in this.parts) {
-      this.parts[part] += 5;
-    }
+  setJustInTime() {
+    this.justInTime = new JustInTime(this);
+  }
+
+  methodEnabled(method) {
+    this.methods.get(method).isEnabled();
   }
 
   usePart(part) {
     this.parts[part] -= 1;
   }
 
-  detachPart(part) {
-    this.parts[part] += 1;
+  addPartsToStock(part, count) {
+    this.parts[part] += count;
   }
-  
+
   hasEnoughParts(partName) {
     // Check if the part exists and has sufficient quantity
     return this.parts.hasOwnProperty(partName) && this.parts[partName] > 0;
+  }
+
+  newRound() {
+    for (const part in this.parts) {
+      this.addPartsToStock(part, 5); //add 5 parts each to stock
+    }
   }
 }
 
