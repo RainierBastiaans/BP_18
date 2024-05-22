@@ -165,10 +165,11 @@ class LeanGame extends HTMLElement {
     const partName = button.dataset.partName;
     this.game.addPart(partName, this.getCurrentWorkstation().id);
     //
-    const carPart = document.createElement("div");
+    const carPart = document.createElement("img");
     const carContainer = this.shadowRoot.getElementById("car-container");
     carPart.className = "car-part";
-    carPart.innerText = `Part ${partName}`;
+    carPart.src = `./img/${partName}.png`;
+    carPart.alt = `image of ${partName}`;
     carContainer.appendChild(carPart);
     //
     this.updateMessage();
