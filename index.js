@@ -1,19 +1,25 @@
-import { Car } from "./Models/car.js";
-import { Stock } from "./Models/Stock.js";
-import { Workstation } from "./Models/Workstation.js";
 import { Game } from "./Models/Game.js";
-import { Round } from "./Models/Round.js";
 import { Bot } from "./Models/bot.js";
 
 const gameTemplate = document.createElement("template");
 gameTemplate.innerHTML = `
+<link rel="stylesheet" href="styles.css">
+<h1>Round <span>1</span></h1>
 <p id="message">Work On Workstation</p>
 <canvas id="bp-game-canvas" width="500" height="300"></canvas>
+<p></p>
 <button id="previous-station-button">Previous Station</button>
 <button id="next-station-button">Next Station</button>
 <p id="completedCarsElement">Cars completed: 0</p>
 <p id="partsAddedElement">0/0 parts added</p>
 <button id="move-car-button">Move Car to Next Station</button>
+<div class="drop-targets">
+    <div class="box">
+      <div class="item" id="item" draggable="true"></div>
+    </div>
+    <div class="box"></div>
+    <div class="box"></div>
+  </div>
 `;
 
 class LeanGame extends HTMLElement {
@@ -35,6 +41,13 @@ class LeanGame extends HTMLElement {
     this.timeLeft = 180; // Time in seconds
     this.timerInterval = null;
     this.options = JSON.parse(this.getAttribute("options") || "[]"); // Get the options attribute
+
+    const item = shadowRoot.querySelector(".item");
+    try {
+      item.addEventListener("dragstart", this.dragStart);
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   connectedCallback() {
@@ -60,7 +73,7 @@ class LeanGame extends HTMLElement {
     this.adjustSettingsForOptions();
     this.updateMessage();
     // this.startGameLoop();
-    this.bot1.startWorking();
+    //this.bot1.startWorking();
     this.bot2.startWorking();
     this.bot3.startWorking();
     this.bot4.startWorking();
@@ -76,7 +89,7 @@ class LeanGame extends HTMLElement {
 
   adjustSettingsForOptions() {
     if (this.options.includes("timeLimit")) {
-      this.timeLeft = 20;
+      this.timeLeft = 2;
     } else {
       this.timeLeft = 100;
     }
@@ -192,6 +205,43 @@ class LeanGame extends HTMLElement {
     }
   }
 
+  dragStart(e) {
+    e.dataTransfer.setData("text/plain", e.target.id);
+    setTimeout(() => {
+      e.target.classList.add("hide");
+    }, 0);
+  }
+
+  dragEnter(e) {
+    e.preventDefault();
+    e.target.classList.add("drag-over");
+  }
+
+  dragOver(e) {
+    e.preventDefault();
+    e.target.classList.add("drag-over");
+  }
+
+  dragLeave(e) {
+    e.target.classList.remove("drag-over");
+  }
+
+  drop(e) {
+    e.target.classList.remove("drag-over");
+
+    // get the draggable element
+    const id = e.dataTransfer.getData("text/plain");
+    const draggable = document.getElementById(id);
+    console.log(id);
+    console.log(draggable);
+
+    // add it to the drop target
+    e.target.appendChild(draggable);
+
+    // display the draggable element
+    draggable.classList.remove("hide");
+  }
+
   clearPartButtons() {
     const buttonContainer = this.shadowRoot.querySelector(".part-buttons");
     const noCarContainer = this.shadowRoot.querySelector(".no-car");
@@ -207,14 +257,31 @@ class LeanGame extends HTMLElement {
 
     this.getCurrentWorkstation().parts.forEach((part) => {
       const button = document.createElement("button");
+      const img = document.createElement("img");
+      img.src = `./img/${part.name}.png`;
+      img.alt = `image of ${part.name}`;
       button.classList.add("part-button");
-      button.textContent = part.name;
+      button.append(img);
+      //button.classList.add("item"); //drag
+      button.draggable = true; //drag
+      button.id = part.name;
+
       button.dataset.partName = part.name;
+      button.addEventListener("dragstart", this.dragStart);
       button.addEventListener("click", this.handleClick.bind(this));
       button.disabled = this.game
         .getCarFromWorkstation(this.getCurrentWorkstation().id)
         .isAdded(part); //disable button if already added
       buttonContainer.appendChild(button);
+    });
+
+    const boxes = this.shadowRoot.querySelectorAll(".box");
+
+    boxes.forEach((box) => {
+      box.addEventListener("dragenter", this.dragEnter);
+      box.addEventListener("dragover", this.dragOver);
+      box.addEventListener("dragleave", this.dragLeave);
+      box.addEventListener("drop", this.drop);
     });
 
     this.shadowRoot.appendChild(buttonContainer);

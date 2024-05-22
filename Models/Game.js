@@ -1,5 +1,5 @@
-import { Car } from "./car.js";
-import { Workstation } from "./workstation.js";
+import { Car } from "./Car.js";
+import { Workstation } from "./Workstation.js";
 import { Stock } from "./Stock.js";
 
 class Game {
@@ -79,7 +79,7 @@ class Game {
 
     if (car.isComplete()) {
       this.completedCars++;
-      console.log(this.completedCars);
+      //console.log(this.completedCars);
     }
   }
 
@@ -100,7 +100,7 @@ class Game {
         );
       }
     }
-    console.log(this.cars);
+    //console.log(this.cars);
   }
 }
 

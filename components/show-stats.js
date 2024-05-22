@@ -3,33 +3,7 @@ class ShowStats extends HTMLElement {
     super();
     this.attachShadow({ mode: "open" });
     this.shadowRoot.innerHTML = `
-            <style>
-                /* Style the statistics container */
-                .statistics-container {
-                    text-align: center;
-                    margin-top: 20px;
-                }
-                .statistics-heading {
-                    font-size: 1.5em;
-                    margin-bottom: 10px;
-                }
-                .statistics-table {
-                    width: 50%;
-                    margin: 0 auto;
-                    border-collapse: collapse;
-                }
-                .statistics-table th, .statistics-table td {
-                    border: 1px solid #ddd;
-                    padding: 8px;
-                }
-                .statistics-table th {
-                    background-color: #f2f2f2;
-                    text-align: left;
-                }
-                .statistics-table td {
-                    text-align: left;
-                }
-            </style>
+    <link rel="stylesheet" href="styles.css">
             <div class="statistics-container">
                 <h2 class="statistics-heading">Game Statistics</h2>
                 <table class="statistics-table">

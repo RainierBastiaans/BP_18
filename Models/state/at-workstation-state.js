@@ -1,5 +1,5 @@
 import { State } from "./car-state.js";
-import { Car } from "../car.js";
+import { Car } from "../Car.js";
 import { InLineForWorkstationState } from "./inline-for-workstation-state.js";
 
 class AtWorkstationState extends State {
@@ -9,27 +9,19 @@ class AtWorkstationState extends State {
   }
 
   enter() {
-    console.log(
-      `Car is already at workstation ${this.workstationId}. Work in progress.`
-    );
+    //console.log(`Car is already at workstation ${this.workstationId}. Work in progress.`);
   }
-  next(car, cars){
-    console.log(
-        `Car exited workstation ${this.workstationId}. Work completed. Now in line`
-      );
-      car.state = new InLineForWorkstationState(car.state.workstationId+1);
+  next(car, cars) {
+    //console.log(`Car exited workstation ${this.workstationId}. Work completed. Now in line`);
+    car.state = new InLineForWorkstationState(car.state.workstationId + 1);
   }
 
-  moveWaitingCar(car, cars){
-    return
+  moveWaitingCar(car, cars) {
+    return;
   }
-
-  
 
   handleInput(input) {
-    console.log(
-      `Handling input '${input}' at workstation ${this.workstationId}`
-    );
+    //console.log(`Handling input '${input}' at workstation ${this.workstationId}`);
   }
 }
 export { AtWorkstationState };
