@@ -84,44 +84,6 @@ class LeanGame extends HTMLElement {
     this.startTimer();
   }
 
-  dragStart(e) {
-    e.dataTransfer.setData("text/plain", e.target.id);
-    setTimeout(() => {
-      e.target.classList.add("hide");
-    }, 0);
-  }
-
-  dragEnter(e) {
-    e.preventDefault();
-    e.target.classList.add("drag-over");
-  }
-
-  dragOver(e) {
-    e.preventDefault();
-    e.target.classList.add("drag-over");
-  }
-
-  dragLeave(e) {
-    e.target.classList.remove("drag-over");
-  }
-
-  drop(e) {
-    e.target.classList.remove("drag-over");
-
-    // get the draggable element
-    const id = e.dataTransfer.getData("text/plain");
-    const draggable = this.shadowRoot.getElementById(id);
-
-    console.log(id);
-    console.log(draggable);
-
-    // add it to the drop target
-    e.target.appendChild(draggable);
-
-    // display the draggable element
-    draggable.classList.remove("hide");
-  }
-
   adjustSettingsForOptions() {
     if (this.options.includes("timeLimit")) {
       this.timeLeft = 2;
@@ -318,6 +280,46 @@ class LeanGame extends HTMLElement {
 
   getCurrentWorkstation() {
     return this.game.workstations.get(this.currentWorkstationIndex);
+  }
+
+  dragStart(e) {
+    e.dataTransfer.setData("text/plain", e.target.id);
+    console.log("Drag Start: Setting ID", e.target.id);
+    setTimeout(() => {
+      e.target.classList.add("hide");
+    }, 0);
+  }
+
+  dragEnter(e) {
+    e.preventDefault();
+    e.target.classList.add("drag-over");
+  }
+
+  dragOver(e) {
+    e.preventDefault();
+    e.target.classList.add("drag-over");
+  }
+
+  dragLeave(e) {
+    e.target.classList.remove("drag-over");
+  }
+
+  drop(e) {
+    e.target.classList.remove("drag-over");
+
+    // get the draggable element
+    const id = e.dataTransfer.getData("text/plain");
+    const draggable = document.getElementById(id);
+
+    console.log("Drop: Retrieved Element", draggable);
+
+    if (draggable) {
+      // add it to the drop target
+      e.target.appendChild(draggable);
+
+      // display the draggable element
+      draggable.classList.remove("hide");
+    }
   }
 }
 
