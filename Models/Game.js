@@ -41,13 +41,20 @@ class Game {
     this.stats = new GameStats(this);
   }
 
-  newRound() {
+  newRound(leanMethod) {
     const roundnumber = this.rounds.size + 1;
     const newRound = new Round(new RoundStats(roundnumber, this));
     this.rounds.set(roundnumber, newRound);
     this.currentRound = newRound;
+    this.newLeanMethod(leanMethod);
     this.stock.newRound();
     this.bots.forEach((bot) => bot.startWorking());
+  }
+
+  newLeanMethod(method){
+    if (method === 'jit'){
+      this.stock = new JITStock(this.stock.parts)
+    }
   }
 
   endRound() {

@@ -99,8 +99,8 @@ class LeanGame extends HTMLElement {
     );
   }
 
-  newRound() {
-    this.game.newRound();
+  newRound(leanMethod) {
+    this.game.newRound(leanMethod);
     // Add event listener for setInterval
     this.intervalId = setInterval(() => {
       this.draw();

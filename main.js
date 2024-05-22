@@ -30,25 +30,26 @@ document.addEventListener("DOMContentLoaded", () => {
     )}'></lean-game>`;
   });
 
-  //new round
   document
-    .querySelector("new-round-button")
-    .addEventListener("newRound", () => {
-      document.querySelector("game-header").classList.add("hidden");
-      document.querySelector("game-description").classList.add("hidden");
-      document.querySelector("new-round-button").classList.add("hidden");
-      document.getElementById("stats-container").classList.add("hidden");
-      document.querySelector("game-options").classList.add("hidden");
+  .querySelector("new-round-button")
+  .addEventListener("newRound", (event) => {
+    // Access the selected lean method from the event detail
+    const selectedLeanMethod = event.detail.selectedLeanMethod;
 
-      document.getElementById("game-container").classList.remove("hidden");
-      // Get the lean-game element within the container
-      const leanGame = document
-        .getElementById("game-container")
-        .querySelector("lean-game");
+    document.querySelector("game-header").classList.add("hidden");
+    document.querySelector("game-description").classList.add("hidden");
+    document.querySelector("new-round-button").classList.add("hidden");
+    document.getElementById("stats-container").classList.add("hidden");
+    document.querySelector("game-options").classList.add("hidden");
 
-      // Call the newRound method on the lean-game element
-      leanGame.newRound();
-    });
+    document.getElementById("game-container").classList.remove("hidden");
+    const leanGame = document
+      .getElementById("game-container")
+      .querySelector("lean-game");
+    // Pass the selected lean method to the newRound method
+    leanGame.newRound(selectedLeanMethod);
+  });
+
 
   //Round end
   document.addEventListener("roundover", (event) => {
