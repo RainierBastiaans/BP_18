@@ -156,7 +156,7 @@ class LeanGame extends HTMLElement {
       .getCarFromWorkstation(this.getCurrentWorkstation().id)
       .moveCar(this.game.cars);
     this.game.moveWaitingcars();
-    //
+    // resets the car frame after it is send to the next station.
     const carContainer = this.shadowRoot.getElementById("car-container");
     carContainer.innerHTML = "";
     this.varParts = 1;
@@ -167,7 +167,7 @@ class LeanGame extends HTMLElement {
   handlePartButtonClick(button) {
     const partName = button.dataset.partName;
     this.game.addPart(partName, this.getCurrentWorkstation().id);
-    //
+    // this creates an img element and is added to the car frame.
     if (this.varParts < 5) {
       const carPart = document.createElement("img");
       const carContainer = this.shadowRoot.getElementById("car-container");
@@ -178,7 +178,6 @@ class LeanGame extends HTMLElement {
       carContainer.appendChild(carPart);
       this.varParts++;
     }
-    //
     this.updateMessage();
   }
 
@@ -231,9 +230,6 @@ class LeanGame extends HTMLElement {
       img.alt = `image of ${part.name}`;
       button.classList.add("part-button");
       button.append(img);
-      //button.draggable = true; //drag
-      //button.id = part.name; //drag
-      //button.addEventListener("dragstart", this.dragStart); //drag
 
       button.dataset.partName = part.name;
       button.addEventListener("click", this.handleClick.bind(this));
@@ -242,16 +238,6 @@ class LeanGame extends HTMLElement {
         .isAdded(part); //disable button if already added
       buttonContainer.appendChild(button);
     });
-    /* Drag stuff not working
-    const boxes = this.shadowRoot.querySelectorAll(".box");
-
-    boxes.forEach((box) => {
-      box.addEventListener("dragenter", this.dragEnter);
-      box.addEventListener("dragover", this.dragOver);
-      box.addEventListener("dragleave", this.dragLeave);
-      box.addEventListener("drop", this.drop);
-    });
-*/
 
     this.shadowRoot.appendChild(buttonContainer);
     if (
@@ -290,47 +276,6 @@ class LeanGame extends HTMLElement {
 
   getCurrentWorkstation() {
     return this.game.workstations.get(this.currentWorkstationIndex);
-  }
-
-  //DRAG stuff does not work
-  dragStart(e) {
-    e.dataTransfer.setData("text/plain", e.target.id);
-    console.log("Drag Start: Setting ID", e.target.id);
-    setTimeout(() => {
-      e.target.classList.add("hide");
-    }, 0);
-  }
-
-  dragEnter(e) {
-    e.preventDefault();
-    e.target.classList.add("drag-over");
-  }
-
-  dragOver(e) {
-    e.preventDefault();
-    e.target.classList.add("drag-over");
-  }
-
-  dragLeave(e) {
-    e.target.classList.remove("drag-over");
-  }
-
-  drop(e) {
-    e.target.classList.remove("drag-over");
-
-    // get the draggable element
-    const id = e.dataTransfer.getData("text/plain");
-    const draggable = document.getElementById(id);
-
-    console.log("Drop: Retrieved Element", draggable);
-
-    if (draggable) {
-      // add it to the drop target
-      e.target.appendChild(draggable);
-
-      // display the draggable element
-      draggable.classList.remove("hide");
-    }
   }
 }
 
