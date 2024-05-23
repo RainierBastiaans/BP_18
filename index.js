@@ -77,7 +77,6 @@ class LeanGame extends HTMLElement {
     this.startTimer();
   }
 
-  //TODO find way to show parts when changing workstations
   // shows cars visuals based on the parts that are added to the car
   carVisuals() {
     // this creates an img element and is added to the car frame.
@@ -101,12 +100,16 @@ class LeanGame extends HTMLElement {
     if (currentCar) {
       for (var part in currentCar.parts) {
         if (currentCar.parts[part] && stationParts.includes(part.valueOf())) {
-          carPart.className = "car-part";
-          carPart.src = `./img/${part.valueOf()}.png`;
-          carPart.alt = `image of ${part.valueOf()}`;
-          carPart.style.top = `${this.varParts * 55}px`; // Adjust positioning
-          carContainer.appendChild(carPart);
-          this.varParts++;
+          const imgElem = document.getElementById(part.valueOf());
+          if (imgElem == null) {
+            carPart.className = "car-part";
+            carPart.id = part.valueOf();
+            carPart.src = `./img/${part.valueOf()}.png`;
+            carPart.alt = `image of ${part.valueOf()}`;
+            carPart.style.top = `${this.varParts * 55}px`; // Adjust positioning
+            carContainer.appendChild(carPart);
+            this.varParts++;
+          }
         }
       }
     }
@@ -285,6 +288,10 @@ class LeanGame extends HTMLElement {
   }
 
   goToPreviousWorkstation() {
+    const carContainer = this.shadowRoot.getElementById("car-container");
+    carContainer.innerHTML = "";
+    this.carVisuals();
+
     // Decrement index with modulo to handle wrap-around
     this.currentWorkstationIndex--;
 
@@ -296,6 +303,10 @@ class LeanGame extends HTMLElement {
   }
 
   goToNextWorkstation() {
+    const carContainer = this.shadowRoot.getElementById("car-container");
+    carContainer.innerHTML = "";
+    this.carVisuals();
+
     // Increment index with modulo to handle wrap-around
     this.currentWorkstationIndex++;
 
