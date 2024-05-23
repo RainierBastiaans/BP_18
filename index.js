@@ -107,13 +107,17 @@ class LeanGame extends HTMLElement {
         }
       }
     }
+    //Check if car is complete
     try {
       if (
         this.getCurrentWorkstation().isComplete(
           this.game.getCarFromWorkstation(this.getCurrentWorkstation().id).parts
         )
       ) {
-        carContainer.innerHTML = "";
+        // if car complete wait 1 second and clear carContainer
+        setTimeout(() => {
+          carContainer.innerHTML = "";
+        }, 1000);
       }
     } catch (error) {}
   }
