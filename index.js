@@ -79,8 +79,6 @@ class LeanGame extends HTMLElement {
 
   // shows cars visuals based on the parts that are added to the car
   carVisuals() {
-    // this creates an img element and is added to the car frame.
-    const carPart = document.createElement("img");
     const carContainer = this.shadowRoot.getElementById("car-container");
     this.varParts = 0;
 
@@ -102,6 +100,8 @@ class LeanGame extends HTMLElement {
         if (currentCar.parts[part] && stationParts.includes(part.valueOf())) {
           const imgElem = document.getElementById(part.valueOf());
           if (imgElem == null) {
+            // this creates an img element and is added to the car frame.
+            const carPart = document.createElement("img");
             carPart.className = "car-part";
             carPart.id = part.valueOf();
             carPart.src = `./img/${part.valueOf()}.png`;
