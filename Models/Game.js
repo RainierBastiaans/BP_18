@@ -11,6 +11,9 @@ import { CompositeLeanMethod } from "../lean-methods/composite-lean-method.js";
 import { QualityControl } from "../lean-methods/quality-control.js";
 import { TraditionalStock } from "./stock/traditional-stock.js";
 import { JITStock } from "./stock/jit-stock.js";
+
+//In essentie is Game onze facade class, die alle andere classes aanroept en de game logica bevat.
+//De Game class is een subject klasse en de controller en model klassen zijn observers.
 class Game {
   constructor() {
     this.workstations = new Map();
@@ -33,22 +36,40 @@ class Game {
     this.isOver = false;
     this.capital = new Money(50000);
     this.stock = new TraditionalStock(this.parts);
+
+    this.observers = [];
   }
 
   newGame() {
     this.newCar();
     this.newRound();
     this.stats = new GameStats(this);
+    this.addObserver(this.stats);
   }
 
   newRound(leanMethod) {
     const roundnumber = this.rounds.size + 1;
-    const newRound = new Round(new RoundStats(roundnumber, this));
+    const roundStats = new RoundStats(roundnumber, this);
+    const newRound = new Round(roundStats);
     this.rounds.set(roundnumber, newRound);
     this.currentRound = newRound;
     this.newLeanMethod(leanMethod);
     this.stock.newRound();
     this.bots.forEach((bot) => bot.startWorking());
+
+    this.addObserver(roundStats)
+  }
+
+  addObserver(observer) {
+    this.observers.push(observer);
+  }
+
+  removeObserver(observer) {
+    this.observers = this.observers.filter((obs) => obs !== observer);
+  }
+
+  notifyObservers(subject) {
+    this.observers.forEach((observer) => observer.update(subject));
   }
 
   newLeanMethod(method){

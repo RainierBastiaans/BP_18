@@ -1,5 +1,8 @@
-class RoundStats {
+import { Observer } from "../observer.js";
+
+class RoundStats extends Observer {
   constructor(roundNumber, game) {
+    super();
     this.game = game;
     this.capital = 0;
     this.roundNumber = roundNumber;
@@ -15,6 +18,12 @@ class RoundStats {
 
   getRoundCapital() {
     return this.capital;
+  }
+
+  update(subject) {
+    if (subject instanceof Car) {
+      this.updateOnCarCompletion(subject);
+    }
   }
 
   updateOnCarCompletion(car) {

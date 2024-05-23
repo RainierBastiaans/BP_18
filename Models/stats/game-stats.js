@@ -1,5 +1,8 @@
-class GameStats {
+import { Observer } from "../observer.js";
+
+class GameStats extends Observer {
     constructor(game) {
+      super();
       this.game = game;
       this.capital = this.game.capital;
       this.carsCompleted = 0;
@@ -7,6 +10,12 @@ class GameStats {
       this.totalIncome = 0;
       this.partUsage = {}; // Object to track total parts used (partName: count)
       this.carCompletionTimes = []; // Array to store completion times of each car
+    }
+
+    update(subject) {
+      if (subject instanceof Car) {
+        this.updateOnCarCompletion(subject);
+      }
     }
   
     updateOnCarCompletion(car) {

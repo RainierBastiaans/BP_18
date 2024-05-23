@@ -14,6 +14,17 @@ class Money {
     this.amount -= amount;
   }
 
+  divide(amount) {
+    if (amount === 0) {
+      throw new Error("Cannot divide by zero");
+    }
+    this.amount /= amount;
+  }
+
+  multiply(amount) {
+    this.amount *= amount;
+  }
+
   getAmount() {
     return this.amount;
   }
