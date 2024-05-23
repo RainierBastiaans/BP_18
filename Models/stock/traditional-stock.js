@@ -24,6 +24,10 @@ class TraditionalStock extends BaseStock {
     this.usePart(part);
   }
 
+  deductPrice(part){
+    return
+  }
+
   newRound() {
     for (const [partName, partInfo] of this.parts.entries()) {
       this.addPartsToStock(partName, 5);

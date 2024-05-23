@@ -17,6 +17,9 @@ class JITStock extends BaseStock {
   newRound() {
     return;
   }
+  deductPrice(part){
+    return
+  }
 }
 
 export { JITStock };
