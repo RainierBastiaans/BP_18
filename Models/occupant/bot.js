@@ -10,16 +10,14 @@ class Bot extends Occupant {
   startWorking() {
     // Add a part to the workstation every time interval (simulates bot behavior)
     this.timer = setInterval(() => {
-      //console.log("add part");
+      console.log("add part");
       this.game.addPartOrMoveBot(this.workstationId);
     }, this.timeInterval);
   }
 
   stopAddingParts() {
-    if (this.timer) {
-      clearInterval(this.timer);
-      this.timer = null;
-    }
+    clearInterval(this.timer);
+    this.timer = null;
   }
 }
 

@@ -1,44 +1,68 @@
-import { Car } from "./Car.js";
-import { Workstation } from "./Workstation.js";
-import { Stock } from "./Stock.js";
-
+import { Car } from "./car.js";
+import { Workstation } from "./workstation.js";
+import { Round } from "./Round.js";
+import { Bot } from "./occupant/bot.js";
+import data from "../db/parts.json" assert { type: "json" };
+import { GameStats } from "./stats/game-stats.js";
+import { Money } from "./money.js";
+import { RoundStats } from "./stats/round-stats.js";
+import { JustInTime } from "../lean-methods/just-in-time.js";
+import { CompositeLeanMethod } from "../lean-methods/composite-lean-method.js";
+import { QualityControl } from "../lean-methods/quality-control.js";
+import { TraditionalStock } from "./stock/traditional-stock.js";
+import { JITStock } from "./stock/jit-stock.js";
 class Game {
   constructor() {
     this.workstations = new Map();
-    this.capital = 0;
     this.cost = 0;
-    this.rounds = 5;
-    this.completedCars = 0;
+    this.rounds = new Map();
     this.carId = 1;
     this.cars = new Map();
-    this.parts = [
-      { name: "chassis" },
-      { name: "hood" },
-      { name: "trunk" },
-      { name: "door" }, // Single door assumed, adjust for multiple doors if needed
-      { name: "engineBlock" },
-      { name: "cylinderHead" },
-      { name: "piston" }, // Quantity tracking might be needed later, adjust if applicable
-      { name: "sparkPlugs" }, // Can be a boolean for a set
-      { name: "dashboard" },
-      { name: "seat" }, // Quantity tracking might be needed later, adjust if applicable
-      { name: "steeringWheel" },
-      { name: "carpet" },
-      { name: "battery" },
-      { name: "alternator" },
-      { name: "headlights" }, // Can be a boolean for a pair
-      { name: "wiringHarness" },
-      { name: "tire" }, // Quantity tracking might be needed later, adjust if applicable
-      { name: "wheel" }, // Quantity tracking might be needed later, adjust if applicable
-      { name: "hubcap" }, // Can be a boolean for a set of 4
-      { name: "brakePads" }, // Can be a boolean for a set of 4
-    ];
+    this.parts = data.parts;
 
-    this.stock = new Stock(this.parts);
     for (let i = 0; i < this.parts.length / 4; i++) {
       const startIndex = i * 4; // Starting index for each workstation (multiples of 4)
       const partList = this.parts.slice(startIndex, startIndex + 4); // Slice the first 4 parts
       this.workstations.set(i + 1, new Workstation(i + 1, partList));
+    }
+
+    this.bots = [];
+    for (let i = 1; i <= 5; i++) {
+      this.bots.push(new Bot(`bot${i}`, i, this));
+    }
+    this.isOver = false;
+    this.capital = new Money(50000);
+    this.stock = new TraditionalStock(this.parts);
+  }
+
+  newGame() {
+    this.newCar();
+    this.newRound();
+    this.stats = new GameStats(this);
+  }
+
+  newRound(leanMethod) {
+    const roundnumber = this.rounds.size + 1;
+    const newRound = new Round(new RoundStats(roundnumber, this));
+    this.rounds.set(roundnumber, newRound);
+    this.currentRound = newRound;
+    this.newLeanMethod(leanMethod);
+    this.stock.newRound();
+    this.bots.forEach((bot) => bot.startWorking());
+  }
+
+  newLeanMethod(method){
+    if (method === 'jit'){
+      this.stock = new JITStock(this.stock.parts)
+    }
+  }
+
+  endRound() {
+    this.currentRound.endRound();
+    this.bots.forEach((bot) => bot.stopAddingParts());
+    this.capital.add(this.currentRound.stats.capital);
+    if (this.rounds.size === 5) {
+      this.endGame();
     }
   }
 
@@ -71,24 +95,32 @@ class Game {
   }
 
   addPart(part, workstationId) {
+    console.log(this.stock);
     const car = this.getCarFromWorkstation(workstationId);
-    if (this.stock.hasEnoughParts(part)) {
+    try {
+      this.stock.requestPart(part);
       this.cars.get(car.id).addPart(part);
-      this.stock.usePart(part);
+    } catch (error) {
+      console.error(error);
     }
 
     if (car.isComplete()) {
-      this.completedCars++;
-      //console.log(this.completedCars);
+      this.carCompleted(car);
     }
+  }
+
+  carCompleted(car) {
+    this.stats.updateOnCarCompletion(car);
+    this.currentRound.stats.updateOnCarCompletion(car);
   }
 
   addPartOrMoveBot(workstationId) {
     const car = this.getCarFromWorkstation(workstationId);
-    if (this.getCarFromWorkstation(workstationId)) {
+    if (car) {
       const workstation = Array.from(this.workstations.values()).find(
         (workstation) => workstation.id === workstationId
       );
+      console.log(workstation.isComplete(car.parts))
       if (workstation.isComplete(car.parts)) {
         //if car is complete move to next station
         car.moveCar(this.cars);
@@ -100,8 +132,12 @@ class Game {
         );
       }
     }
-    //console.log(this.cars);
   }
+  endGame() {
+    this.isOver = true;
+  }
+
+  
 }
 
 export { Game };

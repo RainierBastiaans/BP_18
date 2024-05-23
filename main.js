@@ -30,13 +30,51 @@ document.addEventListener("DOMContentLoaded", () => {
     )}'></lean-game>`;
   });
 
-  //Game end
-  document.addEventListener("gameover", (event) => {
-    const { score, stock, capital } = event.detail;
+  document
+  .querySelector("new-round-button")
+  .addEventListener("newRound", (event) => {
+    // Access the selected lean method from the event detail
+    const selectedLeanMethod = event.detail.selectedLeanMethod;
+
+    document.querySelector("game-header").classList.add("hidden");
+    document.querySelector("game-description").classList.add("hidden");
+    document.querySelector("new-round-button").classList.add("hidden");
+    document.getElementById("stats-container").classList.add("hidden");
+    document.querySelector("game-options").classList.add("hidden");
+
+    document.getElementById("game-container").classList.remove("hidden");
+    const leanGame = document
+      .getElementById("game-container")
+      .querySelector("lean-game");
+    // Pass the selected lean method to the newRound method
+    leanGame.newRound(selectedLeanMethod);
+  });
+
+
+  //Round end
+  document.addEventListener("roundover", (event) => {
+    const { gameStats, roundStats, capital } = event.detail;
 
     //update statistics
     const showStatsComponent = document.querySelector("show-stats");
-    showStatsComponent.updateStatistics(score, stock, capital);
+    showStatsComponent.updateStatistics(gameStats, roundStats, capital);
+
+    // Show statistics and reset home screen
+    document.querySelector("game-header").classList.remove("hidden");
+    document.querySelector("game-description").classList.remove("hidden");
+    document.querySelector("new-round-button").classList.remove("hidden");
+    document.getElementById("game-container").classList.add("hidden");
+    document.getElementById("stats-container").classList.remove("hidden");
+    document.querySelector("game-options").classList.remove("hidden");
+  });
+
+  //Game end
+  document.addEventListener("gameover", (event) => {
+    const { gameStats, roundStats, capital } = event.detail;
+
+    //update statistics
+    const showStatsComponent = document.querySelector("show-stats");
+    showStatsComponent.updateStatistics(gameStats, roundStats, capital);
 
     // Show statistics and reset home screen
     document.querySelector("game-header").classList.remove("hidden");
