@@ -77,6 +77,7 @@ class LeanGame extends HTMLElement {
     this.startTimer();
   }
 
+  //TODO find way to show parts when changing workstations
   // shows cars visuals based on the parts that are added to the car
   carVisuals() {
     // this creates an img element and is added to the car frame.
@@ -88,6 +89,7 @@ class LeanGame extends HTMLElement {
       this.getCurrentWorkstation().id
     );
 
+    // Get parts of current workstation and put them in a clean array (stationParts)
     const result = this.getCurrentWorkstation().parts.reduce((acc, field) => {
       acc[field.name] = field.value;
       return acc;
@@ -95,6 +97,7 @@ class LeanGame extends HTMLElement {
 
     const stationParts = Object.keys(result);
 
+    // Check if part is added to car and show that part in the carContainer
     if (currentCar) {
       for (var part in currentCar.parts) {
         if (currentCar.parts[part] && stationParts.includes(part.valueOf())) {
@@ -107,14 +110,14 @@ class LeanGame extends HTMLElement {
         }
       }
     }
-    //Check if car is complete
+    // Check if car is complete
     try {
       if (
         this.getCurrentWorkstation().isComplete(
           this.game.getCarFromWorkstation(this.getCurrentWorkstation().id).parts
         )
       ) {
-        // if car complete wait 1 second and clear carContainer
+        // If car complete wait 1 second so it shows the last part and then clear carContainer
         setTimeout(() => {
           carContainer.innerHTML = "";
         }, 1000);
