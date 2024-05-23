@@ -1,6 +1,8 @@
 import { AtWorkstationState } from "./state/at-workstation-state.js";
 import { State } from "./state/car-state.js";
 import { InLineForWorkstationState } from "./state/inline-for-workstation-state.js";
+import { ReadyToSellState } from "./state/ready-to-sell-state.js";
+import { SoldState } from "./state/sold-state.js";
 
 class Car {
   constructor(id, parts) {
@@ -18,7 +20,11 @@ class Car {
         }
 
         // Create a new object with partAdded and broken properties
-        const partInfo = { name: part.name, partAdded: false, broken: undefined };
+        const partInfo = {
+          name: part.name,
+          partAdded: false,
+          broken: undefined,
+        };
         acc.set(part.name, partInfo);
         return acc;
       }, new Map())
@@ -26,22 +32,55 @@ class Car {
   }
 
   isComplete() {
-    // Check if all parts in the map have both "partAdded" set to true and "broken" set to false
-    return Array.from(this.parts.values()).every((partInfo) => {
-      return partInfo.partAdded === true && partInfo.broken === false;
-    });
+    this.isBroken = Array.from(this.parts.values()).some(
+      (part) => part.broken === true
+    );
+    if (
+      Array.from(this.parts.values()).every((partInfo) => {
+        return (
+          partInfo.partAdded === true && this.state instanceof ReadyToSellState
+        );
+      })
+    ) {
+      this.state = new SoldState();
+      return true;
+    }
+    return;
+  }
+
+  getQualityControl() {
+    return this.isBroken;
+  }
+
+  qualityControl() {
+    // Check if all parts marked as added (partAdded === true) are not broken (broken === false)
+    const addedParts = Array.from(this.parts.values()).filter(part => part.partAdded === true);
+    this.isBroken = !addedParts.every(part => part.broken === false);
   }
 
   addPart(part) {
     if (this.state instanceof AtWorkstationState) {
+      this.breakPart(part);
       // Check if the part exists in the map (case-sensitive)
       // Update the partAdded property to true for the existing part
       const partInfo = this.parts.get(part);
       partInfo.partAdded = true;
       this.parts.set(part, partInfo);
+      this.qualityControl()
     } else {
-      throw new Error("Car is not at a workstation, part cannot be added.");
+      throw new Error(
+        `Car is not at a workstation, ${part} cannot be added to car ${this.id}.`
+      );
     }
+  }
+
+  breakPart(part) {
+    // Get the part information from the parts list
+    const partInfo = this.parts.get(part);
+
+    // Simulate a chance to break with a probability of 0.01
+    const isBroken = Math.random() < 0.02;
+    partInfo.broken = isBroken;
   }
 
   moveCar(cars) {

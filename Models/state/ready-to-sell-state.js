@@ -12,6 +12,9 @@ class ReadyToSellState extends State {
   handleInput(input) {
     console.log(`Car ready for sale received input: ${input}`);
   }
+  moveWaitingCar(car, cars) {
+    return;
+  }
 }
 
 export { ReadyToSellState };

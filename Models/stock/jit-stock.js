@@ -12,7 +12,6 @@ class JITStock extends BaseStock {
       this.addPartsToStock(part, 1);
     }
     this.usePart(part);
-    console.log(`Just-In-Time: Received part "${part}".`);
   }
 
   newRound() {

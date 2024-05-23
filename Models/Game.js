@@ -31,11 +31,13 @@ class Game {
       this.bots.push(new Bot(`bot${i}`, i, this));
     }
     this.isOver = false;
-    this.capital = new Money(50000);
-    this.stock = new TraditionalStock(this.parts);
+    this.leanMethods = new Map()
+    
   }
 
   newGame() {
+    this.capital = new Money(50000);
+    this.stock = new TraditionalStock(this.parts);
     this.newCar();
     this.newRound();
     this.stats = new GameStats(this);
@@ -53,7 +55,11 @@ class Game {
 
   newLeanMethod(method){
     if (method === 'jit'){
+      this.leanMethods.set(method, new JustInTime())
       this.stock = new JITStock(this.stock.parts)
+    }
+    if(method === 'qc'){
+      this.leanMethods.set(method, new QualityControl())
     }
   }
 
@@ -70,6 +76,7 @@ class Game {
     const car = new Car(this.carId, this.parts);
     this.cars.set(car.id, car);
     this.carId++;
+    console.log(this.cars)
   }
 
   getCarFromWorkstation(workstationid) {
@@ -84,6 +91,9 @@ class Game {
   moveWaitingcars() {
     for (const car of this.cars.values()) {
       car.state.moveWaitingCar(car, this.cars);
+      if (car.isComplete()) {
+        this.carCompleted(car);
+      }
     }
     this.newCarAtWorkstation1();
   }
@@ -95,7 +105,7 @@ class Game {
   }
 
   addPart(part, workstationId) {
-    console.log(this.stock);
+    this.moveWaitingcars();
     const car = this.getCarFromWorkstation(workstationId);
     try {
       this.stock.requestPart(part);
@@ -103,10 +113,7 @@ class Game {
     } catch (error) {
       console.error(error);
     }
-
-    if (car.isComplete()) {
-      this.carCompleted(car);
-    }
+    
   }
 
   carCompleted(car) {
@@ -120,11 +127,9 @@ class Game {
       const workstation = Array.from(this.workstations.values()).find(
         (workstation) => workstation.id === workstationId
       );
-      console.log(workstation.isComplete(car.parts))
       if (workstation.isComplete(car.parts)) {
         //if car is complete move to next station
         car.moveCar(this.cars);
-        this.moveWaitingcars();
       } else if (workstation.getIncompletePart(car.parts)) {
         this.addPart(
           workstation.getIncompletePart(car.parts).name,
