@@ -189,7 +189,6 @@ button:disabled {
 }
 
 /* car visuals */
-
 #car-container {
   display: flex;
   justify-content: center;
@@ -199,10 +198,6 @@ button:disabled {
   width: 300px;
   height: 400px;
   position: relative;
-  /*background image for car frame*/
-  /*background-image: url("path_to_your_image/frame.png"); /* Set the image path */
-  /*background-size: cover; /* Cover the container with the image */
-  /*background-repeat: no-repeat; /* Prevent the image from repeating */
 }
 
 .car-part {
@@ -213,28 +208,3 @@ button:disabled {
   left: 50%;
   transform: translateX(-50%);
 }
-
-/* horizontal car frame
-#car-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-top: 20px;
-    border: 2px solid black;
-    width: 80%;
-    max-width: 800px; 
-    height: 200px;
-    overflow-x: auto; 
-    white-space: nowrap; 
-    padding: 10px 0;
-    position: relative;
-}
-
-.car-part {
-    display: inline-block;
-    margin: 0 5px;
-    width: 100px; 
-    height: auto;
-}
-
-*/

@@ -2,18 +2,14 @@ import { Game } from "./Models/game.js";
 
 const gameTemplate = document.createElement("template");
 gameTemplate.innerHTML = `
-<link rel="stylesheet" href="styles.css">
-<h1>Round <span>1</span></h1>
-<p id="message">Work On Workstation</p>
-<canvas id="bp-game-canvas" width="500" height="300"></canvas>
-<p></p>
-<div id="car-container">
-</div>
-<button id="previous-station-button">Previous Station</button>
-<button id="next-station-button">Next Station</button>
-<p id="completedCarsElement">Cars completed: 0</p>
-<p id="partsAddedElement">0/0 parts added</p>
-<button id="move-car-button">Move Car to Next Station</button>
+  <link rel="stylesheet" href="styles.css">
+  <p id="message">Work On Workstation</p>
+  <div id="car-container"></div>
+  <button id="previous-station-button">Previous Station</button>
+  <button id="next-station-button">Next Station</button>
+  <p id="completedCarsElement">Cars completed: 0</p>
+  <p id="partsAddedElement">0/0 parts added</p>
+  <button id="move-car-button">Move Car to Next Station</button>
 `;
 
 class LeanGame extends HTMLElement {
@@ -23,7 +19,6 @@ class LeanGame extends HTMLElement {
     shadowRoot.appendChild(gameTemplate.content.cloneNode(true));
 
     this.messageEl = shadowRoot.getElementById("message");
-    this.canvas = shadowRoot.getElementById("bp-game-canvas");
     this.previousButton = shadowRoot.getElementById("previous-station-button");
     this.nextButton = shadowRoot.getElementById("next-station-button");
     this.completedCarsElement = shadowRoot.getElementById(
@@ -35,7 +30,6 @@ class LeanGame extends HTMLElement {
     this.timeLeft = 180; // Time in seconds
     this.timerInterval = null;
     this.options = JSON.parse(this.getAttribute("options") || "[]"); // Get the options attribute
-    this.varParts = 0;
   }
 
   connectedCallback() {
@@ -43,8 +37,6 @@ class LeanGame extends HTMLElement {
     this.game.newGame();
 
     this.currentWorkstationIndex = 1;
-
-    this.ctx = this.canvas.getContext("2d");
 
     this.previousButton.addEventListener("click", this.handleClick.bind(this));
     this.nextButton.addEventListener("click", this.handleClick.bind(this));
@@ -55,8 +47,6 @@ class LeanGame extends HTMLElement {
 
     // Add event listener for setInterval
     this.intervalId = setInterval(() => {
-      this.carVisuals();
-      this.draw();
       this.updateMessage();
       if (this.game.currentRound.isOver) {
         this.endRound();
@@ -110,7 +100,6 @@ class LeanGame extends HTMLElement {
     this.game.newRound(leanMethod);
     // Add event listener for setInterval
     this.intervalId = setInterval(() => {
-      this.draw();
       this.updateMessage();
       if (this.game.currentRound.isOver) {
         this.endRound();
@@ -123,29 +112,6 @@ class LeanGame extends HTMLElement {
       this.timeLeft = 20;
     } else {
       this.timeLeft = 2;
-    }
-  }
-
-  draw() {
-    this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-
-    if (this.game.getCarFromWorkstation(this.getCurrentWorkstation().id)) {
-      // Draw game visuals based on state
-      for (let i = 0; i < this.game.workstations.length; i++) {
-        const station = this.game.workstations[i];
-        const x = (i * this.canvas.width) / this.game.workstations.length;
-        const y = 10;
-        const width = this.canvas.width / this.game.workstations.length - 10;
-        const height = 20;
-
-        const allPartsAdded = station.parts.every(
-          (part) =>
-            this.game.getCarFromWorkstation(this.getCurrentWorkstation().id)
-              .parts[part.name]
-        );
-        this.ctx.fillStyle = allPartsAdded ? "green" : "red";
-        this.ctx.fillRect(x, y, width, height);
-      }
     }
   }
 
@@ -226,8 +192,8 @@ class LeanGame extends HTMLElement {
     this.getCurrentWorkstation().partnames.forEach((part) => {
       const button = document.createElement("button");
       const img = document.createElement("img");
-      img.src = `./img/${part.name}.png`;
-      img.alt = `image of ${part.name}`;
+      img.src = `./img/${part}.png`;
+      img.alt = `image of ${part}`;
       button.classList.add("part-button");
       button.textContent = part;
       button.dataset.partName = part;
@@ -251,10 +217,6 @@ class LeanGame extends HTMLElement {
   }
 
   goToPreviousWorkstation() {
-    const carContainer = this.shadowRoot.getElementById("car-container");
-    carContainer.innerHTML = "";
-    this.carVisuals();
-
     // Decrement index with modulo to handle wrap-around
     this.currentWorkstationIndex--;
 
@@ -266,10 +228,6 @@ class LeanGame extends HTMLElement {
   }
 
   goToNextWorkstation() {
-    const carContainer = this.shadowRoot.getElementById("car-container");
-    carContainer.innerHTML = "";
-    this.carVisuals();
-
     // Increment index with modulo to handle wrap-around
     this.currentWorkstationIndex++;
 

@@ -1,12 +1,11 @@
 class Round {
   constructor(stats) {
-    this.timeLeft = 2; // Time in seconds
+    this.timeLeft = 30; // Time in seconds
     this.timerInterval = null;
     this.isOver = false;
     this.startTimer();
     this.stats = stats;
   }
-
 
   startTimer() {
     this.timerInterval = setInterval(() => {

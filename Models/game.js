@@ -2,7 +2,6 @@ import { Car } from "./car.js";
 import { Workstation } from "./workstation.js";
 import { Round } from "./Round.js";
 import { Bot } from "./occupant/bot.js";
-import data from "../db/parts.json" assert { type: "json" };
 import { GameStats } from "./stats/game-stats.js";
 import { Money } from "./money.js";
 import { RoundStats } from "./stats/round-stats.js";
@@ -11,6 +10,8 @@ import { CompositeLeanMethod } from "../lean-methods/composite-lean-method.js";
 import { QualityControl } from "../lean-methods/quality-control.js";
 import { TraditionalStock } from "./stock/traditional-stock.js";
 import { JITStock } from "./stock/jit-stock.js";
+import data from "../db/parts.json" with { type: "json" };
+
 class Game {
   constructor() {
     this.workstations = new Map();
@@ -51,9 +52,9 @@ class Game {
     this.bots.forEach((bot) => bot.startWorking());
   }
 
-  newLeanMethod(method){
-    if (method === 'jit'){
-      this.stock = new JITStock(this.stock.parts)
+  newLeanMethod(method) {
+    if (method === "jit") {
+      this.stock = new JITStock(this.stock.parts);
     }
   }
 
@@ -120,7 +121,7 @@ class Game {
       const workstation = Array.from(this.workstations.values()).find(
         (workstation) => workstation.id === workstationId
       );
-      console.log(workstation.isComplete(car.parts))
+      console.log(workstation.isComplete(car.parts));
       if (workstation.isComplete(car.parts)) {
         //if car is complete move to next station
         car.moveCar(this.cars);
@@ -136,8 +137,6 @@ class Game {
   endGame() {
     this.isOver = true;
   }
-
-  
 }
 
 export { Game };
