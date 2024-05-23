@@ -36,7 +36,7 @@ class LeanGame extends HTMLElement {
     this.timeLeft = 180; // Time in seconds
     this.timerInterval = null;
     this.options = JSON.parse(this.getAttribute("options") || "[]"); // Get the options attribute
-    this.varParts = 1; // need this for part position
+    this.varParts = 0;
   }
 
   connectedCallback() {
@@ -62,7 +62,7 @@ class LeanGame extends HTMLElement {
     this.adjustSettingsForOptions();
     this.updateMessage();
     // this.startGameLoop();
-    //this.bot1.startWorking();
+    this.bot1.startWorking();
     this.bot2.startWorking();
     this.bot3.startWorking();
     this.bot4.startWorking();
@@ -70,10 +70,52 @@ class LeanGame extends HTMLElement {
 
     // Add event listener for setInterval
     this.intervalId = setInterval(() => {
+      this.carVisuals();
       this.draw();
       this.updateMessage();
     }, 500); // Call every 0.5 seconds (500 milliseconds)
     this.startTimer();
+  }
+
+  // shows cars visuals based on the parts that are added to the car
+  carVisuals() {
+    // this creates an img element and is added to the car frame.
+    const carPart = document.createElement("img");
+    const carContainer = this.shadowRoot.getElementById("car-container");
+    this.varParts = 0;
+
+    let currentCar = this.game.getCarFromWorkstation(
+      this.getCurrentWorkstation().id
+    );
+
+    const result = this.getCurrentWorkstation().parts.reduce((acc, field) => {
+      acc[field.name] = field.value;
+      return acc;
+    }, {});
+
+    const stationParts = Object.keys(result);
+
+    if (currentCar) {
+      for (var part in currentCar.parts) {
+        if (currentCar.parts[part] && stationParts.includes(part.valueOf())) {
+          carPart.className = "car-part";
+          carPart.src = `./img/${part.valueOf()}.png`;
+          carPart.alt = `image of ${part.valueOf()}`;
+          carPart.style.top = `${this.varParts * 55}px`; // Adjust positioning
+          carContainer.appendChild(carPart);
+          this.varParts++;
+        }
+      }
+    }
+    try {
+      if (
+        this.getCurrentWorkstation().isComplete(
+          this.game.getCarFromWorkstation(this.getCurrentWorkstation().id).parts
+        )
+      ) {
+        carContainer.innerHTML = "";
+      }
+    } catch (error) {}
   }
 
   adjustSettingsForOptions() {
@@ -101,7 +143,7 @@ class LeanGame extends HTMLElement {
       new CustomEvent("gameover", {
         detail: {
           score: this.game.completedCars,
-          stock: 20, //JSON.stringify(this.stock.parts), //TODO zoek een goede manier om overige stock te tonen
+          stock: 20, // JSON.stringify(this.stock.parts)
           capital: this.game.capital,
         },
         bubbles: true,
@@ -156,28 +198,12 @@ class LeanGame extends HTMLElement {
       .getCarFromWorkstation(this.getCurrentWorkstation().id)
       .moveCar(this.game.cars);
     this.game.moveWaitingcars();
-    // resets the car frame after it is send to the next station.
-    const carContainer = this.shadowRoot.getElementById("car-container");
-    carContainer.innerHTML = "";
-    this.varParts = 1;
-    //
     this.updateMessage();
   }
 
   handlePartButtonClick(button) {
     const partName = button.dataset.partName;
     this.game.addPart(partName, this.getCurrentWorkstation().id);
-    // this creates an img element and is added to the car frame.
-    if (this.varParts < 5) {
-      const carPart = document.createElement("img");
-      const carContainer = this.shadowRoot.getElementById("car-container");
-      carPart.className = "car-part";
-      carPart.src = `./img/${partName}.png`;
-      carPart.alt = `image of ${partName}`;
-      carPart.style.top = `${this.varParts * 55}px`; // Adjust positioning
-      carContainer.appendChild(carPart);
-      this.varParts++;
-    }
     this.updateMessage();
   }
 
