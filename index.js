@@ -216,11 +216,11 @@ class LeanGame extends HTMLElement {
     const buttonContainer = document.createElement("div");
     buttonContainer.classList.add("part-buttons");
 
-    this.getCurrentWorkstation().parts.forEach((part) => {
+    this.getCurrentWorkstation().partnames.forEach((part) => {
       const button = document.createElement("button");
       button.classList.add("part-button");
-      button.textContent = part.name;
-      button.dataset.partName = part.name;
+      button.textContent = part;
+      button.dataset.partName = part;
       button.addEventListener("click", this.handleClick.bind(this));
       button.disabled = this.game
         .getCarFromWorkstation(this.getCurrentWorkstation().id)

@@ -116,10 +116,11 @@ class Game {
 
   addPartOrMoveBot(workstationId) {
     const car = this.getCarFromWorkstation(workstationId);
-    if (this.getCarFromWorkstation(workstationId)) {
+    if (car) {
       const workstation = Array.from(this.workstations.values()).find(
         (workstation) => workstation.id === workstationId
       );
+      console.log(workstation.isComplete(car.parts))
       if (workstation.isComplete(car.parts)) {
         //if car is complete move to next station
         car.moveCar(this.cars);

@@ -3,7 +3,7 @@ import { Car } from "./car.js";
 class Workstation {
   constructor(id, partsList) {
     this.id = id;
-    this.parts = partsList.map(partData => new Part(partData.name, partData.price)); // Create Part objects from data
+    this.partnames = partsList.map((partData) => partData.name); // Create a list of part names
     this.occupant = null; // Reference to the current occupant (User or Bot)
   }
 
@@ -18,14 +18,19 @@ class Workstation {
   }
 
   isComplete(carParts) {
-    // Check if all parts in the workstation are marked as true in the car
-    return this.parts.every(part => carParts[part.name] === true);
+    return this.partnames.every(
+      (part) => carParts.get(part).partAdded === true
+    );
   }
 
-  getIncompletePart(carParts){
-    return this.parts.find(part => carParts[part.name] === false);
+  getIncompletePart(carParts) {
+    // Find the first part in the car's "parts" list that:
+    // - is NOT marked as added (part.partAdded !== true)
+    // - is present in the carParts list (carParts.includes(part.name))
+    return Array.from(carParts.values()).find((part) => {
+      return part.partAdded !== true && this.partnames.includes(part.name); // Replace with your validation logic
+    });
   }
-  
 }
 
 export { Workstation };
