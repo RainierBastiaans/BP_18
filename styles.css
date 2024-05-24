@@ -203,7 +203,7 @@ button:disabled {
 
 .car-part {
   width: auto;
-  max-width: 150px;
+  max-width: 125px;
   height: auto;
   min-height: 40px;
   max-height: 50px;
@@ -212,8 +212,8 @@ button:disabled {
 }
 
 #chassis {
-  top: 70px;
-  left: 24.25%;
+  top: 62px;
+  left: 28.50%;
 }
 
 #engineBlock,
