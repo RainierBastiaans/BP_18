@@ -9,6 +9,7 @@ gameTemplate.innerHTML = `
 <p id="completedCarsElement">Cars completed: 0</p>
 <p id="partsAddedElement">0/0 parts added</p>
 <button id="move-car-button">Move Car to Next Station</button>
+<button id = "quality-control">Quality Control</button> 
 `;
 
 class LeanGame extends HTMLElement {
@@ -26,6 +27,8 @@ class LeanGame extends HTMLElement {
     );
     this.partsAddedElement = shadowRoot.getElementById("partsAddedElement");
     this.moveCarButton = shadowRoot.getElementById("move-car-button");
+    this.qualityControlButton = shadowRoot.getElementById("quality-control");
+    this.qualityControlButton.style.visibility = 'hidden';
     this.previousButton.disabled = true; // Initially disabled
     this.timeLeft = 180; // Time in seconds
     this.timerInterval = null;
@@ -43,6 +46,10 @@ class LeanGame extends HTMLElement {
     this.previousButton.addEventListener("click", this.handleClick.bind(this));
     this.nextButton.addEventListener("click", this.handleClick.bind(this));
     this.moveCarButton.addEventListener("click", this.handleClick.bind(this));
+    this.qualityControlButton.addEventListener(
+      "click",
+      this.handleClick.bind(this)
+    );
 
     this.adjustSettingsForOptions();
     this.updateMessage();
@@ -151,26 +158,41 @@ class LeanGame extends HTMLElement {
       this.goToNextWorkstation();
     } else if (event.target === this.moveCarButton) {
       this.moveCar();
+    } else if (event.target === this.qualityControlButton) {
+      this.qualityControl();
     }
   }
 
+  qualityControl() {
+    this.qualityControlButton.style.backgroundColor = this.game
+      .getCarFromWorkstation(this.getCurrentWorkstation().id)
+      .getQualityControl()
+      ? "red"
+      : "green";
+  }
+
+  updateQualityControlButton(){
+    this.qualityControlButton.style.removeProperty('background-color');
+  }
   moveCar() {
     this.game
       .getCarFromWorkstation(this.getCurrentWorkstation().id)
       .moveCar(this.game.cars);
     this.game.moveWaitingcars();
     this.updateMessage();
+    this.updateQualityControlButton();
   }
 
   handlePartButtonClick(button) {
     const partName = button.dataset.partName;
     this.game.addPart(partName, this.getCurrentWorkstation().id);
     this.updateMessage();
+    this.updateQualityControlButton();
   }
 
   updateMessage() {
     // ... (update previous/next button states)
-    this.clearPartButtons();
+    this.clearButtons();
 
     this.messageEl.textContent =
       "Work On Workstation " + this.getCurrentWorkstation().id;
@@ -178,7 +200,8 @@ class LeanGame extends HTMLElement {
     this.completedCarsElement.textContent = `Cars completed: ${this.game.stats.carsCompleted}`;
 
     if (this.game.getCarFromWorkstation(this.getCurrentWorkstation().id)) {
-      this.createPartButtons();
+      this.createButtons();
+      
 
       // Show added parts/total parts
       const partsAdded = Object.values(
@@ -200,10 +223,15 @@ class LeanGame extends HTMLElement {
       noCarContainer.textContent = "No Car at the moment";
       this.partsAddedElement.textContent = "";
       this.shadowRoot.appendChild(noCarContainer);
+      this.moveCarButton.style.visibility = 'hidden';
+      this.qualityControlButton.style.visibility = 'hidden';
+
+
     }
   }
 
-  clearPartButtons() {
+
+  clearButtons() {
     const buttonContainer = this.shadowRoot.querySelector(".part-buttons");
     const noCarContainer = this.shadowRoot.querySelector(".no-car");
 
@@ -212,11 +240,12 @@ class LeanGame extends HTMLElement {
     noCarContainer?.remove();
   }
 
-  createPartButtons() {
+  createButtons() {
     const buttonContainer = document.createElement("div");
     buttonContainer.classList.add("part-buttons");
 
     this.getCurrentWorkstation().partnames.forEach((part) => {
+      this.moveCarButton.style.visibility = 'visible';
       const button = document.createElement("button");
       button.classList.add("part-button");
       button.textContent = part;
@@ -229,15 +258,14 @@ class LeanGame extends HTMLElement {
     });
 
     this.shadowRoot.appendChild(buttonContainer);
-    if (
-      this.getCurrentWorkstation().isComplete(
-        this.game.getCarFromWorkstation(this.getCurrentWorkstation().id).parts
-      )
-    ) {
-      this.moveCarButton.disabled = false;
-    } else {
-      this.moveCarButton.disabled = true;
-    }
+
+    // Show quality control button conditionally
+  this.qualityControlButton.style.visibility = this.game.leanMethods.has('qc') ? 'visible' : 'hidden';
+
+  // Enable buttons based on workstation completion
+  const isComplete = this.getCurrentWorkstation().isComplete(this.game.getCarFromWorkstation(this.getCurrentWorkstation().id).parts);
+  this.moveCarButton.disabled = !isComplete;
+  this.qualityControlButton.disabled = !isComplete; // Optional chaining for safety
   }
 
   goToPreviousWorkstation() {

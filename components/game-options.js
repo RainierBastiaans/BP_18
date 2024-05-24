@@ -34,6 +34,10 @@ class GameOptions extends HTMLElement {
                     <input type="checkbox" id="lineBalancing" name="lineBalancing">
                     <label for="lineBalancing">Line Balancing</label>
                 </div>
+                <div class="option">
+                    <input type="checkbox" id="qc" name="qc">
+                    <label for="qc">Quality Control</label>
+                </div>
             </div>
         `;
   }

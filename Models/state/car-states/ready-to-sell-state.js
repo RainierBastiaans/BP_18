@@ -1,6 +1,6 @@
-import { State } from "./car-state.js";
+import { CarState } from "./car-state.js";
 
-class ReadyToSellState extends State {
+class ReadyToSellState extends CarState {
   enter() {
     console.log("Car is ready for sale. Put it on the showroom floor!");
   }
@@ -11,6 +11,9 @@ class ReadyToSellState extends State {
 
   handleInput(input) {
     console.log(`Car ready for sale received input: ${input}`);
+  }
+  moveWaitingCar(car, cars) {
+    return;
   }
 }
 

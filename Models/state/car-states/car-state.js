@@ -1,7 +1,7 @@
 // Base State Class (same as before)
-class State {
+class CarState {
   constructor() {
-    if (this.constructor === State) {
+    if (this.constructor === CarState) {
       throw new Error("Abstract class State cannot be instantiated directly");
     }
   }
@@ -12,4 +12,4 @@ class State {
   // (e.g., enter(), exit(), handleInput())
 
 
-export { State };
+export { CarState };
