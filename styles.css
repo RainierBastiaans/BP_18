@@ -202,18 +202,25 @@ button:disabled {
 }
 
 .car-part {
-  width: 100px;
-  height: 50px;
+  width: auto;
+  max-width: 150px;
+  height: auto;
+  min-height: 40px;
+  max-height: 50px;
   margin: 5px 0;
   position: absolute;
 }
 
-#chassis,
+#chassis {
+  top: 70px;
+  left: 24.25%;
+}
+
 #engineBlock,
 #dashboard,
 #battery,
 #tire {
-  top: 55px
+  top: 50px
 }
 
 #hood,
@@ -221,7 +228,7 @@ button:disabled {
 #seat,
 #alternator,
 #wheel {
-  top: 110px
+  top: 100px
 }
 
 #trunk,
@@ -229,7 +236,7 @@ button:disabled {
 #steeringWheel,
 #headlights,
 #hubcap {
-  top: 165px
+  top: 150px
 }
 
 #door,
@@ -237,5 +244,5 @@ button:disabled {
 #carpet,
 #wiringHarness,
 #brakePads {
-  top: 220px
+  top: 200px
 }
