@@ -5,6 +5,7 @@ class GameDescription extends HTMLElement {
     this.shadowRoot.innerHTML = `
             <style>
                 p {
+                    text-align: center;
                     font-size: 18px;
                     color: #555;
                     padding: 20px;

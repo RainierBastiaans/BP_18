@@ -8,7 +8,7 @@ class StartButton extends HTMLElement {
                     display: block;
                     padding: 10px 20px;
                     font-size: 20px;
-                    margin: 30px 20px;
+                    margin: 30px auto;
                     background-color: #28a745;
                     color: white;
                     border: none;

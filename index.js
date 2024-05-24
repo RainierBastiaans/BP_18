@@ -47,6 +47,7 @@ class LeanGame extends HTMLElement {
 
     // Add event listener for setInterval
     this.intervalId = setInterval(() => {
+      this.carVisuals();
       this.updateMessage();
       if (this.game.currentRound.isOver) {
         this.endRound();
@@ -100,6 +101,7 @@ class LeanGame extends HTMLElement {
     this.game.newRound(leanMethod);
     // Add event listener for setInterval
     this.intervalId = setInterval(() => {
+      this.carVisuals();
       this.updateMessage();
       if (this.game.currentRound.isOver) {
         this.endRound();
@@ -195,12 +197,13 @@ class LeanGame extends HTMLElement {
       img.src = `./img/${part}.png`;
       img.alt = `image of ${part}`;
       button.classList.add("part-button");
-      button.textContent = part;
       button.dataset.partName = part;
+      //button.style.background = `url('./img/${part}.png') no-repeat`;
       button.addEventListener("click", this.handleClick.bind(this));
       button.disabled = this.game
         .getCarFromWorkstation(this.getCurrentWorkstation().id)
         .isAdded(part); //disable button if already added
+      button.append(img);
       buttonContainer.appendChild(button);
     });
 
@@ -216,7 +219,42 @@ class LeanGame extends HTMLElement {
     }
   }
 
+  carVisuals() {
+    const workstation = this.getCurrentWorkstation();
+    const car = this.game.getCarFromWorkstation(workstation.id);
+
+    const carContainer = this.shadowRoot.getElementById("car-container");
+
+    try {
+      //loop all parts to check if added
+      workstation.partnames.forEach((part) => {
+        const carPart = document.createElement("img");
+        const checkImg = this.shadowRoot.getElementById(part);
+        if (checkImg == null && car.isAdded(part)) {
+          carPart.className = "car-part";
+          carPart.id = part;
+          carPart.src = `./img/${part}.png`;
+          carPart.alt = `image of ${part}`;
+          carContainer.append(carPart);
+        }
+      });
+      //Check if car is complete
+
+      if (workstation.isComplete(car.parts)) {
+        // if car complete wait 1 second and clear carContainer
+        setTimeout(() => {
+          carContainer.innerHTML = "";
+        }, 1000);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
   goToPreviousWorkstation() {
+    const carContainer = this.shadowRoot.getElementById("car-container");
+    carContainer.innerHTML = "";
+
     // Decrement index with modulo to handle wrap-around
     this.currentWorkstationIndex--;
 
@@ -228,6 +266,9 @@ class LeanGame extends HTMLElement {
   }
 
   goToNextWorkstation() {
+    const carContainer = this.shadowRoot.getElementById("car-container");
+    carContainer.innerHTML = "";
+
     // Increment index with modulo to handle wrap-around
     this.currentWorkstationIndex++;
 
