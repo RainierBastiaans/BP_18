@@ -206,22 +206,36 @@ button:disabled {
   height: 50px;
   margin: 5px 0;
   position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
 }
 
-#chassis {
+#chassis,
+#engineBlock,
+#dashboard,
+#battery,
+#tire {
   top: 55px
 }
 
-#hood {
+#hood,
+#cylinderHead,
+#seat,
+#alternator,
+#wheel {
   top: 110px
 }
 
-#trunk {
+#trunk,
+#piston,
+#steeringWheel,
+#headlights,
+#hubcap {
   top: 165px
 }
 
-#door {
+#door,
+#sparkPlugs,
+#carpet,
+#wiringHarness,
+#brakePads {
   top: 220px
 }

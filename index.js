@@ -247,7 +247,7 @@ class LeanGame extends HTMLElement {
         }, 1000);
       }
     } catch (error) {
-      console.error(error);
+      //console.error(error);
     }
   }
 
@@ -268,6 +268,7 @@ class LeanGame extends HTMLElement {
   goToNextWorkstation() {
     const carContainer = this.shadowRoot.getElementById("car-container");
     carContainer.innerHTML = "";
+    console.log("To next station");
 
     // Increment index with modulo to handle wrap-around
     this.currentWorkstationIndex++;
