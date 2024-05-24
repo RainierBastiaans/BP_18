@@ -1,8 +1,9 @@
-import { AtWorkstationState } from "./state/at-workstation-state.js";
-import { State } from "./state/car-state.js";
-import { InLineForWorkstationState } from "./state/inline-for-workstation-state.js";
-import { ReadyToSellState } from "./state/ready-to-sell-state.js";
-import { SoldState } from "./state/sold-state.js";
+import { AtWorkstationState } from "./state/car-states/at-workstation-state.js";
+import { CarState } from "./state/car-states/car-state.js";
+import { InLineForWorkstationState } from "./state/car-states/inline-for-workstation-state.js";
+import { ReadyToSellState } from "./state/car-states/ready-to-sell-state.js";
+import { SoldState } from "./state/car-states/sold-state.js";
+import { WorkingState } from "./state/workstation-states/working-state.js";
 
 class Car {
   constructor(id, parts) {
@@ -58,8 +59,8 @@ class Car {
     this.isBroken = !addedParts.every(part => part.broken === false);
   }
 
-  addPart(part) {
-    if (this.state instanceof AtWorkstationState) {
+  addPart(part, workstation) {
+    if (this.state instanceof AtWorkstationState && workstation.state instanceof WorkingState) {
       this.breakPart(part);
       // Check if the part exists in the map (case-sensitive)
       // Update the partAdded property to true for the existing part

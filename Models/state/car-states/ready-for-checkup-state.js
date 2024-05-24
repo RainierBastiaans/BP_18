@@ -1,8 +1,8 @@
-import { State } from "./car-state.js";
+import { CarState } from "./car-state.js";
 import { ReadyToSellState } from "./ready-to-sell-state.js";
 import { BrokenState } from "./broken-state.js";
 
-class ReadyForCheckupState extends State {
+class ReadyForCheckupState extends CarState {
   constructor() {
     super();
   }

@@ -1,6 +1,6 @@
-import { State } from "./car-state.js"
+import { CarState } from "./car-state.js"
 
-class BrokenState extends State{
+class SoldState extends CarState{
     constructor(){
         super()
     }
@@ -9,4 +9,4 @@ class BrokenState extends State{
       }
 }
 
-export {BrokenState}
+export {SoldState}

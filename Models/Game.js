@@ -32,6 +32,7 @@ class Game {
     }
     this.isOver = false;
     this.leanMethods = new Map()
+    this.workstations.get(1).underMaintenance()
     
   }
 
@@ -106,10 +107,11 @@ class Game {
 
   addPart(part, workstationId) {
     this.moveWaitingcars();
+    const currentWorkstation = this.workstations.get(workstationId)
     const car = this.getCarFromWorkstation(workstationId);
     try {
       this.stock.requestPart(part);
-      this.cars.get(car.id).addPart(part);
+      this.cars.get(car.id).addPart(part, currentWorkstation);
     } catch (error) {
       console.error(error);
     }

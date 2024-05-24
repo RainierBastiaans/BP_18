@@ -1,7 +1,7 @@
 import { AtWorkstationState } from "./at-workstation-state.js";
-import { State } from "./car-state.js";
+import { CarState } from "./car-state.js";
 
-class InLineForWorkstationState extends State {
+class InLineForWorkstationState extends CarState {
   constructor(workstationId) {
     super();
     this.workstationId = workstationId || null; // Optional workstation ID when in line
