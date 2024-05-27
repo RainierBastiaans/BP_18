@@ -202,44 +202,117 @@ button:disabled {
 }
 
 .car-part {
-  width: auto;
   max-width: 125px;
-  height: auto;
-  min-height: 40px;
-  max-height: 50px;
   margin: 5px 0;
   position: absolute;
 }
 
-#chassis,
-#engineBlock,
-#dashboard,
-#battery,
-#tire {
+/** Workstations parts css start*/
+/* Workstation 1 parts css */
+#chassis {
   top: 62px;
   left: 28.50%;
+  height: 50px;
 }
 
-#hood,
-#cylinderHead,
-#seat,
-#alternator,
+#hood {
+  top: 100px;
+  height: 50px;
+}
+
+#trunk {
+  top: 150px;
+  height: 50px;
+}
+
+#door {
+  top: 200px;
+  height: 50px;
+}
+
+/* Workstation 2 parts css */
+#engineBlock {
+  top: 200px;
+  height: 50px;
+}
+
+#cylinderHead {
+  top: 150px;
+  height: 50px;
+}
+
+#piston {
+  top: 162px;
+  height: 20px;
+}
+
+#sparkPlugs {
+  top: 125px;
+  height: 25px;
+}
+
+/* Workstation 3 parts css */
+#dashboard {
+  top: 100px;
+  height: 50px;
+}
+
+#seat {
+  top: 150px;
+  height: 50px;
+}
+
+#steeringWheel {
+  top: 200px;
+  height: 50px;
+}
+
+#carpet {
+  top: 250px;
+  height: 50px;
+}
+
+/* Workstation 4 parts css */
+#battery {
+  top: 100px;
+  height: 50px;
+}
+
+
+#alternator {
+  top: 150px;
+  height: 50px;
+}
+
+#headlights {
+  top: 200px;
+  height: 50px;
+}
+
+#wiringHarness {
+  top: 250px;
+  height: 50px;
+}
+
+/* Workstation 5 parts css */
+#tire {
+  top: 100px;
+  height: 50px;
+}
+
 #wheel {
-  top: 100px
+  top: 150px;
+  height: 50px;
 }
 
-#trunk,
-#piston,
-#steeringWheel,
-#headlights,
 #hubcap {
-  top: 150px
+  top: 200px;
+  height: 50px;
 }
 
-#door,
-#sparkPlugs,
-#carpet,
-#wiringHarness,
 #brakePads {
-  top: 200px
+  top: 250px;
+  height: 50px;
 }
+
+/*! Workstations parts css end */
