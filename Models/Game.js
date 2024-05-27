@@ -1,4 +1,4 @@
-import { Workstation } from "./workstation.js";
+import { Workstation } from "./state/workstation/Workstation.js";
 import { Round } from "./Round.js";
 import { Bot } from "./occupant/bot.js";
 import data from "../db/parts.json" assert { type: "json" };
@@ -14,6 +14,7 @@ import { CarAtWorkstation } from "./state/car/car-at-workstation.js";
 import { CarInLine } from "./state/car/car-inline.js";
 import { CarToAssembly } from "./state/car/car-to-assembly.js";
 import { CarCheckup } from "./state/car/car-checkup.js";
+import { WorkingWorkstation } from "./state/workstation/workstation-working.js";
 class Game {
   constructor() {
     this.workstations = new Map();
@@ -26,7 +27,7 @@ class Game {
     for (let i = 0; i < this.parts.length / 4; i++) {
       const startIndex = i * 4; // Starting index for each workstation (multiples of 4)
       const partList = this.parts.slice(startIndex, startIndex + 4); // Slice the first 4 parts
-      this.workstations.set(i + 1, new Workstation(i + 1, partList));
+      this.workstations.set(i + 1, new WorkingWorkstation(i + 1, partList.map((partData) => partData.name)));
     }
 
     this.bots = [];
@@ -35,7 +36,6 @@ class Game {
     }
     this.isOver = false;
     this.leanMethods = new Map();
-    this.workstations.get(1).underMaintenance();
   }
 
   newGame() {
@@ -122,7 +122,6 @@ class Game {
     if (!this.getCarFromWorkstation(1)) {
       this.newCar();
     }
-    console.log(this.cars)
   }
 
   addPart(part, workstationId) {
@@ -130,6 +129,7 @@ class Game {
     const currentWorkstation = this.workstations.get(workstationId);
     const car = this.getCarFromWorkstation(workstationId);
     try {
+      currentWorkstation.addPartToCar(this.workstations);
       this.stock.requestPart(part);
       this.cars.get(car.id).addPart(part, currentWorkstation);
     } catch (error) {

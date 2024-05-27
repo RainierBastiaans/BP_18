@@ -1,16 +1,9 @@
-import { WorkingState } from "./state/workstation-states/working-state.js";
-import { UnderMaintenanceState } from "./state/workstation-states/under-maintenance-state.js";
 class Workstation {
   constructor(id, partsList) {
     this.id = id;
-    this.partnames = partsList.map((partData) => partData.name); // Create a list of part names
+    this.partnames = partsList; // Create a list of part names
     this.occupant = null; // Reference to the current occupant (User or Bot)
-    this.state = new WorkingState(this); // Initial state
-    this.maintenaceChance = 0.5;
-  }
-
-  underMaintenance(){
-    this.state = new UnderMaintenanceState(this)
+    this.maintenaceChance = 0.01;
   }
 
   setMaintenanceChance(maintenaceChance){
@@ -25,7 +18,6 @@ class Workstation {
   }
 
   getIncompletePart(carParts) {
-    console.log(this.state)
     // Find the first part in the car's "parts" list that:
     // - is NOT marked as added (part.partAdded !== true)
     // - is present in the carParts list (carParts.includes(part.name))
