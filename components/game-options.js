@@ -38,6 +38,10 @@ class GameOptions extends HTMLElement {
                     <input type="checkbox" id="qc" name="qc">
                     <label for="qc">Quality Control</label>
                 </div>
+                <div class="option">
+                    <input type="checkbox" id="tpm" name="tpm">
+                    <label for="tpm">Total Productive Maintenance</label>
+                </div>
             </div>
         `;
   }

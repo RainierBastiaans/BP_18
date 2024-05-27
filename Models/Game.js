@@ -15,6 +15,7 @@ import { CarInLine } from "./state/car/car-inline.js";
 import { CarToAssembly } from "./state/car/car-to-assembly.js";
 import { CarCheckup } from "./state/car/car-checkup.js";
 import { WorkingWorkstation } from "./state/workstation/workstation-working.js";
+import { TotalProductiveMaintenance } from "../lean-methods/total-productive-maintenance.js";
 class Game {
   constructor() {
     this.workstations = new Map();
@@ -23,21 +24,26 @@ class Game {
     this.carId = 1;
     this.cars = new Map();
     this.parts = data.parts;
+    this.leanMethods = new Map();
 
-    for (let i = 0; i < this.parts.length / 4; i++) {
-      const startIndex = i * 4; // Starting index for each workstation (multiples of 4)
-      const partList = this.parts.slice(startIndex, startIndex + 4); // Slice the first 4 parts
-      this.workstations.set(i + 1, new WorkingWorkstation(i + 1, partList.map((partData) => partData.name)));
-    }
+    this.createOrRefreshWorkstations()  
 
     this.bots = [];
     for (let i = 1; i <= 5; i++) {
       this.bots.push(new Bot(`bot${i}`, i, this));
     }
     this.isOver = false;
-    this.leanMethods = new Map();
   }
 
+
+  createOrRefreshWorkstations(){
+    //every new round workstations get refreshed
+    for (let i = 0; i < this.parts.length / 4; i++) {
+      const startIndex = i * 4; // Starting index for each workstation (multiples of 4)
+      const partList = this.parts.slice(startIndex, startIndex + 4); // Slice the first 4 parts
+      this.workstations.set(i + 1, new WorkingWorkstation(i + 1, partList.map((partData) => partData.name),this.leanMethods.get("tpm")));
+    }
+  }
   newGame() {
     this.capital = new Money(50000);
     this.stock = new TraditionalStock(this.parts);
@@ -54,6 +60,7 @@ class Game {
     this.newLeanMethod(leanMethod);
     this.stock.newRound();
     this.bots.forEach((bot) => bot.startWorking());
+    this.createOrRefreshWorkstations()
   }
 
   newLeanMethod(method) {
@@ -63,6 +70,9 @@ class Game {
     }
     if (method === "qc") {
       this.leanMethods.set(method, new QualityControl());
+    }
+    if (method === "tpm"){
+      this.leanMethods.set(method, new TotalProductiveMaintenance(this.workstations))
     }
   }
 

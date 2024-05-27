@@ -1,13 +1,14 @@
 class Workstation {
-  constructor(id, partsList) {
+  constructor(id, partsList, tpm, workstations) {
     this.id = id;
     this.partnames = partsList; // Create a list of part names
     this.occupant = null; // Reference to the current occupant (User or Bot)
-    this.maintenaceChance = 0.01;
+    this.maintenanceChance = tpm ? 0.001 : 0.1; // Ternary operator for conditional assignment
   }
+  
 
-  setMaintenanceChance(maintenaceChance){
-    this.maintenaceChance = maintenaceChance;
+  setMaintenanceChance(maintenanceChance){
+    this.maintenanceChance = maintenanceChance;
   }
 
 
