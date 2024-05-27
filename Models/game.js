@@ -34,9 +34,8 @@ class Game {
       this.bots.push(new Bot(`bot${i}`, i, this));
     }
     this.isOver = false;
-    this.leanMethods = new Map()
-    this.workstations.get(1).underMaintenance()
-    
+    this.leanMethods = new Map();
+    this.workstations.get(1).underMaintenance();
   }
 
   newGame() {
@@ -63,7 +62,7 @@ class Game {
     this.stock.newRound();
     this.bots.forEach((bot) => bot.startWorking());
 
-    this.addObserver(roundStats)
+    this.addObserver(roundStats);
   }
 
   addObserver(observer) {
@@ -78,13 +77,13 @@ class Game {
     this.observers.forEach((observer) => observer.update(subject));
   }
 
-  newLeanMethod(method){
-    if (method === 'jit'){
-      this.leanMethods.set(method, new JustInTime())
-      this.stock = new JITStock(this.stock.parts)
+  newLeanMethod(method) {
+    if (method === "jit") {
+      this.leanMethods.set(method, new JustInTime());
+      this.stock = new JITStock(this.stock.parts);
     }
-    if(method === 'qc'){
-      this.leanMethods.set(method, new QualityControl())
+    if (method === "qc") {
+      this.leanMethods.set(method, new QualityControl());
     }
   }
 
@@ -101,7 +100,7 @@ class Game {
     const car = new Car(this.carId, this.parts);
     this.cars.set(car.id, car);
     this.carId++;
-    console.log(this.cars)
+    console.log(this.cars);
   }
 
   getCarFromWorkstation(workstationid) {
@@ -131,7 +130,7 @@ class Game {
 
   addPart(part, workstationId) {
     this.moveWaitingcars();
-    const currentWorkstation = this.workstations.get(workstationId)
+    const currentWorkstation = this.workstations.get(workstationId);
     const car = this.getCarFromWorkstation(workstationId);
     try {
       this.stock.requestPart(part);
@@ -139,7 +138,6 @@ class Game {
     } catch (error) {
       console.error(error);
     }
-    
   }
 
   carCompleted(car) {
@@ -167,8 +165,6 @@ class Game {
   endGame() {
     this.isOver = true;
   }
-
-  
 }
 
 export { Game };

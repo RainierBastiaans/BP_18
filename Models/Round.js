@@ -7,7 +7,6 @@ class Round {
     this.stats = stats;
   }
 
-
   startTimer() {
     this.timerInterval = setInterval(() => {
       this.timeLeft--;

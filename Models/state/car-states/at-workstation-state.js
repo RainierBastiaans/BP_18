@@ -9,9 +9,7 @@ class AtWorkstationState extends CarState {
   }
 
   enter() {
-    console.log(
-      `Car is already at workstation ${this.workstationId}. Work in progress.`
-    );
+    //console.log(`Car is already at workstation ${this.workstationId}. Work in progress.`);
   }
   next(car, cars) {
     console.log(
@@ -26,12 +24,12 @@ class AtWorkstationState extends CarState {
 
   moveWaitingCar(car, cars) {
     return;
+  moveWaitingCar(car, cars) {
+    return;
   }
 
   handleInput(input) {
-    console.log(
-      `Handling input '${input}' at workstation ${this.workstationId}`
-    );
+    //console.log(`Handling input '${input}' at workstation ${this.workstationId}`);
   }
 }
 export { AtWorkstationState };

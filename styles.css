@@ -1,20 +1,248 @@
 body {
-    font-family: 'Arial', sans-serif;
-    background-color: #f4f4f4;
-    margin: 0;
-    padding: 0;
+  font-family: "Arial", sans-serif;
+  background-color: #f4f4f4;
+  margin: 0;
+  padding: 0;
+}
+
+img {
+  height: 20px;
+  width: auto;
+  padding: 0;
+  margin: 0;
+}
+
+.part-button {
+  width: 160px;
+  height: 60px;
+  border: 2px solid #2980b9;
+  border-radius: 5px;
+  padding: 10px;
+  margin: 10px;
+  color: #ffffff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.container {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 20px;
+}
+
+.drop-targets {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  margin: 20px 0;
+}
+
+.box {
+  height: 150px;
+  width: 150px;
+  border: solid 3px #ccc;
+  margin: 10px;
+
+  /* align items in the box */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.drag-over {
+  border: dashed 3px red;
+}
+
+.item {
+  height: 75px;
+  width: 75px;
+  background-color: #f0db4f;
 }
 
 .hidden {
-    display: none;
+  display: none;
 }
 
 #game-container {
-    width: 100%;
-    padding: 20px;
-    background-color: #fff;
-    border-radius: 5px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    text-align: center;
-    margin-top: 20px;
+  width: 100%;
+  padding: 20px;
+  background-color: #f4f4f4;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+button {
+  align-items: center;
+  background-color: #0a66c2;
+  border: 0;
+  box-sizing: border-box;
+  color: #ffffff;
+  cursor: pointer;
+  display: inline-flex;
+  font-size: 16px;
+  font-weight: 600;
+  justify-content: center;
+  line-height: 20px;
+  max-width: 480px;
+  min-height: 40px;
+  min-width: 0px;
+  overflow: hidden;
+  margin: 5px;
+  padding: 0px;
+  padding-left: 20px;
+  padding-right: 20px;
+  text-align: center;
+  touch-action: manipulation;
+  transition: background-color 0.167s cubic-bezier(0.4, 0, 0.2, 1) 0s,
+    box-shadow 0.167s cubic-bezier(0.4, 0, 0.2, 1) 0s,
+    color 0.167s cubic-bezier(0.4, 0, 0.2, 1) 0s;
+  vertical-align: middle;
+}
+
+button:hover,
+button:focus {
+  background-color: #16437e;
+  color: #ffffff;
+}
+
+button:active {
+  background: #09223b;
+  color: rgb(255, 255, 255, 0.7);
+}
+
+button:disabled {
+  cursor: not-allowed;
+  background: rgba(0, 0, 0, 0.08);
+  color: rgba(0, 0, 0, 0.3);
+}
+
+.options-container {
+  text-align: center;
+  margin: 20px;
+}
+
+.options-heading {
+  font-size: 1.5em;
+  margin-bottom: 10px;
+}
+
+.option {
+  margin: 5px 0;
+}
+
+.option-display {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.player-container {
+  display: none;
+  /* grid */
+  grid-template-columns: 10rem;
+  grid-template-rows: 7.5rem;
+  gap: 0px 0px;
+  grid-template-areas:
+    ". ."
+    ". .";
+}
+
+/* Style the statistics container */
+.statistics-container {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.statistics-heading {
+  font-size: 1.5em;
+  margin-bottom: 10px;
+}
+
+.statistics-table {
+  width: 50%;
+  margin: 0 auto;
+  border-collapse: collapse;
+}
+
+.statistics-table th,
+.statistics-table td {
+  border: 2px solid #ddd;
+  padding: 8px;
+}
+
+.statistics-table th {
+  background-color: #1c87c9;
+  text-align: left;
+}
+
+.statistics-table td {
+  text-align: left;
+}
+
+#completedCarsElement {
+  color: green;
+}
+
+/* car visuals */
+#car-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 20px auto;
+  border: 2px solid black;
+  width: 300px;
+  height: 400px;
+  position: relative;
+}
+
+.car-part {
+  width: auto;
+  max-width: 125px;
+  height: auto;
+  min-height: 40px;
+  max-height: 50px;
+  margin: 5px 0;
+  position: absolute;
+}
+
+#chassis {
+  top: 62px;
+  left: 28.50%;
+}
+
+#engineBlock,
+#dashboard,
+#battery,
+#tire {
+  top: 50px
+}
+
+#hood,
+#cylinderHead,
+#seat,
+#alternator,
+#wheel {
+  top: 100px
+}
+
+#trunk,
+#piston,
+#steeringWheel,
+#headlights,
+#hubcap {
+  top: 150px
+}
+
+#door,
+#sparkPlugs,
+#carpet,
+#wiringHarness,
+#brakePads {
+  top: 200px
 }

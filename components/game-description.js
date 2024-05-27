@@ -5,18 +5,14 @@ class GameDescription extends HTMLElement {
     this.shadowRoot.innerHTML = `
             <style>
                 p {
+                    text-align: center;
                     font-size: 18px;
                     color: #555;
                     padding: 20px;
-                    max-width: 600px;
-                    margin: 0 auto;
                 }
             </style>
             <p>
-                This is an exciting game where you can test your LEAN skills<br>and challenge your friends.
-            </p>
-            <p>
-                
+                This is an exciting game where you can test your LEAN skills and challenge your friends.
             </p>
         `;
   }
