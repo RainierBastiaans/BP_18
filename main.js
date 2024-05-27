@@ -6,12 +6,12 @@ import "./components/show-stats.js";
 import "./components/game-options.js";
 
 document.addEventListener("DOMContentLoaded", () => {
-  let selectedOptions = []; // To store selected options
+  let selectedOption = []; // To store selected options
 
   document
     .querySelector("game-options")
     .addEventListener("optionschange", (event) => {
-      selectedOptions = event.detail.selectedOptions;
+      selectedOption = event.detail.selectedOption;
     });
 
   //Game start
@@ -26,7 +26,7 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById(
       "game-container"
     ).innerHTML = `<lean-game options='${JSON.stringify(
-      selectedOptions
+      selectedOption
     )}'></lean-game>`;
   });
 
@@ -34,7 +34,7 @@ document.addEventListener("DOMContentLoaded", () => {
   .querySelector("new-round-button")
   .addEventListener("newRound", (event) => {
     // Access the selected lean method from the event detail
-    const selectedLeanMethod = event.detail.selectedLeanMethod;
+    const selectedLeanMethod = selectedOption;
 
     document.querySelector("game-header").classList.add("hidden");
     document.querySelector("game-description").classList.add("hidden");
