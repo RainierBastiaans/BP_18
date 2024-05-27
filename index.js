@@ -219,18 +219,19 @@ class LeanGame extends HTMLElement {
     }
   }
 
+  // Draws the car parts on the screen
   carVisuals() {
     const workstation = this.getCurrentWorkstation();
     const car = this.game.getCarFromWorkstation(workstation.id);
-
     const carContainer = this.shadowRoot.getElementById("car-container");
 
     try {
-      //loop all parts to check if added
+      // Loop all parts and check if added
       workstation.partnames.forEach((part) => {
-        const carPart = document.createElement("img");
         const checkImg = this.shadowRoot.getElementById(part);
+
         if (checkImg == null && car.isAdded(part)) {
+          const carPart = document.createElement("img");
           carPart.className = "car-part";
           carPart.id = part;
           carPart.src = `./img/${part}.png`;
@@ -238,10 +239,10 @@ class LeanGame extends HTMLElement {
           carContainer.append(carPart);
         }
       });
-      //Check if car is complete
 
+      // Check if car is complete
       if (workstation.isComplete(car.parts)) {
-        // if car complete wait 1 second and clear carContainer
+        // If car completed wait 1 second and clear carContainer
         setTimeout(() => {
           carContainer.innerHTML = "";
         }, 1000);
