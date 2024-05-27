@@ -7,6 +7,7 @@ class UnderMaintenanceWorkstation extends Workstation {
       this.maintenanceDuration = maintenanceDuration;
       this.startTime = Date.now(); // Set startTime immediately in constructor
       this.workstations = workstations;
+      this.tpm = tpm;
   
       // Optionally, set up a timer to transition back to working state
       this.setupMaintenanceTimer();
@@ -28,7 +29,7 @@ class UnderMaintenanceWorkstation extends Workstation {
       clearTimeout(this.timeoutId); // Clear the timer if set
       this.startTime = null; // Reset start time
   
-      this.workstations.set(this.id, new WorkingWorkstation(this.id, this.partnames));
+      this.workstations.set(this.id, new WorkingWorkstation(this.id, this.partnames, this.tpm));
     }
   }
   
