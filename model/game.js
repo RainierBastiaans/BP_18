@@ -93,10 +93,6 @@ class Game {
     if (method === "jit") {
       this.leanMethods.set(method, new JustInTime());
       this.stock = new JITStock(this.stock.parts);
-  newLeanMethod(method) {
-    if (method === "jit") {
-      this.leanMethods.set(method, new JustInTime());
-      this.stock = new JITStock(this.stock.parts);
     }
     if (method === "qc") {
       this.leanMethods.set(method, new QualityControl());
@@ -159,12 +155,12 @@ class Game {
     if (!this.getCarFromWorkstation(1)) {
       this.newCar();
     }
-    console.log(this.cars)
+    console.log(this.cars);
   }
 
   addPart(part, workstationId) {
     this.moveWaitingcars();
-    const currentWorkstation = this.workstations.get(workstationId);;
+    const currentWorkstation = this.workstations.get(workstationId);
     const car = this.getCarFromWorkstation(workstationId);
     try {
       this.stock.requestPart(part);
