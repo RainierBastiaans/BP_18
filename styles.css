@@ -211,16 +211,13 @@ button:disabled {
   position: absolute;
 }
 
-#chassis {
-  top: 62px;
-  left: 28.50%;
-}
-
+#chassis,
 #engineBlock,
 #dashboard,
 #battery,
 #tire {
-  top: 50px
+  top: 62px;
+  left: 28.50%;
 }
 
 #hood,
