@@ -17,7 +17,7 @@ class GameOptions extends HTMLElement {
         }
       </style>
       <div id="options-container" class="options-container">
-        <h2>Select Game Options</h2>
+        <h2>Select Lean Method</h2>
         <div class="option">
           <input type="radio" id="jit" name="game-option" value="jit">
           <label for="jit">Just in time (JIT)</label>
