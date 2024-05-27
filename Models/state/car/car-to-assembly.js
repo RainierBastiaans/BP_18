@@ -4,8 +4,6 @@ import { Car } from "./car.js";
 class CarToAssembly extends Car {
   constructor(id, parts, cars) {
     super(id);
-    console.log(parts)
-
     // Create the parts map with key as part name and value as object with properties
     this.parts = new Map(
       parts.reduce((acc, part) => {
