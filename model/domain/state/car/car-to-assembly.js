@@ -1,5 +1,5 @@
 import { CarAtWorkstation } from "./car-at-workstation.js";
-import { Car } from "./car.js";
+import { Car } from "../../car.js";
 
 class CarToAssembly extends Car {
   constructor(id, parts, cars) {

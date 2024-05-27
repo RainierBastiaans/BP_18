@@ -1,4 +1,4 @@
-import { Workstation } from "./Workstation.js";
+import { Workstation } from "../../workstation.js";
 import { WorkingWorkstation } from "./workstation-working.js";
 
 class UnderMaintenanceWorkstation extends Workstation {
@@ -23,7 +23,9 @@ class UnderMaintenanceWorkstation extends Workstation {
 
   addPartToCar() {
     throw new Error(
-      `Cannot add part, workstation ${this.id} is under Maintenance for ${this.getRemainingTime()} seconds remaining.`
+      `Cannot add part, workstation ${
+        this.id
+      } is under Maintenance for ${this.getRemainingTime()} seconds remaining.`
     );
   }
 

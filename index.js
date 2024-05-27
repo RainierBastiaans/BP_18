@@ -161,9 +161,8 @@ class LeanGame extends HTMLElement {
 
   updateQualityControlButton() {
     this.qualityControlButton.style.removeProperty("background-color");
-  updateQualityControlButton() {
-    this.qualityControlButton.style.removeProperty("background-color");
   }
+
   moveCar() {
     this.game
       .getCarFromWorkstation(this.getCurrentWorkstation().id)
@@ -259,12 +258,6 @@ class LeanGame extends HTMLElement {
       ? "visible"
       : "hidden";
 
-    // Enable buttons based on workstation completion
-    const isComplete = this.getCurrentWorkstation().isComplete(
-      this.game.getCarFromWorkstation(this.getCurrentWorkstation().id).parts
-    );
-    this.moveCarButton.disabled = !isComplete;
-    this.qualityControlButton.disabled = !isComplete; // Optional chaining for safety
     // Enable buttons based on workstation completion
     const isComplete = this.getCurrentWorkstation().isComplete(
       this.game.getCarFromWorkstation(this.getCurrentWorkstation().id).parts

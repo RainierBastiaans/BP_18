@@ -9,10 +9,15 @@ import data from "./db/parts.json" assert { type: "json" };
 import { CompositeLeanMethod } from "./domain/lean-methods/composite-lean-method.js";
 import { JustInTime } from "./domain/lean-methods/just-in-time.js";
 import { QualityControl } from "./domain/lean-methods/quality-control.js";
+import { TotalProductiveMaintenance } from "../lean-methods/total-productive-maintenance.js";
 //import OCCUPANT
 import { Bot } from "./domain/occupant/bot.js";
 //import STATE
-
+import { CarAtWorkstation } from "./state/car/car-at-workstation.js";
+import { CarInLine } from "./state/car/car-inline.js";
+import { CarToAssembly } from "./state/car/car-to-assembly.js";
+import { CarCheckup } from "./state/car/car-checkup.js";
+import { WorkingWorkstation } from "./state/workstation/workstation-working.js";
 //import STOCK
 import { JITStock } from "./domain/stock/jit-stock.js";
 import { TraditionalStock } from "./domain/stock/traditional-stock.js";
@@ -22,12 +27,6 @@ import { RoundStats } from "./stats/round-stats.js";
 
 //In essentie is Game onze facade class, die alle andere classes aanroept en de game logica bevat.
 //De Game class is een subject klasse en de controller en model klassen zijn observers.
-import { CarAtWorkstation } from "./state/car/car-at-workstation.js";
-import { CarInLine } from "./state/car/car-inline.js";
-import { CarToAssembly } from "./state/car/car-to-assembly.js";
-import { CarCheckup } from "./state/car/car-checkup.js";
-import { WorkingWorkstation } from "./state/workstation/workstation-working.js";
-import { TotalProductiveMaintenance } from "../lean-methods/total-productive-maintenance.js";
 class Game {
   constructor() {
     this.workstations = new Map();
