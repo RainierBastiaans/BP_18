@@ -1,3 +1,5 @@
+//TODO: move style to css and reference.
+
 class ShowStats extends HTMLElement {
     constructor() {
       super();
@@ -13,7 +15,7 @@ class ShowStats extends HTMLElement {
             margin-bottom: 10px;
           }
           .statistics-table {
-            width: 100%;
+            width: 90%;
             margin: 0 auto;
             border-collapse: collapse;
           }
@@ -40,11 +42,11 @@ class ShowStats extends HTMLElement {
             </tr>
             <tr>
               <th>Total Income</th>
-              <td id="totalIncome">0€</td>
+              <td id="totalIncome">€ 0</td>
             </tr>
             <tr>
               <th>Capital</th>
-              <td id="capital">0€</td>
+              <td id="capital">€ 0</td>
             </tr>
             <tr id="roundHeaders"></tr>
             <tbody id="roundStats"></tbody>
@@ -59,16 +61,16 @@ class ShowStats extends HTMLElement {
     // Methods to update the final stats
     updateStatistics(gameStats, rounds, capital) {
       this.carsCompletedElement.textContent = gameStats.carsCompleted;
-      this.totalIncomeElement.textContent = gameStats.totalIncome + "€";
-      this.capitalElement.textContent = capital + "€";
+      this.totalIncomeElement.textContent = "€" + gameStats.totalIncome;
+      this.capitalElement.textContent = "€" + capital;
   
       // Update Round Stat Headers
       const roundHeaders = this.shadowRoot.getElementById("roundHeaders");
       roundHeaders.innerHTML = `
         <th>Round</th>
-        <th>Cars Completed</th>
-        <th>Total Income</th>
-        <th>Capital</th>
+        <th>Cars Completed this round</th>
+        <th>Income per round</th>
+        <th>Capital after round</th>
       `;
   
       // Update Round Stats Content (clear existing rows first)
@@ -80,8 +82,8 @@ class ShowStats extends HTMLElement {
         row.innerHTML = `
           <td>Round ${round.stats.roundNumber}</td>
           <td>${round.stats.carsCompleted}</td>
-          <td>${round.stats.totalIncome}€</td>
-          <td>${round.stats.capital}€</td>
+          <td>€ ${round.stats.totalIncome}</td>
+          <td>€ ${round.stats.capital}</td>
           `;
         roundStatsBody.appendChild(row);
       });
