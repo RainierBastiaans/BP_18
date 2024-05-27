@@ -1,21 +1,6 @@
 import { Game } from "./Models/game.js";
 import { UnderMaintenanceWorkstation } from "./Models/state/workstation/workstation-under-maintenance.js";
-
-const gameTemplate = document.createElement("template");
-gameTemplate.innerHTML = `
-<p id="message">Work On Workstation</p>
-<canvas id="bp-game-canvas" width="500" height="300"></canvas>
-<button id="previous-station-button">Previous Station</button>
-<button id="next-station-button">Next Station</button>
-<p id="completedCarsElement">Cars completed: 0</p>
-<p id="partsAddedElement">0/0 parts added</p>
-<button id="move-car-button">Move Car to Next Station</button>
-<button id = "quality-control">Quality Control</button> 
-<div id="current-workstation">
-  <span class="maintenance-timer"></span>
-</div>
-`;
-
+import { gameTemplate } from "./components/game-container.js";
 
 class LeanGame extends HTMLElement {
   constructor() {
@@ -33,7 +18,7 @@ class LeanGame extends HTMLElement {
     this.partsAddedElement = shadowRoot.getElementById("partsAddedElement");
     this.moveCarButton = shadowRoot.getElementById("move-car-button");
     this.qualityControlButton = shadowRoot.getElementById("quality-control");
-    this.qualityControlButton.style.visibility = 'hidden';
+    this.qualityControlButton.style.visibility = "hidden";
     this.previousButton.disabled = true; // Initially disabled
     this.timeLeft = 180; // Time in seconds
     this.timerInterval = null;
@@ -57,6 +42,7 @@ class LeanGame extends HTMLElement {
     );
 
     this.updateMessage();
+    this.draw();
 
     // Add event listener for setInterval
     this.intervalId = setInterval(() => {
@@ -68,14 +54,16 @@ class LeanGame extends HTMLElement {
     }, 500); // Call every 0.5 seconds (500 milliseconds)
   }
 
-
   draw() {
     const workstation = this.getCurrentWorkstation();
 
     // Update visual representation based on maintenance status
-    const workstationElement = this.shadowRoot.getElementById("current-workstation");
+    const workstationElement = this.shadowRoot.getElementById(
+      "current-workstation"
+    );
     if (workstationElement) {
-      const maintenanceTimer = workstationElement.querySelector(".maintenance-timer");
+      const maintenanceTimer =
+        workstationElement.querySelector(".maintenance-timer");
       if (workstation instanceof UnderMaintenanceWorkstation) {
         workstationElement.classList.add("under-maintenance");
         const seconds = workstation.getRemainingTime();
@@ -88,8 +76,6 @@ class LeanGame extends HTMLElement {
       }
     }
   }
-
-
 
   endRound() {
     clearInterval(this.intervalId);
@@ -145,8 +131,6 @@ class LeanGame extends HTMLElement {
     }, 500); // Call every 0.5 seconds (500 milliseconds)
   }
 
-
-
   handleClick(event) {
     if (event.target.classList.contains("part-button")) {
       this.handlePartButtonClick(event.target);
@@ -169,8 +153,8 @@ class LeanGame extends HTMLElement {
       : "green";
   }
 
-  updateQualityControlButton(){
-    this.qualityControlButton.style.removeProperty('background-color');
+  updateQualityControlButton() {
+    this.qualityControlButton.style.removeProperty("background-color");
   }
   moveCar() {
     this.game
@@ -198,7 +182,6 @@ class LeanGame extends HTMLElement {
 
     if (this.game.getCarFromWorkstation(this.getCurrentWorkstation().id)) {
       this.createButtons();
-      
 
       // Show added parts/total parts
       const partsAdded = Object.values(
@@ -220,13 +203,10 @@ class LeanGame extends HTMLElement {
       noCarContainer.textContent = "No Car at the moment";
       this.partsAddedElement.textContent = "";
       this.shadowRoot.appendChild(noCarContainer);
-      this.moveCarButton.style.visibility = 'hidden';
-      this.qualityControlButton.style.visibility = 'hidden';
-
-
+      this.moveCarButton.style.visibility = "hidden";
+      this.qualityControlButton.style.visibility = "hidden";
     }
   }
-
 
   clearButtons() {
     const buttonContainer = this.shadowRoot.querySelector(".part-buttons");
@@ -242,7 +222,7 @@ class LeanGame extends HTMLElement {
     buttonContainer.classList.add("part-buttons");
 
     this.getCurrentWorkstation().partnames.forEach((part) => {
-      this.moveCarButton.style.visibility = 'visible';
+      this.moveCarButton.style.visibility = "visible";
       const button = document.createElement("button");
       button.classList.add("part-button");
       button.textContent = part;
@@ -257,12 +237,16 @@ class LeanGame extends HTMLElement {
     this.shadowRoot.appendChild(buttonContainer);
 
     // Show quality control button conditionally
-  this.qualityControlButton.style.visibility = this.game.leanMethods.has('qc') ? 'visible' : 'hidden';
+    this.qualityControlButton.style.visibility = this.game.leanMethods.has("qc")
+      ? "visible"
+      : "hidden";
 
-  // Enable buttons based on workstation completion
-  const isComplete = this.getCurrentWorkstation().isComplete(this.game.getCarFromWorkstation(this.getCurrentWorkstation().id).parts);
-  this.moveCarButton.disabled = !isComplete;
-  this.qualityControlButton.disabled = !isComplete; // Optional chaining for safety
+    // Enable buttons based on workstation completion
+    const isComplete = this.getCurrentWorkstation().isComplete(
+      this.game.getCarFromWorkstation(this.getCurrentWorkstation().id).parts
+    );
+    this.moveCarButton.disabled = !isComplete;
+    this.qualityControlButton.disabled = !isComplete; // Optional chaining for safety
   }
 
   goToPreviousWorkstation() {
