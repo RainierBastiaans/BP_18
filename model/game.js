@@ -1,16 +1,24 @@
-import { Car } from "./car.js";
-import { Workstation } from "./workstation.js";
-import { Round } from "./round.js";
-import { Bot } from "./occupant/bot.js";
-import data from "../db/parts.json" assert { type: "json" };
+//import basic entities
+import { Car } from "./domain/car.js";
+import { Workstation } from "./domain/workstation.js";
+import { Round } from "./domain/round.js";
+import { Money } from "./domain/money.js";
+//import "DATABASE"
+import data from "./db/parts.json" assert { type: "json" };
+//import LEAN METHODS
+import { CompositeLeanMethod } from "./domain/lean-methods/composite-lean-method.js";
+import { JustInTime } from "./domain/lean-methods/just-in-time.js";
+import { QualityControl } from "./domain/lean-methods/quality-control.js";
+//import OCCUPANT
+import { Bot } from "./domain/occupant/bot.js";
+//import STATE
+
+//import STOCK
+import { JITStock } from "./domain/stock/jit-stock.js";
+import { TraditionalStock } from "./domain/stock/traditional-stock.js";
+//import OTHER
 import { GameStats } from "./stats/game-stats.js";
-import { Money } from "./money.js";
 import { RoundStats } from "./stats/round-stats.js";
-import { JustInTime } from "../lean-methods/just-in-time.js";
-import { CompositeLeanMethod } from "../lean-methods/composite-lean-method.js";
-import { QualityControl } from "../lean-methods/quality-control.js";
-import { TraditionalStock } from "./stock/traditional-stock.js";
-import { JITStock } from "./stock/jit-stock.js";
 
 //In essentie is Game onze facade class, die alle andere classes aanroept en de game logica bevat.
 //De Game class is een subject klasse en de controller en model klassen zijn observers.
