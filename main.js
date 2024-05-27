@@ -37,7 +37,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const selectedLeanMethod = selectedOption;
 
     document.querySelector("game-header").classList.add("hidden");
-    document.querySelector("game-description").classList.add("hidden");
     document.querySelector("new-round-button").classList.add("hidden");
     document.getElementById("stats-container").classList.add("hidden");
     document.querySelector("game-options").classList.add("hidden");
@@ -61,7 +60,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Show statistics and reset home screen
     document.querySelector("game-header").classList.remove("hidden");
-    document.querySelector("game-description").classList.remove("hidden");
     document.querySelector("new-round-button").classList.remove("hidden");
     document.getElementById("game-container").classList.add("hidden");
     document.getElementById("stats-container").classList.remove("hidden");
