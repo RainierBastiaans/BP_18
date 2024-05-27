@@ -1,4 +1,3 @@
-import { Car } from "./car.js";
 import { Workstation } from "./workstation.js";
 import { Round } from "./Round.js";
 import { Bot } from "./occupant/bot.js";
@@ -11,6 +10,10 @@ import { CompositeLeanMethod } from "../lean-methods/composite-lean-method.js";
 import { QualityControl } from "../lean-methods/quality-control.js";
 import { TraditionalStock } from "./stock/traditional-stock.js";
 import { JITStock } from "./stock/jit-stock.js";
+import { CarAtWorkstation } from "./state/car/car-at-workstation.js";
+import { CarInLine } from "./state/car/car-inline.js";
+import { CarToAssembly } from "./state/car/car-to-assembly.js";
+import { CarCheckup } from "./state/car/car-checkup.js";
 class Game {
   constructor() {
     this.workstations = new Map();
@@ -31,9 +34,8 @@ class Game {
       this.bots.push(new Bot(`bot${i}`, i, this));
     }
     this.isOver = false;
-    this.leanMethods = new Map()
-    this.workstations.get(1).underMaintenance()
-    
+    this.leanMethods = new Map();
+    this.workstations.get(1).underMaintenance();
   }
 
   newGame() {
@@ -54,13 +56,36 @@ class Game {
     this.bots.forEach((bot) => bot.startWorking());
   }
 
-  newLeanMethod(method){
-    if (method === 'jit'){
-      this.leanMethods.set(method, new JustInTime())
-      this.stock = new JITStock(this.stock.parts)
+  newLeanMethod(method) {
+    if (method === "jit") {
+      this.leanMethods.set(method, new JustInTime());
+      this.stock = new JITStock(this.stock.parts);
     }
-    if(method === 'qc'){
-      this.leanMethods.set(method, new QualityControl())
+    if (method === "qc") {
+      this.leanMethods.set(method, new QualityControl());
+    }
+  }
+
+  moveCar(carToAdd) {
+    // Check if carToAdd is a valid Car object
+    if (carToAdd instanceof CarCheckup) {
+      carToAdd.move(this.cars);
+      return;
+    }
+    if (carToAdd instanceof CarInLine) {
+      // Check if a car with the same workstation ID and CarAtWorkstation type already exists
+      const existingCar = Array.from(this.cars.values()).find((car) => {
+        return (
+          car.id != carToAdd.id &&
+          car.workstationId === carToAdd.workstationId &&
+          car instanceof CarAtWorkstation
+        );
+      });
+
+      // If no conflicting car exists, add the new CarAtWorkstation
+      if (!existingCar) {
+        carToAdd.move(this.cars);
+      }
     }
   }
 
@@ -74,27 +99,21 @@ class Game {
   }
 
   newCar() {
-    const car = new Car(this.carId, this.parts);
-    this.cars.set(car.id, car);
-    this.carId++;
-    console.log(this.cars)
+    new CarToAssembly(this.cars.size, this.parts, this.cars);
   }
 
   getCarFromWorkstation(workstationid) {
     // Find the car with matching state
     const matchingCar = Array.from(this.cars.values()).find(
-      (car) => car.state.workstationId === workstationid
+      (car) =>
+        car.workstationId === workstationid && car instanceof CarAtWorkstation
     );
-
     return matchingCar; // Might return undefined if no car is found
   }
 
   moveWaitingcars() {
     for (const car of this.cars.values()) {
-      car.state.moveWaitingCar(car, this.cars);
-      if (car.isComplete()) {
-        this.carCompleted(car);
-      }
+      this.moveCar(car);
     }
     this.newCarAtWorkstation1();
   }
@@ -103,11 +122,12 @@ class Game {
     if (!this.getCarFromWorkstation(1)) {
       this.newCar();
     }
+    console.log(this.cars)
   }
 
   addPart(part, workstationId) {
     this.moveWaitingcars();
-    const currentWorkstation = this.workstations.get(workstationId)
+    const currentWorkstation = this.workstations.get(workstationId);
     const car = this.getCarFromWorkstation(workstationId);
     try {
       this.stock.requestPart(part);
@@ -115,7 +135,6 @@ class Game {
     } catch (error) {
       console.error(error);
     }
-    
   }
 
   carCompleted(car) {
@@ -124,6 +143,7 @@ class Game {
   }
 
   addPartOrMoveBot(workstationId) {
+    this.moveWaitingcars();
     const car = this.getCarFromWorkstation(workstationId);
     if (car) {
       const workstation = Array.from(this.workstations.values()).find(
@@ -131,7 +151,7 @@ class Game {
       );
       if (workstation.isComplete(car.parts)) {
         //if car is complete move to next station
-        car.moveCar(this.cars);
+        car.move(this.cars);
       } else if (workstation.getIncompletePart(car.parts)) {
         this.addPart(
           workstation.getIncompletePart(car.parts).name,
@@ -143,8 +163,6 @@ class Game {
   endGame() {
     this.isOver = true;
   }
-
-  
 }
 
 export { Game };
