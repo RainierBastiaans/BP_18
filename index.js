@@ -1,4 +1,5 @@
 import { Game } from "./Models/game.js";
+import { UnderMaintenanceWorkstation } from "./Models/state/workstation/workstation-under-maintenance.js";
 
 const gameTemplate = document.createElement("template");
 gameTemplate.innerHTML = `
@@ -10,7 +11,11 @@ gameTemplate.innerHTML = `
 <p id="partsAddedElement">0/0 parts added</p>
 <button id="move-car-button">Move Car to Next Station</button>
 <button id = "quality-control">Quality Control</button> 
+<div id="current-workstation">
+  <span class="maintenance-timer"></span>
+</div>
 `;
+
 
 class LeanGame extends HTMLElement {
   constructor() {
@@ -51,7 +56,6 @@ class LeanGame extends HTMLElement {
       this.handleClick.bind(this)
     );
 
-    this.adjustSettingsForOptions();
     this.updateMessage();
 
     // Add event listener for setInterval
@@ -63,6 +67,29 @@ class LeanGame extends HTMLElement {
       }
     }, 500); // Call every 0.5 seconds (500 milliseconds)
   }
+
+
+  draw() {
+    const workstation = this.getCurrentWorkstation();
+
+    // Update visual representation based on maintenance status
+    const workstationElement = this.shadowRoot.getElementById("current-workstation");
+    if (workstationElement) {
+      const maintenanceTimer = workstationElement.querySelector(".maintenance-timer");
+      if (workstation instanceof UnderMaintenanceWorkstation) {
+        workstationElement.classList.add("under-maintenance");
+        const seconds = workstation.getRemainingTime();
+        maintenanceTimer.textContent = `Machine Broke, Wait ${seconds}s`; // Combined message
+      } else {
+        workstationElement.classList.remove("under-maintenance");
+        if (maintenanceTimer) {
+          maintenanceTimer.textContent = "";
+        }
+      }
+    }
+  }
+
+
 
   endRound() {
     clearInterval(this.intervalId);
@@ -118,36 +145,7 @@ class LeanGame extends HTMLElement {
     }, 500); // Call every 0.5 seconds (500 milliseconds)
   }
 
-  adjustSettingsForOptions() {
-    if (this.options.includes("timeLimit")) {
-      this.timeLeft = 20;
-    } else {
-      this.timeLeft = 2;
-    }
-  }
 
-  draw() {
-    this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-
-    if (this.game.getCarFromWorkstation(this.getCurrentWorkstation().id)) {
-      // Draw game visuals based on state
-      for (let i = 0; i < this.game.workstations.length; i++) {
-        const station = this.game.workstations[i];
-        const x = (i * this.canvas.width) / this.game.workstations.length;
-        const y = 10;
-        const width = this.canvas.width / this.game.workstations.length - 10;
-        const height = 20;
-
-        const allPartsAdded = station.parts.every(
-          (part) =>
-            this.game.getCarFromWorkstation(this.getCurrentWorkstation().id)
-              .parts[part.name]
-        );
-        this.ctx.fillStyle = allPartsAdded ? "green" : "red";
-        this.ctx.fillRect(x, y, width, height);
-      }
-    }
-  }
 
   handleClick(event) {
     if (event.target.classList.contains("part-button")) {
@@ -276,6 +274,7 @@ class LeanGame extends HTMLElement {
     this.nextButton.disabled = false; // Reset next button
 
     this.updateMessage();
+    this.draw();
   }
 
   goToNextWorkstation() {
@@ -288,6 +287,7 @@ class LeanGame extends HTMLElement {
       this.currentWorkstationIndex === this.game.workstations.size;
 
     this.updateMessage();
+    this.draw();
   }
 
   getCurrentWorkstation() {

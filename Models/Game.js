@@ -144,7 +144,7 @@ class Game {
       this.stock.requestPart(part);
       this.cars.get(car.id).addPart(part, currentWorkstation);
     } catch (error) {
-      console.error(error);
+      //console.error(error);
     }
   }
 
