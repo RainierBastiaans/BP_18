@@ -19,6 +19,12 @@ class CarAtWorkstation extends Car {
           this.parts.set(part, partInfo);
       }
 
+      qualityControl() {
+        // Check if all parts marked as added (partAdded === true) are not broken (broken === false)
+        const addedParts = Array.from(this.parts.values()).filter(part => part.partAdded === true);
+        return !addedParts.every(part => part.broken === false);
+      }
+
       
 
       move(cars){

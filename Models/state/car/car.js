@@ -11,9 +11,6 @@ class Car {
     );
   }
 
-  getQualityControl() {
-    return this.isBroken;
-  }
 
   qualityControl() {
     throw new Error("Superclass does not have qualityControl");
