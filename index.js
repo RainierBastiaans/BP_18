@@ -1,4 +1,4 @@
-import { Game } from "./Models/game.js";
+import { Game } from "./model/game.js";
 
 const gameTemplate = document.createElement("template");
 gameTemplate.innerHTML = `
