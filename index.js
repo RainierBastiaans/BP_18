@@ -27,7 +27,6 @@ class LeanGame extends HTMLElement {
 
   connectedCallback() {
     this.game = new Game();
-    this.game.newGame();
 
     this.currentWorkstationIndex = 1;
 

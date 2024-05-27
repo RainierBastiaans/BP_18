@@ -1,7 +1,7 @@
 import { Workstation } from "./state/workstation/Workstation.js";
-import { Round } from "./Round.js";
+import { Round } from "./round.js";
 import { Bot } from "./occupant/bot.js";
-import data from "../db/parts.json" assert { type: "json" };
+import data from "../db/parts.json" with { type: "json" };
 import { GameStats } from "./stats/game-stats.js";
 import { Money } from "./money.js";
 import { RoundStats } from "./stats/round-stats.js";
@@ -25,14 +25,16 @@ class Game {
     this.cars = new Map();
     this.parts = data.parts;
     this.leanMethods = new Map();
+    this.numberOfWorkstations = 5
 
     this.createOrRefreshWorkstations()  
 
     this.bots = [];
-    for (let i = 1; i <= 5; i++) {
+    for (let i = 1; i <= this.numberOfWorkstations; i++) {
       this.bots.push(new Bot(`bot${i}`, i, this));
     }
     this.isOver = false;
+    this.newGame();
   }
 
 
@@ -58,7 +60,6 @@ class Game {
     this.rounds.set(roundnumber, newRound);
     this.currentRound = newRound;
     this.newLeanMethod(leanMethod);
-    console.log(leanMethod)
     this.stock.newRound();
     this.bots.forEach((bot) => bot.startWorking());
     this.createOrRefreshWorkstations()
