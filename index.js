@@ -141,7 +141,7 @@ class LeanGame extends HTMLElement {
   qualityControl() {
     this.qualityControlButton.style.backgroundColor = this.game
       .getCarFromWorkstation(this.getCurrentWorkstation().id)
-      .getQualityControl()
+      .qualityControl()
       ? "red"
       : "green";
   }
@@ -152,8 +152,7 @@ class LeanGame extends HTMLElement {
   moveCar() {
     this.game
       .getCarFromWorkstation(this.getCurrentWorkstation().id)
-      .moveCar(this.game.cars);
-    this.game.moveWaitingcars();
+      .move(this.game.cars);
     this.updateMessage();
     this.updateQualityControlButton();
   }

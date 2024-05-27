@@ -1,5 +1,3 @@
-import { Part } from "./part.js";
-import { Car } from "./car.js";
 import { WorkingState } from "./state/workstation-states/working-state.js";
 import { UnderMaintenanceState } from "./state/workstation-states/under-maintenance-state.js";
 class Workstation {
