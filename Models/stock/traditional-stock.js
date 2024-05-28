@@ -1,7 +1,7 @@
 import { BaseStock } from "./base-stock.js";
 
 class TraditionalStock extends BaseStock {
-  constructor( parts, initialQuantity = 0) {
+  constructor(parts, initialQuantity = 0) {
     super(); // Call base class constructor
     // Create the parts dictionary with keys as part names and values as objects with price and quantity
     this.parts = new Map(
@@ -26,7 +26,7 @@ class TraditionalStock extends BaseStock {
 
   newRound() {
     for (const [partName, partInfo] of this.parts.entries()) {
-      this.addPartsToStock(partName, 5);
+      this.addPartsToStock(partName, 50);
     }
   }
 }
