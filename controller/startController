@@ -1,0 +1,20 @@
+class StartController {
+  constructor(leanGame) {
+    this.leanGame = leanGame;
+    // Add event listeners for home page interactions
+    this.leanGame.addEventListener(
+      "startgame",
+      this.handleStartGame.bind(this)
+    );
+    // Additional setup for home page interactions...
+  }
+
+  handleStartGame(event) {
+    this.leanGame.gameFacade.startGame("Player1", this.leanGame.options);
+    // Additional logic related to starting the game...
+  }
+
+  // Additional methods for handling home page interactions...
+}
+
+export { StartController };
