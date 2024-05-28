@@ -48,8 +48,9 @@ class LeanGame extends HTMLElement {
 
     // Add event listener for setInterval
     this.intervalId = setInterval(() => {
-      this.carVisuals();
+
       this.updateMessage();
+
       if (this.game.currentRound.isOver) {
         this.endRound();
       }
@@ -70,6 +71,7 @@ class LeanGame extends HTMLElement {
       if (seconds) {
         workstationElement.classList.add("under-maintenance");
         maintenanceTimer.textContent = `Machine Broke, Wait ${seconds}s`; // Combined message
+        this.runTimer(document.getElementsByClassName(".timer", seconds));
       } else {
         workstationElement.classList.remove("under-maintenance");
         if (maintenanceTimer) {
@@ -174,6 +176,7 @@ class LeanGame extends HTMLElement {
   }
 
   updateMessage() {
+    this.draw();
     // ... (update previous/next button states)
     this.clearButtons();
     this.messageEl.textContent =
@@ -183,6 +186,8 @@ class LeanGame extends HTMLElement {
 
     if (this.game.getCarFromWorkstation(this.getCurrentWorkstation().id)) {
       this.createButtons();
+      this.carVisuals();
+
 
       // Show added parts/total parts
       const partsAdded = Object.values(
@@ -212,10 +217,12 @@ class LeanGame extends HTMLElement {
   clearButtons() {
     const buttonContainer = this.shadowRoot.querySelector(".part-buttons");
     const noCarContainer = this.shadowRoot.querySelector(".no-car");
+    const carContainer = this.shadowRoot.querySelector(".car-container");
 
     // Remove elements in a single line using optional chaining
     buttonContainer?.remove();
     noCarContainer?.remove();
+    carContainer?.remove();
   }
 
   createButtons() {
@@ -256,9 +263,11 @@ class LeanGame extends HTMLElement {
 
   // Draws the car parts on the screen
   carVisuals() {
+    const carContainer = document.createElement("div");
+    carContainer.classList.add("car-container");
+    carContainer.id = "car-container"
     const workstation = this.getCurrentWorkstation();
     const car = this.game.getCarFromWorkstation(workstation.id);
-    const carContainer = this.shadowRoot.getElementById("car-container");
 
     try {
       // Loop all parts and check if added
@@ -274,23 +283,35 @@ class LeanGame extends HTMLElement {
           carContainer.append(carPart);
         }
       });
-
-      // Check if car is complete
-      if (workstation.isComplete(car.parts)) {
-        // If car completed wait 1 second and clear carContainer
-        setTimeout(() => {
-          carContainer.innerHTML = "";
-        }, 1000);
-      }
+      this.shadowRoot.appendChild(carContainer);
     } catch (error) {
       //console.error(error);
     }
   }
 
-  goToPreviousWorkstation() {
-    const carContainer = this.shadowRoot.getElementById("car-container");
-    carContainer.innerHTML = "";
+  //** timer code */
+  runTimer(timerElement, time) {
+    let timeLeft = time;
+    const timerCircle = timerElement.querySelector("svg > circle + circle");
+    timerElement.classList.add("animatable");
+    timerCircle.style.strokeDashoffset = 1;
 
+    let countdownTimer = setInterval(function () {
+      if (timeLeft > -1) {
+        const timeRemaining = timeLeft--;
+        const normalizedTime = (3 - timeRemaining) / 3;
+        // for clockwise animation
+        // const normalizedTime = (timeRemaining - 60) / 60;
+        timerCircle.style.strokeDashoffset = normalizedTime;
+        timer.innerHTML = timeRemaining;
+      } else {
+        clearInterval(countdownTimer);
+        timerElement.classList.remove("animatable");
+      }
+    }, 1000);
+  }
+
+  goToPreviousWorkstation() {
     // Decrement index with modulo to handle wrap-around
     this.currentWorkstationIndex--;
 
@@ -303,10 +324,6 @@ class LeanGame extends HTMLElement {
   }
 
   goToNextWorkstation() {
-    const carContainer = this.shadowRoot.getElementById("car-container");
-    carContainer.innerHTML = "";
-    console.log("To next station");
-
     // Increment index with modulo to handle wrap-around
     this.currentWorkstationIndex++;
 

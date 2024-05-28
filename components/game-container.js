@@ -11,5 +11,12 @@ gameTemplate.innerHTML = `
 <button id = "quality-control">Quality Control</button> 
 <div id="current-workstation">
 <span class="maintenance-timer"></span>
+<div class="timer animatable">
+  <svg>
+    <circle cx="50%" cy="50%" r="90"/>
+    <circle cx="50%" cy="50%" r="90" pathLength="1" />
+    <text x="100" y="100" text-anchor="middle"><tspan id="timeLeft"></tspan></text>
+    <text x="100" y="120" text-anchor="middle">seconds</text>
+  </svg>
 </div>
 `;
