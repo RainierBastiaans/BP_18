@@ -6,14 +6,19 @@ import "./components/show-stats.js";
 import "./components/game-options.js";
 
 document.addEventListener("DOMContentLoaded", () => {
-  let selectedOption; // To store selected options
+  let selectedLeanMethod; // To store selected options
   let selectedWorkstation;
 
   document
     .querySelector("game-options")
-    .addEventListener("optionschange", (event) => {
-      selectedOption = event.detail.selectedOption;
-      selectedWorkstation = event.detail.workstation;
+    .addEventListener("workstationchange", (event) => {
+      selectedWorkstation = parseInt(event.detail.workstation);
+    });
+
+  document
+    .querySelector("round-summary")
+    .addEventListener("leanmethodchange", (event) => {
+      selectedLeanMethod = event.detail.selectedLeanMethod;
     });
 
   // Game start
@@ -27,30 +32,28 @@ document.addEventListener("DOMContentLoaded", () => {
 
     document.getElementById(
       "game-container"
-    ).innerHTML = `<lean-game options='${JSON.stringify(
-      { selectedWorkstation }
-    )}'></lean-game>`;
+    ).innerHTML = `<lean-game options='${JSON.stringify({
+      selectedWorkstation,
+    })}'></lean-game>`;
   });
 
   document
-  .querySelector("new-round-button")
-  .addEventListener("newRound", (event) => {
-    // Access the selected lean method from the event detail
-    const selectedLeanMethod = selectedOption;
+    .querySelector("new-round-button")
+    .addEventListener("newRound", (event) => {
+      // Access the selected lean method from the event detail
+      console.log(selectedLeanMethod);
+      document.querySelector("game-header").classList.add("hidden");
+      document.querySelector("new-round-button").classList.add("hidden");
+      document.getElementById("stats-container").classList.add("hidden");
+      document.querySelector("round-summary").classList.add("hidden");
 
-    document.querySelector("game-header").classList.add("hidden");
-    document.querySelector("new-round-button").classList.add("hidden");
-    document.getElementById("stats-container").classList.add("hidden");
-    document.querySelector("game-options").classList.add("hidden");
-
-    document.getElementById("game-container").classList.remove("hidden");
-    const leanGame = document
-      .getElementById("game-container")
-      .querySelector("lean-game");
-    // Pass the selected lean method to the newRound method
-    leanGame.newRound(selectedLeanMethod);
-  });
-
+      document.getElementById("game-container").classList.remove("hidden");
+      const leanGame = document
+        .getElementById("game-container")
+        .querySelector("lean-game");
+      // Pass the selected lean method to the newRound method
+      leanGame.newRound(selectedLeanMethod);
+    });
 
   //Round end
   document.addEventListener("roundover", (event) => {
@@ -65,7 +68,7 @@ document.addEventListener("DOMContentLoaded", () => {
     document.querySelector("new-round-button").classList.remove("hidden");
     document.getElementById("game-container").classList.add("hidden");
     document.getElementById("stats-container").classList.remove("hidden");
-    document.querySelector("game-options").classList.remove("hidden");
+    document.querySelector("round-summary").classList.remove("hidden");
   });
 
   //Game end

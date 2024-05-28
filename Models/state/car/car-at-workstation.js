@@ -1,3 +1,4 @@
+import { CarBroken } from "./car-broken.js";
 import { CarCheckup } from "./car-checkup.js";
 import { CarInLine } from "./car-inline.js";
 import { Car } from "./car.js";
@@ -28,13 +29,24 @@ class CarAtWorkstation extends Car {
 
       
 
-      move(cars){
-        if (this.workstationId >= 5){
+      move(cars, workstations){
+        return;
+      }
+
+      manualMove(cars, workstations){
+        if (workstations.get(this.workstationId).isComplete(this.parts)){
+          if (this.workstationId >= 5){
             cars.set(this.id, new CarCheckup(this.id, this.parts, cars))
         }
         else{
           cars.set(this.id, new CarInLine(this.id, this.parts, this.workstationId+1))
         }
+        } 
+        return;
+      }
+
+      remove(cars){ //when quality control goes red there should be a possibility to remove the car
+        cars.set(this.id, new CarBroken(this.id, this.parts))
       }
   
     // ... other methods inherited from Car

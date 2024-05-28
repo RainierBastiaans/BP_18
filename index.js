@@ -6,6 +6,8 @@ class LeanGame extends HTMLElement {
     super();
     this.selectedWorkstation =
       JSON.parse(this.getAttribute("options")).selectedWorkstation || 1;
+    this.selectedWorkstation =
+      JSON.parse(this.getAttribute("options")).selectedWorkstation || 1;
     const shadowRoot = this.attachShadow({ mode: "open" });
     shadowRoot.appendChild(gameTemplate.content.cloneNode(true));
 
@@ -15,10 +17,12 @@ class LeanGame extends HTMLElement {
     this.completedCarsElement = shadowRoot.getElementById(
       "completedCarsElement"
     );
-    this.partsAddedElement = shadowRoot.getElementById("partsAddedElement");
     this.moveCarButton = shadowRoot.getElementById("move-car-button");
     this.qualityControlButton = shadowRoot.getElementById("quality-control");
+    this.removeButton = shadowRoot.getElementById("remove-button");
     this.qualityControlButton.style.visibility = "hidden";
+    this.removeButton.style.visibility = "hidden";
+    this.removeButton.disabled = true;
 
     // Disable buttons based on selected workstation
     this.previousButton.disabled = this.selectedWorkstation === 1;
@@ -42,6 +46,7 @@ class LeanGame extends HTMLElement {
       "click",
       this.handleClick.bind(this)
     );
+    this.removeButton.addEventListener("click", this.handleClick.bind(this));
 
     this.updateMessage();
     this.draw();
@@ -141,24 +146,39 @@ class LeanGame extends HTMLElement {
       this.moveCar();
     } else if (event.target === this.qualityControlButton) {
       this.qualityControl();
+    } else if (event.target === this.removeButton) {
+      this.removeCar();
     }
   }
 
-  qualityControl() {
-    this.qualityControlButton.style.backgroundColor = this.game
+  removeCar() {
+    this.game
       .getCarFromWorkstation(this.getCurrentWorkstation().id)
-      .qualityControl()
-      ? "red"
-      : "green";
+      .remove(this.game.cars);
+    this.updateQualityControlButton();
+  }
+
+  qualityControl() {
+    if (
+      this.game
+        .getCarFromWorkstation(this.getCurrentWorkstation().id)
+        .qualityControl()
+    ) {
+      this.qualityControlButton.style.backgroundColor = "red";
+      this.removeButton.disabled = false;
+    } else {
+      this.qualityControlButton.style.backgroundColor = "green";
+    }
   }
 
   updateQualityControlButton() {
     this.qualityControlButton.style.removeProperty("background-color");
+    this.removeButton.disabled = true;
   }
   moveCar() {
     this.game
       .getCarFromWorkstation(this.getCurrentWorkstation().id)
-      .move(this.game.cars);
+      .manualMove(this.game.cars, this.game.workstations);
     this.updateMessage();
     this.updateQualityControlButton();
   }
@@ -172,6 +192,7 @@ class LeanGame extends HTMLElement {
 
   updateMessage() {
     this.draw();
+    this.draw();
     // ... (update previous/next button states)
     this.clearButtons();
     this.messageEl.textContent =
@@ -183,28 +204,14 @@ class LeanGame extends HTMLElement {
       this.createButtons();
       this.carVisuals();
 
-      // Show added parts/total parts
-      const partsAdded = Object.values(
-        this.game.getCarFromWorkstation(this.getCurrentWorkstation().id)
-          ?.parts || {}
-      ).filter((part) => part).length;
-
-      const totalParts = Object.keys(
-        this.game.getCarFromWorkstation(this.getCurrentWorkstation().id)
-          ?.parts || {}
-      ).length;
-
-      const partsMessage = `${partsAdded}/${totalParts} parts added`;
-
-      this.partsAddedElement.textContent = partsMessage;
     } else {
       const noCarContainer = document.createElement("div");
       noCarContainer.classList.add("no-car");
       noCarContainer.textContent = "No Car at the moment";
-      this.partsAddedElement.textContent = "";
       this.shadowRoot.appendChild(noCarContainer);
       this.moveCarButton.style.visibility = "hidden";
       this.qualityControlButton.style.visibility = "hidden";
+      this.removeButton.style.visibility = "hidden";
     }
   }
 
@@ -244,17 +251,63 @@ class LeanGame extends HTMLElement {
 
     console.log(this.game.leanMethods)
 
-    // Show quality control button conditionally
-    this.qualityControlButton.style.visibility = this.game.leanMethods.has("qc")
-      ? "visible"
-      : "hidden";
+    if (this.game.leanMethods.has("qc")) {
+      this.qualityControlButton.style.visibility = "visible";
+      this.removeButton.style.visibility = "visible";
+    }
 
     // Enable buttons based on workstation completion
     const isComplete = this.getCurrentWorkstation().isComplete(
       this.game.getCarFromWorkstation(this.getCurrentWorkstation().id).parts
     );
     this.moveCarButton.disabled = !isComplete;
-    this.qualityControlButton.disabled = !isComplete; // Optional chaining for safety
+    this.qualityControlButton.disabled = !isComplete;
+  }
+
+  // Draws the car parts on the screen
+  carVisuals() {
+    const carContainer = document.createElement("div");
+    carContainer.classList.add("car-container");
+    carContainer.id = "car-container";
+    const workstation = this.getCurrentWorkstation();
+    const car = this.game.getCarFromWorkstation(workstation.id);
+
+    try {
+      // Loop all parts and check if added
+      workstation.partnames.forEach((part) => {
+        const checkImg = this.shadowRoot.getElementById(part);
+
+        if (checkImg == null && car.isAdded(part)) {
+          const carPart = document.createElement("img");
+          carPart.className = "car-part";
+          carPart.id = part;
+          carPart.src = `./img/${part}.png`;
+          carPart.alt = `image of ${part}`;
+          carContainer.append(carPart);
+        }
+      });
+      this.shadowRoot.appendChild(carContainer);
+    } catch (error) {
+      //console.error(error);
+    }
+  }
+
+  //** timer code */
+  runTimer(timerElement) {
+    let timeLeft = this.getCurrentWorkstation().getRemainingTime();
+    let duration = this.getCurrentWorkstation().maintenanceDuration / 1000;
+    const timerCircle = timerElement.querySelector("svg > circle + circle");
+    timerElement.classList.add("animatable");
+    timerCircle.style.strokeDashoffset = 1;
+
+    if (timeLeft > -1) {
+      const normalizedTime = (duration - timeLeft) / duration;
+      timerCircle.style.strokeDashoffset = normalizedTime;
+      this.shadowRoot.getElementById("timeLeft").innerHTML = timeLeft;
+    } else {
+      clearInterval(countdownTimer);
+      timerElement.classList.remove("animatable");
+    }
   }
 
   // Draws the car parts on the screen
