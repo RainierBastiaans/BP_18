@@ -54,7 +54,6 @@ class LeanGame extends HTMLElement {
 
     // Add event listener for setInterval
     this.intervalId = setInterval(() => {
-      this.draw();
       this.updateMessage();
       if (this.game.currentRound.isOver) {
         this.endRound();
@@ -193,6 +192,7 @@ class LeanGame extends HTMLElement {
   }
 
   updateMessage() {
+    this.draw()
     // ... (update previous/next button states)
     this.clearButtons();
     this.messageEl.textContent =
