@@ -18,7 +18,20 @@ class CarInLine extends Car {
     }
 
     move(cars){
+      // Check if a car with the same workstation ID and CarAtWorkstation type already exists
+      const existingCar = Array.from(cars.values()).find((car) => {
+        return (
+          car.id != this.id &&
+          car.workstationId === this.workstationId &&
+          car instanceof CarAtWorkstation
+        );
+      });
+
+      // If no conflicting car exists, add the new CarAtWorkstation
+      if (!existingCar) {
         cars.set(this.id, new CarAtWorkstation(this.id, this.parts, this.workstationId))
+      }
+      return;
     }
   
     // ... other methods inherited from Car

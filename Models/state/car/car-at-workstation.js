@@ -27,13 +27,16 @@ class CarAtWorkstation extends Car {
 
       
 
-      move(cars){
-        if (this.workstationId >= 5){
+      move(cars, workstations){
+        if (workstations.get(this.workstationId).isComplete(this.parts)){
+          if (this.workstationId >= 5){
             cars.set(this.id, new CarCheckup(this.id, this.parts, cars))
         }
         else{
           cars.set(this.id, new CarInLine(this.id, this.parts, this.workstationId+1))
         }
+        } 
+        return;
       }
   
     // ... other methods inherited from Car

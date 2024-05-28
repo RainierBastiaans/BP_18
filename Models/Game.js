@@ -24,7 +24,7 @@ class Game {
     this.cars = new Map();
     this.parts = data.parts;
     this.leanMethods = new Map();
-  
+
     this.createOrRefreshWorkstations();
     this.bots = [];
     // Create bots only for workstations other than selectedWorkstation
@@ -35,15 +35,20 @@ class Game {
     }
     this.isOver = false;
   }
-  
 
-
-  createOrRefreshWorkstations(){
+  createOrRefreshWorkstations() {
     //every new round workstations get refreshed
     for (let i = 0; i < this.parts.length / 4; i++) {
       const startIndex = i * 4; // Starting index for each workstation (multiples of 4)
       const partList = this.parts.slice(startIndex, startIndex + 4); // Slice the first 4 parts
-      this.workstations.set(i + 1, new WorkingWorkstation(i + 1, partList.map((partData) => partData.name),this.leanMethods.get("tpm")));
+      this.workstations.set(
+        i + 1,
+        new WorkingWorkstation(
+          i + 1,
+          partList.map((partData) => partData.name),
+          this.leanMethods.get("tpm")
+        )
+      );
     }
   }
   newGame() {
@@ -55,7 +60,6 @@ class Game {
   }
 
   newRound(leanMethod) {
-    console.log(leanMethod)
     const roundnumber = this.rounds.size + 1;
     const newRound = new Round(new RoundStats(roundnumber, this));
     this.rounds.set(roundnumber, newRound);
@@ -63,7 +67,7 @@ class Game {
     this.newLeanMethod(leanMethod);
     this.stock.newRound();
     this.bots.forEach((bot) => bot.startWorking());
-    this.createOrRefreshWorkstations()
+    this.createOrRefreshWorkstations();
   }
 
   newLeanMethod(method) {
@@ -74,35 +78,20 @@ class Game {
     if (method === "qc") {
       this.leanMethods.set(method, new QualityControl());
     }
-    if (method === "tpm"){
-      this.leanMethods.set(method, new TotalProductiveMaintenance(this.workstations))
+    if (method === "tpm") {
+      this.leanMethods.set(
+        method,
+        new TotalProductiveMaintenance(this.workstations)
+      );
     }
   }
 
   moveCar(carToAdd) {
-    // Check if carToAdd is a valid Car object
-    if (carToAdd instanceof CarCheckup) {
-      carToAdd.move(this.cars);
-      return;
-    }
-    if (carToAdd instanceof CarInLine) {
-      // Check if a car with the same workstation ID and CarAtWorkstation type already exists
-      const existingCar = Array.from(this.cars.values()).find((car) => {
-        return (
-          car.id != carToAdd.id &&
-          car.workstationId === carToAdd.workstationId &&
-          car instanceof CarAtWorkstation
-        );
-      });
-
-      // If no conflicting car exists, add the new CarAtWorkstation
-      if (!existingCar) {
-        carToAdd.move(this.cars);
-      }
-    }
+    return carToAdd.move(this.cars, this.workstations);
   }
 
   endRound() {
+    console.log(this.cars)
     this.currentRound.endRound();
     this.bots.forEach((bot) => bot.stopAddingParts());
     this.capital.add(this.currentRound.stats.capital);
@@ -129,6 +118,7 @@ class Game {
       this.moveCar(car);
     }
     this.newCarAtWorkstation1();
+    this.stats.updateCarStats(this.cars)
   }
 
   newCarAtWorkstation1() {

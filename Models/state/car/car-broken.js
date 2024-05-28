@@ -8,7 +8,7 @@ class CarBroken extends Car {
     }
 
     move(){
-        throw new Error('broken car cannot be moved')
+        return;
     }
 }
 

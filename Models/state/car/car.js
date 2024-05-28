@@ -4,11 +4,8 @@ class Car {
     this.fixedPrice = 20000;
   }
 
-  isComplete() {
-    // Use the "every" method for concise and efficient checking
-    return Array.from(this.parts.values()).every(
-      (partInfo) => partInfo.partAdded === true
-    );
+  isComplete(){
+    return false;
   }
 
   qualityControl() {

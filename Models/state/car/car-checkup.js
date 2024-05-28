@@ -21,6 +21,7 @@ class CarCheckup extends Car {
       } else {
         cars.set(this.id, new CarBroken(this.id, this.parts));
       }
+      return;
     }
 }
 
