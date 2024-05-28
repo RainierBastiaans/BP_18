@@ -9,6 +9,6 @@ gameTemplate.innerHTML = `
 <button id="move-car-button">Move Car to Next Station</button>
 <button id = "quality-control">Quality Control</button> 
 <div id="current-workstation">
-  <span class="maintenance-timer"></span>
+ <span class="maintenance-timer"></span>
 </div>
 `;

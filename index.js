@@ -1,5 +1,4 @@
 import { Game } from "./Models/game.js";
-import { UnderMaintenanceWorkstation } from "./Models/state/workstation/workstation-under-maintenance.js";
 import { gameTemplate } from "./components/game-container.js";
 
 class LeanGame extends HTMLElement {
@@ -64,9 +63,9 @@ class LeanGame extends HTMLElement {
     if (workstationElement) {
       const maintenanceTimer =
         workstationElement.querySelector(".maintenance-timer");
-      if (workstation instanceof UnderMaintenanceWorkstation) {
+      const seconds = workstation.getRemainingTime();
+      if (seconds) {
         workstationElement.classList.add("under-maintenance");
-        const seconds = workstation.getRemainingTime();
         maintenanceTimer.textContent = `Machine Broke, Wait ${seconds}s`; // Combined message
       } else {
         workstationElement.classList.remove("under-maintenance");

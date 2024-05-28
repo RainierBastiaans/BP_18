@@ -11,7 +11,6 @@ class Car {
     );
   }
 
-
   qualityControl() {
     throw new Error("Superclass does not have qualityControl");
   }

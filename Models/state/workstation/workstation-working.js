@@ -15,6 +15,10 @@ class WorkingWorkstation extends Workstation{
       return;
     }
   }
+
+  getRemainingTime(){
+    return
+  }
 }
 
 export { WorkingWorkstation };

@@ -1,12 +1,11 @@
 import { Workstation } from "./state/workstation/Workstation.js";
-import { Round } from "./Round.js";
+import { Round } from "./round.js";
 import { Bot } from "./occupant/bot.js";
 import data from "../db/parts.json" assert { type: "json" };
 import { GameStats } from "./stats/game-stats.js";
 import { Money } from "./money.js";
 import { RoundStats } from "./stats/round-stats.js";
 import { JustInTime } from "../lean-methods/just-in-time.js";
-import { CompositeLeanMethod } from "../lean-methods/composite-lean-method.js";
 import { QualityControl } from "../lean-methods/quality-control.js";
 import { TraditionalStock } from "./stock/traditional-stock.js";
 import { JITStock } from "./stock/jit-stock.js";
@@ -58,7 +57,6 @@ class Game {
     this.rounds.set(roundnumber, newRound);
     this.currentRound = newRound;
     this.newLeanMethod(leanMethod);
-    console.log(leanMethod)
     this.stock.newRound();
     this.bots.forEach((bot) => bot.startWorking());
     this.createOrRefreshWorkstations()
