@@ -7,7 +7,7 @@ class CarPositionLine extends HTMLElement {
         <style>
           .car-position-line {
             display: flex;
-            justify-content: space-between;
+            justify-content: space-evenly;
             align-items: center;
             width: 100%;
             margin-bottom: 10px;
