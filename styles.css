@@ -299,8 +299,8 @@ button:disabled {
 
 /* Workstation 5 parts css */
 #tire {
-  top: 150px;
-  height: 120px;
+  top: 152px;
+  height: 117px;
 }
 
 #wheel {
@@ -314,8 +314,8 @@ button:disabled {
 }
 
 #brakePads {
-  top: 172px;
-  height: 75px;
+  top: 180px;
+  height: 60px;
 }
 
 /*! Workstations parts css end */
