@@ -1,4 +1,5 @@
 import { Game } from "./Models/game.js";
+import { CarPositionLine } from "./components/car-position.js";
 import { gameTemplate } from "./components/game-container.js";
 
 class LeanGame extends HTMLElement {
@@ -47,6 +48,9 @@ class LeanGame extends HTMLElement {
       this.handleClick.bind(this)
     );
     this.removeButton.addEventListener("click", this.handleClick.bind(this));
+    this.carPositionLine = new CarPositionLine();
+    this.shadowRoot.appendChild(this.carPositionLine);
+
 
     this.updateMessage();
     this.draw();
@@ -61,6 +65,8 @@ class LeanGame extends HTMLElement {
   }
 
   draw() {
+    this.carPositionLine.setCarPositions(this.game.cars);
+    this.carPositionLine.setCurrentWorkstation(this.game.workstations)
     const workstation = this.getCurrentWorkstation();
 
     // Update visual representation based on maintenance status
@@ -129,7 +135,6 @@ class LeanGame extends HTMLElement {
     this.game.newRound(leanMethod);
     // Add event listener for setInterval
     this.intervalId = setInterval(() => {
-      this.draw();
       this.updateMessage();
       if (this.game.currentRound.isOver) {
         this.endRound();
