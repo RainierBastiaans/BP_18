@@ -1,4 +1,4 @@
-import { Workstation } from "./Workstation.js";
+import { Workstation } from "./workstation.js";
 import { WorkingWorkstation } from "./workstation-working.js";
 
 class UnderMaintenanceWorkstation extends Workstation {

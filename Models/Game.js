@@ -1,4 +1,4 @@
-import { Workstation } from "./state/workstation/Workstation.js";
+import { Workstation } from "./state/workstation/workstation.js";
 import { Round } from "./round.js";
 import { Bot } from "./occupant/bot.js";
 import data from "../db/parts.json" assert { type: "json" };
