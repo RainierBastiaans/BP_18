@@ -154,7 +154,7 @@ class Game {
       );
       if (workstation.isComplete(car.parts)) {
         //if car is complete move to next station
-        car.move(this.cars);
+        car.manualMove(this.cars, this.workstations);
       } else if (workstation.getIncompletePart(car.parts)) {
         this.addPart(
           workstation.getIncompletePart(car.parts).name,

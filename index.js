@@ -4,28 +4,33 @@ import { gameTemplate } from "./components/game-container.js";
 class LeanGame extends HTMLElement {
   constructor() {
     super();
-    this.selectedWorkstation = JSON.parse(this.getAttribute("options")).selectedWorkstation || 1;
+    this.selectedWorkstation =
+      JSON.parse(this.getAttribute("options")).selectedWorkstation || 1;
     const shadowRoot = this.attachShadow({ mode: "open" });
     shadowRoot.appendChild(gameTemplate.content.cloneNode(true));
-  
+
     this.messageEl = shadowRoot.getElementById("message");
     this.canvas = shadowRoot.getElementById("bp-game-canvas");
     this.previousButton = shadowRoot.getElementById("previous-station-button");
     this.nextButton = shadowRoot.getElementById("next-station-button");
-    this.completedCarsElement = shadowRoot.getElementById("completedCarsElement");
+    this.completedCarsElement = shadowRoot.getElementById(
+      "completedCarsElement"
+    );
     this.partsAddedElement = shadowRoot.getElementById("partsAddedElement");
     this.moveCarButton = shadowRoot.getElementById("move-car-button");
     this.qualityControlButton = shadowRoot.getElementById("quality-control");
+    this.removeButton = shadowRoot.getElementById("remove-button");
     this.qualityControlButton.style.visibility = "hidden";
-  
+    this.removeButton.style.visibility = "hidden";
+    this.removeButton.disabled = true;
+
     // Disable buttons based on selected workstation
     this.previousButton.disabled = this.selectedWorkstation === 1;
     this.nextButton.disabled = this.selectedWorkstation === 5;
-  
+
     this.timeLeft = 180; // Time in seconds
     this.timerInterval = null;
   }
-  
 
   connectedCallback() {
     this.game = new Game(this.selectedWorkstation);
@@ -42,6 +47,7 @@ class LeanGame extends HTMLElement {
       "click",
       this.handleClick.bind(this)
     );
+    this.removeButton.addEventListener("click", this.handleClick.bind(this));
 
     this.updateMessage();
     this.draw();
@@ -144,24 +150,37 @@ class LeanGame extends HTMLElement {
       this.moveCar();
     } else if (event.target === this.qualityControlButton) {
       this.qualityControl();
+    } else if (event.target === this.removeButton) {
+      this.removeCar();
     }
   }
 
+  removeCar(){
+    this.game.getCarFromWorkstation(this.getCurrentWorkstation().id).remove(this.game.cars);
+    this.updateQualityControlButton();
+  }
+
   qualityControl() {
-    this.qualityControlButton.style.backgroundColor = this.game
-      .getCarFromWorkstation(this.getCurrentWorkstation().id)
-      .qualityControl()
-      ? "red"
-      : "green";
+    if (
+      this.game
+        .getCarFromWorkstation(this.getCurrentWorkstation().id)
+        .qualityControl()
+    ) {
+      this.qualityControlButton.style.backgroundColor = "red";
+      this.removeButton.disabled = false;
+    } else {
+      this.qualityControlButton.style.backgroundColor = "green";
+    }
   }
 
   updateQualityControlButton() {
     this.qualityControlButton.style.removeProperty("background-color");
+    this.removeButton.disabled = true;
   }
   moveCar() {
     this.game
       .getCarFromWorkstation(this.getCurrentWorkstation().id)
-      .move(this.game.cars);
+      .manualMove(this.game.cars, this.game.workstations);
     this.updateMessage();
     this.updateQualityControlButton();
   }
@@ -206,6 +225,7 @@ class LeanGame extends HTMLElement {
       this.shadowRoot.appendChild(noCarContainer);
       this.moveCarButton.style.visibility = "hidden";
       this.qualityControlButton.style.visibility = "hidden";
+      this.removeButton.style.visibility = "hidden";
     }
   }
 
@@ -237,17 +257,17 @@ class LeanGame extends HTMLElement {
 
     this.shadowRoot.appendChild(buttonContainer);
 
-    // Show quality control button conditionally
-    this.qualityControlButton.style.visibility = this.game.leanMethods.has("qc")
-      ? "visible"
-      : "hidden";
+    if (this.game.leanMethods.has("qc")) {
+      this.qualityControlButton.style.visibility = "visible";
+      this.removeButton.style.visibility = "visible";
+    }
 
     // Enable buttons based on workstation completion
     const isComplete = this.getCurrentWorkstation().isComplete(
       this.game.getCarFromWorkstation(this.getCurrentWorkstation().id).parts
     );
     this.moveCarButton.disabled = !isComplete;
-    this.qualityControlButton.disabled = !isComplete; // Optional chaining for safety
+    this.qualityControlButton.disabled = !isComplete;
   }
 
   goToPreviousWorkstation() {
