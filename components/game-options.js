@@ -69,7 +69,10 @@ class GameOptions extends HTMLElement {
     this.workstationRadioButtons = this.shadowRoot.querySelectorAll('input[type="radio"][name="workstation"]');
     this.leanMethodRadioButtons = this.shadowRoot.querySelectorAll('input[type="radio"][name="game-option"]');
     this.workstationRadioButtons.forEach((radioButton) => {
-      radioButton.addEventListener("change", this.handleOptionChange.bind(this));
+      radioButton.addEventListener("change", this.handleWorkstationChange.bind(this));
+    });
+    this.leanMethodRadioButtons.forEach((radioButton) => {
+      radioButton.addEventListener("change", this.handleLeanMethodChange.bind(this));
     });
 
     // Pre-select the first workstation by default (optional)
@@ -77,14 +80,27 @@ class GameOptions extends HTMLElement {
     this.selectedWorkstation = 1;
   }
 
-  handleOptionChange(event) {
-    this.selectedWorkstation = event.target.value; // Get value from either lean method or workstation radio
-    console.log(this.selectedWorkstation)
-    const selectedLeanMethod = parseInt(this.shadowRoot.querySelector('input[type="radio"][name="game-option"]:checked')?.value);
+  handleLeanMethodChange(event) {
+    this.selectedLeanMethod = event.target.value; // Get value from either lean method or workstation radio
+    this.selectedWorkstation = parseInt(this.shadowRoot.querySelector('input[type="radio"][name="workstation"]:checked')?.value);
+
 
     this.dispatchEvent(
       new CustomEvent("optionschange", {
-        detail: { selectedLeanMethod, workstation: this.selectedWorkstation },
+        detail: { leanMethod: this.selectedLeanMethod, workstation: this.selectedWorkstation },
+        bubbles: true,
+        composed: true,
+      })
+    );
+  }
+
+  handleWorkstationChange(event) {
+    this.selectedWorkstation = event.target.value; // Get value from either lean method or workstation radio
+    this.selectedLeanMethod = parseInt(this.shadowRoot.querySelector('input[type="radio"][name="game-option"]:checked')?.value);
+
+    this.dispatchEvent(
+      new CustomEvent("optionschange", {
+        detail: { leanMethod: this.selectedLeanMethod, workstation: this.selectedWorkstation },
         bubbles: true,
         composed: true,
       })

@@ -6,15 +6,16 @@ import "./components/show-stats.js";
 import "./components/game-options.js";
 
 document.addEventListener("DOMContentLoaded", () => {
-  let selectedOption = []; // To store selected options
+  let selectedLeanMethod; // To store selected options
   let selectedWorkstation;
 
   document
     .querySelector("game-options")
     .addEventListener("optionschange", (event) => {
-      selectedOption = event.detail.selectedOption;
+      selectedLeanMethod = event.detail.leanMethod;
       selectedWorkstation = event.detail.workstation;
     });
+
 
   // Game start
   document.querySelector("start-button").addEventListener("startgame", () => {
@@ -36,8 +37,7 @@ document.addEventListener("DOMContentLoaded", () => {
   .querySelector("new-round-button")
   .addEventListener("newRound", (event) => {
     // Access the selected lean method from the event detail
-    const selectedLeanMethod = selectedOption;
-
+    console.log(selectedLeanMethod)
     document.querySelector("game-header").classList.add("hidden");
     document.querySelector("new-round-button").classList.add("hidden");
     document.getElementById("stats-container").classList.add("hidden");

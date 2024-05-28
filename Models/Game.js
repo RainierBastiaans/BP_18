@@ -55,6 +55,7 @@ class Game {
   }
 
   newRound(leanMethod) {
+    console.log(leanMethod)
     const roundnumber = this.rounds.size + 1;
     const newRound = new Round(new RoundStats(roundnumber, this));
     this.rounds.set(roundnumber, newRound);
