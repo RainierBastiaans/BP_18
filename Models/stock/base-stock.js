@@ -5,6 +5,7 @@ class BaseStock {
   usePart(part) {
     if (this.hasEnoughParts(part)) {
       this.parts.get(part).quantity -= 1;
+      this.deductPrice(part);
     } else {
       throw new Error(`${part} not in stock`);
     }

@@ -6,15 +6,17 @@ import "./components/show-stats.js";
 import "./components/game-options.js";
 
 document.addEventListener("DOMContentLoaded", () => {
-  let selectedOptions = []; // To store selected options
+  let selectedOption = []; // To store selected options
+  let selectedWorkstation;
 
   document
     .querySelector("game-options")
     .addEventListener("optionschange", (event) => {
-      selectedOptions = event.detail.selectedOptions;
+      selectedOption = event.detail.selectedOption;
+      selectedWorkstation = event.detail.workstation;
     });
 
-  //Game start
+  // Game start
   document.querySelector("start-button").addEventListener("startgame", () => {
     document.querySelector("game-header").classList.add("hidden");
     document.querySelector("game-description").classList.add("hidden");
@@ -26,7 +28,7 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById(
       "game-container"
     ).innerHTML = `<lean-game options='${JSON.stringify(
-      selectedOptions
+      { selectedWorkstation }
     )}'></lean-game>`;
   });
 
@@ -34,10 +36,9 @@ document.addEventListener("DOMContentLoaded", () => {
   .querySelector("new-round-button")
   .addEventListener("newRound", (event) => {
     // Access the selected lean method from the event detail
-    const selectedLeanMethod = event.detail.selectedLeanMethod;
+    const selectedLeanMethod = selectedOption;
 
     document.querySelector("game-header").classList.add("hidden");
-    document.querySelector("game-description").classList.add("hidden");
     document.querySelector("new-round-button").classList.add("hidden");
     document.getElementById("stats-container").classList.add("hidden");
     document.querySelector("game-options").classList.add("hidden");
@@ -61,7 +62,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Show statistics and reset home screen
     document.querySelector("game-header").classList.remove("hidden");
-    document.querySelector("game-description").classList.remove("hidden");
     document.querySelector("new-round-button").classList.remove("hidden");
     document.getElementById("game-container").classList.add("hidden");
     document.getElementById("stats-container").classList.remove("hidden");

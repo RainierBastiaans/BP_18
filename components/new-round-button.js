@@ -25,15 +25,9 @@ class NewRoundButton extends HTMLElement {
     this.shadowRoot
       .querySelector("#newRoundButton")
       .addEventListener("click", () => {
-        // Get the selected lean method from the game options element
-        const gameOptions = document.querySelector("game-options");
-        const selectedOption = gameOptions.shadowRoot
-          ? gameOptions.shadowRoot.querySelector('input[type="checkbox"]:checked')?.id
-          : null; // Handle potential shadow DOM
-
         this.dispatchEvent(
           new CustomEvent("newRound", {
-            detail: { selectedLeanMethod: selectedOption },
+            detail: { },
             bubbles: true,
             composed: true,
           })
