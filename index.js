@@ -16,7 +16,6 @@ class LeanGame extends HTMLElement {
     this.completedCarsElement = shadowRoot.getElementById(
       "completedCarsElement"
     );
-    this.partsAddedElement = shadowRoot.getElementById("partsAddedElement");
     this.moveCarButton = shadowRoot.getElementById("move-car-button");
     this.qualityControlButton = shadowRoot.getElementById("quality-control");
     this.removeButton = shadowRoot.getElementById("remove-button");
@@ -154,8 +153,10 @@ class LeanGame extends HTMLElement {
     }
   }
 
-  removeCar(){
-    this.game.getCarFromWorkstation(this.getCurrentWorkstation().id).remove(this.game.cars);
+  removeCar() {
+    this.game
+      .getCarFromWorkstation(this.getCurrentWorkstation().id)
+      .remove(this.game.cars);
     this.updateQualityControlButton();
   }
 
@@ -192,7 +193,7 @@ class LeanGame extends HTMLElement {
   }
 
   updateMessage() {
-    this.draw()
+    this.draw();
     // ... (update previous/next button states)
     this.clearButtons();
     this.messageEl.textContent =
@@ -202,26 +203,10 @@ class LeanGame extends HTMLElement {
 
     if (this.game.getCarFromWorkstation(this.getCurrentWorkstation().id)) {
       this.createButtons();
-
-      // Show added parts/total parts
-      const partsAdded = Object.values(
-        this.game.getCarFromWorkstation(this.getCurrentWorkstation().id)
-          ?.parts || {}
-      ).filter((part) => part).length;
-
-      const totalParts = Object.keys(
-        this.game.getCarFromWorkstation(this.getCurrentWorkstation().id)
-          ?.parts || {}
-      ).length;
-
-      const partsMessage = `${partsAdded}/${totalParts} parts added`;
-
-      this.partsAddedElement.textContent = partsMessage;
     } else {
       const noCarContainer = document.createElement("div");
       noCarContainer.classList.add("no-car");
       noCarContainer.textContent = "No Car at the moment";
-      this.partsAddedElement.textContent = "";
       this.shadowRoot.appendChild(noCarContainer);
       this.moveCarButton.style.visibility = "hidden";
       this.qualityControlButton.style.visibility = "hidden";

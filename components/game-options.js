@@ -23,21 +23,8 @@ class GameOptions extends HTMLElement {
         }
       </style>
       <div id="options-container" class="options-container">
-        <h2>Select Lean Method</h2>
-        <div class="option">
-          <input type="radio" id="jit" name="game-option" value="jit">
-          <label for="jit">Just in time (JIT)</label>
-        </div>
-        <div class="option">
-          <input type="radio" id="qc" name="game-option" value="qc">
-          <label for="qc">Quality Control</label>
-        </div>
-        <div class="option">
-          <input type="radio" id="tpm" name="game-option" value="tpm">
-          <label for="tpm">Total Productive Maintenance</label>
-        </div>
+      <h3>Select Workstation you want to operate:</h3>
         <div class="workstation-options">
-          <label>Workstation:</label>
           <div class="workstation-option">
             <input type="radio" id="workstation-1" name="workstation" value="1">
             <label for="workstation-1">1</label>
@@ -61,18 +48,17 @@ class GameOptions extends HTMLElement {
         </div>
       </div>
     `;
-
-    
   }
 
   connectedCallback() {
-    this.workstationRadioButtons = this.shadowRoot.querySelectorAll('input[type="radio"][name="workstation"]');
-    this.leanMethodRadioButtons = this.shadowRoot.querySelectorAll('input[type="radio"][name="game-option"]');
+    this.workstationRadioButtons = this.shadowRoot.querySelectorAll(
+      'input[type="radio"][name="workstation"]'
+    );
     this.workstationRadioButtons.forEach((radioButton) => {
-      radioButton.addEventListener("change", this.handleWorkstationChange.bind(this));
-    });
-    this.leanMethodRadioButtons.forEach((radioButton) => {
-      radioButton.addEventListener("change", this.handleLeanMethodChange.bind(this));
+      radioButton.addEventListener(
+        "change",
+        this.handleWorkstationChange.bind(this)
+      );
     });
 
     // Pre-select the first workstation by default (optional)
@@ -80,27 +66,11 @@ class GameOptions extends HTMLElement {
     this.selectedWorkstation = 1;
   }
 
-  handleLeanMethodChange(event) {
-    this.selectedLeanMethod = event.target.value; // Get value from either lean method or workstation radio
-    this.selectedWorkstation = parseInt(this.shadowRoot.querySelector('input[type="radio"][name="workstation"]:checked')?.value);
-
-
-    this.dispatchEvent(
-      new CustomEvent("optionschange", {
-        detail: { leanMethod: this.selectedLeanMethod, workstation: this.selectedWorkstation },
-        bubbles: true,
-        composed: true,
-      })
-    );
-  }
-
   handleWorkstationChange(event) {
     this.selectedWorkstation = event.target.value; // Get value from either lean method or workstation radio
-    this.selectedLeanMethod = parseInt(this.shadowRoot.querySelector('input[type="radio"][name="game-option"]:checked')?.value);
-
     this.dispatchEvent(
-      new CustomEvent("optionschange", {
-        detail: { leanMethod: this.selectedLeanMethod, workstation: this.selectedWorkstation },
+      new CustomEvent("workstationchange", {
+        detail: { workstation: this.selectedWorkstation },
         bubbles: true,
         composed: true,
       })

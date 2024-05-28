@@ -5,7 +5,6 @@ gameTemplate.innerHTML = `
 <button id="previous-station-button">Previous Station</button>
 <button id="next-station-button">Next Station</button>
 <p id="completedCarsElement">Cars completed: 0</p>
-<p id="partsAddedElement">0/0 parts added</p>
 <button id="move-car-button">Move Car to Next Station</button>
 <button id = "quality-control">Quality Control</button> 
 <button id = "remove-button">Remove Car</button>
