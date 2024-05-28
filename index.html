@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="styles.css" />
+  <title>LEAN Game</title>
+</head>
+
+  <body>
+    <!-- home-page -->
+    <div id="home-page">
+      <game-header></game-header>
+      <game-description></game-description>
+      <game-options></game-options>
+      <round-summary class="hidden"></round-summary>
+      <start-button></start-button>
+      <new-round-button class="hidden"></new-round-button>
+    </div>
+
+    <!-- game -->
+    <div id="game-container" class="hidden">
+      <!-- game content wil go here -->
+    </div>
+
+  <!-- stats -->
+  <div id="stats-container" class="hidden">
+    <show-stats></show-stats>
+  </div>
+
+  <!-- Scripts -->
+  <!-- main logic script -->
+  <script src="main.js" type="module"></script>
+
+    <!-- home-page scripts -->
+    <script src="components/game-header.js" type="module"></script>
+    <script src="components/game-description.js" type="module"></script>
+    <script src="components/start-button.js" type="module"></script>
+    <script src="components/show-stats.js" type="module"></script>
+    <script src="components/game-options.js" type="module"></script>
+    <script src="components/new-round-button.js" type="module"></script>
+    <script src="components/round-summary.js" type="module"></script>
+    <script src="components/car-position.js" type="module"></script>
+
+
+
+  <!-- game scripts -->
+  <script src="index.js" type="module"></script>
+</body>
+
+</html>
