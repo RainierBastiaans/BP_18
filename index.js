@@ -4,31 +4,34 @@ import { gameTemplate } from "./components/game-container.js";
 class LeanGame extends HTMLElement {
   constructor() {
     super();
+    this.selectedWorkstation = JSON.parse(this.getAttribute("options")).selectedWorkstation || 1;
     const shadowRoot = this.attachShadow({ mode: "open" });
     shadowRoot.appendChild(gameTemplate.content.cloneNode(true));
-
+  
     this.messageEl = shadowRoot.getElementById("message");
     this.canvas = shadowRoot.getElementById("bp-game-canvas");
     this.previousButton = shadowRoot.getElementById("previous-station-button");
     this.nextButton = shadowRoot.getElementById("next-station-button");
-    this.completedCarsElement = shadowRoot.getElementById(
-      "completedCarsElement"
-    );
+    this.completedCarsElement = shadowRoot.getElementById("completedCarsElement");
     this.partsAddedElement = shadowRoot.getElementById("partsAddedElement");
     this.moveCarButton = shadowRoot.getElementById("move-car-button");
     this.qualityControlButton = shadowRoot.getElementById("quality-control");
     this.qualityControlButton.style.visibility = "hidden";
-    this.previousButton.disabled = true; // Initially disabled
+  
+    // Disable buttons based on selected workstation
+    this.previousButton.disabled = this.selectedWorkstation === 1;
+    this.nextButton.disabled = this.selectedWorkstation === 5;
+  
     this.timeLeft = 180; // Time in seconds
     this.timerInterval = null;
-    this.options = JSON.parse(this.getAttribute("options") || "[]"); // Get the options attribute
   }
+  
 
   connectedCallback() {
-    this.game = new Game();
+    this.game = new Game(this.selectedWorkstation);
     this.game.newGame();
 
-    this.currentWorkstationIndex = 1;
+    this.currentWorkstationIndex = this.selectedWorkstation;
 
     this.ctx = this.canvas.getContext("2d");
 
@@ -173,7 +176,6 @@ class LeanGame extends HTMLElement {
   updateMessage() {
     // ... (update previous/next button states)
     this.clearButtons();
-
     this.messageEl.textContent =
       "Work On Workstation " + this.getCurrentWorkstation().id;
     // Update UI elements (assuming you have elements for displaying messages)
@@ -274,7 +276,7 @@ class LeanGame extends HTMLElement {
   }
 
   getCurrentWorkstation() {
-    return this.game.workstations.get(this.currentWorkstationIndex);
+    return this.game.workstations.get(parseInt(this.currentWorkstationIndex));
   }
 }
 

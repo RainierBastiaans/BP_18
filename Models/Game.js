@@ -16,7 +16,7 @@ import { CarCheckup } from "./state/car/car-checkup.js";
 import { WorkingWorkstation } from "./state/workstation/workstation-working.js";
 import { TotalProductiveMaintenance } from "../lean-methods/total-productive-maintenance.js";
 class Game {
-  constructor() {
+  constructor(selectedWorkstation) {
     this.workstations = new Map();
     this.cost = 0;
     this.rounds = new Map();
@@ -24,15 +24,18 @@ class Game {
     this.cars = new Map();
     this.parts = data.parts;
     this.leanMethods = new Map();
-
-    this.createOrRefreshWorkstations()  
-
+  
+    this.createOrRefreshWorkstations();
     this.bots = [];
+    // Create bots only for workstations other than selectedWorkstation
     for (let i = 1; i <= 5; i++) {
-      this.bots.push(new Bot(`bot${i}`, i, this));
+      if (i !== parseInt(selectedWorkstation)) {
+        this.bots.push(new Bot(`bot${i}`, i, this));
+      }
     }
     this.isOver = false;
   }
+  
 
 
   createOrRefreshWorkstations(){

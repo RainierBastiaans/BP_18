@@ -7,14 +7,16 @@ import "./components/game-options.js";
 
 document.addEventListener("DOMContentLoaded", () => {
   let selectedOption = []; // To store selected options
+  let selectedWorkstation;
 
   document
     .querySelector("game-options")
     .addEventListener("optionschange", (event) => {
       selectedOption = event.detail.selectedOption;
+      selectedWorkstation = event.detail.workstation;
     });
 
-  //Game start
+  // Game start
   document.querySelector("start-button").addEventListener("startgame", () => {
     document.querySelector("game-header").classList.add("hidden");
     document.querySelector("game-description").classList.add("hidden");
@@ -26,7 +28,7 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById(
       "game-container"
     ).innerHTML = `<lean-game options='${JSON.stringify(
-      selectedOption
+      { selectedWorkstation }
     )}'></lean-game>`;
   });
 
