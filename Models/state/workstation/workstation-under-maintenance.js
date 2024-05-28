@@ -2,7 +2,7 @@ import { Workstation } from "./Workstation.js";
 import { WorkingWorkstation } from "./workstation-working.js";
 
 class UnderMaintenanceWorkstation extends Workstation {
-  constructor(id, partsList, tpm, workstations, maintenanceDuration = 3000) {
+  constructor(id, partsList, tpm, workstations, maintenanceDuration = 10000) {
     // Default duration in milliseconds (3 seconds)
     super(id, partsList);
     this.maintenanceDuration = maintenanceDuration;

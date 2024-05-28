@@ -6,7 +6,7 @@ import "./components/show-stats.js";
 import "./components/game-options.js";
 
 document.addEventListener("DOMContentLoaded", () => {
-  let selectedOption = []; // To store selected options
+  let selectedOption; // To store selected options
   let selectedWorkstation;
 
   document

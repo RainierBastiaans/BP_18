@@ -48,7 +48,6 @@ class LeanGame extends HTMLElement {
 
     // Add event listener for setInterval
     this.intervalId = setInterval(() => {
-
       this.updateMessage();
 
       if (this.game.currentRound.isOver) {
@@ -65,18 +64,14 @@ class LeanGame extends HTMLElement {
       "current-workstation"
     );
     if (workstationElement) {
-      const maintenanceTimer =
-        workstationElement.querySelector(".maintenance-timer");
       const seconds = workstation.getRemainingTime();
       if (seconds) {
         workstationElement.classList.add("under-maintenance");
-        maintenanceTimer.textContent = `Machine Broke, Wait ${seconds}s`; // Combined message
-        this.runTimer(document.getElementsByClassName(".timer", seconds));
+        this.shadowRoot.querySelector(".timer").classList.remove("hidden");
+        this.runTimer(this.shadowRoot.querySelector(".timer"));
       } else {
         workstationElement.classList.remove("under-maintenance");
-        if (maintenanceTimer) {
-          maintenanceTimer.textContent = "";
-        }
+        this.shadowRoot.querySelector(".timer").classList.add("hidden");
       }
     }
   }
@@ -124,10 +119,10 @@ class LeanGame extends HTMLElement {
   }
 
   newRound(leanMethod) {
+      console.log(leanMethod)
     this.game.newRound(leanMethod);
     // Add event listener for setInterval
     this.intervalId = setInterval(() => {
-      this.carVisuals();
       this.updateMessage();
       if (this.game.currentRound.isOver) {
         this.endRound();
@@ -188,7 +183,6 @@ class LeanGame extends HTMLElement {
       this.createButtons();
       this.carVisuals();
 
-
       // Show added parts/total parts
       const partsAdded = Object.values(
         this.game.getCarFromWorkstation(this.getCurrentWorkstation().id)
@@ -248,6 +242,8 @@ class LeanGame extends HTMLElement {
 
     this.shadowRoot.appendChild(buttonContainer);
 
+    console.log(this.game.leanMethods)
+
     // Show quality control button conditionally
     this.qualityControlButton.style.visibility = this.game.leanMethods.has("qc")
       ? "visible"
@@ -265,7 +261,7 @@ class LeanGame extends HTMLElement {
   carVisuals() {
     const carContainer = document.createElement("div");
     carContainer.classList.add("car-container");
-    carContainer.id = "car-container"
+    carContainer.id = "car-container";
     const workstation = this.getCurrentWorkstation();
     const car = this.game.getCarFromWorkstation(workstation.id);
 
@@ -290,25 +286,21 @@ class LeanGame extends HTMLElement {
   }
 
   //** timer code */
-  runTimer(timerElement, time) {
-    let timeLeft = time;
+  runTimer(timerElement) {
+    let timeLeft = this.getCurrentWorkstation().getRemainingTime();
+    let duration = this.getCurrentWorkstation().maintenanceDuration / 1000;
     const timerCircle = timerElement.querySelector("svg > circle + circle");
     timerElement.classList.add("animatable");
     timerCircle.style.strokeDashoffset = 1;
 
-    let countdownTimer = setInterval(function () {
-      if (timeLeft > -1) {
-        const timeRemaining = timeLeft--;
-        const normalizedTime = (3 - timeRemaining) / 3;
-        // for clockwise animation
-        // const normalizedTime = (timeRemaining - 60) / 60;
-        timerCircle.style.strokeDashoffset = normalizedTime;
-        timer.innerHTML = timeRemaining;
-      } else {
-        clearInterval(countdownTimer);
-        timerElement.classList.remove("animatable");
-      }
-    }, 1000);
+    if (timeLeft > -1) {
+      const normalizedTime = (duration - timeLeft) / duration;
+      timerCircle.style.strokeDashoffset = normalizedTime;
+      this.shadowRoot.getElementById("timeLeft").innerHTML = timeLeft;
+    } else {
+      clearInterval(countdownTimer);
+      timerElement.classList.remove("animatable");
+    }
   }
 
   goToPreviousWorkstation() {

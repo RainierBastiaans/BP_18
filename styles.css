@@ -74,6 +74,7 @@ img {
   border-radius: 5px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   text-align: center;
+  position: relative;
 }
 
 button {
@@ -322,6 +323,9 @@ button:disabled {
 /** Timer css*/
 .timer {
   margin-top: 10px;
+  position: absolute;
+  top: 50%;
+  left: 10%;
 }
 
 .timer>svg {

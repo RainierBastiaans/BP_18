@@ -3,14 +3,12 @@ class Workstation {
     this.id = id;
     this.partnames = partsList; // Create a list of part names
     this.occupant = null; // Reference to the current occupant (User or Bot)
-    this.maintenanceChance = tpm ? 0.001 : 0.50; // Ternary operator for conditional assignment
+    this.maintenanceChance = tpm ? 0.001 : 0.5; // Ternary operator for conditional assignment
   }
-  
 
-  setMaintenanceChance(maintenanceChance){
+  setMaintenanceChance(maintenanceChance) {
     this.maintenanceChance = maintenanceChance;
   }
-
 
   isComplete(carParts) {
     return this.partnames.every(
