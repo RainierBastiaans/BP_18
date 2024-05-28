@@ -258,61 +258,64 @@ button:disabled {
 }
 
 #seat {
-  top: 150px;
-  height: 50px;
+  top: 225px;
+  left: 100px;
+  height: 60px;
 }
 
 #steeringWheel {
-  top: 200px;
+  top: 100px;
+  left: 100px;
   height: 50px;
 }
 
 #carpet {
-  top: 250px;
+  top: 160px;
+  left: 100px;
   height: 50px;
 }
 
 /* Workstation 4 parts css */
 #battery {
-  top: 100px;
+  top: 250px;
   height: 50px;
 }
 
 
 #alternator {
-  top: 150px;
-  height: 50px;
+  top: 135px;
+  height: 40px;
 }
 
 #headlights {
-  top: 200px;
-  height: 50px;
+  top: 80px;
+  height: 40px;
 }
 
 #wiringHarness {
-  top: 250px;
-  height: 50px;
+  top: 190px;
+  height: 40px;
 }
 
 /* Workstation 5 parts css */
 #tire {
-  top: 100px;
-  height: 50px;
+  top: 150px;
+  height: 120px;
 }
 
 #wheel {
-  top: 150px;
-  height: 50px;
+  top: 160px;
+  height: 100px;
 }
 
 #hubcap {
-  top: 200px;
-  height: 50px;
+  top: 172px;
+  height: 75px;
 }
 
 #brakePads {
-  top: 250px;
-  height: 50px;
+  top: 172px;
+  height: 75px;
 }
 
 /*! Workstations parts css end */
