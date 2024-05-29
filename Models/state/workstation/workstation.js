@@ -1,4 +1,4 @@
-import { gameValues } from "../../../game-values";
+import { gameValues } from "../../../game-values.js";
 
 class Workstation {
   constructor(id, partsList, tpm, workstations) {

@@ -1,7 +1,7 @@
 import { Subject } from "../subject.js";
 
 class Money extends Subject{
-  constructor(stats) {
+  constructor(stats, amount) {
     super()
     this.amount = this.formatAmount(amount); // Format and store initial amount
     this.addObserver(stats);
