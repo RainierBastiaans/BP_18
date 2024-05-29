@@ -20,7 +20,7 @@
             "name": "engineBlock",
             "price": 500.50
         },
-                {
+        {
             "name": "cylinderHead",
             "price": 49.99
         },
@@ -36,13 +36,13 @@
             "name": "dashboard",
             "price": 299.99
         },
-                {
-            "name": "seat",
-            "price": 5.99
-        },
         {
             "name": "steeringWheel",
             "price": 69.69
+        },
+        {
+            "name": "seat",
+            "price": 5.99
         },
         {
             "name": "carpet",
@@ -52,33 +52,33 @@
             "name": "battery",
             "price": 121.11
         },
-                {
+        {
             "name": "alternator",
             "price": 130.00
-        },
-        {
-            "name": "headlights",
-            "price": 44.44
         },
         {
             "name": "wiringHarness",
             "price": 169.20
         },
         {
-            "name": "tire",
-            "price": 1.00
-        },
-                {
-            "name": "wheel",
-            "price": 99.00
-        },
-        {
-            "name": "hubcap",
-            "price": 0.69
+            "name": "headlights",
+            "price": 44.44
         },
         {
             "name": "brakePads",
             "price": 666.66
+        },
+        {
+            "name": "wheel",
+            "price": 99.00
+        },
+        {
+            "name": "tire",
+            "price": 1.00
+        },
+        {
+            "name": "hubcap",
+            "price": 0.69
         }
     ]
 }

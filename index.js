@@ -51,7 +51,6 @@ class LeanGame extends HTMLElement {
     this.carPositionLine = new CarPositionLine();
     this.shadowRoot.appendChild(this.carPositionLine);
 
-
     this.updateMessage();
     this.draw();
 
@@ -67,7 +66,7 @@ class LeanGame extends HTMLElement {
 
   draw() {
     this.carPositionLine.setCarPositions(this.game.cars);
-    this.carPositionLine.setCurrentWorkstation(this.game.workstations)
+    this.carPositionLine.setCurrentWorkstation(this.game.workstations);
     const workstation = this.getCurrentWorkstation();
 
     // Update visual representation based on maintenance status
@@ -130,7 +129,7 @@ class LeanGame extends HTMLElement {
   }
 
   newRound(leanMethod) {
-      console.log(leanMethod)
+    console.log(leanMethod);
     this.game.newRound(leanMethod);
     // Add event listener for setInterval
     this.intervalId = setInterval(() => {
@@ -209,7 +208,6 @@ class LeanGame extends HTMLElement {
     if (this.game.getCarFromWorkstation(this.getCurrentWorkstation().id)) {
       this.createButtons();
       this.carVisuals();
-
     } else {
       const noCarContainer = document.createElement("div");
       noCarContainer.classList.add("no-car");
@@ -255,7 +253,7 @@ class LeanGame extends HTMLElement {
 
     this.shadowRoot.appendChild(buttonContainer);
 
-    console.log(this.game.leanMethods)
+    console.log(this.game.leanMethods);
 
     if (this.game.leanMethods.has("qc")) {
       this.qualityControlButton.style.visibility = "visible";
@@ -278,51 +276,16 @@ class LeanGame extends HTMLElement {
     const workstation = this.getCurrentWorkstation();
     const car = this.game.getCarFromWorkstation(workstation.id);
 
-    try {
-      // Loop all parts and check if added
-      workstation.partnames.forEach((part) => {
-        const checkImg = this.shadowRoot.getElementById(part);
-
-        if (checkImg == null && car.isAdded(part)) {
-          const carPart = document.createElement("img");
-          carPart.className = "car-part";
-          carPart.id = part;
-          carPart.src = `./img/${part}.png`;
-          carPart.alt = `image of ${part}`;
-          carContainer.append(carPart);
-        }
-      });
-      this.shadowRoot.appendChild(carContainer);
-    } catch (error) {
-      //console.error(error);
+    const checkHolder = this.shadowRoot.getElementById(
+      `placeholder${workstation.id}`
+    );
+    if (car && workstation.id != 1 && checkHolder == null) {
+      const placeholder = document.createElement("img");
+      placeholder.id = `placeholder${workstation.id}`;
+      placeholder.src = `./img/placeholders/${workstation.id}.png`;
+      placeholder.alt = `image of ${workstation.id}`;
+      carContainer.append(placeholder);
     }
-  }
-
-  //** timer code */
-  runTimer(timerElement) {
-    let timeLeft = this.getCurrentWorkstation().getRemainingTime();
-    let duration = this.getCurrentWorkstation().maintenanceDuration / 1000;
-    const timerCircle = timerElement.querySelector("svg > circle + circle");
-    timerElement.classList.add("animatable");
-    timerCircle.style.strokeDashoffset = 1;
-
-    if (timeLeft > -1) {
-      const normalizedTime = (duration - timeLeft) / duration;
-      timerCircle.style.strokeDashoffset = normalizedTime;
-      this.shadowRoot.getElementById("timeLeft").innerHTML = timeLeft;
-    } else {
-      clearInterval(countdownTimer);
-      timerElement.classList.remove("animatable");
-    }
-  }
-
-  // Draws the car parts on the screen
-  carVisuals() {
-    const carContainer = document.createElement("div");
-    carContainer.classList.add("car-container");
-    carContainer.id = "car-container";
-    const workstation = this.getCurrentWorkstation();
-    const car = this.game.getCarFromWorkstation(workstation.id);
 
     try {
       // Loop all parts and check if added
@@ -336,6 +299,9 @@ class LeanGame extends HTMLElement {
           carPart.src = `./img/${part}.png`;
           carPart.alt = `image of ${part}`;
           carContainer.append(carPart);
+          console.log(
+            "--------------------------------------------------------------------"
+          );
         }
       });
       this.shadowRoot.appendChild(carContainer);

@@ -197,8 +197,8 @@ button:disabled {
   align-items: center;
   margin: 20px auto;
   border: 2px solid black;
-  width: 300px;
-  height: 400px;
+  width: 400px;
+  height: 500px;
   position: relative;
 }
 
@@ -211,112 +211,153 @@ button:disabled {
 /** Workstations parts css start*/
 /* Workstation 1 parts css */
 #chassis {
-  top: 62px;
-  left: 28.50%;
+  top: 101px;
+  left: 135px;
   height: 50px;
 }
 
 #hood {
-  top: 100px;
-  height: 50px;
-}
-
-#trunk {
   top: 150px;
   height: 50px;
 }
 
-#door {
+#trunk {
   top: 200px;
+  height: 50px;
+}
+
+#door {
+  top: 250px;
   height: 50px;
 }
 
 /* Workstation 2 parts css */
 #engineBlock {
-  top: 200px;
-  height: 50px;
+  top: 254px;
+  left: 310px;
+  height: 25px;
+  width: auto;
 }
 
 #cylinderHead {
-  top: 150px;
-  height: 50px;
+  top: 229px;
+  left: 310px;
+  height: 25px;
+  width: auto;
 }
 
 #piston {
-  top: 162px;
-  height: 20px;
+  top: 235px;
+  left: 314px;
+  height: 10px;
+  width: auto;
 }
 
 #sparkPlugs {
-  top: 125px;
-  height: 25px;
+  top: 214px;
+  left: 312px;
+  height: 15px;
+  width: auto;
 }
 
 /* Workstation 3 parts css */
 #dashboard {
-  top: 100px;
+  top: 150px;
+  height: 50px;
+}
+
+#steeringWheel {
+  top: 150px;
+  left: 150px;
   height: 50px;
 }
 
 #seat {
-  top: 225px;
-  left: 100px;
+  top: 275px;
+  left: 150px;
   height: 60px;
 }
 
-#steeringWheel {
-  top: 100px;
-  left: 100px;
-  height: 50px;
-}
-
 #carpet {
-  top: 160px;
-  left: 100px;
+  top: 210px;
+  left: 150px;
   height: 50px;
 }
 
 /* Workstation 4 parts css */
 #battery {
-  top: 250px;
-  height: 50px;
+  top: 245px;
+  left: 132px;
+  height: 25px;
 }
 
 
 #alternator {
-  top: 135px;
-  height: 40px;
-}
-
-#headlights {
-  top: 80px;
-  height: 40px;
+  top: 250px;
+  left: 57px;
+  height: 20px;
 }
 
 #wiringHarness {
-  top: 190px;
-  height: 40px;
+  top: 250px;
+  left: 95px;
+  height: 15px;
+}
+
+#headlights {
+  top: 245px;
+  left: 342px;
+  height: 22px;
 }
 
 /* Workstation 5 parts css */
-#tire {
-  top: 152px;
-  height: 117px;
+#brakePads {
+  top: 281px;
+  left: 245px;
+  height: 26px;
 }
 
 #wheel {
-  top: 160px;
-  height: 100px;
+  top: 274px;
+  left: 238px;
+  height: 42px;
+}
+
+#tire {
+  top: 270px;
+  left: 234px;
+  height: 50px;
 }
 
 #hubcap {
-  top: 172px;
-  height: 75px;
+  top: 280px;
+  left: 245px;
+  height: 28px;
 }
 
-#brakePads {
-  top: 180px;
-  height: 60px;
+
+#placeholder2 {
+  position: absolute;
+  height: auto;
+  width: 350px;
+}
+
+#placeholder3 {
+  position: absolute;
+  height: 250px;
+  width: auto;
+}
+
+#placeholder4 {
+  position: absolute;
+  height: auto;
+  width: 300px;
+}
+
+#placeholder5 {
+  position: absolute;
+  height: auto;
+  width: 350px;
 }
 
 /*! Workstations parts css end */
