@@ -1,8 +1,8 @@
 import { BaseStock } from "./base-stock.js";
 
 class JITStock extends BaseStock {
-  constructor(parts) {
-    super(); // Call base class constructor
+  constructor(stats, parts) {
+    super(stats); // Call base class constructor
     this.parts = parts;
   }
 

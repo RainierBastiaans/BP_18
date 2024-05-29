@@ -12,7 +12,6 @@ class CarAtWorkstation extends Car {
     }
   
     addPart(part) {
-      console.log(this)
           this.breakPart(part);
           // Check if the part exists in the map (case-sensitive)
           // Update the partAdded property to true for the existing part

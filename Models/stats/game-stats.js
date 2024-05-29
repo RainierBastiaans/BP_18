@@ -5,7 +5,7 @@ class GameStats extends Subject {
   constructor(game) {
     super();
     this.game = game;
-    this.capital = new Money(50000);
+    this.capital = new Money(1000000);
     this.totalTimeSpent = 0;
     this.partUsage = {}; // Object to track total parts used (partName: count)
     this.carCompletionTimes = []; // Array to store completion times of each car
@@ -27,7 +27,13 @@ class GameStats extends Subject {
       this.notifyObservers(this);
     }
   }
-  
+
+  update(addedStock){
+    const stockPrice = addedStock.price*addedStock.amount; //the price of the stock times the amount of stocks added.
+    this.capital.deduct(stockPrice);
+    this.notifyObservers(this)
+    console.log(this.capital)
+  }
 }
 
 export { GameStats };

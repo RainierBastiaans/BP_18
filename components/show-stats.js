@@ -60,6 +60,7 @@ class ShowStats extends HTMLElement {
     update(gameStats) {
       this.carsCompletedElement.textContent = gameStats.carsCompleted;
       this.totalIncomeElement.textContent = gameStats.totalIncome + "€";
+      this.capitalElement.textContent = gameStats.capital.amount + "€"
   
     }
   }

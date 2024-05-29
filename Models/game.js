@@ -52,10 +52,10 @@ class Game {
     }
   }
   newGame() {
-    this.stock = new TraditionalStock(this.parts);
+    this.stats = new GameStats(this);
+    this.stock = new TraditionalStock(this.stats, this.parts);
     this.newCar();
     this.newRound();
-    this.stats = new GameStats(this);
   }
 
   newRound(leanMethod) {
@@ -72,7 +72,7 @@ class Game {
   newLeanMethod(method) {
     if (method === "jit") {
       this.leanMethods.set(method, new JustInTime());
-      this.stock = new JITStock(this.stock.parts);
+      this.stock = new JITStock(this.stats, this.stock.parts);
     }
     if (method === "qc") {
       this.leanMethods.set(method, new QualityControl());

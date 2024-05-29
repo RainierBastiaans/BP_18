@@ -8,7 +8,6 @@ class Subject {
       throw new Error("Observer must implement the update method");
     }
     this.observers.push(observer);
-    console.log(this.observers)
   }
 
   removeObserver(observer) {
