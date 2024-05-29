@@ -16,7 +16,6 @@ import { Car } from "./state/car/car.js";
 class Game {
   constructor(selectedWorkstation) {
     this.workstations = new Map();
-    this.cost = 0;
     this.rounds = new Map();
     this.carId = 1;
     this.cars = new Map();

@@ -1,6 +1,8 @@
+import { gameValues } from "../game-values.js";
+
 class Round {
   constructor() {
-    this.timeLeft = 10; // Time in seconds
+    this.timeLeft = gameValues.roundDuration; // Time in seconds
     this.timerInterval = null;
     this.isOver = false;
     this.startTimer();

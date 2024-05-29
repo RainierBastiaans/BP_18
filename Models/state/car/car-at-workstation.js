@@ -1,3 +1,4 @@
+import { gameValues } from "../../../game-values.js";
 import { CarBroken } from "./car-broken.js";
 import { CarCheckup } from "./car-checkup.js";
 import { CarInLine } from "./car-inline.js";
@@ -53,7 +54,7 @@ class CarAtWorkstation extends CarState {
     const partInfo = parts.get(partToBreak);
 
     // Simulate a chance to break with a probability of x
-    const isBroken = Math.random() < 0.02;
+    const isBroken = Math.random() < gameValues.partBreakageChance;
     partInfo.broken = isBroken;
     parts.set(partInfo.name, partInfo)
     return parts;

@@ -1,9 +1,11 @@
+import { gameValues } from "../../../game-values";
+
 class Workstation {
   constructor(id, partsList, tpm, workstations) {
     this.id = id;
     this.partnames = partsList; // Create a list of part names
     this.occupant = null; // Reference to the current occupant (User or Bot)
-    this.maintenanceChance = tpm ? 0.001 : 0.01; // Ternary operator for conditional assignment
+    this.maintenanceChance = tpm ? gameValues.workstationBreakdownChanceTPM : gameValues.workstationBreakdownChanceNoTPM; // Ternary operator for conditional assignment
   }
 
   setMaintenanceChance(maintenanceChance) {

@@ -20,11 +20,7 @@ class BaseStock extends Subject{
     return this.parts.get(part).quantity > 0;
   }
 
-  addPartsToStock(part, count) {
-    this.parts.get(part).quantity += count;
-    this.notifyObservers({price: this.parts.get(part).price, amount: count}, "stock")
-
-  }
+   
 
   // Placeholder method for requestPart, subclasses will implement their own behavior
   requestPart(part) {

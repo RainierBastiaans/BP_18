@@ -1,3 +1,4 @@
+import { gameValues } from "../../game-values.js";
 import { Subject } from "../../subject.js";
 import { Money } from "../money.js";
 import { RoundStats } from "./round-stats.js";
@@ -6,7 +7,7 @@ class GameStats extends Subject {
   constructor(game) {
     super();
     this.game = game;
-    this.capital = new Money(this, 500000);
+    this.capital = new Money(this, gameValues.startCapital);
     this.totalTimeSpent = 0;
     this.partUsage = {}; // Object to track total parts used (partName: count)
     this.carCompletionTimes = []; // Array to store completion times of each car
@@ -14,8 +15,8 @@ class GameStats extends Subject {
     this.carsBroken = 0;
     this.totalIncome = 0;
     this.rounds = new Map();
-    this.facilityCost = 50000;
-    this.staffCost = 10000;
+    this.facilityCost = gameValues.facilityCost;
+    this.staffCost = gameValues.staffCost;
   }
 
   updateStock(addedStock) {
