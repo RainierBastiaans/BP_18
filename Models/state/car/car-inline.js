@@ -33,6 +33,12 @@ class CarInLine extends CarState {
       }
       return this;
     }
+    isComplete() {
+      return false;
+    }
+    isBroken() {
+      return false;
+    }
   
     // ... other methods inherited from Car
   }

@@ -22,7 +22,7 @@ class BaseStock extends Subject{
 
   addPartsToStock(part, count) {
     this.parts.get(part).quantity += count;
-    this.notifyObservers({price: this.parts.get(part).price, amount: count})
+    this.notifyObservers({price: this.parts.get(part).price, amount: count}, "stock")
 
   }
 

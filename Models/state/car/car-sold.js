@@ -10,6 +10,9 @@ class CarSold extends CarState {
     return true;
   }
 
+  isBroken() {
+    return false;
+  }
   move() {
     return this;
   }

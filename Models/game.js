@@ -32,6 +32,7 @@ class Game {
       }
     }
     this.isOver = false;
+    this.newGame()
   }
 
   createOrRefreshWorkstations() {
@@ -98,7 +99,9 @@ class Game {
   }
 
   newCar() {
-    this.cars.set(this.cars.size, new Car(this.cars.size, this.parts));
+    const newCar = new Car(this.cars.size, this.parts);
+    newCar.addObserver(this.stats);
+    this.cars.set(this.cars.size, newCar);
   }
 
   getCarFromWorkstation(workstationid) {
@@ -115,7 +118,6 @@ class Game {
       this.moveCar(car);
     }
     this.newCarAtWorkstation1();
-    this.stats.updateCarStats(this.cars)
   }
 
   newCarAtWorkstation1() {
@@ -137,10 +139,7 @@ class Game {
     }
   }
 
-  carCompleted(car) {
-    this.stats.updateOnCarCompletion(car);
-    this.currentRound.stats.updateOnCarCompletion(car);
-  }
+  
 
   addPartOrMoveBot(workstationId) {
     this.moveWaitingcars();

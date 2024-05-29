@@ -5,6 +5,10 @@ class CarState {
     throw new Error("SuperClass");
   }
 
+  isBroken() {
+    throw new Error("SuperClass");
+  }
+
   move() {
     throw new Error("SuperClass");
   }

@@ -7,8 +7,8 @@ class LeanGame extends HTMLElement {
     super();
     this.selectedWorkstation =
       JSON.parse(this.getAttribute("options")).selectedWorkstation || 1;
-    this.selectedWorkstation =
-      JSON.parse(this.getAttribute("options")).selectedWorkstation || 1;
+    this.statsContainer = JSON.parse(this.getAttribute("options")).statsContainer;
+
     const shadowRoot = this.attachShadow({ mode: "open" });
     shadowRoot.appendChild(gameTemplate.content.cloneNode(true));
 
@@ -34,8 +34,7 @@ class LeanGame extends HTMLElement {
   }
 
   connectedCallback() {
-    this.game = new Game(this.selectedWorkstation);
-    this.game.newGame();
+    this.game = new Game(this.selectedWorkstation, this.statsContainer);
 
     this.currentWorkstationIndex = 1;
     this.currentWorkstationIndex = this.selectedWorkstation;

@@ -59,6 +59,13 @@ class CarAtWorkstation extends CarState {
     return parts;
   }
 
+  isComplete() {
+    return false;
+  }
+  isBroken() {
+    return false;
+  }
+
   // ... other methods inherited from Car
 }
 

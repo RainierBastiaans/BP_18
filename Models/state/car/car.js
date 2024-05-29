@@ -1,7 +1,9 @@
+import { Subject } from "../../../subject.js";
 import { CarAtWorkstation } from "./car-at-workstation.js";
 
-class Car {
+class Car extends Subject{
   constructor(id, parts) {
+    super()
     this.id = id;
     this.fixedPrice = 20000;
     this.state = new CarAtWorkstation(1);
@@ -26,29 +28,39 @@ class Car {
     ); // Initialize an empty Map
   }
 
+  setState(state){
+    if (this.state != state){
+      this.state = state;
+      this.notifyObservers(this, "car")
+    };
+  }
+
   isComplete() {
-    this.state.isComplete();
+    return this.state.isComplete();
+  }
+
+  isBroken(){
+    return this.state.isBroken()
   }
 
   qualityControl() {
     this.state.qualityControl(this.parts);
   }
 
-  // Abstract method - subclasses must implement how to add parts
   addPart(partsToAdd) {
     this.parts = this.state.addPart(this.parts, partsToAdd);
   }
 
   move(cars) {
-    this.state = this.state.move(cars, this.parts);
+    this.setState(this.state.move(cars, this.parts));
   }
 
   manualMove(cars, workstations){
-    this.state = this.state.manualMove(this.parts,workstations)
+    this.setState(this.state.manualMove(this.parts,workstations))
   }
 
   remove(cars){
-    this.state = this.state.remove(cars)
+    this.setState(this.state.remove(cars))
   }
 
   isAdded(part) {

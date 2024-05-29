@@ -4,9 +4,6 @@ class Subject {
   }
 
   addObserver(observer) {
-    if (!observer.update) {
-      throw new Error("Observer must implement the update method");
-    }
     this.observers.push(observer);
   }
 
@@ -17,8 +14,16 @@ class Subject {
     }
   }
 
-  notifyObservers(data) {
-    this.observers.forEach((observer) => observer.update(data));
+  notifyObservers(data, sortOfUpdate) {
+    if (sortOfUpdate === "stock") {
+      this.observers.forEach((observer) => observer.updateStock(data));
+    } else if (sortOfUpdate === "car") {
+      this.observers.forEach((observer) => observer.updateCars(data));
+    } else if ((sortOfUpdate === "capital")) {
+      this.observers.forEach((observer) => observer.updateCapital(data));
+    } else {
+      this.observers.forEach((observer) => observer.update(data));
+    }
   }
 }
 
