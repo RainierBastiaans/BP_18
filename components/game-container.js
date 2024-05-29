@@ -9,8 +9,7 @@ gameTemplate.innerHTML = `
 <button id="move-car-button">Move Car to Next Station</button>
 <button id = "quality-control">Quality Control</button> 
 <button id = "remove-button">Remove Car</button>
-<div id="current-workstation">
-<span class="maintenance-timer"></span>
+<div id="current-workstation"></div>
 <div class="timer">
   <svg>
     <circle cx="50%" cy="50%" r="90"/>

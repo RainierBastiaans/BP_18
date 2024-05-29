@@ -272,7 +272,7 @@ class LeanGame extends HTMLElement {
   carVisuals() {
     const carContainer = document.createElement("div");
     carContainer.classList.add("car-container");
-    carContainer.id = "car-container";
+
     const workstation = this.getCurrentWorkstation();
     const car = this.game.getCarFromWorkstation(workstation.id);
 
@@ -299,9 +299,6 @@ class LeanGame extends HTMLElement {
           carPart.src = `./img/${part}.png`;
           carPart.alt = `image of ${part}`;
           carContainer.append(carPart);
-          console.log(
-            "--------------------------------------------------------------------"
-          );
         }
       });
       this.shadowRoot.appendChild(carContainer);
