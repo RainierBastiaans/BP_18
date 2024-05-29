@@ -52,7 +52,6 @@ class Game {
     }
   }
   newGame() {
-    this.capital = new Money(50000);
     this.stock = new TraditionalStock(this.parts);
     this.newCar();
     this.newRound();
@@ -60,7 +59,6 @@ class Game {
   }
 
   newRound(leanMethod) {
-    console.log('x')
     const roundnumber = this.rounds.size + 1;
     const newRound = new Round(new RoundStats(roundnumber, this));
     this.rounds.set(roundnumber, newRound);
@@ -95,7 +93,6 @@ class Game {
     console.log(this.cars)
     this.currentRound.endRound();
     this.bots.forEach((bot) => bot.stopAddingParts());
-    this.capital.add(this.currentRound.stats.capital);
     if (this.rounds.size === 5) {
       this.endGame();
     }

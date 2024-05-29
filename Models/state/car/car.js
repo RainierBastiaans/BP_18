@@ -22,7 +22,7 @@ class Car {
     const partInfo = this.parts.get(part);
 
     // Simulate a chance to break with a probability of 0.01
-    const isBroken = Math.random() < 0.02;
+    const isBroken = Math.random() < 0.01;
     partInfo.broken = isBroken;
   }
 

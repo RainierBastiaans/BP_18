@@ -97,8 +97,6 @@ class LeanGame extends HTMLElement {
     }
     const gameDetails = {
       gameStats: this.game.stats,
-      roundStats: this.game.rounds,
-      capital: this.game.capital.amount,
     };
 
     this.dispatchEvent(
@@ -130,7 +128,6 @@ class LeanGame extends HTMLElement {
   }
 
   newRound(leanMethod) {
-      console.log(leanMethod)
     this.game.newRound(leanMethod);
     // Add event listener for setInterval
     this.intervalId = setInterval(() => {
@@ -255,7 +252,6 @@ class LeanGame extends HTMLElement {
 
     this.shadowRoot.appendChild(buttonContainer);
 
-    console.log(this.game.leanMethods)
 
     if (this.game.leanMethods.has("qc")) {
       this.qualityControlButton.style.visibility = "visible";
