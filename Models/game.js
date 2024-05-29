@@ -60,7 +60,8 @@ class Game {
 
   newRound(leanMethod) {
     const roundnumber = this.rounds.size + 1;
-    const newRound = new Round(new RoundStats(roundnumber, this));
+    const newRound = new Round();
+    this.stats.newRound()
     this.rounds.set(roundnumber, newRound);
     this.currentRound = newRound;
     this.newLeanMethod(leanMethod);
