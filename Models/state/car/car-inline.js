@@ -1,12 +1,12 @@
 import { Car } from "./car.js";
 import { CarAtWorkstation } from "./car-at-workstation.js";
+import { CarState } from "./car-state.js";
 
 
-class CarInLine extends Car {
-    constructor(id, parts, workstationid) {
-      super(id);
+class CarInLine extends CarState {
+    constructor(workstationid) {
+      super();
       this.workstationId = workstationid;
-      this.parts = parts
     }
   
     addPart(part) {
@@ -29,9 +29,9 @@ class CarInLine extends Car {
 
       // If no conflicting car exists, add the new CarAtWorkstation
       if (!existingCar) {
-        cars.set(this.id, new CarAtWorkstation(this.id, this.parts, this.workstationId))
+        return new CarAtWorkstation( this.workstationId)
       }
-      return;
+      return this;
     }
   
     // ... other methods inherited from Car

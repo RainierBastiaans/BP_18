@@ -10,11 +10,9 @@ import { QualityControl } from "../lean-methods/quality-control.js";
 import { TraditionalStock } from "./stock/traditional-stock.js";
 import { JITStock } from "./stock/jit-stock.js";
 import { CarAtWorkstation } from "./state/car/car-at-workstation.js";
-import { CarInLine } from "./state/car/car-inline.js";
-import { CarToAssembly } from "./state/car/car-to-assembly.js";
-import { CarCheckup } from "./state/car/car-checkup.js";
 import { WorkingWorkstation } from "./state/workstation/workstation-working.js";
 import { TotalProductiveMaintenance } from "../lean-methods/total-productive-maintenance.js";
+import { Car } from "./state/car/car.js";
 class Game {
   constructor(selectedWorkstation) {
     this.workstations = new Map();
@@ -100,14 +98,14 @@ class Game {
   }
 
   newCar() {
-    new CarToAssembly(this.cars.size, this.parts, this.cars);
+    this.cars.set(this.cars.size, new Car(this.cars.size, this.parts));
   }
 
   getCarFromWorkstation(workstationid) {
     // Find the car with matching state
     const matchingCar = Array.from(this.cars.values()).find(
       (car) =>
-        car.workstationId === workstationid && car instanceof CarAtWorkstation
+        car.state instanceof CarAtWorkstation && car.state.workstationId === workstationid
     );
     return matchingCar; // Might return undefined if no car is found
   }
