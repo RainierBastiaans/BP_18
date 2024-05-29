@@ -1,8 +1,8 @@
 class ShowStats extends HTMLElement {
-    constructor() {
-      super();
-      this.attachShadow({ mode: "open" });
-      this.shadowRoot.innerHTML = `
+  constructor() {
+    super();
+    this.attachShadow({ mode: "open" });
+    this.shadowRoot.innerHTML = `
         <style>
           .statistics-container {
             text-align: center;
@@ -51,42 +51,41 @@ class ShowStats extends HTMLElement {
           </table>
         </div>
       `;
-      this.carsCompletedElement = this.shadowRoot.querySelector("#carsCompleted");
-      this.totalIncomeElement = this.shadowRoot.querySelector("#totalIncome");
-      this.capitalElement = this.shadowRoot.querySelector("#capital");
-    }
-  
-    // Methods to update the final stats
-    updateStatistics(gameStats, rounds, capital) {
-      this.carsCompletedElement.textContent = gameStats.carsCompleted;
-      this.totalIncomeElement.textContent = gameStats.totalIncome + "€";
-      this.capitalElement.textContent = capital + "€";
-  
-      // Update Round Stat Headers
-      const roundHeaders = this.shadowRoot.getElementById("roundHeaders");
-      roundHeaders.innerHTML = `
+    this.carsCompletedElement = this.shadowRoot.querySelector("#carsCompleted");
+    this.totalIncomeElement = this.shadowRoot.querySelector("#totalIncome");
+    this.capitalElement = this.shadowRoot.querySelector("#capital");
+  }
+
+  // Methods to update the final stats
+  updateStatistics(gameStats, rounds, capital) {
+    this.carsCompletedElement.textContent = gameStats.carsCompleted;
+    this.totalIncomeElement.textContent = gameStats.totalIncome + "€";
+    this.capitalElement.textContent = capital + "€";
+
+    // Update Round Stat Headers
+    const roundHeaders = this.shadowRoot.getElementById("roundHeaders");
+    roundHeaders.innerHTML = `
         <th>Round</th>
         <th>Cars Completed</th>
         <th>Total Income</th>
         <th>Capital</th>
       `;
-  
-      // Update Round Stats Content (clear existing rows first)
-      const roundStatsBody = this.shadowRoot.getElementById("roundStats");
-      roundStatsBody.innerHTML = "";
-      // Add rows for each round statistics (using spread syntax to convert Map to array)
-      [...rounds.values()].forEach((round, roundIndex) => {
-        const row = document.createElement("tr");
-        row.innerHTML = `
+
+    // Update Round Stats Content (clear existing rows first)
+    const roundStatsBody = this.shadowRoot.getElementById("roundStats");
+    roundStatsBody.innerHTML = "";
+    // Add rows for each round statistics (using spread syntax to convert Map to array)
+    [...rounds.values()].forEach((round, roundIndex) => {
+      const row = document.createElement("tr");
+      row.innerHTML = `
           <td>Round ${round.stats.roundNumber}</td>
           <td>${round.stats.carsCompleted}</td>
           <td>${round.stats.totalIncome}€</td>
           <td>${round.stats.capital}€</td>
           `;
-        roundStatsBody.appendChild(row);
-      });
-    }
+      roundStatsBody.appendChild(row);
+    });
   }
-  
-  customElements.define("show-stats", ShowStats);
-  
+}
+
+customElements.define("show-stats", ShowStats);

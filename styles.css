@@ -132,14 +132,11 @@ button:disabled {
 }
 
 .part-button {
-  width: 160px;
-  height: 60px;
-  border: 2px solid #2980b9;
-  border-radius: 5px;
-  padding: 30px;
+  min-width: 35px;
+  max-width: 115px;
+  min-height: 35px;
+  max-height: 115px;
   margin: 10px;
-  color: #ffffff;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 /** Workstations parts visuals*/

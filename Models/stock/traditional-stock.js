@@ -8,7 +8,7 @@ class TraditionalStock extends BaseStock {
       parts.reduce((acc, part) => {
         // Ensure each part is an object with a "name" property
         if (!part || !part.name) {
-          console.warn("Warning: Ignoring invalid part in parts array:", part);
+          //console.warn("Warning: Ignoring invalid part in parts array:", part);
           return acc; // Skip invalid parts
         }
 
@@ -24,8 +24,8 @@ class TraditionalStock extends BaseStock {
     this.usePart(part);
   }
 
-  deductPrice(part){
-    return
+  deductPrice(part) {
+    return;
   }
 
   newRound() {

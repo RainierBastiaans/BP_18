@@ -1,15 +1,14 @@
 import { Car } from "./car.js";
 
-
 class CarBroken extends Car {
-    constructor(id, parts) {
-      super(id);
-      this.parts = parts;
-    }
+  constructor(id, parts) {
+    super(id);
+    this.parts = parts;
+  }
 
-    move(){
-        return;
-    }
+  move() {
+    return;
+  }
 }
 
-export {CarBroken}
+export { CarBroken };

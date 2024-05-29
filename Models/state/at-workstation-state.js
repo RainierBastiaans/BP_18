@@ -24,4 +24,3 @@ class AtWorkstationState extends State {
   }
 }
 export { AtWorkstationState };
-

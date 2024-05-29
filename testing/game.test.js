@@ -20,7 +20,9 @@ describe("Game", () => {
   test("constructor initializes game state correctly", () => {
     expect(game.workstations.size).toBe(5); // Check workstation map size
     expect(
-      Array.from(game.workstations.values()).every((value) => value instanceof WorkingWorkstation)
+      Array.from(game.workstations.values()).every(
+        (value) => value instanceof WorkingWorkstation
+      )
     ).toBe(true); // Check workstation values are WorkingWorkstation instances
 
     expect(game.capital instanceof Money).toBe(true); // Check capital is a Money object

@@ -12,7 +12,7 @@ class TotalProductiveMaintenance extends LeanMethod {
     for (const workstation of this.workstations) {
       // Implement TPM logic for each workstation
       workstation.maintenanceChance = this.maintenanceChance; // Assuming 'maintenanceChance' exists in Workstation (replace with your TPM logic)
-      console.log(`TPM applied to workstation ${workstation.id}`); // Optional logging
+      //console.log(`TPM applied to workstation ${workstation.id}`); // Optional logging
     }
   }
 }

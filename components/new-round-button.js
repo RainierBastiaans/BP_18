@@ -27,7 +27,7 @@ class NewRoundButton extends HTMLElement {
       .addEventListener("click", () => {
         this.dispatchEvent(
           new CustomEvent("newRound", {
-            detail: { },
+            detail: {},
             bubbles: true,
             composed: true,
           })

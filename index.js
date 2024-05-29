@@ -129,7 +129,7 @@ class LeanGame extends HTMLElement {
   }
 
   newRound(leanMethod) {
-    console.log(leanMethod);
+    //console.log(leanMethod);
     this.game.newRound(leanMethod);
     // Add event listener for setInterval
     this.intervalId = setInterval(() => {
@@ -190,13 +190,13 @@ class LeanGame extends HTMLElement {
 
   handlePartButtonClick(button) {
     const partName = button.dataset.partName;
+    //console.log(partName);
     this.game.addPart(partName, this.getCurrentWorkstation().id);
     this.updateMessage();
     this.updateQualityControlButton();
   }
 
   updateMessage() {
-    this.draw();
     this.draw();
     // ... (update previous/next button states)
     this.clearButtons();
@@ -235,25 +235,24 @@ class LeanGame extends HTMLElement {
     buttonContainer.classList.add("part-buttons");
 
     this.getCurrentWorkstation().partnames.forEach((part) => {
+      this.game.getAmountOfPart(part);
       this.moveCarButton.style.visibility = "visible";
-      const button = document.createElement("button");
-      const img = document.createElement("img");
-      img.src = `./img/${part}.png`;
-      img.alt = `image of ${part}`;
+      const button = document.createElement("input");
+      button.type = "image";
+      button.src = `./img/${part}.png`;
+      button.alt = `${part}`;
       button.classList.add("part-button");
       button.dataset.partName = part;
-      //button.style.background = `url('./img/${part}.png') no-repeat`;
       button.addEventListener("click", this.handleClick.bind(this));
       button.disabled = this.game
         .getCarFromWorkstation(this.getCurrentWorkstation().id)
         .isAdded(part); //disable button if already added
-      button.append(img);
       buttonContainer.appendChild(button);
     });
 
     this.shadowRoot.appendChild(buttonContainer);
 
-    console.log(this.game.leanMethods);
+    //console.log(this.game.leanMethods);
 
     if (this.game.leanMethods.has("qc")) {
       this.qualityControlButton.style.visibility = "visible";

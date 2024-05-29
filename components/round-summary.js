@@ -1,9 +1,9 @@
 class RoundSummary extends HTMLElement {
-    constructor() {
-      super();
-      this.attachShadow({ mode: "open" });
-  
-      this.shadowRoot.innerHTML = `
+  constructor() {
+    super();
+    this.attachShadow({ mode: "open" });
+
+    this.shadowRoot.innerHTML = `
         <style>
           .options-container {
             text-align: center;
@@ -34,28 +34,30 @@ class RoundSummary extends HTMLElement {
           </div>
         </div>
       `;
-  
-    }  
-    connectedCallback() {
-      this.leanMethodRadioButtons = this.shadowRoot.querySelectorAll('input[type="radio"][name="game-option"]');
-      this.leanMethodRadioButtons.forEach((radioButton) => {
-        radioButton.addEventListener("change", this.handleLeanMethodChange.bind(this));
-      });
-  
-    }  
-    handleLeanMethodChange(event) {
-      const selectedLeanMethod = event.target.value;
-      this.dispatchEvent(
-        new CustomEvent("leanmethodchange", {
-          detail: { selectedLeanMethod },
-          bubbles: true,
-          composed: true,
-        })
-      );
-    }
   }
-  
-  customElements.define("round-summary", RoundSummary);
-  
-  export { RoundSummary };
-  
+  connectedCallback() {
+    this.leanMethodRadioButtons = this.shadowRoot.querySelectorAll(
+      'input[type="radio"][name="game-option"]'
+    );
+    this.leanMethodRadioButtons.forEach((radioButton) => {
+      radioButton.addEventListener(
+        "change",
+        this.handleLeanMethodChange.bind(this)
+      );
+    });
+  }
+  handleLeanMethodChange(event) {
+    const selectedLeanMethod = event.target.value;
+    this.dispatchEvent(
+      new CustomEvent("leanmethodchange", {
+        detail: { selectedLeanMethod },
+        bubbles: true,
+        composed: true,
+      })
+    );
+  }
+}
+
+customElements.define("round-summary", RoundSummary);
+
+export { RoundSummary };

@@ -60,7 +60,7 @@ class Game {
   }
 
   newRound(leanMethod) {
-    console.log('x')
+    //console.log('new round')
     const roundnumber = this.rounds.size + 1;
     const newRound = new Round(new RoundStats(roundnumber, this));
     this.rounds.set(roundnumber, newRound);
@@ -132,6 +132,7 @@ class Game {
     this.moveWaitingcars();
     const currentWorkstation = this.workstations.get(workstationId);
     const car = this.getCarFromWorkstation(workstationId);
+    
     try {
       currentWorkstation.addPartToCar(this.workstations);
       this.stock.requestPart(part);
@@ -167,6 +168,11 @@ class Game {
   endGame() {
     this.isOver = true;
   }
+
+  getAmountOfPart(part){
+    return this.stock.getAmountOfPart(part);
+  }
+
 }
 
 export { Game };

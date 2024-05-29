@@ -25,7 +25,7 @@ class CarToAssembly extends Car {
     ); // Initialize an empty Map
     cars.set(id, new CarAtWorkstation(id, this.parts, 1));
   }
-  move(){
+  move() {
     return;
   }
 }

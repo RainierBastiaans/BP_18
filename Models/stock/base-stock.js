@@ -1,6 +1,5 @@
 class BaseStock {
-  constructor() {
-  }
+  constructor() {}
 
   usePart(part) {
     if (this.hasEnoughParts(part)) {
@@ -27,6 +26,10 @@ class BaseStock {
 
   newRound() {
     throw new Error("newRound not implemented in BaseStock");
+  }
+
+  getAmountOfPart(part) {
+    return this.parts.get(part).quantity;
   }
 }
 

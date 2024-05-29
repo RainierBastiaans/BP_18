@@ -21,7 +21,9 @@ class CarPositionLine extends HTMLElement {
   setCarPositions(cars) {
     this.workstationElements.forEach((element, index) => {
       const workstationId = index + 1; // Adjust for 1-based indexing
-      const hasCar = cars.values().some((car) => car.workstationId === workstationId);
+      const hasCar = cars
+        .values()
+        .some((car) => car.workstationId === workstationId);
       element.textContent = workstationId; // Display workstation number
       element.classList.remove("active");
       if (hasCar) {
@@ -33,8 +35,10 @@ class CarPositionLine extends HTMLElement {
   setCurrentWorkstation(workstations) {
     this.workstationElements.forEach((element, index) => {
       const workstationId = index + 1; // Adjust for 1-based indexing
-      const workstation = workstations.values().find(station => station.id === workstationId); // Find matching workstation
-  
+      const workstation = workstations
+        .values()
+        .find((station) => station.id === workstationId); // Find matching workstation
+
       if (workstation && workstation.getRemainingTime()) {
         element.style.backgroundColor = "red"; // Set background color for remaining time
       } else {

@@ -4,7 +4,7 @@ class Car {
     this.fixedPrice = 20000;
   }
 
-  isComplete(){
+  isComplete() {
     return false;
   }
 

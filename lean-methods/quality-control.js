@@ -7,7 +7,7 @@ class QualityControl extends LeanMethod {
   
     applyMethod(workstation) {
       // Implement Quality Control logic (e.g., inspect parts before assembly)
-      console.log("Quality Control applied to workstation:", workstation.id);
+      //console.log("Quality Control applied to workstation:", workstation.id);
     }
   }
 
