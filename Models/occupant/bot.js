@@ -22,42 +22,51 @@ class Bot extends Occupant {
 
   async performActionAtWorkstation() {
     const car = this.game.getCarFromWorkstation(this.workstationId);
-    if (!car){
-      this.game.moveWaitingCars()
+    if (!car) {
+      this.game.moveWaitingCars();
       return; // Handle no car case
-    } 
+    }
 
     const workstation = this.game.workstations.get(this.workstationId); // Use Map for efficient access by ID
-
-    if (workstation.isComplete(car.parts)) {
-      this.game.manualMove(car); // Move completed car
-    } else {
-      const action = await this.decideAction(car, workstation); // Delegate action decision
-      switch (action) {
-        case 'addPart':
-          this.game.addPart(workstation.getIncompletePart(car.parts).name, this.workstationId);
-          break;
-        case 'performQualityControl':
-          // Implement quality control logic here (e.g., random check with chance of rework)
-          break;
-        case 'noAction':
-          // Handle scenarios where no action is needed at the moment
-          break;
-        default:
-          console.error(`Unexpected action: ${action}`);
-      }
+    const action = await this.decideAction(car, workstation); // Delegate action decision
+    switch (action) {
+      case "addPart":
+        this.game.addPart(
+          workstation.getIncompletePart(car.parts).name,
+          this.workstationId
+        );
+        break;
+      case "performQualityControl":
+        console.log('qc')
+        car.qualityControl(car.parts);
+        break;
+      case "removeCar":
+        console.log('rm')
+        car.remove();
+        break;
+      case "move":
+        this.game.manualMove(car); // Move completed car
+        break;
+      default:
+        console.error(`Unexpected action: ${action}`);
     }
   }
 
   async decideAction(car, workstation) {
-    const incompletePart = workstation.getIncompletePart(car.parts);
-    if (incompletePart) {
-      return 'addPart';
+    if (workstation.getIncompletePart(car.parts)) {
+      return "addPart";
+    } else if (
+      this.game.leanMethods.get("qc") &&
+      car.getQualityControlValue() === undefined
+    ) {
+      return "performQualityControl";
+    } else if (
+      this.game.leanMethods.get("qc") &&
+      car.getQualityControlValue() === true
+    ) {
+      return "removeCar";
     } else {
-      // Implement logic to decide between quality control and no action
-      // This could involve probabilities, car age, or other factors
-      const performQualityControl = Math.random() < qualityControlChance; // Example with chance
-      return performQualityControl ? 'performQualityControl' : 'noAction';
+      return "move";
     }
   }
 }

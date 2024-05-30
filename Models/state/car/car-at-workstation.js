@@ -21,13 +21,16 @@ class CarAtWorkstation extends CarState {
     return parts;
   }
 
+  //returns true if car is broken
   qualityControl(parts) {
     // Check if all parts marked as added (partAdded === true) are not broken (broken === false)
     const addedParts = Array.from(parts.values()).filter(
       (part) => part.partAdded === true
     );
-    return !addedParts.every((part) => part.broken === false);
+    this.qualityControlValue = !addedParts.every((part) => part.broken === false);
+    return this.qualityControlValue;
   }
+
 
   move(cars, workstations) {
     return this;

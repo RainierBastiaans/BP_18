@@ -1,9 +1,9 @@
 import { Subject } from "../../../subject.js";
 import { CarAtWorkstation } from "./car-at-workstation.js";
 
-class Car extends Subject{
+class Car extends Subject {
   constructor(id, parts) {
-    super()
+    super();
     this.id = id;
     this.fixedPrice = 20000;
     this.state = new CarAtWorkstation(1);
@@ -28,19 +28,19 @@ class Car extends Subject{
     ); // Initialize an empty Map
   }
 
-  setState(state){
-    if (this.state != state){
+  setState(state) {
+    if (this.state != state) {
       this.state = state;
-      this.notifyObservers(this, "car")
-    };
+      this.notifyObservers(this, "car");
+    }
   }
 
   isComplete() {
     return this.state.isComplete();
   }
 
-  isBroken(){
-    return this.state.isBroken()
+  isBroken() {
+    return this.state.isBroken();
   }
 
   qualityControl() {
@@ -55,12 +55,12 @@ class Car extends Subject{
     this.setState(this.state.move(cars, this.parts));
   }
 
-  manualMove(cars, workstations){
-    this.setState(this.state.manualMove(this.parts,workstations))
+  manualMove(cars, workstations) {
+    this.setState(this.state.manualMove(this.parts, workstations));
   }
 
-  remove(cars){
-    this.setState(this.state.remove(cars))
+  remove() {
+    this.setState(this.state.remove());
   }
 
   isAdded(part) {
@@ -70,6 +70,9 @@ class Car extends Subject{
 
     // Return the partAdded property (assuming it indicates addition)
     return partInfo && partInfo.partAdded; // Avoid returning undefined if part exists but partAdded is not set
+  }
+  getQualityControlValue() {
+    return this.state.qualityControlValue;
   }
 }
 

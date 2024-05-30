@@ -164,7 +164,7 @@ class LeanGame extends HTMLElement {
     if (
       this.game
         .getCarFromWorkstation(this.getCurrentWorkstation().id)
-        .qualityControl()
+        .getQualityControlValue()
     ) {
       this.qualityControlButton.style.backgroundColor = "red";
       this.removeButton.disabled = false;

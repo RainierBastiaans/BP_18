@@ -1,5 +1,7 @@
 class CarState {
-  constructor() {}
+  constructor() {
+    this.qualityControlValue;
+  }
 
   isComplete() {
     throw new Error("SuperClass");
@@ -27,7 +29,7 @@ class CarState {
   manualMove(cars, workstations) {
     throw new Error("SuperClass");
   }
-  remove(cars) {
+  remove() {
     throw new Error("SuperClass");
   }
 
