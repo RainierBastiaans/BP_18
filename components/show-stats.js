@@ -34,9 +34,13 @@ class ShowStats extends HTMLElement {
           <h2 class="statistics-heading">Game Statistics</h2>
           <table class="statistics-table">
             <tr>
-              <th rowspan="3">Game Stats</th>
+              <th rowspan="4">Game Stats</th>
               <th>Total Cars Completed</th>
               <td id="carsCompleted">0</td>
+            </tr>
+            <tr>
+              <th>Total Cars Broken</th>
+              <td id="carsBroken">0</td>
             </tr>
             <tr>
               <th>Total Income</th>
@@ -52,39 +56,17 @@ class ShowStats extends HTMLElement {
         </div>
       `;
       this.carsCompletedElement = this.shadowRoot.querySelector("#carsCompleted");
+      this.carsBrokenElement = this.shadowRoot.querySelector('#carsBroken')
       this.totalIncomeElement = this.shadowRoot.querySelector("#totalIncome");
       this.capitalElement = this.shadowRoot.querySelector("#capital");
     }
   
-    // Methods to update the final stats
-    updateStatistics(gameStats, rounds, capital) {
+    // Methods to update the stats
+    update(gameStats) {
       this.carsCompletedElement.textContent = gameStats.carsCompleted;
+      this.carsBrokenElement.textContent = gameStats.carsBroken
       this.totalIncomeElement.textContent = gameStats.totalIncome + "€";
-      this.capitalElement.textContent = capital + "€";
-  
-      // Update Round Stat Headers
-      const roundHeaders = this.shadowRoot.getElementById("roundHeaders");
-      roundHeaders.innerHTML = `
-        <th>Round</th>
-        <th>Cars Completed</th>
-        <th>Total Income</th>
-        <th>Capital</th>
-      `;
-  
-      // Update Round Stats Content (clear existing rows first)
-      const roundStatsBody = this.shadowRoot.getElementById("roundStats");
-      roundStatsBody.innerHTML = "";
-      // Add rows for each round statistics (using spread syntax to convert Map to array)
-      [...rounds.values()].forEach((round, roundIndex) => {
-        const row = document.createElement("tr");
-        row.innerHTML = `
-          <td>Round ${round.stats.roundNumber}</td>
-          <td>${round.stats.carsCompleted}</td>
-          <td>${round.stats.totalIncome}€</td>
-          <td>${round.stats.capital}€</td>
-          `;
-        roundStatsBody.appendChild(row);
-      });
+      this.capitalElement.textContent = gameStats.capital.amount + "€"
     }
   }
   

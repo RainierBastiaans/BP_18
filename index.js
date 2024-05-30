@@ -7,11 +7,12 @@ class LeanGame extends HTMLElement {
     super();
     this.selectedWorkstation =
       JSON.parse(this.getAttribute("options")).selectedWorkstation || 1;
+    this.statsContainer = JSON.parse(this.getAttribute("options")).statsContainer;
+
     const shadowRoot = this.attachShadow({ mode: "open" });
     shadowRoot.appendChild(gameTemplate.content.cloneNode(true));
 
     this.messageEl = shadowRoot.getElementById("message");
-    this.canvas = shadowRoot.getElementById("bp-game-canvas");
     this.previousButton = shadowRoot.getElementById("previous-station-button");
     this.nextButton = shadowRoot.getElementById("next-station-button");
     this.completedCarsElement = shadowRoot.getElementById(
@@ -33,12 +34,10 @@ class LeanGame extends HTMLElement {
   }
 
   connectedCallback() {
-    this.game = new Game(this.selectedWorkstation);
-    this.game.newGame();
+    this.game = new Game(this.selectedWorkstation, this.statsContainer);
 
+    this.currentWorkstationIndex = 1;
     this.currentWorkstationIndex = this.selectedWorkstation;
-
-    this.ctx = this.canvas.getContext("2d");
 
     this.previousButton.addEventListener("click", this.handleClick.bind(this));
     this.nextButton.addEventListener("click", this.handleClick.bind(this));
@@ -58,6 +57,7 @@ class LeanGame extends HTMLElement {
     // Add event listener for setInterval
     this.intervalId = setInterval(() => {
       this.updateMessage();
+
       if (this.game.currentRound.isOver) {
         this.endRound();
       }
@@ -75,17 +75,14 @@ class LeanGame extends HTMLElement {
       "current-workstation"
     );
     if (workstationElement) {
-      const maintenanceTimer =
-        workstationElement.querySelector(".maintenance-timer");
       const seconds = workstation.getRemainingTime();
       if (seconds) {
         workstationElement.classList.add("under-maintenance");
-        maintenanceTimer.textContent = `Machine Broke, Wait ${seconds}s`; // Combined message
+        this.shadowRoot.querySelector(".timer").classList.remove("hidden");
+        this.runTimer(this.shadowRoot.querySelector(".timer"));
       } else {
         workstationElement.classList.remove("under-maintenance");
-        if (maintenanceTimer) {
-          maintenanceTimer.textContent = "";
-        }
+        this.shadowRoot.querySelector(".timer").classList.add("hidden");
       }
     }
   }
@@ -118,8 +115,6 @@ class LeanGame extends HTMLElement {
 
     const gameDetails = {
       gameStats: this.game.stats,
-      roundStats: this.game.rounds,
-      capital: this.game.capital.amount,
     };
 
     this.dispatchEvent(
@@ -162,7 +157,7 @@ class LeanGame extends HTMLElement {
     if (
       this.game
         .getCarFromWorkstation(this.getCurrentWorkstation().id)
-        .qualityControl()
+        .getQualityControlValue()
     ) {
       this.qualityControlButton.style.backgroundColor = "red";
       this.removeButton.disabled = false;
@@ -201,6 +196,8 @@ class LeanGame extends HTMLElement {
 
     if (this.game.getCarFromWorkstation(this.getCurrentWorkstation().id)) {
       this.createButtons();
+      this.carVisuals();
+
     } else {
       const noCarContainer = document.createElement("div");
       noCarContainer.classList.add("no-car");
@@ -215,10 +212,12 @@ class LeanGame extends HTMLElement {
   clearButtons() {
     const buttonContainer = this.shadowRoot.querySelector(".part-buttons");
     const noCarContainer = this.shadowRoot.querySelector(".no-car");
+    const carContainer = this.shadowRoot.querySelector(".car-container");
 
     // Remove elements in a single line using optional chaining
     buttonContainer?.remove();
     noCarContainer?.remove();
+    carContainer?.remove();
   }
 
   createButtons() {
@@ -258,13 +257,99 @@ class LeanGame extends HTMLElement {
       this.moveCarButton.disabled = !isComplete;
       this.qualityControlButton.disabled = !isComplete;
     }
+    
+  }
 
-    // Enable buttons based on workstation completion
-    const isComplete = this.getCurrentWorkstation().isComplete(
-      this.game.getCarFromWorkstation(this.getCurrentWorkstation().id).parts
-    );
-    this.moveCarButton.disabled = !isComplete;
-    this.qualityControlButton.disabled = !isComplete;
+  // Draws the car parts on the screen
+  carVisuals() {
+    const carContainer = document.createElement("div");
+    carContainer.classList.add("car-container");
+    carContainer.id = "car-container";
+    const workstation = this.getCurrentWorkstation();
+    const car = this.game.getCarFromWorkstation(workstation.id);
+
+    try {
+      // Loop all parts and check if added
+      workstation.partnames.forEach((part) => {
+        const checkImg = this.shadowRoot.getElementById(part);
+
+        if (checkImg == null && car.isAdded(part)) {
+          const carPart = document.createElement("img");
+          carPart.className = "car-part";
+          carPart.id = part;
+          carPart.src = `./img/${part}.png`;
+          carPart.alt = `image of ${part}`;
+          carContainer.append(carPart);
+        }
+      });
+      this.shadowRoot.appendChild(carContainer);
+    } catch (error) {
+      //console.error(error);
+    }
+  }
+
+  //** timer code */
+  runTimer(timerElement) {
+    let timeLeft = this.getCurrentWorkstation().getRemainingTime();
+    let duration = this.getCurrentWorkstation().maintenanceDuration / 1000;
+    const timerCircle = timerElement.querySelector("svg > circle + circle");
+    timerElement.classList.add("animatable");
+    timerCircle.style.strokeDashoffset = 1;
+
+    if (timeLeft > -1) {
+      const normalizedTime = (duration - timeLeft) / duration;
+      timerCircle.style.strokeDashoffset = normalizedTime;
+      this.shadowRoot.getElementById("timeLeft").innerHTML = timeLeft;
+    } else {
+      clearInterval(countdownTimer);
+      timerElement.classList.remove("animatable");
+    }
+  }
+
+  // Draws the car parts on the screen
+  carVisuals() {
+    const carContainer = document.createElement("div");
+    carContainer.classList.add("car-container");
+    carContainer.id = "car-container";
+    const workstation = this.getCurrentWorkstation();
+    const car = this.game.getCarFromWorkstation(workstation.id);
+
+    try {
+      // Loop all parts and check if added
+      workstation.partnames.forEach((part) => {
+        const checkImg = this.shadowRoot.getElementById(part);
+
+        if (checkImg == null && car.isAdded(part)) {
+          const carPart = document.createElement("img");
+          carPart.className = "car-part";
+          carPart.id = part;
+          carPart.src = `./img/${part}.png`;
+          carPart.alt = `image of ${part}`;
+          carContainer.append(carPart);
+        }
+      });
+      this.shadowRoot.appendChild(carContainer);
+    } catch (error) {
+      //console.error(error);
+    }
+  }
+
+  //** timer code */
+  runTimer(timerElement) {
+    let timeLeft = this.getCurrentWorkstation().getRemainingTime();
+    let duration = this.getCurrentWorkstation().maintenanceDuration / 1000;
+    const timerCircle = timerElement.querySelector("svg > circle + circle");
+    timerElement.classList.add("animatable");
+    timerCircle.style.strokeDashoffset = 1;
+
+    if (timeLeft > -1) {
+      const normalizedTime = (duration - timeLeft) / duration;
+      timerCircle.style.strokeDashoffset = normalizedTime;
+      this.shadowRoot.getElementById("timeLeft").innerHTML = timeLeft;
+    } else {
+      clearInterval(countdownTimer);
+      timerElement.classList.remove("animatable");
+    }
   }
 
   goToPreviousWorkstation() {

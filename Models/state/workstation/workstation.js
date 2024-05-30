@@ -1,16 +1,16 @@
+import { gameValues } from "../../../game-values.js";
+
 class Workstation {
   constructor(id, partsList, tpm, workstations) {
     this.id = id;
     this.partnames = partsList; // Create a list of part names
     this.occupant = null; // Reference to the current occupant (User or Bot)
-    this.maintenanceChance = tpm ? 0.001 : 0.1; // Ternary operator for conditional assignment
+    this.maintenanceChance = tpm ? gameValues.workstationBreakdownChanceTPM : gameValues.workstationBreakdownChanceNoTPM; // Ternary operator for conditional assignment
   }
-  
 
-  setMaintenanceChance(maintenanceChance){
+  setMaintenanceChance(maintenanceChance) {
     this.maintenanceChance = maintenanceChance;
   }
-
 
   isComplete(carParts) {
     return this.partnames.every(

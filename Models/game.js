@@ -11,15 +11,13 @@ import { QualityControl } from "../lean-methods/quality-control.js";
 import { TraditionalStock } from "./stock/traditional-stock.js";
 import { JITStock } from "./stock/jit-stock.js";
 import { CarAtWorkstation } from "./state/car/car-at-workstation.js";
-import { CarInLine } from "./state/car/car-inline.js";
-import { CarToAssembly } from "./state/car/car-to-assembly.js";
-import { CarCheckup } from "./state/car/car-checkup.js";
 import { WorkingWorkstation } from "./state/workstation/workstation-working.js";
 import { TotalProductiveMaintenance } from "../lean-methods/total-productive-maintenance.js";
+import { Car } from "./state/car/car.js";
 class Game {
   constructor(selectedWorkstation) {
+    this.selectedWorkstation = selectedWorkstation
     this.workstations = new Map();
-    this.cost = 0;
     this.rounds = new Map();
     this.carId = 1;
     this.cars = new Map();
@@ -36,6 +34,7 @@ class Game {
       }
     }
     this.isOver = false;
+    this.newGame()
   }
 
   createOrRefreshWorkstations() {
@@ -54,11 +53,10 @@ class Game {
     }
   }
   newGame() {
-    this.capital = new Money(50000);
-    this.stock = new TraditionalStock(this.parts);
+    this.stats = new GameStats(this);
+    this.stock = new TraditionalStock(this.stats, this.parts);
     this.newCar();
     this.newRound();
-    this.stats = new GameStats(this);
   }
 
   newRound(leanMethod) {
@@ -76,7 +74,7 @@ class Game {
   newLeanMethod(method) {
     if (method === "just_in_time") {
       this.leanMethods.set(method, new JustInTime());
-      this.stock = new JITStock(this.stock.parts);
+      this.stock = new JITStock(this.stats, this.stock.parts);
     }
     if (method === "total_quality_control") {
       this.leanMethods.set(method, new QualityControl());
@@ -96,31 +94,31 @@ class Game {
   endRound() {
     this.currentRound.endRound();
     this.bots.forEach((bot) => bot.stopAddingParts());
-    this.capital.add(this.currentRound.stats.capital);
     if (this.rounds.size === 5) {
       this.endGame();
     }
   }
 
   newCar() {
-    new CarToAssembly(this.cars.size, this.parts, this.cars);
+    const newCar = new Car(this.cars.size, this.parts);
+    newCar.addObserver(this.stats);
+    this.cars.set(this.cars.size, newCar);
   }
 
   getCarFromWorkstation(workstationid) {
     // Find the car with matching state
     const matchingCar = Array.from(this.cars.values()).find(
       (car) =>
-        car.workstationId === workstationid && car instanceof CarAtWorkstation
+        car.state instanceof CarAtWorkstation && car.state.workstationId === workstationid
     );
     return matchingCar; // Might return undefined if no car is found
   }
 
-  moveWaitingcars() {
+  moveWaitingCars() {
     for (const car of this.cars.values()) {
       this.moveCar(car);
     }
     this.newCarAtWorkstation1();
-    this.stats.updateCarStats(this.cars)
   }
 
   newCarAtWorkstation1() {
@@ -130,7 +128,7 @@ class Game {
   }
 
   addPart(part, workstationId) {
-    this.moveWaitingcars();
+    this.moveWaitingCars();
     const currentWorkstation = this.workstations.get(workstationId);
     const car = this.getCarFromWorkstation(workstationId);
     try {
@@ -142,29 +140,11 @@ class Game {
     }
   }
 
-  carCompleted(car) {
-    this.stats.updateOnCarCompletion(car);
-    this.currentRound.stats.updateOnCarCompletion(car);
+  
+  manualMove(car){
+    car.manualMove(this.cars,this.workstations)
   }
-
-  addPartOrMoveBot(workstationId) {
-    this.moveWaitingcars();
-    const car = this.getCarFromWorkstation(workstationId);
-    if (car) {
-      const workstation = Array.from(this.workstations.values()).find(
-        (workstation) => workstation.id === workstationId
-      );
-      if (workstation.isComplete(car.parts)) {
-        //if car is complete move to next station
-        car.manualMove(this.cars, this.workstations);
-      } else if (workstation.getIncompletePart(car.parts)) {
-        this.addPart(
-          workstation.getIncompletePart(car.parts).name,
-          workstationId
-        );
-      }
-    }
-  }
+  
   endGame() {
     this.isOver = true;
   }
