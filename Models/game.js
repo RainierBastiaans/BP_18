@@ -15,6 +15,7 @@ import { WorkingWorkstation } from "./state/workstation/workstation-working.js";
 import { TotalProductiveMaintenance } from "../lean-methods/total-productive-maintenance.js";
 import { Car } from "./state/car/car.js";
 import { Emitter } from "../emitter.js";
+import { gameValues } from "../game-values.js";
 class Game {
   constructor(selectedWorkstation) {
     this.selectedWorkstation = selectedWorkstation
@@ -25,17 +26,9 @@ class Game {
     this.parts = data.parts;
     this.leanMethods = new Map();
     this.availableLeanmethods = availableLeanmethods.leanMethods;
-
-    this.createOrRefreshWorkstations();
-    this.bots = [];
-    // Create bots only for workstations other than selectedWorkstation
-    for (let i = 1; i <= 5; i++) {
-      if (i !== parseInt(selectedWorkstation)) {
-        this.bots.push(new Bot(`bot${i}`, i, this));
-      }
-    }
+    this.emitter = new Emitter(); // Create an Emitter instance
     this.isOver = false;
-    this.newGame()
+    this.newGame(selectedWorkstation)
   }
 
   createOrRefreshWorkstations() {
@@ -53,11 +46,21 @@ class Game {
       );
     }
   }
-  newGame() {
+  newGame(selectedWorkstation = 1) {
+    console.log(selectedWorkstation)
+    this.bots = [];
+    // Create bots only for workstations other than selectedWorkstation
+    for (let i = 1; i <= 5; i++) {
+      if (i !== parseInt(selectedWorkstation)) {
+        this.bots.push(new Bot(`bot${i}`, i, this));
+      }
+    }
+    this.createOrRefreshWorkstations();
     this.stats = new GameStats(this);
     this.stock = new TraditionalStock(this.stats, this.parts);
     this.newCar();
     this.newRound();
+    console.log(this)
   }
 
   newRound(leanMethod) {
@@ -97,7 +100,7 @@ class Game {
 
   endRound() {
     this.bots.forEach((bot) => bot.stopAddingParts());
-    if (this.rounds.size === 5) {
+    if (this.rounds.size === gameValues.numberOfRounds) {
       this.endGame();
     }
   }
@@ -150,6 +153,7 @@ class Game {
   
   endGame() {
     this.isOver = true;
+    this.emitter.emit("gameOver", this.stats); // Emit the event with data
   }
 }
 

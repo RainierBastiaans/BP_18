@@ -5,11 +5,6 @@ import { gameTemplate } from "./components/game-container.js";
 class LeanGame extends HTMLElement {
   constructor() {
     super();
-    this.selectedWorkstation =
-      JSON.parse(this.getAttribute("options")).selectedWorkstation || 1;
-    this.statsContainer = JSON.parse(
-      this.getAttribute("options")
-    ).statsContainer;
 
     const shadowRoot = this.attachShadow({ mode: "open" });
     shadowRoot.appendChild(gameTemplate.content.cloneNode(true));
@@ -27,22 +22,12 @@ class LeanGame extends HTMLElement {
     this.removeButton.style.visibility = "hidden";
     this.removeButton.disabled = true;
 
-    // Disable buttons based on selected workstation
-    this.previousButton.disabled = this.selectedWorkstation === 1;
-    this.nextButton.disabled = this.selectedWorkstation === 5;
-
-    this.timeLeft = 180; // Time in seconds
+    
     this.timerInterval = null;
   }
 
   connectedCallback() {
-    this.game = new Game(this.selectedWorkstation, this.statsContainer);
-    
-
-    this.currentWorkstationIndex = 1;
-    this.currentWorkstationIndex = this.selectedWorkstation;
-
-    this.previousButton.addEventListener("click", this.handleClick.bind(this));
+      this.previousButton.addEventListener("click", this.handleClick.bind(this));
     this.nextButton.addEventListener("click", this.handleClick.bind(this));
     this.moveCarButton.addEventListener("click", this.handleClick.bind(this));
     this.qualityControlButton.addEventListener(
@@ -53,11 +38,9 @@ class LeanGame extends HTMLElement {
     this.carPositionLine = new CarPositionLine();
     this.shadowRoot.appendChild(this.carPositionLine);
 
-    this.updateMessage();
-    this.draw();
-
-    this.newRound()
   }
+
+
 
   draw() {
     this.carPositionLine.setCarPositions(this.game.cars);
@@ -96,10 +79,17 @@ class LeanGame extends HTMLElement {
     );
   }
 
+  newGame(selectedWorkstation = 1){
+    this.game = new Game(selectedWorkstation);    
+    this.currentWorkstationIndex = selectedWorkstation;
+    // Disable buttons based on selected workstation
+    this.previousButton.disabled = selectedWorkstation === 1;
+    this.nextButton.disabled = selectedWorkstation === 5;
+    this.newRound()
+  }
+
   endGame() {
     clearInterval(this.intervalId);
-    // this.game.endRound();
-
     const gameDetails = {
       gameStats: this.game.stats,
     };
