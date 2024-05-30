@@ -14,6 +14,7 @@ import { CarAtWorkstation } from "./state/car/car-at-workstation.js";
 import { WorkingWorkstation } from "./state/workstation/workstation-working.js";
 import { TotalProductiveMaintenance } from "../lean-methods/total-productive-maintenance.js";
 import { Car } from "./state/car/car.js";
+import { Emitter } from "../emitter.js";
 class Game {
   constructor(selectedWorkstation) {
     this.selectedWorkstation = selectedWorkstation
@@ -69,6 +70,9 @@ class Game {
     this.stock.newRound();
     this.bots.forEach((bot) => bot.startWorking());
     this.createOrRefreshWorkstations();
+    this.currentRound.emitter.on("roundoverInModel", () => {
+      this.endRound()
+    });
   }
 
   newLeanMethod(method) {
@@ -92,7 +96,6 @@ class Game {
   }
 
   endRound() {
-    this.currentRound.endRound();
     this.bots.forEach((bot) => bot.stopAddingParts());
     if (this.rounds.size === 5) {
       this.endGame();

@@ -1,10 +1,12 @@
 import { gameValues } from "../game-values.js";
+import { Emitter } from "../emitter.js";
 
-class Round {
+class Round{
   constructor() {
     this.timeLeft = gameValues.roundDuration; // Time in seconds
     this.timerInterval = null;
     this.isOver = false;
+    this.emitter = new Emitter(); // Create an Emitter instance
     this.startTimer();
   }
 
@@ -20,7 +22,8 @@ class Round {
 
   endRound() {
     clearInterval(this.timerInterval);
-    this.isOver = true;
+    this.emitter.emit("roundoverInModel"); // Emit the event
   }
+    
 }
 export { Round };

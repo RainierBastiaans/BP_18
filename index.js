@@ -7,7 +7,9 @@ class LeanGame extends HTMLElement {
     super();
     this.selectedWorkstation =
       JSON.parse(this.getAttribute("options")).selectedWorkstation || 1;
-    this.statsContainer = JSON.parse(this.getAttribute("options")).statsContainer;
+    this.statsContainer = JSON.parse(
+      this.getAttribute("options")
+    ).statsContainer;
 
     const shadowRoot = this.attachShadow({ mode: "open" });
     shadowRoot.appendChild(gameTemplate.content.cloneNode(true));
@@ -35,6 +37,7 @@ class LeanGame extends HTMLElement {
 
   connectedCallback() {
     this.game = new Game(this.selectedWorkstation, this.statsContainer);
+    
 
     this.currentWorkstationIndex = 1;
     this.currentWorkstationIndex = this.selectedWorkstation;
@@ -50,24 +53,15 @@ class LeanGame extends HTMLElement {
     this.carPositionLine = new CarPositionLine();
     this.shadowRoot.appendChild(this.carPositionLine);
 
-
     this.updateMessage();
     this.draw();
 
-    // Add event listener for setInterval
-    this.intervalId = setInterval(() => {
-      this.updateMessage();
-
-      if (this.game.currentRound.isOver) {
-        this.endRound();
-      }
-    }, 500); // Call every 0.5 seconds (500 milliseconds)
+    this.newRound()
   }
-  
 
   draw() {
     this.carPositionLine.setCarPositions(this.game.cars);
-    this.carPositionLine.setCurrentWorkstation(this.game.workstations)
+    this.carPositionLine.setCurrentWorkstation(this.game.workstations);
     const workstation = this.getCurrentWorkstation();
 
     // Update visual representation based on maintenance status
@@ -88,13 +82,6 @@ class LeanGame extends HTMLElement {
   }
 
   endRound() {
-    clearInterval(this.intervalId);
-    this.game.endRound();
-
-    if (this.game.isOver) {
-      this.endGame();
-      return;
-    }
     const gameDetails = {
       gameStats: this.game.stats,
       leanMethods: this.game.leanMethods,
@@ -111,7 +98,7 @@ class LeanGame extends HTMLElement {
 
   endGame() {
     clearInterval(this.intervalId);
-    this.game.endRound();
+    // this.game.endRound();
 
     const gameDetails = {
       gameStats: this.game.stats,
@@ -128,6 +115,13 @@ class LeanGame extends HTMLElement {
 
   newRound(leanMethod) {
     this.game.newRound(leanMethod);
+    this.game.currentRound.emitter.on("roundoverInModel", () => {
+      this.endRound()
+    });
+    // Add event listener for setInterval
+    this.intervalId = setInterval(() => {
+      this.updateMessage();
+    }, 500); // Call every 0.5 seconds (500 milliseconds)
   }
 
   handleClick(event) {
@@ -197,7 +191,6 @@ class LeanGame extends HTMLElement {
     if (this.game.getCarFromWorkstation(this.getCurrentWorkstation().id)) {
       this.createButtons();
       this.carVisuals();
-
     } else {
       const noCarContainer = document.createElement("div");
       noCarContainer.classList.add("no-car");
@@ -221,10 +214,10 @@ class LeanGame extends HTMLElement {
   }
 
   createButtons() {
-    if(this.game.selectedWorkstation === this.getCurrentWorkstation().id){
+    if (this.game.selectedWorkstation === this.getCurrentWorkstation().id) {
       const buttonContainer = document.createElement("div");
       buttonContainer.classList.add("part-buttons");
-  
+
       this.getCurrentWorkstation().partnames.forEach((part) => {
         this.moveCarButton.style.visibility = "visible";
         const button = document.createElement("button");
@@ -241,15 +234,14 @@ class LeanGame extends HTMLElement {
         button.append(img);
         buttonContainer.appendChild(button);
       });
-  
+
       this.shadowRoot.appendChild(buttonContainer);
-  
-  
+
       if (this.game.leanMethods.has("total_quality_control")) {
         this.qualityControlButton.style.visibility = "visible";
         this.removeButton.style.visibility = "visible";
       }
-  
+
       // Enable buttons based on workstation completion
       const isComplete = this.getCurrentWorkstation().isComplete(
         this.game.getCarFromWorkstation(this.getCurrentWorkstation().id).parts
@@ -257,7 +249,6 @@ class LeanGame extends HTMLElement {
       this.moveCarButton.disabled = !isComplete;
       this.qualityControlButton.disabled = !isComplete;
     }
-    
   }
 
   // Draws the car parts on the screen
