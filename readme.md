@@ -1,4 +1,4 @@
-#Lean Logistics Game
+# Lean Logistics Game
 
 ## Run in Development without setting up server:
 
