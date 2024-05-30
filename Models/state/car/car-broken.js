@@ -1,15 +1,22 @@
+import { CarState } from "./car-state.js";
 import { Car } from "./car.js";
 
+class CarBroken extends CarState {
+  constructor() {
+    super();
+  }
 
-class CarBroken extends Car {
-    constructor(id, parts) {
-      super(id);
-      this.parts = parts;
-    }
+  move() {
+    return this;
+  }
 
-    move(){
-        return;
-    }
+  isComplete() {
+    return false;
+  }
+
+  isBroken() {
+    return true;
+  }
 }
 
-export {CarBroken}
+export { CarBroken };

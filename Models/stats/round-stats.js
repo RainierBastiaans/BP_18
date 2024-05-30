@@ -8,9 +8,9 @@ class RoundStats {
     this.partUsage = {}; // Object to track parts used in this round (partName: count)
     this.totalStockCost = 0;
     this.totalIncome = 0;
-    this.deductStaffCost(3000);
-    this.deductStockMaintenanceCost(1000);
-    this.deductFacilityCost(50000);
+    // this.deductStaffCost(3000);
+    // this.deductStockMaintenanceCost(1000);
+    // this.deductFacilityCost(50000);
   }
 
   getRoundCapital() {

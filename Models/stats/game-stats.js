@@ -1,53 +1,64 @@
-class GameStats {
+import { gameValues } from "../../game-values.js";
+import { Subject } from "../../subject.js";
+import { Money } from "../money.js";
+import { RoundStats } from "./round-stats.js";
+
+class GameStats extends Subject {
   constructor(game) {
+    super();
     this.game = game;
-    this.capital = this.game.capital;
+    this.capital = new Money(this, gameValues.startCapital);
     this.totalTimeSpent = 0;
     this.partUsage = {}; // Object to track total parts used (partName: count)
     this.carCompletionTimes = []; // Array to store completion times of each car
-  }
-
-  updateCarStats(cars) {
     this.carsCompleted = 0;
+    this.carsBroken = 0;
     this.totalIncome = 0;
-    for (const car of cars.values()) {
-      if (car.isComplete()) {
-        this.carsCompleted++;
-        this.totalIncome += car.fixedPrice;
-      }
-    }
+    this.rounds = new Map();
+    this.facilityCost = gameValues.facilityCost;
+    this.staffCost = gameValues.staffCost;
   }
 
-  calculateAverageCompletionTime() {
-    if (this.carsCompleted === 0) {
-      return 0; // No cars completed yet
-    }
-    return this.totalTimeSpent / this.carsCompleted;
+  updateStock(addedStock) {
+    const stockPrice = addedStock.price * addedStock.amount; //the price of the stock times the amount of stocks added.
+    this.capital.deduct(stockPrice);
+    this.notifyObservers(this);
   }
 
-  calculatePartUsageBreakdown() {
-    const totalPartsUsed = Object.values(this.partUsage).reduce(
-      (sum, count) => sum + count,
-      0
+  updateCapital(capital) {
+    this.capital = capital;
+    this.notifyObservers(this);
+  }
+
+  updateCars(car) {
+    if (car.isComplete()) {
+      this.newCarCompleted(car);
+    } else if (car.isBroken()) {
+      this.newCarBroken();
+    }
+  }
+  newRound() {
+    this.rounds.set(
+      this.rounds.size + 1,
+      new RoundStats(this.rounds.size + 1, this.game)
     );
-    const breakdown = {};
-    for (const [partName, count] of Object.entries(this.partUsage)) {
-      breakdown[partName] = (count / totalPartsUsed) * 100; // Percentage
-    }
-    return breakdown;
+    this.deductRoundCosts();
+    this.notifyObservers(this)
   }
 
-  getMostUsedPart() {
-    if (Object.keys(this.partUsage).length === 0) {
-      return null; // No parts used yet
-    }
-    const mostUsedPart = Object.entries(this.partUsage).reduce(
-      (prev, current) => {
-        return current[1] > prev[1] ? current : prev;
-      },
-      [null, 0]
-    ); // Initialize with null and 0
-    return mostUsedPart[0]; // Return the part name
+  deductRoundCosts() {
+    this.capital.deduct(this.facilityCost+this.staffCost);
+  }
+
+  newCarCompleted(car) {
+    this.carsCompleted++;
+    this.totalIncome += car.fixedPrice;
+    this.capital.add(car.fixedPrice);
+    this.notifyObservers(this);
+  }
+  newCarBroken() {
+    this.carsBroken++;
+    this.notifyObservers(this);
   }
 }
 

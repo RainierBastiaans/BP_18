@@ -1,11 +1,12 @@
 import { Workstation } from "./workstation.js";
 import { WorkingWorkstation } from "./workstation-working.js";
+import { gameValues } from "../../../game-values.js";
 
 class UnderMaintenanceWorkstation extends Workstation {
-  constructor(id, partsList, tpm, workstations, maintenanceDuration = 3000) {
+  constructor(id, partsList, tpm, workstations) {
     // Default duration in milliseconds (3 seconds)
     super(id, partsList);
-    this.maintenanceDuration = maintenanceDuration;
+    this.maintenanceDuration = gameValues.workstationMaintenanceDuration;
     this.startTime = Date.now(); // Set startTime immediately in constructor
     this.workstations = workstations;
     this.tpm = tpm;

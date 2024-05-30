@@ -7,8 +7,8 @@ class LeanGame extends HTMLElement {
     super();
     this.selectedWorkstation =
       JSON.parse(this.getAttribute("options")).selectedWorkstation || 1;
-    this.selectedWorkstation =
-      JSON.parse(this.getAttribute("options")).selectedWorkstation || 1;
+    this.statsContainer = JSON.parse(this.getAttribute("options")).statsContainer;
+
     const shadowRoot = this.attachShadow({ mode: "open" });
     shadowRoot.appendChild(gameTemplate.content.cloneNode(true));
 
@@ -34,8 +34,7 @@ class LeanGame extends HTMLElement {
   }
 
   connectedCallback() {
-    this.game = new Game(this.selectedWorkstation);
-    this.game.newGame();
+    this.game = new Game(this.selectedWorkstation, this.statsContainer);
 
     this.currentWorkstationIndex = 1;
     this.currentWorkstationIndex = this.selectedWorkstation;
@@ -97,8 +96,6 @@ class LeanGame extends HTMLElement {
     }
     const gameDetails = {
       gameStats: this.game.stats,
-      roundStats: this.game.rounds,
-      capital: this.game.capital.amount,
     };
 
     this.dispatchEvent(
@@ -116,8 +113,6 @@ class LeanGame extends HTMLElement {
 
     const gameDetails = {
       gameStats: this.game.stats,
-      roundStats: this.game.rounds,
-      capital: this.game.capital.amount,
     };
 
     this.dispatchEvent(
@@ -130,7 +125,6 @@ class LeanGame extends HTMLElement {
   }
 
   newRound(leanMethod) {
-      console.log(leanMethod)
     this.game.newRound(leanMethod);
     // Add event listener for setInterval
     this.intervalId = setInterval(() => {
@@ -168,7 +162,7 @@ class LeanGame extends HTMLElement {
     if (
       this.game
         .getCarFromWorkstation(this.getCurrentWorkstation().id)
-        .qualityControl()
+        .getQualityControlValue()
     ) {
       this.qualityControlButton.style.backgroundColor = "red";
       this.removeButton.disabled = false;
@@ -197,7 +191,6 @@ class LeanGame extends HTMLElement {
   }
 
   updateMessage() {
-    this.draw();
     this.draw();
     // ... (update previous/next button states)
     this.clearButtons();
@@ -233,41 +226,43 @@ class LeanGame extends HTMLElement {
   }
 
   createButtons() {
-    const buttonContainer = document.createElement("div");
-    buttonContainer.classList.add("part-buttons");
-
-    this.getCurrentWorkstation().partnames.forEach((part) => {
-      this.moveCarButton.style.visibility = "visible";
-      const button = document.createElement("button");
-      const img = document.createElement("img");
-      img.src = `./img/${part}.png`;
-      img.alt = `image of ${part}`;
-      button.classList.add("part-button");
-      button.dataset.partName = part;
-      //button.style.background = `url('./img/${part}.png') no-repeat`;
-      button.addEventListener("click", this.handleClick.bind(this));
-      button.disabled = this.game
-        .getCarFromWorkstation(this.getCurrentWorkstation().id)
-        .isAdded(part); //disable button if already added
-      button.append(img);
-      buttonContainer.appendChild(button);
-    });
-
-    this.shadowRoot.appendChild(buttonContainer);
-
-    console.log(this.game.leanMethods)
-
-    if (this.game.leanMethods.has("qc")) {
-      this.qualityControlButton.style.visibility = "visible";
-      this.removeButton.style.visibility = "visible";
+    if(this.game.selectedWorkstation === this.getCurrentWorkstation().id){
+      const buttonContainer = document.createElement("div");
+      buttonContainer.classList.add("part-buttons");
+  
+      this.getCurrentWorkstation().partnames.forEach((part) => {
+        this.moveCarButton.style.visibility = "visible";
+        const button = document.createElement("button");
+        const img = document.createElement("img");
+        img.src = `./img/${part}.png`;
+        img.alt = `image of ${part}`;
+        button.classList.add("part-button");
+        button.dataset.partName = part;
+        //button.style.background = `url('./img/${part}.png') no-repeat`;
+        button.addEventListener("click", this.handleClick.bind(this));
+        button.disabled = this.game
+          .getCarFromWorkstation(this.getCurrentWorkstation().id)
+          .isAdded(part); //disable button if already added
+        button.append(img);
+        buttonContainer.appendChild(button);
+      });
+  
+      this.shadowRoot.appendChild(buttonContainer);
+  
+  
+      if (this.game.leanMethods.has("qc")) {
+        this.qualityControlButton.style.visibility = "visible";
+        this.removeButton.style.visibility = "visible";
+      }
+  
+      // Enable buttons based on workstation completion
+      const isComplete = this.getCurrentWorkstation().isComplete(
+        this.game.getCarFromWorkstation(this.getCurrentWorkstation().id).parts
+      );
+      this.moveCarButton.disabled = !isComplete;
+      this.qualityControlButton.disabled = !isComplete;
     }
-
-    // Enable buttons based on workstation completion
-    const isComplete = this.getCurrentWorkstation().isComplete(
-      this.game.getCarFromWorkstation(this.getCurrentWorkstation().id).parts
-    );
-    this.moveCarButton.disabled = !isComplete;
-    this.qualityControlButton.disabled = !isComplete;
+    
   }
 
   // Draws the car parts on the screen

@@ -27,7 +27,7 @@ document.addEventListener("DOMContentLoaded", () => {
     document.querySelector("game-description").classList.add("hidden");
     document.querySelector("start-button").classList.add("hidden");
     document.getElementById("game-container").classList.remove("hidden");
-    document.getElementById("stats-container").classList.add("hidden");
+    document.getElementById("stats-container").classList.remove("hidden");
     document.querySelector("game-options").classList.add("hidden");
 
     document.getElementById(
@@ -35,16 +35,18 @@ document.addEventListener("DOMContentLoaded", () => {
     ).innerHTML = `<lean-game options='${JSON.stringify({
       selectedWorkstation,
     })}'></lean-game>`;
+    document
+      .getElementById("game-container")
+      .querySelector("lean-game")
+      .game.stats.addObserver(document.getElementById("stats-container").querySelector("show-stats"));
   });
-
   document
     .querySelector("new-round-button")
     .addEventListener("newRound", (event) => {
       // Access the selected lean method from the event detail
-      console.log(selectedLeanMethod);
       document.querySelector("game-header").classList.add("hidden");
       document.querySelector("new-round-button").classList.add("hidden");
-      document.getElementById("stats-container").classList.add("hidden");
+      document.getElementById("stats-container").classList.remove("hidden");
       document.querySelector("round-summary").classList.add("hidden");
 
       document.getElementById("game-container").classList.remove("hidden");
@@ -61,7 +63,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     //update statistics
     const showStatsComponent = document.querySelector("show-stats");
-    showStatsComponent.updateStatistics(gameStats, roundStats, capital);
+    showStatsComponent.update(gameStats, roundStats, capital);
 
     // Show statistics and reset home screen
     document.querySelector("game-header").classList.remove("hidden");
