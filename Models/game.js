@@ -15,6 +15,7 @@ import { TotalProductiveMaintenance } from "../lean-methods/total-productive-mai
 import { Car } from "./state/car/car.js";
 class Game {
   constructor(selectedWorkstation) {
+    this.selectedWorkstation = selectedWorkstation
     this.workstations = new Map();
     this.rounds = new Map();
     this.carId = 1;
