@@ -112,7 +112,7 @@ class Game {
     return matchingCar; // Might return undefined if no car is found
   }
 
-  moveWaitingcars() {
+  moveWaitingCars() {
     for (const car of this.cars.values()) {
       this.moveCar(car);
     }
@@ -126,7 +126,7 @@ class Game {
   }
 
   addPart(part, workstationId) {
-    this.moveWaitingcars();
+    this.moveWaitingCars();
     const currentWorkstation = this.workstations.get(workstationId);
     const car = this.getCarFromWorkstation(workstationId);
     try {
@@ -139,25 +139,10 @@ class Game {
   }
 
   
-
-  addPartOrMoveBot(workstationId) {
-    this.moveWaitingcars();
-    const car = this.getCarFromWorkstation(workstationId);
-    if (car) {
-      const workstation = Array.from(this.workstations.values()).find(
-        (workstation) => workstation.id === workstationId
-      );
-      if (workstation.isComplete(car.parts)) {
-        //if car is complete move to next station
-        car.manualMove(this.cars, this.workstations);
-      } else if (workstation.getIncompletePart(car.parts)) {
-        this.addPart(
-          workstation.getIncompletePart(car.parts).name,
-          workstationId
-        );
-      }
-    }
+  manualMove(car){
+    car.manualMove(this.cars,this.workstations)
   }
+  
   endGame() {
     this.isOver = true;
   }
