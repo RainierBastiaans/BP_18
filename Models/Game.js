@@ -1,7 +1,8 @@
 import { Workstation } from "./state/workstation/workstation.js";
 import { Round } from "./round.js";
 import { Bot } from "./occupant/bot.js";
-import data from "../db/parts.json" assert { type: "json" };
+import data from "../db/parts.json" with { type: "json" };
+import availableLeanmethods from "../db/leanmethods.json" with {type: "json"};
 import { GameStats } from "./stats/game-stats.js";
 import { Money } from "./money.js";
 import { RoundStats } from "./stats/round-stats.js";
@@ -24,6 +25,7 @@ class Game {
     this.cars = new Map();
     this.parts = data.parts;
     this.leanMethods = new Map();
+    this.availableLeanmethods = availableLeanmethods.leanMethods;
 
     this.createOrRefreshWorkstations();
     this.bots = [];
@@ -46,7 +48,7 @@ class Game {
         new WorkingWorkstation(
           i + 1,
           partList.map((partData) => partData.name),
-          this.leanMethods.get("tpm")
+          this.leanMethods.get("total_productive_maintenance")
         )
       );
     }
@@ -61,7 +63,8 @@ class Game {
 
   newRound(leanMethod) {
     const roundnumber = this.rounds.size + 1;
-    const newRound = new Round(new RoundStats(roundnumber, this));
+    const newRound = new Round();
+    this.stats.newRound();
     this.rounds.set(roundnumber, newRound);
     this.currentRound = newRound;
     this.newLeanMethod(leanMethod);
@@ -71,14 +74,14 @@ class Game {
   }
 
   newLeanMethod(method) {
-    if (method === "jit") {
+    if (method === "just_in_time") {
       this.leanMethods.set(method, new JustInTime());
       this.stock = new JITStock(this.stock.parts);
     }
-    if (method === "qc") {
+    if (method === "total_quality_control") {
       this.leanMethods.set(method, new QualityControl());
     }
-    if (method === "tpm") {
+    if (method === "total_productive_maintenance") {
       this.leanMethods.set(
         method,
         new TotalProductiveMaintenance(this.workstations)
@@ -91,7 +94,6 @@ class Game {
   }
 
   endRound() {
-    console.log(this.cars)
     this.currentRound.endRound();
     this.bots.forEach((bot) => bot.stopAddingParts());
     this.capital.add(this.currentRound.stats.capital);

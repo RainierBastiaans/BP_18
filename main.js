@@ -57,27 +57,29 @@ document.addEventListener("DOMContentLoaded", () => {
 
   //Round end
   document.addEventListener("roundover", (event) => {
-    const { gameStats, roundStats, capital } = event.detail;
+    const { gameStats, leanMethods} = event.detail;
 
     //update statistics
     const showStatsComponent = document.querySelector("show-stats");
-    showStatsComponent.updateStatistics(gameStats, roundStats, capital);
+    showStatsComponent.update(gameStats);
 
     // Show statistics and reset home screen
     document.querySelector("game-header").classList.remove("hidden");
     document.querySelector("new-round-button").classList.remove("hidden");
     document.getElementById("game-container").classList.add("hidden");
     document.getElementById("stats-container").classList.remove("hidden");
-    document.querySelector("round-summary").classList.remove("hidden");
+    const roundsummaryElement = document.querySelector("round-summary")
+    roundsummaryElement.showLeanMethods(leanMethods)
+    roundsummaryElement.classList.remove("hidden");
   });
 
   //Game end
   document.addEventListener("gameover", (event) => {
-    const { gameStats, roundStats, capital } = event.detail;
+    const { gameStats} = event.detail;
 
     //update statistics
     const showStatsComponent = document.querySelector("show-stats");
-    showStatsComponent.updateStatistics(gameStats, roundStats, capital);
+    showStatsComponent.update(gameStats);
 
     // Show statistics and reset home screen
     document.querySelector("game-header").classList.remove("hidden");

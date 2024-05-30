@@ -63,6 +63,7 @@ class LeanGame extends HTMLElement {
       }
     }, 500); // Call every 0.5 seconds (500 milliseconds)
   }
+  
 
   draw() {
     this.carPositionLine.setCarPositions(this.game.cars);
@@ -99,8 +100,7 @@ class LeanGame extends HTMLElement {
     }
     const gameDetails = {
       gameStats: this.game.stats,
-      roundStats: this.game.rounds,
-      capital: this.game.capital.amount,
+      leanMethods: this.game.leanMethods,
     };
 
     this.dispatchEvent(
@@ -133,13 +133,6 @@ class LeanGame extends HTMLElement {
 
   newRound(leanMethod) {
     this.game.newRound(leanMethod);
-    // Add event listener for setInterval
-    this.intervalId = setInterval(() => {
-      this.updateMessage();
-      if (this.game.currentRound.isOver) {
-        this.endRound();
-      }
-    }, 500); // Call every 0.5 seconds (500 milliseconds)
   }
 
   handleClick(event) {
@@ -229,27 +222,41 @@ class LeanGame extends HTMLElement {
   }
 
   createButtons() {
-    const buttonContainer = document.createElement("div");
-    buttonContainer.classList.add("part-buttons");
-
-    this.getCurrentWorkstation().partnames.forEach((part) => {
-      this.moveCarButton.style.visibility = "visible";
-      const button = document.createElement("button");
-      button.classList.add("part-button");
-      button.textContent = part;
-      button.dataset.partName = part;
-      button.addEventListener("click", this.handleClick.bind(this));
-      button.disabled = this.game
-        .getCarFromWorkstation(this.getCurrentWorkstation().id)
-        .isAdded(part); //disable button if already added
-      buttonContainer.appendChild(button);
-    });
-
-    this.shadowRoot.appendChild(buttonContainer);
-
-    if (this.game.leanMethods.has("qc")) {
-      this.qualityControlButton.style.visibility = "visible";
-      this.removeButton.style.visibility = "visible";
+    if(this.game.selectedWorkstation === this.getCurrentWorkstation().id){
+      const buttonContainer = document.createElement("div");
+      buttonContainer.classList.add("part-buttons");
+  
+      this.getCurrentWorkstation().partnames.forEach((part) => {
+        this.moveCarButton.style.visibility = "visible";
+        const button = document.createElement("button");
+        const img = document.createElement("img");
+        img.src = `./img/${part}.png`;
+        img.alt = `image of ${part}`;
+        button.classList.add("part-button");
+        button.dataset.partName = part;
+        //button.style.background = `url('./img/${part}.png') no-repeat`;
+        button.addEventListener("click", this.handleClick.bind(this));
+        button.disabled = this.game
+          .getCarFromWorkstation(this.getCurrentWorkstation().id)
+          .isAdded(part); //disable button if already added
+        button.append(img);
+        buttonContainer.appendChild(button);
+      });
+  
+      this.shadowRoot.appendChild(buttonContainer);
+  
+  
+      if (this.game.leanMethods.has("total_quality_control")) {
+        this.qualityControlButton.style.visibility = "visible";
+        this.removeButton.style.visibility = "visible";
+      }
+  
+      // Enable buttons based on workstation completion
+      const isComplete = this.getCurrentWorkstation().isComplete(
+        this.game.getCarFromWorkstation(this.getCurrentWorkstation().id).parts
+      );
+      this.moveCarButton.disabled = !isComplete;
+      this.qualityControlButton.disabled = !isComplete;
     }
 
     // Enable buttons based on workstation completion
