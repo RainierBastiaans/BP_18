@@ -113,8 +113,6 @@ class LeanGame extends HTMLElement {
 
     const gameDetails = {
       gameStats: this.game.stats,
-      roundStats: this.game.rounds,
-      capital: this.game.capital.amount,
     };
 
     this.dispatchEvent(
