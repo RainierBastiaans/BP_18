@@ -58,14 +58,16 @@ class Game {
     this.createOrRefreshWorkstations();
     this.stats = new GameStats(this);
     this.stock = new TraditionalStock(this.stats, this.parts);
+    this.emitter.on("gameOverInModel", () => {
+      this.endGame()
+    });
     this.newCar();
-    this.newRound();
     console.log(this)
   }
 
   newRound(leanMethod) {
     const roundnumber = this.rounds.size + 1;
-    const newRound = new Round();
+    const newRound = new Round(roundnumber);
     this.stats.newRound();
     this.rounds.set(roundnumber, newRound);
     this.currentRound = newRound;
@@ -99,10 +101,10 @@ class Game {
   }
 
   endRound() {
-    this.bots.forEach((bot) => bot.stopAddingParts());
-    if (this.rounds.size === gameValues.numberOfRounds) {
+    if (this.currentRound.roundNumber === gameValues.numberOfRounds){
       this.endGame();
     }
+    this.bots.forEach((bot) => bot.stopAddingParts());
   }
 
   newCar() {
@@ -152,8 +154,7 @@ class Game {
   }
   
   endGame() {
-    this.isOver = true;
-    this.emitter.emit("gameOver", this.stats); // Emit the event with data
+    this.isOver = true;    
   }
 }
 

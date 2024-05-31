@@ -65,6 +65,10 @@ class LeanGame extends HTMLElement {
   }
 
   endRound() {
+    if (this.game.isOver){
+      this.endGame()
+      return
+    }
     const gameDetails = {
       gameStats: this.game.stats,
       leanMethods: this.game.leanMethods,
@@ -107,6 +111,9 @@ class LeanGame extends HTMLElement {
     this.game.newRound(leanMethod);
     this.game.currentRound.emitter.on("roundoverInModel", () => {
       this.endRound()
+    });
+    this.game.currentRound.emitter.on("gameOverInModel",() => {
+      this.endGame()
     });
     // Add event listener for setInterval
     this.intervalId = setInterval(() => {

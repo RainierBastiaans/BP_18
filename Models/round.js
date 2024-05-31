@@ -2,7 +2,8 @@ import { gameValues } from "../game-values.js";
 import { Emitter } from "../emitter.js";
 
 class Round{
-  constructor() {
+  constructor(roundNumber) {
+    this.roundNumber = roundNumber
     this.timeLeft = gameValues.roundDuration; // Time in seconds
     this.timerInterval = null;
     this.isOver = false;
