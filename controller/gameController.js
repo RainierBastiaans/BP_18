@@ -5,8 +5,6 @@ class GameController {
 
     //Bind the eventlisteners of the view to the controller
     this.bindEventListeners();
-
-    this.init();
   }
 
   show() {
@@ -17,9 +15,9 @@ class GameController {
     this.view.hide();
   }
 
-  init() {
+  init(options) {
     this.view.updateMessage(this.model.getCurrentMessage());
-    this.show();
+    this.show(options);
     this.view.connectedCallback();
     this.updateButtonsState();
   }
@@ -136,10 +134,35 @@ class GameController {
   endRound() {
     // Logic to handle end of the round
     console.log("Round over");
+    // Stop the interval in the view
+    this.view.stopInterval();
+    const gameDetails = this.model.getGameDetails();
+
+    this.model.endRound();
+    this.view.dispatchEvent(
+      new CustomEvent("roundover", {
+        detail: gameDetails,
+        bubbles: true,
+        composed: true,
+      })
+    );
     //this.view.updateMessage("Round over. Prepare for the next round.");
     this.view.updateMessage(this.model.getCurrentMessage());
-    // Stop the interval in the view
-    clearInterval(this.view.timerInterval);
+  }
+
+  endGame() {
+    console.log("Game over");
+
+    this.view.stopInterval();
+    const gameDetails = this.model.getGameDetails();
+    this.model.endGame();
+    this.view.dispatchEvent(
+      new CustomEvent("gameover", {
+        detail: gameDetails,
+        bubbles: true,
+        composed: true,
+      })
+    );
   }
 
   isGameOver() {

@@ -7,8 +7,6 @@ class StartController {
     this.model = model;
     this.view = view;
 
-    //this.gameController = new GameController(this.model);
-
     this.bindEventListeners();
 
     this.init();
@@ -36,11 +34,8 @@ class StartController {
 
   handleStartGame = (event) => {
     const options = this.view.getSelectedOptions();
-    this.model.configureGame(options);
     //hide start screen
     this.hide();
-    //show game screen
-    //this.gameController.show();
 
     document.dispatchEvent(new CustomEvent("startgame", { detail: options }));
   };

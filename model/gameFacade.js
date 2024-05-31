@@ -21,7 +21,22 @@ class GameFacade {
 
   startNewRound() {}
 
-  endRound() {}
+  endRound() {
+    if (this.game.isOver) {
+      this.game.endGame();
+      return;
+    }
+
+    this.game.endRound();
+  }
+
+  getGameDetails() {
+    return {
+      gameStats: this.game.stats,
+      roundStats: this.game.currentRound.stats,
+      capital: this.game.capital,
+    };
+  }
 
   endGame() {}
 
@@ -59,7 +74,7 @@ class GameFacade {
   }
 
   isRoundOver() {
-    return this.currentRound.isOver;
+    return this.game.currentRound.isOver;
   }
 
   getCarStatus() {

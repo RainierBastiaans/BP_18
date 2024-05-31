@@ -18,9 +18,12 @@ class GameView extends HTMLElement {
   }
 
   //get the game screen
-  show() {
+  show(options) {
     //Show game container
     this.gameContainer.classList.remove("hidden");
+    this.gameContainer.innerHTML = `<lean-game options='${JSON.stringify(
+      options
+    )}'></lean-game>`;
   }
 
   //hide the game screen
@@ -58,7 +61,6 @@ class GameView extends HTMLElement {
   }
 
   connectedCallback() {
-    this.updateMessage();
     this.draw();
     this.startInterval();
     // Add event listener for setInterval
@@ -97,7 +99,7 @@ class GameView extends HTMLElement {
 
   startInterval() {
     this.timerInterval = setInterval(() => {
-      this.carVisuals();
+      this.draw();
       this.updateMessage();
       this.dispatchEvent(new CustomEvent("checkRoundOver"));
     }, 500); // Call every 0.5 seconds (500 milliseconds)

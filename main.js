@@ -14,24 +14,20 @@ document.addEventListener("DOMContentLoaded", (event) => {
 
   const startController = new StartController(model, startView);
   const gameController = new GameController(model, gameView);
-  const roundController = new RoundController(model, roundView);
+  //const roundController = new RoundController(model, endView);
 
-  setupGlobalEventListeners(startController, gameController, roundController);
+  setupGlobalEventListeners(startController, gameController);
 });
 
-function setupGlobalEventListeners(
-  startController,
-  gameController,
-  roundController
-) {
+function setupGlobalEventListeners(startController, gameController) {
   document.addEventListener("startgame", (event) => {
     //should also be possible for "Play again" button to trigger this event with different options
     console.log("startgame event received");
-    startController.startGame(event.detail);
+    gameController.init(event.detail);
   });
 
   document.addEventListener("newRound", (event) => {
-    roundController.newRound(event.detail.selectedLeanMethod);
+    //roundController.newRound(event.detail.selectedLeanMethod);
   });
 
   document.addEventListener("roundover", (event) => {
