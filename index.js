@@ -90,7 +90,6 @@ class LeanGame extends HTMLElement {
   }
 
   endGame() {
-    this.partPosition = [];
     clearInterval(this.intervalId);
     const gameDetails = {
       gameStats: this.game.stats,
@@ -117,6 +116,7 @@ class LeanGame extends HTMLElement {
     this.intervalId = setInterval(() => {
       this.updateMessage();
     }, 500); // Call every 0.5 seconds (500 milliseconds)
+    this.partPosition = [];
   }
 
   handleClick(event) {
@@ -211,85 +211,87 @@ class LeanGame extends HTMLElement {
   }
 
   createButtons() {
-    const buttonContainer = document.createElement("div");
-    buttonContainer.id = "part-buttons";
-    buttonContainer.classList.add("part-buttons");
-    for (let i = 0; i < 30; i++) {
-      const gritItem = document.createElement("div");
-      gritItem.id = i;
-      gritItem.classList.add("grid-item");
-      buttonContainer.append(gritItem);
-    }
+    if (this.game.selectedWorkstation === this.getCurrentWorkstation().id) {
+      const buttonContainer = document.createElement("div");
+      buttonContainer.id = "part-buttons";
+      buttonContainer.classList.add("part-buttons");
+      for (let i = 0; i < 30; i++) {
+        const gritItem = document.createElement("div");
+        gritItem.id = i;
+        gritItem.classList.add("grid-item");
+        buttonContainer.append(gritItem);
+      }
 
-    if (this.partPosition.length == 0) {
-      const gridItems = buttonContainer.getElementsByClassName("grid-item");
+      if (this.partPosition.length == 0) {
+        const gridItems = buttonContainer.getElementsByClassName("grid-item");
 
-      this.getCurrentWorkstation().partnames.forEach((part) => {
-        let amount = Number(this.game.getAmountOfPart(part));
+        this.getCurrentWorkstation().partnames.forEach((part) => {
+          let amount = Number(this.game.getAmountOfPart(part));
 
-        const count = Math.min(amount, 4);
+          const count = Math.min(amount, 4);
 
-        for (let i = 0; i < count; i++) {
-          this.moveCarButton.style.visibility = "visible";
-          const button = document.createElement("input");
+          for (let i = 0; i < count; i++) {
+            this.moveCarButton.style.visibility = "visible";
+            const button = document.createElement("input");
 
-          button.setAttribute("id", `${part}${i}`);
-          button.setAttribute("part", part);
-          button.setAttribute("type", "image");
-          button.setAttribute("src", `./img/${part}.png`);
-          button.setAttribute("alt", `${part}`);
-          button.classList.add("part-button");
-          button.dataset.partName = part;
+            button.setAttribute("id", `${part}${i}`);
+            button.setAttribute("part", part);
+            button.setAttribute("type", "image");
+            button.setAttribute("src", `./img/${part}.png`);
+            button.setAttribute("alt", `${part}`);
+            button.classList.add("part-button");
+            button.dataset.partName = part;
 
-          button.addEventListener("click", this.handleClick.bind(this));
+            button.addEventListener("click", this.handleClick.bind(this));
+            button.disabled = this.game
+              .getCarFromWorkstation(this.getCurrentWorkstation().id)
+              .isAdded(part); //disable button if already added
+
+            let randomIndex;
+            let cellIsEmpty = false;
+
+            // Loop until an empty cell is found
+            while (!cellIsEmpty) {
+              randomIndex = Math.floor(Math.random() * gridItems.length);
+              if (gridItems[randomIndex].children.length === 0) {
+                cellIsEmpty = true;
+              }
+            }
+
+            this.partPosition.push({
+              index: randomIndex,
+              button: button,
+            });
+            // Add the new element to the randomly selected empty grid item
+            gridItems[randomIndex].appendChild(button);
+          }
+        });
+      } else {
+        const gridItems = buttonContainer.getElementsByClassName("grid-item");
+
+        this.partPosition.forEach((position) => {
+          let button = position.button;
           button.disabled = this.game
             .getCarFromWorkstation(this.getCurrentWorkstation().id)
-            .isAdded(part); //disable button if already added
+            .isAdded(button.getAttribute("part"));
+          gridItems[position.index].appendChild(button);
+        });
+      }
 
-          let randomIndex;
-          let cellIsEmpty = false;
+      this.shadowRoot.appendChild(buttonContainer);
 
-          // Loop until an empty cell is found
-          while (!cellIsEmpty) {
-            randomIndex = Math.floor(Math.random() * gridItems.length);
-            if (gridItems[randomIndex].children.length === 0) {
-              cellIsEmpty = true;
-            }
-          }
+      if (this.game.leanMethods.has("total_quality_control")) {
+        this.qualityControlButton.style.visibility = "visible";
+        this.removeButton.style.visibility = "visible";
+      }
 
-          this.partPosition.push({
-            index: randomIndex,
-            button: button,
-          });
-          // Add the new element to the randomly selected empty grid item
-          gridItems[randomIndex].appendChild(button);
-        }
-      });
-    } else {
-      const gridItems = buttonContainer.getElementsByClassName("grid-item");
-
-      this.partPosition.forEach((position) => {
-        let button = position.button;
-        button.disabled = this.game
-          .getCarFromWorkstation(this.getCurrentWorkstation().id)
-          .isAdded(button.getAttribute("part"));
-        gridItems[position.index].appendChild(button);
-      });
+      // Enable buttons based on workstation completion
+      const isComplete = this.getCurrentWorkstation().isComplete(
+        this.game.getCarFromWorkstation(this.getCurrentWorkstation().id).parts
+      );
+      this.moveCarButton.disabled = !isComplete;
+      this.qualityControlButton.disabled = !isComplete;
     }
-
-    this.shadowRoot.appendChild(buttonContainer);
-
-    if (this.game.leanMethods.has("total_quality_control")) {
-      this.qualityControlButton.style.visibility = "visible";
-      this.removeButton.style.visibility = "visible";
-    }
-
-    // Enable buttons based on workstation completion
-    const isComplete = this.getCurrentWorkstation().isComplete(
-      this.game.getCarFromWorkstation(this.getCurrentWorkstation().id).parts
-    );
-    this.moveCarButton.disabled = !isComplete;
-    this.qualityControlButton.disabled = !isComplete;
   }
 
   // Draws the car parts on the screen
@@ -299,6 +301,17 @@ class LeanGame extends HTMLElement {
     carContainer.id = "car-container";
     const workstation = this.getCurrentWorkstation();
     const car = this.game.getCarFromWorkstation(workstation.id);
+
+    const checkHolder = this.shadowRoot.getElementById(
+      `placeholder${workstation.id}`
+    );
+    if (car && workstation.id != 1 && checkHolder == null) {
+      const placeholder = document.createElement("img");
+      placeholder.id = `placeholder${workstation.id}`;
+      placeholder.src = `./img/placeholders/${workstation.id}.png`;
+      placeholder.alt = `image of ${workstation.id}`;
+      carContainer.append(placeholder);
+    }
 
     try {
       // Loop all parts and check if added
