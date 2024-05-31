@@ -235,19 +235,27 @@ class LeanGame extends HTMLElement {
     buttonContainer.classList.add("part-buttons");
 
     this.getCurrentWorkstation().partnames.forEach((part) => {
-      this.game.getAmountOfPart(part);
-      this.moveCarButton.style.visibility = "visible";
-      const button = document.createElement("input");
-      button.type = "image";
-      button.src = `./img/${part}.png`;
-      button.alt = `${part}`;
-      button.classList.add("part-button");
-      button.dataset.partName = part;
-      button.addEventListener("click", this.handleClick.bind(this));
-      button.disabled = this.game
-        .getCarFromWorkstation(this.getCurrentWorkstation().id)
-        .isAdded(part); //disable button if already added
-      buttonContainer.appendChild(button);
+      let amount = Number(this.game.getAmountOfPart(part));
+      const count = Math.min(amount, 4);
+
+      for (let i = 0; i < count; i++) {
+        this.moveCarButton.style.visibility = "visible";
+        const button = document.createElement("input");
+
+        button.setAttribute("id", `${part}${i}`);
+        button.setAttribute("type", "image");
+        button.setAttribute("src", `./img/${part}.png`);
+        button.setAttribute("alt", `${part}`);
+        button.classList.add("part-button");
+        button.dataset.partName = part;
+
+        button.addEventListener("click", this.handleClick.bind(this));
+        button.disabled = this.game
+          .getCarFromWorkstation(this.getCurrentWorkstation().id)
+          .isAdded(part); //disable button if already added
+        buttonContainer.appendChild(button);
+        this.partButtonRemaining++;
+      }
     });
 
     this.shadowRoot.appendChild(buttonContainer);
