@@ -30,7 +30,7 @@ class TraditionalStock extends BaseStock {
 
   newRound() {
     for (const [partName, partInfo] of this.parts.entries()) {
-      this.addPartsToStock(partName, 6);
+      this.addPartsToStock(partName, 4);
     }
   }
 }

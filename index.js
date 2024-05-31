@@ -233,9 +233,13 @@ class LeanGame extends HTMLElement {
   createButtons() {
     const buttonContainer = document.createElement("div");
     buttonContainer.classList.add("part-buttons");
+    
 
     this.getCurrentWorkstation().partnames.forEach((part) => {
       let amount = Number(this.game.getAmountOfPart(part));
+      const partContainer = document.createElement("div");
+      partContainer.classList.add("part-container");
+
       const count = Math.min(amount, 4);
 
       for (let i = 0; i < count; i++) {
@@ -253,9 +257,9 @@ class LeanGame extends HTMLElement {
         button.disabled = this.game
           .getCarFromWorkstation(this.getCurrentWorkstation().id)
           .isAdded(part); //disable button if already added
-        buttonContainer.appendChild(button);
-        this.partButtonRemaining++;
+        partContainer.appendChild(button);
       }
+      buttonContainer.appendChild(partContainer);
     });
 
     this.shadowRoot.appendChild(buttonContainer);

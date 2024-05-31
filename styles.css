@@ -131,6 +131,20 @@ button:disabled {
   position: absolute;
 }
 
+.part-buttons {
+  display: grid;
+  grid-template-columns: repeat(4, 0.5fr);
+  max-width: 1100px;
+  padding-left: 15%;
+}
+
+.part-container {
+  justify-content: center;
+  align-content: center;
+  justify-items: center;
+  align-items: center;
+}
+
 .part-button {
   min-width: 35px;
   max-width: 115px;
