@@ -8,9 +8,9 @@ import EndView from "./view/endView.js";
 
 document.addEventListener("DOMContentLoaded", (event) => {
   const model = new GameFacade();
-  const gameView = new GameView();
-  const startView = new StartView();
-  const endView = new EndView();
+  const gameView = document.querySelector('game-view')
+  const startView = document.querySelector('start-view')
+  // const endView = new EndView();
 
   const startController = new StartController(model, startView);
   const gameController = new GameController(model, gameView);
@@ -24,19 +24,20 @@ function setupGlobalEventListeners(startController, gameController) {
     //should also be possible for "Play again" button to trigger this event with different options
     console.log("startgame event received");
     gameController.init(event.detail);
+    startController.startGame(event.detail);
   });
 
   document.addEventListener("newRound", (event) => {
     //roundController.newRound(event.detail.selectedLeanMethod);
   });
 
-  document.addEventListener("roundover", (event) => {
-    //detail.roundStats?
-    gameController.handleRoundOver(event.detail);
-  });
+  // document.addEventListener("roundover", (event) => {
+  //   //detail.roundStats?
+  //   gameController.handleRoundOver(event.detail);
+  // });
 
-  document.addEventListener("gameover", (event) => {
-    //detail.gameStats?
-    gameController.handleGameOver(event.detail);
-  });
+  // document.addEventListener("gameover", (event) => {
+  //   //detail.gameStats?
+  //   gameController.handleGameOver(event.detail);
+  // });
 }

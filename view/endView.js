@@ -8,10 +8,6 @@ class EndView extends HTMLElement {
 
     //Initialize elements
     this.initializeElements();
-
-    //Moet in model?
-    this.timeLeft = 180; // Time in seconds
-    this.timerInterval = null;
   }
 
   initializeElements() {
