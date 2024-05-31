@@ -1,14 +1,27 @@
 class RoundController {
-  constructor(leanGame) {
-    this.leanGame = leanGame;
+  constructor(model, view) {
+    this.model = model;
+    this.view = view;
     // Add event listeners for round interactions
-    this.leanGame.addEventListener(
-      "roundover",
-      this.handleRoundOver.bind(this)
-    );
+    // this.leanGame.addEventListener(
+    //   "roundover",
+    //   this.handleRoundOver.bind(this)
+    // );
     this.leanGame.addEventListener("gameover", this.handleGameOver.bind(this));
-    // Additional setup for round interactions...
+
+    //Bind the eventlisteners of the view to the controller
+    this.bindEventListeners();
   }
+
+  show() {
+    this.view.show();
+  }
+
+  hide() {
+    this.view.hide();
+  }
+
+  bindEventListeners() {}
 
   handleRoundOver(event) {
     clearInterval(this.leanGame.intervalId);

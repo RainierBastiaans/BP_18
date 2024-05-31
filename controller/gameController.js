@@ -1,65 +1,102 @@
-import GameFacade from "../model/gameFacade";
-import
-
-// gameController.js
 class GameController {
-  constructor(elements) {
-    this.gameFacade = new GameFacade();
+  constructor(model, view) {
+    this.model = model;
+    this.view = view;
 
-    this.previousButton = elements[0];
-    this.nextButton = elements[1];
-    this.moveCarButton = elements[2];
-    this.qualityControlButton = elements[3];
-    // Add event listeners for game controls
-    this.addEventListeners();
+    //Bind the eventlisteners of the view to the controller
+    this.bindEventListeners();
+
+    this.init();
   }
 
-  addEventListeners() {
-    this.previousButton.addEventListener("click", this.handleClick.bind(this));
-    this.nextButton.addEventListener("click", this.handleClick.bind(this));
-    this.moveCarButton.addEventListener("click", this.handleClick.bind(this));
-    this.qualityControlButton.addEventListener(
-      "click",
-      this.handleClick.bind(this)
-    );
+  show() {
+    this.view.show();
   }
 
-  handleClick(event) {
-    const target = event.target;
-    if (target.classList.contains("part-button")) {
-      this.handlePartButtonClick(target);
-    } else if (target === this.gameFacade.previousButton) {
-      this.gameFacade.goToPreviousWorkstation();
-    } else if (target === this.gameFacade.nextButton) {
-      this.gameFacade.goToNextWorkstation();
-    } else if (target === this.gameFacade.moveCarButton) {
-      this.gameFacade.moveCar();
-    } else if (target === this.gameFacade.qualityControlButton) {
-      this.gameFacade.qualityControl();
+  hide() {
+    this.view.hide();
+  }
+
+  init() {
+    this.view.updateMessage(this.model.getCurrentMessage());
+    this.show();
+    this.view.connectedCallback();
+    this.updateButtonsState();
+  }
+
+  bindEventListeners() {
+    this.view.bindPreviousButtonClick(this.handlePreviousButton);
+    this.view.bindNextButtonClick(this.handleNextButton);
+    this.view.bindMoveCarButtonClick(this.handleMoveCarButton);
+    this.view.bindQualityControlButtonClick(this.handleQualityControlButton);
+    this.view.bindCheckRoundOver(this.checkRoundOver);
+    this.view.bindPartButtonClick(this.handlePartButtonClick);
+  }
+
+  handlePreviousButton = () => {
+    console.log("Previous button clicked");
+    // Logic for handling previous button click
+    this.model.goToPreviousWorkstation();
+    this.updateView();
+  };
+
+  handleNextButton = () => {
+    console.log("Next button clicked");
+    // Logic for handling next button click
+    this.model.goToNextWorkstation();
+    this.updateView();
+  };
+
+  handleMoveCarButton = () => {
+    console.log("Move car button clicked");
+    // Logic for handling move car button click
+    this.model.moveCarToNextStation();
+    this.updateView();
+    this.view.updateCarStatus(this.model.getCarStatus());
+  };
+
+  handleQualityControlButton = () => {
+    console.log("Quality control button clicked");
+    // Logic for handling quality control button click
+    this.model.performQualityControl();
+    this.updateView();
+    this.view.updateQualityControl(this.model.getQualityControlStatus());
+  };
+
+  checkRoundOver = () => {
+    if (this.model.isRoundOver()) {
+      this.endRound();
     }
-  }
+  };
 
   handlePartButtonClick(button) {
     const partName = button.dataset.partName;
     const workstationId = this.getCurrentWorkstationId();
-    this.gameFacade.addPart(
-      partName,
-      workstationId
-    );
-    this.gameFacade.updateMessage();
-    this.gameFacade.updateQualityControlButton();
+    this.model.addPart(partName, workstationId);
+    this.updatePartsAdded(this.model.getPartsAdded());
   }
 
-  goToPreviousWorkstation() {
-    // Logic to handle going to the previous workstation
+  updateView() {
+    this.view.updateMessage(this.model.getCurrentMessage());
+    this.view.draw(this.model.getWorkstationStatus());
+    this.updateButtonsState();
   }
 
-  goToNextWorkstation() {
-    // Logic to handle going to the next workstation
+  updateButtonsState() {
+    const currentIndex = this.model.getCurrentWorkstationIndex();
+    const totalWorkstations = this.model.getTotalWorkstations();
+
+    this.view.previousButton.disabled = currentIndex === 0;
+    this.view.nextButton.disabled = currentIndex === totalWorkstations - 1;
+
+    const isQualityControlVisible = this.model.shouldShowQualityControl();
+    this.view.qualityControlButton.style.visibility = isQualityControlVisible
+      ? "visible"
+      : "hidden";
   }
 
   moveCar() {
-    this.gameFacade.getCarFromWorkstation(this.getCurrentWorkstationId()).move(this.gameFacade.cars);
+    this.model.moveCarToNextStation();
   }
 
   qualityControl() {
@@ -67,15 +104,15 @@ class GameController {
   }
 
   getCurrentWorkstation() {
-    return this.gameFacade.getCurrentWorkstation();
+    return this.model.getCurrentWorkstation();
   }
 
   getCurrentWorkstationId() {
     return this.getCurrentWorkstation().id;
   }
 
-  getCarFromWorkstation(id){
-    return this.gameFacade.getCarFromWorkstation(id);
+  getCarFromWorkstation(id) {
+    return this.model.getCarFromWorkstation(id);
   }
 
   getCarFromCurrentWorkstation() {
@@ -84,7 +121,8 @@ class GameController {
   }
 
   getQualityControl() {
-    return this.getCarFromWorkstation(this.getCurrentWorkstationId()).qualityControl;
+    return this.getCarFromWorkstation(this.getCurrentWorkstationId())
+      .qualityControl;
   }
 
   isUnderMaintenance() {
@@ -96,60 +134,59 @@ class GameController {
   }
 
   endRound() {
-    this.gameFacade.endRound();
-  }
-
-  isRoundOver() {
-    return this.gameFacade.isRoundOver();
+    // Logic to handle end of the round
+    console.log("Round over");
+    //this.view.updateMessage("Round over. Prepare for the next round.");
+    this.view.updateMessage(this.model.getCurrentMessage());
+    // Stop the interval in the view
+    clearInterval(this.view.timerInterval);
   }
 
   isGameOver() {
-    return this.gameFacade.isGameOver();
+    return this.model.isGameOver();
   }
 
   getGameStats() {
-    return this.gameFacade.getGameStats();
+    return this.model.getGameStats();
   }
 
   getRoundStats() {
-    return this.gameFacade.getRoundStats();
+    return this.model.getRoundStats();
   }
 
   getCapital() {
-    return this.gameFacade.getCapital();
+    return this.model.getCapital();
     //getCapital.amount
   }
 
   getAmountCarsCompleted() {
-    return this.gameFacade.getAmountCarsCompleted();
-  } 
+    return this.model.getAmountCarsCompleted();
+  }
 
   getPartNames() {
-    return this.gameFacade.getPartNames();
+    return this.model.getPartNames();
     //field from currentworkstation!
   }
 
-  isPartAdded(partName) {    
-    return this.gameFacade.isPartAdded(partName);
+  isPartAdded(partName) {
+    return this.model.isPartAdded(partName);
     //to car of current workstation!
   }
 
   hasLeanMethod(leanMethod) {
-    return this.gameFacade.hasLeanMethod(leanMethod);
+    return this.model.hasLeanMethod(leanMethod);
   }
 
   isCarComplete() {
     const car = this.getCarFromCurrentWorkstation();
-    return this.gameFacade.isCarComplete(car.parts);
+    return this.model.isCarComplete(car.parts);
     //from currentworkstation!
   }
 
   getWorkstationSize() {
-    return this.gameFacade.getWorkstationSize();
+    return this.model.getWorkstationSize();
     //=field in workstation!
   }
-
-
 }
 
 export { GameController };

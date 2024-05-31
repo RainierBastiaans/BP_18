@@ -9,15 +9,15 @@ import data from "./db/parts.json" assert { type: "json" };
 import { CompositeLeanMethod } from "./domain/lean-methods/composite-lean-method.js";
 import { JustInTime } from "./domain/lean-methods/just-in-time.js";
 import { QualityControl } from "./domain/lean-methods/quality-control.js";
-import { TotalProductiveMaintenance } from "../lean-methods/total-productive-maintenance.js";
+import { TotalProductiveMaintenance } from "./domain/lean-methods/total-productive-maintenance.js";
 //import OCCUPANT
 import { Bot } from "./domain/occupant/bot.js";
 //import STATE
-import { CarAtWorkstation } from "./state/car/car-at-workstation.js";
-import { CarInLine } from "./state/car/car-inline.js";
-import { CarToAssembly } from "./state/car/car-to-assembly.js";
-import { CarCheckup } from "./state/car/car-checkup.js";
-import { WorkingWorkstation } from "./state/workstation/workstation-working.js";
+import { CarAtWorkstation } from "./domain/state/car/car-at-workstation.js";
+import { CarInLine } from "./domain/state/car/car-inline.js";
+import { CarToAssembly } from "./domain/state/car/car-to-assembly.js";
+import { CarCheckup } from "./domain/state/car/car-checkup.js";
+import { WorkingWorkstation } from "./domain/state/workstation/workstation-working.js";
 //import STOCK
 import { JITStock } from "./domain/stock/jit-stock.js";
 import { TraditionalStock } from "./domain/stock/traditional-stock.js";
@@ -61,18 +61,13 @@ class Game {
       );
     }
   }
+
   newGame() {
     this.capital = new Money(50000);
     this.stock = new TraditionalStock(this.parts);
-
-    this.observers = [];
-  }
-
-  newGame() {
     this.newCar();
     this.newRound();
     this.stats = new GameStats(this);
-    this.addObserver(this.stats);
   }
 
   newRound(leanMethod) {
@@ -87,20 +82,20 @@ class Game {
     this.bots.forEach((bot) => bot.startWorking());
     this.createOrRefreshWorkstations();
 
-    this.addObserver(roundStats);
+    //this.addObserver(roundStats);
   }
 
-  addObserver(observer) {
-    this.observers.push(observer);
-  }
+  // addObserver(observer) {
+  //   this.observers.push(observer);
+  // }
 
-  removeObserver(observer) {
-    this.observers = this.observers.filter((obs) => obs !== observer);
-  }
+  // removeObserver(observer) {
+  //   this.observers = this.observers.filter((obs) => obs !== observer);
+  // }
 
-  notifyObservers(subject) {
-    this.observers.forEach((observer) => observer.update(subject));
-  }
+  // notifyObservers(subject) {
+  //   this.observers.forEach((observer) => observer.update(subject));
+  // }
 
   newLeanMethod(method) {
     if (method === "jit") {
@@ -150,6 +145,7 @@ class Game {
     }
   }
 
+  //HELP?
   newCar() {
     new CarToAssembly(this.cars.size, this.parts, this.cars);
   }
