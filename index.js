@@ -31,6 +31,7 @@ class LeanGame extends HTMLElement {
 
     this.timeLeft = 180; // Time in seconds
     this.timerInterval = null;
+    this.partPosition = [];
   }
 
   connectedCallback() {
@@ -87,6 +88,7 @@ class LeanGame extends HTMLElement {
   }
 
   endRound() {
+    this.partPosition = [];
     clearInterval(this.intervalId);
     this.game.endRound();
 
@@ -110,6 +112,7 @@ class LeanGame extends HTMLElement {
   }
 
   endGame() {
+    this.partPosition = [];
     clearInterval(this.intervalId);
     this.game.endRound();
 
@@ -184,6 +187,7 @@ class LeanGame extends HTMLElement {
     this.game
       .getCarFromWorkstation(this.getCurrentWorkstation().id)
       .manualMove(this.game.cars, this.game.workstations);
+    this.partPosition = [];
     this.updateMessage();
     this.updateQualityControlButton();
   }
@@ -232,54 +236,72 @@ class LeanGame extends HTMLElement {
 
   createButtons() {
     const buttonContainer = document.createElement("div");
+    buttonContainer.id = "part-buttons";
     buttonContainer.classList.add("part-buttons");
     for (let i = 0; i < 30; i++) {
       const gritItem = document.createElement("div");
+      gritItem.id = i;
       gritItem.classList.add("grid-item");
       buttonContainer.append(gritItem);
     }
 
-    const gridItems = buttonContainer.getElementsByClassName("grid-item");
+    if (this.partPosition.length == 0) {
+      const gridItems = buttonContainer.getElementsByClassName("grid-item");
 
-    this.getCurrentWorkstation().partnames.forEach((part) => {
-      let amount = Number(this.game.getAmountOfPart(part));
+      this.getCurrentWorkstation().partnames.forEach((part) => {
+        let amount = Number(this.game.getAmountOfPart(part));
 
-      const count = Math.min(amount, 4);
+        const count = Math.min(amount, 4);
 
-      for (let i = 0; i < count; i++) {
-        this.moveCarButton.style.visibility = "visible";
-        const button = document.createElement("input");
+        for (let i = 0; i < count; i++) {
+          this.moveCarButton.style.visibility = "visible";
+          const button = document.createElement("input");
 
-        button.setAttribute("id", `${part}${i}`);
-        button.setAttribute("type", "image");
-        button.setAttribute("src", `./img/${part}.png`);
-        button.setAttribute("alt", `${part}`);
-        button.classList.add("part-button");
-        button.dataset.partName = part;
+          button.setAttribute("id", `${part}${i}`);
+          button.setAttribute("part", part);
+          button.setAttribute("type", "image");
+          button.setAttribute("src", `./img/${part}.png`);
+          button.setAttribute("alt", `${part}`);
+          button.classList.add("part-button");
+          button.dataset.partName = part;
 
-        button.addEventListener("click", this.handleClick.bind(this));
+          button.addEventListener("click", this.handleClick.bind(this));
+          button.disabled = this.game
+            .getCarFromWorkstation(this.getCurrentWorkstation().id)
+            .isAdded(part); //disable button if already added
+
+          let randomIndex;
+          let cellIsEmpty = false;
+
+          // Loop until an empty cell is found
+          while (!cellIsEmpty) {
+            randomIndex = Math.floor(Math.random() * gridItems.length);
+            if (gridItems[randomIndex].children.length === 0) {
+              cellIsEmpty = true;
+            }
+          }
+
+          this.partPosition.push({
+            index: randomIndex,
+            button: button,
+          });
+          // Add the new element to the randomly selected empty grid item
+          gridItems[randomIndex].appendChild(button);
+        }
+      });
+    } else {
+      const gridItems = buttonContainer.getElementsByClassName("grid-item");
+
+      this.partPosition.forEach((position) => {
+        let button = position.button;
         button.disabled = this.game
           .getCarFromWorkstation(this.getCurrentWorkstation().id)
-          .isAdded(part); //disable button if already added
-
-        let randomIndex;
-        let cellIsEmpty = false;
-
-        // Loop until an empty cell is found
-        while (!cellIsEmpty) {
-          randomIndex = Math.floor(Math.random() * gridItems.length);
-          if (gridItems[randomIndex].children.length === 0) {
-            cellIsEmpty = true;
-          }
-        }
-
-        // Add the new element to the randomly selected empty grid item
-        gridItems[randomIndex].appendChild(button);
-      }
-    });
+          .isAdded(button.getAttribute("part"));
+        gridItems[position.index].appendChild(button);
+      });
+    }
 
     this.shadowRoot.appendChild(buttonContainer);
-
     //console.log(this.game.leanMethods);
 
     if (this.game.leanMethods.has("qc")) {
