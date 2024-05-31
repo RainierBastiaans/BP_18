@@ -1,10 +1,14 @@
-class Round {
-  constructor(stats) {
-    this.timeLeft = 30; // Time in seconds
+import { gameValues } from "../game-values.js";
+import { Emitter } from "../emitter.js";
+
+class Round{
+  constructor(roundNumber) {
+    this.roundNumber = roundNumber
+    this.timeLeft = gameValues.roundDuration; // Time in seconds
     this.timerInterval = null;
     this.isOver = false;
+    this.emitter = new Emitter(); // Create an Emitter instance
     this.startTimer();
-    this.stats = stats;
   }
 
   startTimer() {
@@ -19,7 +23,8 @@ class Round {
 
   endRound() {
     clearInterval(this.timerInterval);
-    this.isOver = true;
+    this.emitter.emit("roundoverInModel"); // Emit the event
   }
+    
 }
 export { Round };

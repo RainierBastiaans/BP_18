@@ -1,5 +1,10 @@
-class BaseStock {
-  constructor() {}
+import { Subject } from "../../subject.js";
+
+class BaseStock extends Subject{
+  constructor(gamestats) {
+    super();
+    this.addObserver(gamestats);
+  }
 
   usePart(part) {
     if (this.hasEnoughParts(part)) {
@@ -15,9 +20,7 @@ class BaseStock {
     return this.parts.get(part).quantity > 0;
   }
 
-  addPartsToStock(part, count) {
-    this.parts.get(part).quantity += count;
-  }
+   
 
   // Placeholder method for requestPart, subclasses will implement their own behavior
   requestPart(part) {

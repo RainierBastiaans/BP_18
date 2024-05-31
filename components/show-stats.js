@@ -34,9 +34,13 @@ class ShowStats extends HTMLElement {
           <h2 class="statistics-heading">Game Statistics</h2>
           <table class="statistics-table">
             <tr>
-              <th rowspan="3">Game Stats</th>
+              <th rowspan="4">Game Stats</th>
               <th>Total Cars Completed</th>
               <td id="carsCompleted">0</td>
+            </tr>
+            <tr>
+              <th>Total Cars Broken</th>
+              <td id="carsBroken">0</td>
             </tr>
             <tr>
               <th>Total Income</th>
@@ -51,6 +55,7 @@ class ShowStats extends HTMLElement {
           </table>
         </div>
       `;
+<<<<<<< HEAD
     this.carsCompletedElement = this.shadowRoot.querySelector("#carsCompleted");
     this.totalIncomeElement = this.shadowRoot.querySelector("#totalIncome");
     this.capitalElement = this.shadowRoot.querySelector("#capital");
@@ -85,6 +90,21 @@ class ShowStats extends HTMLElement {
           `;
       roundStatsBody.appendChild(row);
     });
+=======
+      this.carsCompletedElement = this.shadowRoot.querySelector("#carsCompleted");
+      this.carsBrokenElement = this.shadowRoot.querySelector('#carsBroken')
+      this.totalIncomeElement = this.shadowRoot.querySelector("#totalIncome");
+      this.capitalElement = this.shadowRoot.querySelector("#capital");
+    }
+  
+    // Methods to update the stats
+    update(gameStats) {
+      this.carsCompletedElement.textContent = gameStats.carsCompleted;
+      this.carsBrokenElement.textContent = gameStats.carsBroken
+      this.totalIncomeElement.textContent = gameStats.totalIncome + "€";
+      this.capitalElement.textContent = gameStats.capital.amount + "€"
+    }
+>>>>>>> develop
   }
 }
 

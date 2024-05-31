@@ -1,54 +1,73 @@
+import { gameValues } from "../../../game-values.js";
 import { CarBroken } from "./car-broken.js";
 import { CarCheckup } from "./car-checkup.js";
 import { CarInLine } from "./car-inline.js";
+import { CarState } from "./car-state.js";
 import { Car } from "./car.js";
 
-class CarAtWorkstation extends Car {
-  constructor(id, parts, workstationid) {
-    super(id);
+class CarAtWorkstation extends CarState {
+  constructor(workstationid) {
+    super()
     this.workstationId = workstationid;
-    this.parts = parts;
   }
 
-  addPart(part) {
-    //console.log(this);
-    this.breakPart(part);
+  addPart(parts, partToAdd) {
+    parts = this.breakPart(parts, partToAdd);
     // Check if the part exists in the map (case-sensitive)
     // Update the partAdded property to true for the existing part
-    const partInfo = this.parts.get(part);
+    const partInfo = parts.get(partToAdd);
     partInfo.partAdded = true;
-    this.parts.set(part, partInfo);
+    parts.set(partToAdd, partInfo);
+    return parts;
   }
 
-  qualityControl() {
+  //returns true if car is broken
+  qualityControl(parts) {
     // Check if all parts marked as added (partAdded === true) are not broken (broken === false)
-    const addedParts = Array.from(this.parts.values()).filter(
+    const addedParts = Array.from(parts.values()).filter(
       (part) => part.partAdded === true
     );
-    return !addedParts.every((part) => part.broken === false);
+    this.qualityControlValue = !addedParts.every((part) => part.broken === false);
+    return this.qualityControlValue;
   }
+
 
   move(cars, workstations) {
-    return;
+    return this;
   }
 
-  manualMove(cars, workstations) {
-    if (workstations.get(this.workstationId).isComplete(this.parts)) {
+  manualMove(parts, workstations) {
+    if (workstations.get(this.workstationId).isComplete(parts)) {
       if (this.workstationId >= 5) {
-        cars.set(this.id, new CarCheckup(this.id, this.parts, cars));
+        return new CarCheckup();
       } else {
-        cars.set(
-          this.id,
-          new CarInLine(this.id, this.parts, this.workstationId + 1)
-        );
+        return new CarInLine(this.workstationId + 1)
       }
     }
     return;
   }
 
-  remove(cars) {
+  remove() {
     //when quality control goes red there should be a possibility to remove the car
-    cars.set(this.id, new CarBroken(this.id, this.parts));
+    return new CarBroken();
+  }
+
+  breakPart(parts, partToBreak) {
+    // Get the part information from the parts list
+    const partInfo = parts.get(partToBreak);
+
+    // Simulate a chance to break with a probability of x
+    const isBroken = Math.random() < gameValues.partBreakageChance;
+    partInfo.broken = isBroken;
+    parts.set(partInfo.name, partInfo)
+    return parts;
+  }
+
+  isComplete() {
+    return false;
+  }
+  isBroken() {
+    return false;
   }
 
   // ... other methods inherited from Car

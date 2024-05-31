@@ -1,9 +1,11 @@
+import { gameValues } from "../../game-values.js";
 import { BaseStock } from "./base-stock.js";
 
 class JITStock extends BaseStock {
-  constructor(parts) {
-    super(); // Call base class constructor
+  constructor(stats, parts) {
+    super(stats); // Call base class constructor
     this.parts = parts;
+    this.jitprice = gameValues.jitExtraPrice; //with Jit, parts are more expensive
   }
 
   requestPart(part) {
@@ -19,6 +21,10 @@ class JITStock extends BaseStock {
   }
   deductPrice(part) {
     return;
+  }
+  addPartsToStock(part, count) {
+    this.parts.get(part).quantity += count;
+    this.notifyObservers({price: this.parts.get(part).price * this.jitprice, amount: count}, "stock")
   }
 }
 
