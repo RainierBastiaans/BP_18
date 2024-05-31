@@ -233,12 +233,16 @@ class LeanGame extends HTMLElement {
   createButtons() {
     const buttonContainer = document.createElement("div");
     buttonContainer.classList.add("part-buttons");
-    
+    for (let i = 0; i < 30; i++) {
+      const gritItem = document.createElement("div");
+      gritItem.classList.add("grid-item");
+      buttonContainer.append(gritItem);
+    }
+
+    const gridItems = buttonContainer.getElementsByClassName("grid-item");
 
     this.getCurrentWorkstation().partnames.forEach((part) => {
       let amount = Number(this.game.getAmountOfPart(part));
-      const partContainer = document.createElement("div");
-      partContainer.classList.add("part-container");
 
       const count = Math.min(amount, 4);
 
@@ -257,9 +261,21 @@ class LeanGame extends HTMLElement {
         button.disabled = this.game
           .getCarFromWorkstation(this.getCurrentWorkstation().id)
           .isAdded(part); //disable button if already added
-        partContainer.appendChild(button);
+
+        let randomIndex;
+        let cellIsEmpty = false;
+
+        // Loop until an empty cell is found
+        while (!cellIsEmpty) {
+          randomIndex = Math.floor(Math.random() * gridItems.length);
+          if (gridItems[randomIndex].children.length === 0) {
+            cellIsEmpty = true;
+          }
+        }
+
+        // Add the new element to the randomly selected empty grid item
+        gridItems[randomIndex].appendChild(button);
       }
-      buttonContainer.appendChild(partContainer);
     });
 
     this.shadowRoot.appendChild(buttonContainer);
