@@ -157,12 +157,15 @@ button:disabled {
   max-width: 115px;
   min-height: 35px;
   max-height: 115px;
-  padding: 5px;
-  margin: 5px;
+  padding: 10px;
 }
 
 .part-button:hover:enabled {
-  background-color: rgba(123, 145, 245, 0.445);
+  background-color: rgba(127, 245, 123, 0.445);
+}
+
+.part-button:hover:disabled {
+  background-color: rgba(245, 123, 123, 0.445);
 }
 
 /** Workstations parts visuals*/

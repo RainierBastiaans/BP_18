@@ -175,8 +175,10 @@ class LeanGame extends HTMLElement {
     this.partPosition = this.partPosition.filter(function (obj) {
       return obj.button !== button;
     });
-
     button.remove();
+    if (this.game.getAmountOfPart(partName) >= 4) {
+      this.generateNewButton(partName);
+    }
 
     this.updateMessage();
     this.updateQualityControlButton();
@@ -266,7 +268,6 @@ class LeanGame extends HTMLElement {
         buttonContainer.classList.add("part-buttons-oderly");
 
         this.getCurrentWorkstation().partnames.forEach((part) => {
-          
           const partContainer = document.createElement("div");
           partContainer.classList.add("part-container");
 
@@ -295,8 +296,6 @@ class LeanGame extends HTMLElement {
         if (this.partPosition.length == 0) {
           const gridItems = buttonContainer.getElementsByClassName("grid-item");
           this.getCurrentWorkstation().partnames.forEach((part) => {
-            
-
             const count = this.getPartCount(part);
             for (let i = 0; i < count; i++) {
               const button = this.createPartButton(part, i);
@@ -335,6 +334,29 @@ class LeanGame extends HTMLElement {
       //end
       this.shadowRoot.appendChild(buttonContainer);
     }
+  }
+
+  generateNewButton(part) {
+    const buttonContainer = this.shadowRoot.getElementById("part-buttons");
+    const gridItems = buttonContainer.getElementsByClassName("grid-item");
+
+    let randomIndex;
+    let cellIsEmpty = false;
+
+    while (!cellIsEmpty) {
+      randomIndex = Math.floor(Math.random() * gridItems.length);
+      if (gridItems[randomIndex].children.length === 0) {
+        cellIsEmpty = true;
+      }
+    }
+
+    const button = this.createPartButton(part, 4);
+    this.partPosition.push({
+      index: randomIndex,
+      button: button,
+    });
+
+    gridItems[randomIndex].appendChild(button);
   }
 
   // Draws the car parts on the screen
