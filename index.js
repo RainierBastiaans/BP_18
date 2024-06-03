@@ -172,6 +172,13 @@ class LeanGame extends HTMLElement {
     const partName = button.dataset.partName;
     //console.log(partName);
     this.game.addPart(partName, this.getCurrentWorkstation().id);
+
+    this.partPosition = this.partPosition.filter(function (obj) {
+      return obj.button !== button;
+    });
+
+    button.remove();
+
     this.updateMessage();
     this.updateQualityControlButton();
   }
