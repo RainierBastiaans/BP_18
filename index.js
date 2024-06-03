@@ -275,6 +275,12 @@ class LeanGame extends HTMLElement {
             const button = this.createPartButton(part, i);
             partContainer.appendChild(button);
           }
+          const stockCount = document.createElement("p");
+          stockCount.id = "stockCount";
+          stockCount.innerText = this.game.leanMethods.has("just_in_time")
+            ? `Enough stock (JIT)`
+            : `${Number(this.game.getAmountOfPart(part)).toString()} in stock.`;
+          partContainer.appendChild(stockCount);
           buttonContainer.appendChild(partContainer);
         });
       } else {
