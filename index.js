@@ -163,7 +163,6 @@ class LeanGame extends HTMLElement {
     this.game
       .getCarFromWorkstation(this.getCurrentWorkstation().id)
       .manualMove(this.game.cars, this.game.workstations);
-    this.partPosition = [];
     this.updateMessage();
     this.updateQualityControlButton();
   }
@@ -247,6 +246,7 @@ class LeanGame extends HTMLElement {
 
   createButtons() {
     if (this.game.selectedWorkstation === this.getCurrentWorkstation().id) {
+      this.moveCarButton.style.visibility = "visible";
       const currentWorkstation = this.getCurrentWorkstation();
       const car = this.game.getCarFromWorkstation(currentWorkstation.id);
       const isComplete = currentWorkstation.isComplete(car.parts);
@@ -266,7 +266,7 @@ class LeanGame extends HTMLElement {
         buttonContainer.classList.add("part-buttons-oderly");
 
         this.getCurrentWorkstation().partnames.forEach((part) => {
-          this.moveCarButton.style.visibility = "visible";
+          
           const partContainer = document.createElement("div");
           partContainer.classList.add("part-container");
 
@@ -294,9 +294,8 @@ class LeanGame extends HTMLElement {
 
         if (this.partPosition.length == 0) {
           const gridItems = buttonContainer.getElementsByClassName("grid-item");
-
           this.getCurrentWorkstation().partnames.forEach((part) => {
-            this.moveCarButton.style.visibility = "visible";
+            
 
             const count = this.getPartCount(part);
             for (let i = 0; i < count; i++) {
@@ -323,7 +322,6 @@ class LeanGame extends HTMLElement {
           });
         } else {
           const gridItems = buttonContainer.getElementsByClassName("grid-item");
-
           this.partPosition.forEach((position) => {
             let button = position.button;
             button.disabled = this.game
