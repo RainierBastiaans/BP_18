@@ -94,6 +94,9 @@ class Game {
         new TotalProductiveMaintenance(this.workstations)
       );
     }
+    if(method === "orderly_workplace"){
+      this.leanMethods.set(method,null);
+    }
   }
 
   moveCar(carToAdd) {

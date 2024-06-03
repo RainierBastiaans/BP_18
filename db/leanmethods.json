@@ -1,20 +1,24 @@
 {
-    "leanMethods": [
-      {
-        "id": "total_quality_control",
-        "name": "Total Quality Control (TQC)",
-        "description": "This lean method emphasizes continuous improvement of product quality by focusing on preventing defects throughout the production process." 
-      },
-      {
-        "id": "just_in_time",
-        "name": "Just In Time (JIT)",
-        "description": "This lean method aims to minimize waste by acquiring parts and materials only when needed for production."
-      },
-      {
-        "id": "total_productive_maintenance",
-        "name": "Total Productive Maintenance (TPM)",
-        "description": "This lean method focuses on proactive maintenance to avoid equipment breakdowns and ensure smooth production flow." 
-      }
-    ]
-  }
-  
+  "leanMethods": [
+    {
+      "id": "total_quality_control",
+      "name": "Total Quality Control (TQC)",
+      "description": "This lean method emphasizes continuous improvement of product quality by focusing on preventing defects throughout the production process."
+    },
+    {
+      "id": "just_in_time",
+      "name": "Just In Time (JIT)",
+      "description": "This lean method aims to minimize waste by acquiring parts and materials only when needed for production."
+    },
+    {
+      "id": "total_productive_maintenance",
+      "name": "Total Productive Maintenance (TPM)",
+      "description": "This lean method focuses on proactive maintenance to avoid equipment breakdowns and ensure smooth production flow."
+    },
+    {
+      "id": "orderly_workplace",
+      "name": "Orderly Workplace (OW)",
+      "description": "This lean method cleans up your workplace and ensures that all parts are situated together so you don't waste time looking for parts."
+    }
+  ]
+}
