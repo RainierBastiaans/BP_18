@@ -104,8 +104,8 @@ gameTemplate.innerHTML = `
     );
   }
 
-  newGame(selectedWorkstation = 1){
-    this.game = new Game(selectedWorkstation);    
+  newGame(db, playerName, selectedWorkstation = 1){
+    this.game = new Game(selectedWorkstation, db, playerName);    
     this.currentWorkstationIndex = selectedWorkstation;
     // Disable buttons based on selected workstation
     this.previousButton.disabled = selectedWorkstation === 1;
@@ -392,3 +392,4 @@ gameTemplate.innerHTML = `
 }
 
 customElements.define("lean-game", LeanGame);
+export {LeanGame}

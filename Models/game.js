@@ -16,8 +16,11 @@ import { TotalProductiveMaintenance } from "../lean-methods/total-productive-mai
 import { Car } from "./state/car/car.js";
 import { Emitter } from "../emitter.js";
 import { gameValues } from "../game-values.js";
+import { HighscoresDB } from "../db/highscores.js";
 class Game {
-  constructor(selectedWorkstation) {
+  constructor(selectedWorkstation, db, playerName) {
+    this.db = db
+    this.playerName = playerName
     this.selectedWorkstation = selectedWorkstation
     this.workstations = new Map();
     this.rounds = new Map();
@@ -46,7 +49,7 @@ class Game {
       );
     }
   }
-  newGame(selectedWorkstation = 1) {
+  newGame(selectedWorkstation) {
     console.log(selectedWorkstation)
     this.bots = [];
     // Create bots only for workstations other than selectedWorkstation
@@ -154,8 +157,15 @@ class Game {
   }
   
   endGame() {
-    this.isOver = true;    
+    this.isOver = true;
+    this.updateHighscores();    
   }
+
+
+  async updateHighscores() {
+    await this.db.addHighscore(this.playerName, this.stats.capital.amount);
+  }  
+  
 }
 
 export { Game };
