@@ -6,28 +6,12 @@ class JustInTime extends LeanMethod {
       "Just-In-Time",
       "Orders parts only when needed, reducing inventory costs."
     );
-    this.justInTimeEnabled = false;
+    this.isEnabled = false;
   }
 
-  isEnabled() {
-    return this.justInTimeEnabled;
-  }
-
-  enableJustInTime() {
-    this.justInTimeEnabled = true;
-  }
-
-  disableJustInTime() {
-    this.justInTimeEnabled = false;
-  }
-
-  newRound() {
-    if (!this.justInTimeEnabled) {
-      for (const part in this.stock.parts) {
-        this.stock.newRound();
-      }
-    }
+  enable(){
+    this.isEnabled = true;
   }
 }
 
-export { JustInTime };
+export default JustInTime;

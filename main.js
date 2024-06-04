@@ -14,10 +14,13 @@ import { GameHeader } from "./components/game-header.js";
 import { GameDescription } from "./components/game-description.js";
 import { ShowStats } from "./components/show-stats.js";
 import { NewRoundButton } from "./components/new-round-button.js";
+import { LeanMethodService } from "./lean-methods/lean-method-service.js";
 
 let db = new HighscoresDB();
 
 const leanGame = new LeanGame();
+const leanMethodService = new LeanMethodService();
+await leanMethodService.registerLeanMethods();
 const gameContainer = document.getElementById("game-container");
 gameContainer.appendChild(leanGame);
 
@@ -54,73 +57,71 @@ const statsContainer = document.getElementById("stats-container");
 
 statsContainer.appendChild(showStats);
 
-document.addEventListener("DOMContentLoaded", () => {
-  roundSummary.hide();
-  showStats.hide();
-  leanGame.hide();
-  roundSummary.hide();
+roundSummary.hide();
+showStats.hide();
+leanGame.hide();
+roundSummary.hide();
+newRoundButton.hide();
+gameOptions.addEventListener("workstationchange", (event) => {
+  selectedWorkstation = parseInt(event.detail.workstation);
+});
+
+roundSummary.addEventListener("leanmethodchange", (event) => {
+  selectedLeanMethod = event.detail.selectedLeanMethod;
+});
+
+// Game start
+startButton.addEventListener("startgame", (event) => {
+  const playerName = event.detail.playerName;
+  gameHeader.hide();
+  gameDescription.hide();
+  startButton.hide();
+  leanGame.show();
+  showStats.show();
+  gameOptions.hide();
+  highscoreBoard.hide();
+  leanGame.newGame(db, playerName, leanMethodService, selectedWorkstation);
+  leanGame.game.stats.addObserver(showStats);
+});
+newRoundButton.addEventListener("newRound", (event) => {
+  // Access the selected lean method from the event detail
+  gameHeader.hide();
   newRoundButton.hide();
-  gameOptions.addEventListener("workstationchange", (event) => {
-    selectedWorkstation = parseInt(event.detail.workstation);
-  });
+  roundSummary.hide();
 
-  roundSummary.addEventListener("leanmethodchange", (event) => {
-    selectedLeanMethod = event.detail.selectedLeanMethod;
-  });
+  leanGame.show();
+  leanGame.newRound(selectedLeanMethod);
+});
 
-  // Game start
-  startButton.addEventListener("startgame", (event) => {
-    const playerName = event.detail.playerName;
-    gameHeader.hide();
-    gameDescription.hide();
-    startButton.hide();
-    leanGame.show();
-    showStats.show();
-    gameOptions.hide();
-    highscoreBoard.hide();
-    leanGame.newGame(db, playerName, selectedWorkstation);
-    leanGame.game.stats.addObserver(showStats)
-  });
-  newRoundButton.addEventListener("newRound", (event) => {
-    // Access the selected lean method from the event detail
-    gameHeader.hide()
-    newRoundButton.hide()
-    roundSummary.hide()
+//Round end
+document.addEventListener("roundover", (event) => {
+  const { gameStats, leanMethods } = event.detail;
 
-    leanGame.show()
-    leanGame.newRound(selectedLeanMethod);
-  });
+  //update statistics
+  showStats.update(gameStats);
 
-  //Round end
-  document.addEventListener("roundover", (event) => {
-    const { gameStats, leanMethods } = event.detail;
+  // Show statistics and reset home screen
+  gameHeader.show();
+  leanGame.hide();
+  showStats.show();
+  roundSummary.showLeanMethods(leanMethods);
+  roundSummary.show();
+  newRoundButton.show();
+});
 
-    //update statistics
-    showStats.update(gameStats);
+//Game end
+document.addEventListener("gameover", (event) => {
+  const { gameStats } = event.detail;
 
-    // Show statistics and reset home screen
-    gameHeader.show();
-    leanGame.hide();
-    showStats.show();
-    roundSummary.showLeanMethods(leanMethods);
-    roundSummary.show();
-    newRoundButton.show();
-  });
+  //update statistics
+  showStats.update(gameStats);
 
-  //Game end
-  document.addEventListener("gameover", (event) => {
-    const { gameStats } = event.detail;
-
-    //update statistics
-    showStats.update(gameStats);
-
-    // Show statistics and reset home screen
-    gameHeader.show()
-    gameDescription.show()
-    startButton.show()
-    leanGame.hide()
-    showStats.show()
-    gameOptions.show()
-    highscoreBoard.show();
-  });
+  // Show statistics and reset home screen
+  gameHeader.show();
+  gameDescription.show();
+  startButton.show();
+  leanGame.hide();
+  showStats.show();
+  gameOptions.show();
+  highscoreBoard.show();
 });

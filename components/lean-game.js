@@ -101,12 +101,13 @@ gameTemplate.innerHTML = `
     );
   }
 
-  newGame(db, playerName, selectedWorkstation = 1){
-    this.game = new Game(selectedWorkstation, db, playerName);    
+  newGame(db, playerName, leanMethodService, selectedWorkstation = 1){
+    this.game = new Game(db, leanMethodService);    
     this.currentWorkstationIndex = selectedWorkstation;
     // Disable buttons based on selected workstation
     this.previousButton.disabled = selectedWorkstation === 1;
     this.nextButton.disabled = selectedWorkstation === 5;
+    this.game.newGame(selectedWorkstation, playerName)
     this.newRound();
   }
 
@@ -217,7 +218,7 @@ gameTemplate.innerHTML = `
     this.shadowRoot.appendChild(this.timeLeftElement)
 
 
-    
+
     // ... (update previous/next button states)
     this.clearButtons();
     this.messageEl.textContent =
