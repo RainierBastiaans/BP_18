@@ -9,6 +9,7 @@ import { Car } from "./state/car/car.js";
 import { Emitter } from "../emitter.js";
 import { gameValues } from "../game-values.js";
 import { LeanMethodService } from "../lean-methods/lean-method-service.js";
+import { Stock } from "./stock/stock.js";
 class Game {
   constructor(db, leanMethodService) {
     this.db = db
@@ -42,7 +43,7 @@ class Game {
     this.playerName = playerName;
     this.selectedWorkstation = selectedWorkstation;
     this.stats = new GameStats(this);
-    this.stock = new TraditionalStock(this.stats, this.parts);
+    this.stock = new Stock( this.parts, this.stats, this.leanMethodService);
     this.bots = [];
     // Create bots only for workstations other than selectedWorkstation
     for (let i = 1; i <= 5; i++) {
@@ -64,6 +65,7 @@ class Game {
     this.rounds.set(roundnumber, newRound);
     this.currentRound = newRound;
     this.newLeanMethod(leanMethod);
+    this.stock.refreshStock(this.leanMethodService)
     this.stock.newRound();
     this.bots.forEach((bot) => bot.startWorking());
     this.createOrRefreshWorkstations();

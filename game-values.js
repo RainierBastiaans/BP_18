@@ -32,7 +32,7 @@ export const gameValues = {
   jitExtraPrice: 1.5, // Shorter name for extrapriceJit
 
   // Round duration (seconds)
-  roundDuration: 10, // Shorter name for timeOfRound
+  roundDuration: 3, // Shorter name for timeOfRound
 
   // Parts added to stock per round
   partsPerRound: 1,
