@@ -142,7 +142,6 @@ button:disabled {
 /*! Game options visuals end */
 /** Game visuals */
 #game-container {
-  padding: 20px;
   text-align: center;
   position: relative;
 }
@@ -152,7 +151,7 @@ button:disabled {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 20px auto;
+  margin: 10px auto;
   border: 2px solid black;
   width: 400px;
   height: 500px;
@@ -167,9 +166,9 @@ button:disabled {
 
 .part-buttons {
   display: grid;
-  grid-template-columns: repeat(10, 110px);
-  grid-template-rows: repeat(3, 110px);
-  margin-left: 10%;
+  grid-template-columns: repeat(10, 10%);
+  grid-template-rows: repeat(3, 100px);
+  width: 100%;
 }
 
 .part-buttons-oderly {
@@ -401,7 +400,7 @@ button:disabled {
   justify-content: space-evenly;
   align-items: center;
   width: 100%;
-  margin-bottom: 10px;
+  margin: 10px;
 }
 
 .car-position {
@@ -409,6 +408,7 @@ button:disabled {
   font-weight: bold;
   border: 1px solid #ccc;
   padding: 5px;
+  height: 20px;
   width: 20px;
 }
 

@@ -7,7 +7,7 @@ class LeanGame extends HTMLElement {
     const gameTemplate = document.createElement("template");
     gameTemplate.innerHTML = `
 <link rel="stylesheet" href="styles.css">
-<p id="roundMessage">Round </p>
+<h4 id="roundMessage">Round </h4>
 <p id="message">Work On Workstation</p>
 <div class="car-container" id="car-container"></div>
 <button id="previous-station-button">Previous Station</button>
@@ -17,7 +17,7 @@ class LeanGame extends HTMLElement {
 <button id = "quality-control">Quality Control</button> 
 <button id = "remove-button">Remove Car</button>
 <div id="current-workstation">
-<span class="maintenance-timer"></span>
+  <span class="maintenance-timer"></span>
   <div class="timer">
     <svg>
       <circle cx="50%" cy="50%" r="90"/>
@@ -223,7 +223,7 @@ class LeanGame extends HTMLElement {
       noCarContainer.classList.add("no-car");
       noCarContainer.textContent = "No Car at the moment";
       this.shadowRoot.appendChild(noCarContainer);
-      this.moveCarButton.style.display = "none";
+      this.moveCarButton.style.visibility = "hidden";
       this.qualityControlButton.style.display = "none";
       this.removeButton.style.display = "none";
     }
@@ -270,7 +270,7 @@ class LeanGame extends HTMLElement {
 
   createButtons() {
     if (this.game.selectedWorkstation === this.getCurrentWorkstation().id) {
-      this.moveCarButton.style.display = "";
+      this.moveCarButton.style.visibility = "visible";
       const currentWorkstation = this.getCurrentWorkstation();
       const car = this.game.getCarFromWorkstation(currentWorkstation.id);
       const isComplete = currentWorkstation.isComplete(car.parts);
