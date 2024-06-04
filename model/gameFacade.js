@@ -8,18 +8,14 @@ class GameFacade {
     this.game = new Game();
     this.timeLeft = 180; // Time in seconds
     this.timerInterval = null;
+    this.currentWorkstationIndex = 1;
   }
 
-  configureGame(options) {
+  configureGame() {
     // Configure game with options, ready to play
     this.game.newGame();
-    this.game.setOptions(options);
     this.game.createOrRefreshWorkstations();
   }
-
-  startGame() {}
-
-  startNewRound() {}
 
   endRound() {
     if (this.game.isOver) {
@@ -38,8 +34,6 @@ class GameFacade {
     };
   }
 
-  endGame() {}
-
   goToPreviousWorkstation() {
     if (this.currentWorkstationIndex > 1) {
       this.currentWorkstationIndex--;
@@ -53,7 +47,10 @@ class GameFacade {
   }
 
   moveCarToNextStation() {
-    // Logic to move car to next station
+    this.game
+      .getCarFromWorkstation(this.getCurrentWorkstationIndex())
+      .manualMove(this.game.cars, this.game.workstations);
+    this.game.moveCar();
   }
 
   performQualityControl() {
@@ -64,17 +61,39 @@ class GameFacade {
     return `Work on workstation ${this.currentWorkstationIndex}`;
   }
 
-  getWorkstationStatus() {
-    const currentWorkstation =
-      this.workstations[this.currentWorkstationIndex - 1];
-    return {
-      isUnderMaintenance: currentWorkstation.isUnderMaintenance,
-      seconds: currentWorkstation.maintenanceTimeLeft,
-    };
+  getCurrentWorkstation() {
+    return this.game.workstations.get(this.currentWorkstationIndex);
   }
 
+  getPartNames() {
+    return this.getCurrentWorkstation().getPartNames();
+  }
+
+  getCurrentWorkstationIndex() {
+    return this.currentWorkstationIndex;
+  }
+
+  getTotalWorkstations() {
+    return this.game.workstations.size;
+  }
+
+  getAmountCarsCompleted() {
+    this.game.stats.carsCompleted;
+  }
+
+  // getWorkstationStatus() {
+  //   const currentWorkstation =
+  //     this.game.workstations[this.currentWorkstationIndex - 1];
+  //   console.log("hallo" + currentWorkstation);
+  //   return {
+  //     isUnderMaintenance: currentWorkstation.isUnderMaintenance,
+  //     seconds: currentWorkstation.maintenanceTimeLeft,
+  //   };
+  // }
+
   isRoundOver() {
-    return this.game.currentRound.isOver;
+    console.log(this.game.rounds.size);
+    const currentRound = this.game.getCurrentRound;
   }
 
   getCarStatus() {
@@ -85,6 +104,24 @@ class GameFacade {
   getQualityControlStatus() {
     // Return current quality control status
     return {};
+  }
+
+  addPart(partName, workstationId) {
+    this.game.addPart(partName, workstationId);
+    // this.updateMessage();
+    // this.updateQualityControlButton();
+  }
+
+  isPartAdded(partName) {
+    this.game.isPartAdded(partName);
+  }
+
+  getCarFromWorkstation(workstationId) {
+    return this.game.getCarFromWorkstation(workstationId);
+  }
+
+  isCarComplete(car) {
+    return this.game.isCarComplete(car);
   }
 }
 

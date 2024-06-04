@@ -38,19 +38,20 @@ class StartView extends HTMLElement {
   }
 
   //BIND ELEMENTS WITH EVENTLISTENERS TO CONTROLLERS
-  bindStartButtonClick(callback) {
-    console.log("bindStartButtonClick");
-    this.startButton.addEventListener("click", (event) => {
-      event.preventDefault();
-      callback();
-    });
-  }
+  // bindStartButtonClick(callback) {
+  //   console.log("bindStartButtonClick");
+  //   this.startButton.addEventListener("click", (event) => {
+  //     console.log("Start button clicked");
+  //     //event.preventDefault();
+  //     callback();
+  //   });
+  // }
 
-  bindGameOptionSelected(callback) {
-    this.gameOptions.addEventListener("change", (event) => {
-      callback(event);
-    });
-  }
+  // bindGameOptionSelected(callback) {
+  //   this.gameOptions.addEventListener("change", (event) => {
+  //     callback(event);
+  //   });
+  // }
 
   getSelectedOptions() {
     const options = [];

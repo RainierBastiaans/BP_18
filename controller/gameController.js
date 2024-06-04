@@ -1,14 +1,19 @@
+import GameView from "../view/gameView.js";
+
 class GameController {
   constructor(model, view) {
     this.model = model;
     this.view = view;
 
     //Bind the eventlisteners of the view to the controller
-    this.bindEventListeners();
+
+    //Moet in model?
+    this.timeLeft = 180; // Time in seconds
+    this.timerInterval = null;
   }
 
-  show() {
-    this.view.show();
+  show(options) {
+    this.view.show(options);
   }
 
   hide() {
@@ -16,9 +21,13 @@ class GameController {
   }
 
   init(options) {
-    this.view.updateMessage(this.model.getCurrentMessage());
+    this.view = new GameView();
+
     this.show(options);
-    this.view.connectedCallback();
+    this.bindEventListeners();
+    this.updateView();
+    this.model.configureGame();
+    this.connectedCallback();
     this.updateButtonsState();
   }
 
@@ -28,7 +37,7 @@ class GameController {
     this.view.bindMoveCarButtonClick(this.handleMoveCarButton);
     this.view.bindQualityControlButtonClick(this.handleQualityControlButton);
     this.view.bindCheckRoundOver(this.checkRoundOver);
-    this.view.bindPartButtonClick(this.handlePartButtonClick);
+    //bind part button hier?
   }
 
   handlePreviousButton = () => {
@@ -67,17 +76,87 @@ class GameController {
     }
   };
 
-  handlePartButtonClick(button) {
+  handlePartButtonClick = (button) => {
     const partName = button.dataset.partName;
-    const workstationId = this.getCurrentWorkstationId();
+    const workstationId = this.getCurrentWorkstationIndex();
     this.model.addPart(partName, workstationId);
     this.updatePartsAdded(this.model.getPartsAdded());
+  };
+
+  connectedCallback() {
+    this.view.draw(this.model.getCurrentWorkstation());
+    this.startInterval();
+    // Add event listener for setInterval
+    this.intervalId = setInterval(() => {
+      this.carVisuals();
+      this.updateView();
+      this.dispatchEvent(new CustomEvent("checkRoundOver"));
+
+      //   if (this.game.currentRound.isOver) {
+      //     this.endRound();
+      //   }
+    }, 500); // Call every 0.5 seconds (500 milliseconds)
+  }
+
+  disconnectedCallback() {
+    this.stopInterval();
+  }
+
+  startInterval() {
+    this.timerInterval = setInterval(() => {
+      this.carVisuals();
+      this.updateView();
+      this.dispatchEvent(new CustomEvent("checkRoundOver"));
+    }, 500); // Call every 0.5 seconds (500 milliseconds)
+  }
+
+  stopInterval() {
+    this.view.clearInterval(this.timerInterval);
   }
 
   updateView() {
-    this.view.updateMessage(this.model.getCurrentMessage());
-    this.view.draw(this.model.getWorkstationStatus());
+    this.view.updateMessage(this.getCurrentWorkstationIndex());
+    this.view.draw(this.model.getCurrentWorkstation());
     this.updateButtonsState();
+
+    this.view.updateCompletedCars(this.getAmountCarsCompleted);
+
+    if (this.getCarFromCurrentWorkstation()) {
+      const partnames = this.model.getPartNames();
+      this.view.createButtonElements();
+
+      //Create individual part buttons
+      partnames.forEach((part) => {
+        this.view.bindPartButtonClick(this);
+        console.log(part);
+        console.log(this);
+        this.view.createPartButton(
+          part,
+          this.isPartAdded(part),
+          this.handlePartButtonClick
+        );
+        //disable button if already added
+        //and bind button to event
+      });
+
+      this.view.enableButtons(this.isCarComplete());
+
+      // Show added parts/total parts
+      const partsAdded = Object.values(
+        this.getCarFromCurrentWorkstation()?.parts || {}
+      ).filter((part) => part).length;
+
+      const totalParts = Object.keys(
+        this.getCarFromCurrentWorkstation()?.parts || {}
+      ).length;
+
+      const partsMessage = `${partsAdded}/${totalParts} parts added`;
+
+      this.view.updatePartsAdded(partsMessage);
+    } else {
+      const textContent = "No Car at the moment";
+      this.view.createNoCarElement(textContent);
+    }
   }
 
   updateButtonsState() {
@@ -87,14 +166,25 @@ class GameController {
     this.view.previousButton.disabled = currentIndex === 0;
     this.view.nextButton.disabled = currentIndex === totalWorkstations - 1;
 
-    const isQualityControlVisible = this.model.shouldShowQualityControl();
-    this.view.qualityControlButton.style.visibility = isQualityControlVisible
-      ? "visible"
-      : "hidden";
+    // const isQualityControlVisible = this.model.shouldShowQualityControl();
+    // this.view.qualityControlButton.style.visibility = isQualityControlVisible
+    //   ? "visible"
+    //   : "hidden";
+  }
+
+  carVisuals() {
+    // Logic to handle car visuals
+    const partnames = this.model.getPartNames();
+
+    partnames.forEach((part) => {
+      this.view.carVisual(part, this.isPartAdded(part), this.isCarComplete());
+    });
   }
 
   moveCar() {
     this.model.moveCarToNextStation();
+    this.updateView();
+    //this.updateQualityControlButton();
   }
 
   qualityControl() {
@@ -105,8 +195,8 @@ class GameController {
     return this.model.getCurrentWorkstation();
   }
 
-  getCurrentWorkstationId() {
-    return this.getCurrentWorkstation().id;
+  getCurrentWorkstationIndex() {
+    return this.model.getCurrentWorkstationIndex();
   }
 
   getCarFromWorkstation(id) {
@@ -114,22 +204,22 @@ class GameController {
   }
 
   getCarFromCurrentWorkstation() {
-    const id = this.getCurrentWorkstationId();
+    const id = this.getCurrentWorkstationIndex();
     return this.getCarFromWorkstation(id);
   }
 
-  getQualityControl() {
-    return this.getCarFromWorkstation(this.getCurrentWorkstationId())
-      .qualityControl;
-  }
+  // getQualityControl() {
+  //   return this.getCarFromWorkstation(this.getCurrentWorkstationIndex())
+  //     .qualityControl;
+  // }
 
-  isUnderMaintenance() {
-    return this.getCurrentWorkstation().isUnderMaintenance();
-  }
+  // isUnderMaintenance() {
+  //   return this.getCurrentWorkstation().isUnderMaintenance();
+  // }
 
-  getRemainingMaintenanceTime() {
-    return this.getCurrentWorkstation().getRemainingMaintenanceTime();
-  }
+  // getRemainingMaintenanceTime() {
+  //   return this.getCurrentWorkstation().getRemainingMaintenanceTime();
+  // }
 
   endRound() {
     // Logic to handle end of the round
@@ -146,8 +236,7 @@ class GameController {
         composed: true,
       })
     );
-    //this.view.updateMessage("Round over. Prepare for the next round.");
-    this.view.updateMessage(this.model.getCurrentMessage());
+    console.log("Round over. Prepare for the next round.");
   }
 
   endGame() {
@@ -192,6 +281,8 @@ class GameController {
   }
 
   isPartAdded(partName) {
+    const car = this.getCarFromCurrentWorkstation();
+    return car.isAdded(partName);
     return this.model.isPartAdded(partName);
     //to car of current workstation!
   }
@@ -202,7 +293,7 @@ class GameController {
 
   isCarComplete() {
     const car = this.getCarFromCurrentWorkstation();
-    return this.model.isCarComplete(car.parts);
+    return this.model.isCarComplete(car);
     //from currentworkstation!
   }
 

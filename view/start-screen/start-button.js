@@ -1,3 +1,5 @@
+import EventEmitter from "../../eventEmitter.js";
+
 class StartButton extends HTMLElement {
   constructor() {
     super();
@@ -21,7 +23,6 @@ class StartButton extends HTMLElement {
             </style>
             <button id="startButton">Start Game</button>
         `;
-
     /* 
         This allows any event listeners on the main document or other parent elements to detect
         and handle the startgame event, facilitating interaction between encapsulated components and the broader application.
@@ -29,9 +30,7 @@ class StartButton extends HTMLElement {
     this.shadowRoot
       .querySelector("#startButton")
       .addEventListener("click", () => {
-        this.dispatchEvent(
-          new CustomEvent("startgame", { bubbles: true, composed: true })
-        );
+        EventEmitter.emit("startgame", { bubbles: true, composed: true });
       });
   }
 }

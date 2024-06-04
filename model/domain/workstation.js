@@ -4,6 +4,8 @@ class Workstation {
     this.partnames = partsList; // Create a list of part names
     this.occupant = null; // Reference to the current occupant (User or Bot)
     this.maintenanceChance = tpm ? 0.001 : 0.1; // Ternary operator for conditional assignment
+    this.maintenanceTimeLeft = 0;
+    this.isUnderMaintenance = false;
   }
 
   setMaintenanceChance(maintenanceChance) {
@@ -23,6 +25,12 @@ class Workstation {
     return Array.from(carParts.values()).find((part) => {
       return part.partAdded !== true && this.partnames.includes(part.name); // Replace with your validation logic
     });
+  }
+
+  getRemainingTime() {}
+
+  getPartNames() {
+    return this.partnames;
   }
 }
 

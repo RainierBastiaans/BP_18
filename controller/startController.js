@@ -22,8 +22,8 @@ class StartController {
 
   bindEventListeners() {
     console.log("bindEventListeners");
-    this.view.bindStartButtonClick(this.handleStartGame);
-    this.view.bindGameOptionSelected(this.handleOptionsChange);
+    //this.view.bindStartButtonClick(this.handleStartGame);
+    //this.view.bindGameOptionSelected(this.handleOptionsChange);
     //this.view.addEventListener("click", this.startGame.bind(this));
     //this.view.addEventListener("change", this.handleOptionsChange.bind(this));
   }
@@ -36,7 +36,6 @@ class StartController {
     const options = this.view.getSelectedOptions();
     //hide start screen
     this.hide();
-
     document.dispatchEvent(new CustomEvent("startgame", { detail: options }));
   };
 
@@ -45,21 +44,13 @@ class StartController {
   //   const selectedOptions = this.view.getSelectedOptions();
   //   this.model.setOptions(selectedOptions);
   // };
-
   // //Options change
   // gameOptions.addEventListener("optionschange", (event) => {
   //   selectedOption = event.detail.selectedOption;
   // });
-
   // onModelChanged = (model) => {
   //   this.view.render(model);
   // };
-
-  // handleStartGame = (options) => {
-  //   this.gameFacade.startGame(options);
-  //   // Additional logic related to starting the game...
-  // };
-
   // Additional methods for handling home page interactions...
 }
 

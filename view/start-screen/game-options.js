@@ -35,10 +35,10 @@ class GameOptions extends HTMLElement {
   }
 
   connectedCallback() {
-    const radioButtons = this.shadowRoot.querySelectorAll(
-      'input[type="radio"]'
+    this.leanMethodRadioButtons = this.shadowRoot.querySelectorAll(
+      'input[type="radio"][name="game-option"]'
     );
-    radioButtons.forEach((radioButton) => {
+    this.leanMethodRadioButtons.forEach((radioButton) => {
       radioButton.addEventListener(
         "change",
         this.handleOptionChange.bind(this)
@@ -47,10 +47,10 @@ class GameOptions extends HTMLElement {
   }
 
   handleOptionChange(event) {
-    const selectedOption = event.target.value;
+    const selectedLeanMethod = event.target.value;
     this.dispatchEvent(
-      new CustomEvent("optionschange", {
-        detail: { selectedOption },
+      new CustomEvent("leanmethodchange", {
+        detail: { selectedLeanMethod },
         bubbles: true,
         composed: true,
       })

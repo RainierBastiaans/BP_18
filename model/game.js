@@ -66,8 +66,10 @@ class Game {
     this.capital = new Money(50000);
     this.stock = new TraditionalStock(this.parts);
     this.newCar();
-    this.newRound();
     this.stats = new GameStats(this);
+    this.createOrRefreshWorkstations();
+    this.newRound();
+    console.log(this);
   }
 
   newRound(leanMethod) {
@@ -211,6 +213,16 @@ class Game {
   }
   endGame() {
     this.isOver = true;
+  }
+
+  isPartAdded(partName, workstationId) {
+    const currentWorkstationId = this.get;
+    const car = this.getCarFromWorkstation(workstationId);
+    return this.carId.isAdded(partName);
+  }
+
+  isCarComplete(car) {
+    return car.isComplete();
   }
 }
 
