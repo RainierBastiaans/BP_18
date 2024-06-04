@@ -6,6 +6,11 @@ class OrderlyWorkplace extends LeanMethod {
       "Orderly Workplace",
       "description"
     );
+    this.isEnabled = false;
+  }
+
+  enable(){
+    this.isEnabled = true;
   }
   
 }
