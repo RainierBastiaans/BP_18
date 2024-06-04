@@ -12,19 +12,20 @@ class LeanGame extends HTMLElement {
 <div class="car-container" id="car-container"></div>
 <button id="previous-station-button">Previous Station</button>
 <button id="next-station-button">Next Station</button>
-<p id="completedCarsElement">Cars completed: 0</p>
+<p></p>
 <button id="move-car-button">Move Car to Next Station</button>
 <button id = "quality-control">Quality Control</button> 
 <button id = "remove-button">Remove Car</button>
 <div id="current-workstation">
 <span class="maintenance-timer"></span>
-<div class="timer">
-  <svg>
-    <circle cx="50%" cy="50%" r="90"/>
-    <circle cx="50%" cy="50%" r="90" pathLength="1" />
-    <text x="100" y="100" text-anchor="middle"><tspan id="timeLeft"></tspan></text>
-    <text x="100" y="120" text-anchor="middle">seconds till fixed</text>
-  </svg>
+  <div class="timer">
+    <svg>
+      <circle cx="50%" cy="50%" r="90"/>
+      <circle cx="50%" cy="50%" r="90" pathLength="1" />
+      <text x="100" y="100" text-anchor="middle"><tspan id="timeLeft"></tspan></text>
+      <text x="100" y="120" text-anchor="middle">seconds till fixed</text>
+    </svg>
+  </div>
 </div>
 `;
 
@@ -36,14 +37,11 @@ class LeanGame extends HTMLElement {
 
     this.previousButton = shadowRoot.getElementById("previous-station-button");
     this.nextButton = shadowRoot.getElementById("next-station-button");
-    this.completedCarsElement = shadowRoot.getElementById(
-      "completedCarsElement"
-    );
     this.moveCarButton = shadowRoot.getElementById("move-car-button");
     this.qualityControlButton = shadowRoot.getElementById("quality-control");
     this.removeButton = shadowRoot.getElementById("remove-button");
-    this.qualityControlButton.style.visibility = "hidden";
-    this.removeButton.style.visibility = "hidden";
+    this.qualityControlButton.style.display = "none";
+    this.removeButton.style.display = "none";
     this.removeButton.disabled = true;
 
     this.timerInterval = null;
@@ -216,8 +214,6 @@ class LeanGame extends HTMLElement {
       "Round " + this.game.currentRound.roundNumber.toString();
     this.messageEl.textContent =
       "Work On Workstation " + this.getCurrentWorkstation().id;
-    // Update UI elements (assuming you have elements for displaying messages)
-    this.completedCarsElement.textContent = `Cars completed: ${this.game.stats.carsCompleted}`;
 
     if (this.game.getCarFromWorkstation(this.getCurrentWorkstation().id)) {
       this.createButtons();
@@ -227,9 +223,9 @@ class LeanGame extends HTMLElement {
       noCarContainer.classList.add("no-car");
       noCarContainer.textContent = "No Car at the moment";
       this.shadowRoot.appendChild(noCarContainer);
-      this.moveCarButton.style.visibility = "hidden";
-      this.qualityControlButton.style.visibility = "hidden";
-      this.removeButton.style.visibility = "hidden";
+      this.moveCarButton.style.display = "none";
+      this.qualityControlButton.style.display = "none";
+      this.removeButton.style.display = "none";
     }
   }
 
@@ -274,7 +270,7 @@ class LeanGame extends HTMLElement {
 
   createButtons() {
     if (this.game.selectedWorkstation === this.getCurrentWorkstation().id) {
-      this.moveCarButton.style.visibility = "visible";
+      this.moveCarButton.style.display = "";
       const currentWorkstation = this.getCurrentWorkstation();
       const car = this.game.getCarFromWorkstation(currentWorkstation.id);
       const isComplete = currentWorkstation.isComplete(car.parts);
@@ -283,8 +279,8 @@ class LeanGame extends HTMLElement {
       this.qualityControlButton.disabled = !isComplete;
 
       if (this.game.leanMethods.has("total_quality_control")) {
-        this.qualityControlButton.style.visibility = "visible";
-        this.removeButton.style.visibility = "visible";
+        this.qualityControlButton.style.display = "";
+        this.removeButton.style.display = "";
       }
 
       const buttonContainer = document.createElement("div");

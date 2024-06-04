@@ -107,6 +107,7 @@ button:disabled {
 
 /*! Regular visuals end */
 /** Game options visuals */
+
 .options-container {
   text-align: center;
   margin: 20px;
@@ -144,10 +145,6 @@ button:disabled {
   padding: 20px;
   text-align: center;
   position: relative;
-}
-
-#completedCarsElement {
-  color: green;
 }
 
 /** Car visuals */
@@ -191,9 +188,9 @@ button:disabled {
 
 .part-button {
   min-width: 35px;
-  max-width: 115px;
+  max-width: 100px;
   min-height: 35px;
-  max-height: 115px;
+  max-height: 100px;
   padding: 10px;
 }
 
@@ -423,7 +420,7 @@ button:disabled {
 /** Statisctics visuals */
 .statistics-container {
   text-align: center;
-  margin-top: 20px;
+  margin: 20px;
 }
 
 .statistics-heading {
