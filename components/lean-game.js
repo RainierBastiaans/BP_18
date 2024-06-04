@@ -207,6 +207,17 @@ gameTemplate.innerHTML = `
 
   updateMessage() {
     this.draw();
+
+
+    //time left, this has to be redone in a better way!
+    this.shadowRoot.querySelector(".time-left")?.remove();
+    this.timeLeftElement = document.createElement("div")
+    this.timeLeftElement.classList.add("time-left")
+    this.timeLeftElement.innerHTML = this.game.getRemainingTime()
+    this.shadowRoot.appendChild(this.timeLeftElement)
+
+
+    
     // ... (update previous/next button states)
     this.clearButtons();
     this.messageEl.textContent =

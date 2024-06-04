@@ -173,7 +173,9 @@ class Game {
   getAmountOfPart(part){
     return this.stock.getAmountOfPart(part);
   }
-
+  getRemainingTime(){
+    return this.currentRound.getRemainingTime()
+  }
 }
 
 export { Game };
