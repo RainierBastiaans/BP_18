@@ -4,24 +4,7 @@ class GameOptions extends HTMLElement {
     this.attachShadow({ mode: "open" });
 
     this.shadowRoot.innerHTML = `
-      <style>
-        .options-container {
-          text-align: center;
-          margin: 20px;
-        }
-        .options-heading {
-          font-size: 1.5em;
-          margin-bottom: 10px;
-        }
-        .workstation-options {
-          display: flex;
-          justify-content: center;
-          margin: 10px 0;
-        }
-        .workstation-option {
-          margin-right: 10px;
-        }
-      </style>
+      <link rel="stylesheet" href="styles.css">
       <div id="options-container" class="options-container">
       <h3>Select Workstation you want to operate:</h3>
         <div class="workstation-options">

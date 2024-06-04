@@ -5,22 +5,7 @@ class RoundSummary extends HTMLElement {
       this.attachShadow({ mode: "open" });
   
       this.shadowRoot.innerHTML = `
-        <style>
-          .options-container {
-            text-align: center;
-            margin: 20px;
-          }
-          .options-heading {
-            font-size: 1.5em;
-            margin-bottom: 10px;
-          }
-          .summary-text {
-            margin-bottom: 20px;
-          }
-          #applied-methods {
-            /* Style for applied methods section */
-          }
-        </style>
+        <link rel="stylesheet" href="styles.css">
         <div id="options-container" class="options-container">
           <h2>Round Summary</h2>
           <h2>Select Lean Method</h2>

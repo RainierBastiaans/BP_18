@@ -1,6 +1,6 @@
 import { Subject } from "../../subject.js";
 
-class BaseStock extends Subject{
+class BaseStock extends Subject {
   constructor(gamestats) {
     super();
     this.addObserver(gamestats);
@@ -19,8 +19,6 @@ class BaseStock extends Subject{
     // Check if the part exists and has sufficient quantity
     return this.parts.get(part).quantity > 0;
   }
-
-   
 
   // Placeholder method for requestPart, subclasses will implement their own behavior
   requestPart(part) {

@@ -20,8 +20,31 @@ img {
   margin: 0;
 }
 
+.summary-text {
+  margin-bottom: 20px;
+}
+
 
 /* Button visuals */
+
+#newRoundButton,
+#startButton {
+  display: block;
+  padding: 10px 20px;
+  font-size: 20px;
+  margin: 30px auto;
+  background-color: #28a745;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+#newRoundButton:hover,
+#startButton:hover {
+  background-color: #218838;
+}
+
 button {
   align-items: center;
   background-color: #0a66c2;
@@ -105,12 +128,26 @@ button:disabled {
   margin: 5px 0;
 }
 
+.workstation-options {
+  display: flex;
+  justify-content: center;
+  margin: 10px 0;
+}
+
+.workstation-option {
+  margin-right: 10px;
+}
+
 /*! Game options visuals end */
 /** Game visuals */
 #game-container {
   padding: 20px;
   text-align: center;
   position: relative;
+}
+
+#completedCarsElement {
+  color: green;
 }
 
 /** Car visuals */
@@ -395,28 +432,25 @@ button:disabled {
 }
 
 .statistics-table {
-  width: 50%;
+  width: 100%;
   margin: 0 auto;
   border-collapse: collapse;
 }
 
 .statistics-table th,
 .statistics-table td {
-  border: 2px solid #ddd;
+  border: 1px solid #ddd;
   padding: 8px;
 }
 
 .statistics-table th {
-  background-color: #1c87c9;
+  background-color: #f2f2f2;
   text-align: left;
 }
 
-.statistics-table td {
-  text-align: left;
-}
-
-#completedCarsElement {
-  color: green;
+.statistics-table td.round-number {
+  text-align: center;
+  font-weight: bold;
 }
 
 /*! Statisctics visuals end */

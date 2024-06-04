@@ -5,8 +5,9 @@ class LeanGame extends HTMLElement {
   constructor() {
     super();
     const gameTemplate = document.createElement("template");
-gameTemplate.innerHTML = `
+    gameTemplate.innerHTML = `
 <link rel="stylesheet" href="styles.css">
+<p id="roundMessage">Round </p>
 <p id="message">Work On Workstation</p>
 <div class="car-container" id="car-container"></div>
 <button id="previous-station-button">Previous Station</button>
@@ -31,6 +32,8 @@ gameTemplate.innerHTML = `
     shadowRoot.appendChild(gameTemplate.content.cloneNode(true));
 
     this.messageEl = shadowRoot.getElementById("message");
+    this.roundMessageEl = shadowRoot.getElementById("roundMessage");
+
     this.previousButton = shadowRoot.getElementById("previous-station-button");
     this.nextButton = shadowRoot.getElementById("next-station-button");
     this.completedCarsElement = shadowRoot.getElementById(
@@ -209,6 +212,8 @@ gameTemplate.innerHTML = `
     this.draw();
     // ... (update previous/next button states)
     this.clearButtons();
+    this.roundMessageEl.textContent =
+      "Round " + this.game.currentRound.roundNumber.toString();
     this.messageEl.textContent =
       "Work On Workstation " + this.getCurrentWorkstation().id;
     // Update UI elements (assuming you have elements for displaying messages)
@@ -364,20 +369,22 @@ gameTemplate.innerHTML = `
     let randomIndex;
     let cellIsEmpty = false;
 
-    while (!cellIsEmpty) {
-      randomIndex = Math.floor(Math.random() * gridItems.length);
-      if (gridItems[randomIndex].children.length === 0) {
-        cellIsEmpty = true;
+    try {
+      while (!cellIsEmpty) {
+        randomIndex = Math.floor(Math.random() * gridItems.length);
+        if (gridItems[randomIndex].children.length === 0) {
+          cellIsEmpty = true;
+        }
       }
-    }
 
-    const button = this.createPartButton(part, 4);
-    this.partPosition.push({
-      index: randomIndex,
-      button: button,
-    });
+      const button = this.createPartButton(part, 4);
+      this.partPosition.push({
+        index: randomIndex,
+        button: button,
+      });
 
-    gridItems[randomIndex].appendChild(button);
+      gridItems[randomIndex].appendChild(button);
+    } catch (error) {}
   }
 
   // Draws the car parts on the screen

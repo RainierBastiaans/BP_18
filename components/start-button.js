@@ -3,22 +3,7 @@ class StartButton extends HTMLElement {
     super();
     this.attachShadow({ mode: "open" });
     this.shadowRoot.innerHTML = `
-            <style>
-                button {
-                    display: block;
-                    padding: 10px 20px;
-                    font-size: 20px;
-                    margin: 30px auto;
-                    background-color: #28a745;
-                    color: white;
-                    border: none;
-                    border-radius: 5px;
-                    cursor: pointer;
-                }
-                button:hover {
-                    background-color: #218838;
-                }
-            </style>
+            <link rel="stylesheet" href="styles.css">
             <button id="startButton">Start Game</button>
         `;
 
