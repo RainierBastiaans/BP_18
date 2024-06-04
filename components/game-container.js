@@ -19,3 +19,4 @@ gameTemplate.innerHTML = `
   </svg>
 </div>
 `;
+

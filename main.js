@@ -1,4 +1,4 @@
-import "./index.js";
+import "./components/lean-game.js";
 import "./components/game-header.js";
 import "./components/game-description.js";
 import "./components/start-button.js";
