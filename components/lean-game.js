@@ -1,5 +1,6 @@
 import { Game } from "../Models/game.js";
 import { CarPositionLine } from "./car-position.js";
+import { gameValues } from "../game-values.js";
 
 class LeanGame extends HTMLElement {
   constructor() {
@@ -16,17 +17,24 @@ class LeanGame extends HTMLElement {
 <button id="move-car-button">Move Car to Next Station</button>
 <button id = "quality-control">Quality Control</button> 
 <button id = "remove-button">Remove Car</button>
-<div id="current-workstation">
-  <span class="maintenance-timer"></span>
-  <div class="timer">
-    <svg>
-      <circle cx="50%" cy="50%" r="90"/>
-      <circle cx="50%" cy="50%" r="90" pathLength="1" />
-      <text x="100" y="100" text-anchor="middle"><tspan id="timeLeft"></tspan></text>
-      <text x="100" y="120" text-anchor="middle">seconds till fixed</text>
-    </svg>
-  </div>
+<div id="current-workstation"></div>
+<div class="game-timer">
+  <svg>
+    <circle cx="50%" cy="50%" r="45"/>
+    <circle cx="50%" cy="50%" r="45" pathLength="1" />
+    <text x="50" y="50" text-anchor="middle"><tspan id="game-timeLeft"></tspan></text>
+    <text x="50" y="65" text-anchor="middle">seconds</text>
+  </svg>
 </div>
+<div class="timer">
+  <svg>
+    <circle cx="50%" cy="50%" r="90"/>
+    <circle cx="50%" cy="50%" r="90" pathLength="1" />
+    <text x="100" y="100" text-anchor="middle"><tspan id="timeLeft"></tspan></text>
+    <text x="100" y="120" text-anchor="middle">seconds till fixed</text>
+  </svg>
+</div>
+
 `;
 
     const shadowRoot = this.attachShadow({ mode: "open" });
@@ -43,8 +51,6 @@ class LeanGame extends HTMLElement {
     this.qualityControlButton.style.display = "none";
     this.removeButton.style.display = "none";
     this.removeButton.disabled = true;
-
-    this.timerInterval = null;
     this.partPosition = [];
   }
 
@@ -75,7 +81,7 @@ class LeanGame extends HTMLElement {
       if (seconds) {
         workstationElement.classList.add("under-maintenance");
         this.shadowRoot.querySelector(".timer").classList.remove("hidden");
-        this.runTimer(this.shadowRoot.querySelector(".timer"));
+        this.runMaintenanceTimer(this.shadowRoot.querySelector(".timer"));
       } else {
         workstationElement.classList.remove("under-maintenance");
         this.shadowRoot.querySelector(".timer").classList.add("hidden");
@@ -102,8 +108,8 @@ class LeanGame extends HTMLElement {
     );
   }
 
-  newGame(db, playerName, selectedWorkstation = 1){
-    this.game = new Game(selectedWorkstation, db, playerName);    
+  newGame(db, playerName, selectedWorkstation = 1) {
+    this.game = new Game(selectedWorkstation, db, playerName);
     this.currentWorkstationIndex = selectedWorkstation;
     // Disable buttons based on selected workstation
     this.previousButton.disabled = selectedWorkstation === 1;
@@ -209,16 +215,9 @@ class LeanGame extends HTMLElement {
   updateMessage() {
     this.draw();
 
+    // Game Timer
+    this.runGameTimer(this.shadowRoot.querySelector(".game-timer"));
 
-    //time left, this has to be redone in a better way!
-    this.shadowRoot.querySelector(".time-left")?.remove();
-    this.timeLeftElement = document.createElement("div")
-    this.timeLeftElement.classList.add("time-left")
-    this.timeLeftElement.innerHTML = this.game.getRemainingTime()
-    this.shadowRoot.appendChild(this.timeLeftElement)
-
-
-    
     // ... (update previous/next button states)
     this.clearButtons();
     this.roundMessageEl.textContent =
@@ -312,7 +311,7 @@ class LeanGame extends HTMLElement {
           const stockCount = document.createElement("p");
           stockCount.id = "stockCount";
           stockCount.innerText = this.game.leanMethods.has("just_in_time")
-            ? `Enough stock (JIT)`
+            ? `Just enough stock (JIT)`
             : `${Number(this.game.getAmountOfPart(part)).toString()} in stock.`;
           partContainer.appendChild(stockCount);
           buttonContainer.appendChild(partContainer);
@@ -434,7 +433,7 @@ class LeanGame extends HTMLElement {
   }
 
   //** timer code */
-  runTimer(timerElement) {
+  runMaintenanceTimer(timerElement) {
     let timeLeft = this.getCurrentWorkstation().getRemainingTime();
     let duration = this.getCurrentWorkstation().maintenanceDuration / 1000;
     const timerCircle = timerElement.querySelector("svg > circle + circle");
@@ -446,7 +445,23 @@ class LeanGame extends HTMLElement {
       timerCircle.style.strokeDashoffset = normalizedTime;
       this.shadowRoot.getElementById("timeLeft").innerHTML = timeLeft;
     } else {
-      clearInterval(countdownTimer);
+      timerElement.classList.remove("animatable");
+    }
+  }
+
+  /* game timer */
+  runGameTimer(timerElement) {
+    let timeLeft = this.game.getRemainingTime();
+    let duration = gameValues.roundDuration;
+    const timerCircle = timerElement.querySelector("svg > circle + circle");
+    timerElement.classList.add("animatable");
+    timerCircle.style.strokeDashoffset = 1;
+
+    if (timeLeft > -1) {
+      const normalizedTime = (duration - timeLeft) / duration;
+      timerCircle.style.strokeDashoffset = normalizedTime;
+      this.shadowRoot.getElementById("game-timeLeft").innerHTML = timeLeft;
+    } else {
       timerElement.classList.remove("animatable");
     }
   }
@@ -479,13 +494,13 @@ class LeanGame extends HTMLElement {
   getCurrentWorkstation() {
     return this.game.workstations.get(parseInt(this.currentWorkstationIndex));
   }
-  show(){
-    this.classList.remove("hidden")
+  show() {
+    this.classList.remove("hidden");
   }
-  hide(){
-    this.classList.add("hidden")
+  hide() {
+    this.classList.add("hidden");
   }
 }
 
 customElements.define("lean-game", LeanGame);
-export {LeanGame}
+export { LeanGame };

@@ -7,7 +7,7 @@ class StartButton extends HTMLElement {
 
     shadowRoot.innerHTML = `
       <link rel="stylesheet" href="styles.css">
-      <input type="text" id="playerName" value = "Simon" placeholder="Enter your name" />
+      <input type="text" id="playerName" value = "Gregory" placeholder="Enter your name" />
       <button id="startButton">Start Game</button>
     `;
 

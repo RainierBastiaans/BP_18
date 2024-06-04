@@ -38,6 +38,11 @@ input[type="text"] {
   margin-bottom: 20px;
 }
 
+#roundMessage {
+  position: absolute;
+  top: 50px;
+  left: 150px;
+}
 
 /* Button visuals */
 
@@ -165,7 +170,7 @@ button:disabled {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 10px auto;
+  margin: 5px auto;
   border: 2px solid black;
   width: 400px;
   height: 500px;
@@ -183,8 +188,7 @@ button:disabled {
   grid-template-columns: repeat(10, 10%);
   grid-template-rows: repeat(3, 100px);
   width: 100%;
-  margin-left: 10px;
-  margin-right: 10px;
+  margin-top: 5px;
 }
 
 .part-buttons-oderly {
@@ -205,7 +209,7 @@ button:disabled {
   min-width: 35px;
   max-width: 100px;
   min-height: 35px;
-  max-height: 100px;
+  max-height: 90px;
   padding: 10px;
 }
 
@@ -370,6 +374,49 @@ button:disabled {
 }
 
 /** Timer */
+
+/* Game Timer */
+.game-timer {
+  position: absolute;
+  top: 50px;
+  left: 20px;
+}
+
+.game-timer>svg {
+  width: 100px;
+  height: 100px;
+}
+
+.game-timer>svg>circle {
+  fill: none;
+  stroke-opacity: 0.3;
+  stroke: #0400fa;
+  stroke-width: 10;
+  transform-origin: center center;
+  transform: rotate(-90deg);
+}
+
+.game-timer>svg>circle+circle {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  stroke-linecap: round;
+  stroke-opacity: 1;
+}
+
+.game-timer.animatable>svg>circle+circle {
+  transition: stroke-dashoffset 0.3s ease;
+}
+
+.game-timer>svg>text {
+  font-size: 1rem;
+}
+
+.game-timer>svg>text+text {
+  font-size: 1rem;
+}
+
+
+/* maintenance Timer */
 .timer {
   margin-top: 10px;
   position: absolute;
@@ -416,7 +463,7 @@ button:disabled {
   justify-content: space-evenly;
   align-items: center;
   width: 100%;
-  margin: 10px;
+  margin: 10px 0;
 }
 
 .car-position {
@@ -470,6 +517,8 @@ button:disabled {
 /* In game statistics*/
 .ingame-statistics-container {
   display: flex;
+  position: absolute;
+  top: 10px;
 }
 
 .ingame-statistics-item {

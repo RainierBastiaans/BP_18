@@ -14,6 +14,7 @@ import { StartButton } from "./components/start-button.js";
 import { GameHeader } from "./components/game-header.js";
 import { GameDescription } from "./components/game-description.js";
 import { ShowStats } from "./components/show-stats.js";
+import { ShowIngameStats } from "./components/show-ingame-stats.js";
 import { NewRoundButton } from "./components/new-round-button.js";
 
 let db = new HighscoresDB();
@@ -55,9 +56,14 @@ const statsContainer = document.getElementById("stats-container");
 
 statsContainer.appendChild(showStats);
 
+const showIngameStats = new ShowIngameStats();
+const ingameStatsContainer = document.getElementById("ingame-stats-container");
+ingameStatsContainer.appendChild(showIngameStats);
+
 document.addEventListener("DOMContentLoaded", () => {
   roundSummary.hide();
   showStats.hide();
+  showIngameStats.hide();
   leanGame.hide();
   roundSummary.hide();
   newRoundButton.hide();
@@ -76,19 +82,22 @@ document.addEventListener("DOMContentLoaded", () => {
     gameDescription.hide();
     startButton.hide();
     leanGame.show();
-    showStats.show();
     gameOptions.hide();
     highscoreBoard.hide();
+    showIngameStats.show();
     leanGame.newGame(db, playerName, selectedWorkstation);
-    leanGame.game.stats.addObserver(showStats)
+    leanGame.game.stats.addObserver(showStats);
+    leanGame.game.stats.addObserver(showIngameStats);
   });
   newRoundButton.addEventListener("newRound", (event) => {
     // Access the selected lean method from the event detail
-    gameHeader.hide()
-    newRoundButton.hide()
-    roundSummary.hide()
+    gameHeader.hide();
+    newRoundButton.hide();
+    roundSummary.hide();
+    showStats.hide();
+    showIngameStats.show();
 
-    leanGame.show()
+    leanGame.show();
     leanGame.newRound(selectedLeanMethod);
   });
 
@@ -103,6 +112,7 @@ document.addEventListener("DOMContentLoaded", () => {
     gameHeader.show();
     leanGame.hide();
     showStats.show();
+    showIngameStats.hide();
     roundSummary.showLeanMethods(leanMethods);
     roundSummary.show();
     newRoundButton.show();
@@ -116,12 +126,13 @@ document.addEventListener("DOMContentLoaded", () => {
     showStats.update(gameStats);
 
     // Show statistics and reset home screen
-    gameHeader.show()
-    gameDescription.show()
-    startButton.show()
-    leanGame.hide()
-    showStats.show()
-    gameOptions.show()
+    gameHeader.show();
+    gameDescription.show();
+    startButton.show();
+    leanGame.hide();
+    showStats.show();
+    showIngameStats.hide();
+    gameOptions.show();
     highscoreBoard.show();
   });
 });
