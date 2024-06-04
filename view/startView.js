@@ -1,40 +1,36 @@
 class StartView extends HTMLElement {
   constructor() {
     super();
+    console.log("view");
     const shadowRoot = this.attachShadow({ mode: "open" });
-    console.log("shadowRoot", shadowRoot);
-    //Initialize elements
-    this.initializeElements();
 
-    this.timerInterval = null;
+    // Create references to existing web components (assuming they're defined elsewhere)
+    const gameHeaderComponent = document.createElement("game-header");
+    const gameDescriptionComponent = document.createElement("game-description");
+    const gameOptionsComponent = document.createElement("game-options");
+    const startButtonComponent = document.createElement("start-button");
+    // Append elements to the shadow root
+    shadowRoot.append(
+      gameHeaderComponent,
+      gameDescriptionComponent,
+      gameOptionsComponent,
+      startButtonComponent
+    );
   }
-
-  initializeElements() {
-    this.gameHeader = document.querySelector("game-header");
-    console.log(this.gameHeader);
-    this.gameDescription = document.querySelector("game-description");
-    this.gameOptions = document.querySelector("game-options");
-    console.log(this.gameOptions);
-    this.startButton = document.querySelector("start-button");
-    console.log(this.startButton);
-
-    if (!this.startButton) {
-      throw new Error("Start button not found");
-    }
+  connectedCallback() {
+    this.gameHeaderComponent = this.shadowRoot.querySelector("game-header");
+    this.gameDescriptionComponent =
+      this.shadowRoot.querySelector("game-description");
+    this.gameOptionsComponent = this.shadowRoot.querySelector("game-options");
+    this.startButtonComponent = this.shadowRoot.querySelector("start-button");
   }
 
   show() {
-    this.gameHeader.classList.remove("hidden");
-    this.gameDescription.classList.remove("hidden");
-    this.gameOptions.classList.remove("hidden");
-    this.startButton.classList.remove("hidden");
+    this.classList.remove("hidden");
   }
 
   hide() {
-    this.gameHeader.classList.add("hidden");
-    this.gameDescription.classList.add("hidden");
-    this.gameOptions.classList.add("hidden");
-    this.startButton.classList.add("hidden");
+    this.classList.add("hidden");
   }
 
   //BIND ELEMENTS WITH EVENTLISTENERS TO CONTROLLERS
@@ -54,6 +50,7 @@ class StartView extends HTMLElement {
   // }
 
   getSelectedOptions() {
+    return;
     const options = [];
     this.gameOptions.querySelectorAll("input, select").forEach((element) => {
       options.push(element.value);

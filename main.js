@@ -22,9 +22,9 @@ document.addEventListener("DOMContentLoaded", (event) => {
     });
 
   const model = new GameFacade();
-  const gameView = new GameView();
-  const startView = new StartView();
-  const endView = new EndView();
+  const gameView = document.querySelector("game-view");
+  const startView = document.querySelector("start-view");
+  // const endView = new EndView();
 
   const startController = new StartController(model, startView);
   const gameController = new GameController(model, gameView);

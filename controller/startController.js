@@ -4,6 +4,7 @@ import { GameController } from "./gameController.js";
 
 class StartController {
   constructor(model, view) {
+    console.log("controller");
     this.model = model;
     this.view = view;
 
@@ -32,12 +33,12 @@ class StartController {
     this.show();
   }
 
-  handleStartGame = (event) => {
+  startGame() {
     const options = this.view.getSelectedOptions();
     //hide start screen
     this.hide();
     document.dispatchEvent(new CustomEvent("startgame", { detail: options }));
-  };
+  }
 
   // handleOptionsChange = (event) => {
   //   // Update model with new options
