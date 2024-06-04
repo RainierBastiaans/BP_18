@@ -3,6 +3,7 @@ import "./components/game-header.js";
 import "./components/game-description.js";
 import "./components/start-button.js";
 import "./components/show-stats.js";
+import "./components/show-ingame-stats.js";
 import "./components/game-options.js";
 
 const leanGame = document
@@ -31,6 +32,9 @@ document.addEventListener("DOMContentLoaded", () => {
     document.querySelector("game-description").classList.add("hidden");
     document.querySelector("start-button").classList.add("hidden");
     document.getElementById("game-container").classList.remove("hidden");
+    document
+      .getElementById("ingame-stats-container")
+      .classList.remove("hidden");
     document.getElementById("stats-container").classList.remove("hidden");
     document.querySelector("game-options").classList.add("hidden");
     leanGame.newGame(selectedWorkstation);
@@ -41,7 +45,12 @@ document.addEventListener("DOMContentLoaded", () => {
       // Access the selected lean method from the event detail
       document.querySelector("game-header").classList.add("hidden");
       document.querySelector("new-round-button").classList.add("hidden");
-      document.getElementById("stats-container").classList.remove("hidden");
+      document
+        .getElementById("ingame-stats-container")
+        .classList.remove("hidden");
+        document
+          .getElementById("stats-container")
+          .classList.remove("hidden");
       document.querySelector("round-summary").classList.add("hidden");
 
       document.getElementById("game-container").classList.remove("hidden");
@@ -59,6 +68,10 @@ document.addEventListener("DOMContentLoaded", () => {
     //update statistics
     const showStatsComponent = document.querySelector("show-stats");
     showStatsComponent.update(gameStats);
+
+    const showIngameStatsComponent =
+      document.querySelector("show-ingame-stats");
+    showIngameStatsComponent.update(gameStats);
 
     // Show statistics and reset home screen
     document.querySelector("game-header").classList.remove("hidden");

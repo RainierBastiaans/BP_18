@@ -17,7 +17,11 @@ img {
   height: 20px;
   width: auto;
   padding: 0;
-  margin: 0;
+  margin: 5px;
+}
+
+p {
+  margin: 5px;
 }
 
 .summary-text {
@@ -169,6 +173,8 @@ button:disabled {
   grid-template-columns: repeat(10, 10%);
   grid-template-rows: repeat(3, 100px);
   width: 100%;
+  margin-left: 10px;
+  margin-right: 10px;
 }
 
 .part-buttons-oderly {
@@ -418,6 +424,7 @@ button:disabled {
 
 /*! Game visuals end */
 /** Statisctics visuals */
+/* After game statistics */
 .statistics-container {
   text-align: center;
   margin: 20px;
@@ -449,5 +456,16 @@ button:disabled {
   text-align: center;
   font-weight: bold;
 }
+
+/* In game statistics*/
+.ingame-statistics-container {
+  display: flex;
+}
+
+.ingame-statistics-item {
+  margin: 10px;
+  display: flex;
+}
+
 
 /*! Statisctics visuals end */
