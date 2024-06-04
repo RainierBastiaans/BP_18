@@ -3,15 +3,8 @@ class GameDescription extends HTMLElement {
     super();
     this.attachShadow({ mode: "open" });
     this.shadowRoot.innerHTML = `
-            <style>
-                p {
-                    text-align: center;
-                    font-size: 18px;
-                    color: #555;
-                    padding: 20px;
-                }
-            </style>
-            <p>
+            <link rel="stylesheet" href="styles.css">
+            <p class = "game-description">
                 This is an exciting game where you can test your LEAN skills and challenge your friends.
             </p>
         `;

@@ -12,7 +12,7 @@ export const gameValues = {
   // - Chance of breakdown with preventive maintenance (TPM)
   workstationBreakdownChanceTPM: 0.001,
   // - Chance of breakdown without preventive maintenance
-  workstationBreakdownChanceNoTPM: 0.1,
+  workstationBreakdownChanceNoTPM: 0.0,
   // - Workstation maintenance duration (seconds)
   workstationMaintenanceDuration: 3000,
 
@@ -29,7 +29,7 @@ export const gameValues = {
   jitExtraPrice: 1.5, // Shorter name for extrapriceJit
 
   // Round duration (seconds)
-  roundDuration: 10, // Shorter name for timeOfRound
+  roundDuration: 20, // Shorter name for timeOfRound
 
   // Parts added to stock per round
   partsPerRound: 1,

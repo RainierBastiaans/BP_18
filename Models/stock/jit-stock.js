@@ -19,8 +19,8 @@ class JITStock extends BaseStock {
   newRound() {
     return;
   }
-  deductPrice(part){
-    return
+  deductPrice(part) {
+    return;
   }
   addPartsToStock(part, count) {
     this.parts.get(part).quantity += count;

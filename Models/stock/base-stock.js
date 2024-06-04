@@ -30,6 +30,10 @@ class BaseStock extends Subject{
   newRound() {
     throw new Error("newRound not implemented in BaseStock");
   }
+
+  getAmountOfPart(part) {
+    return this.parts.get(part).quantity;
+  }
 }
 
 export { BaseStock };

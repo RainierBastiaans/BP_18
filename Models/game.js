@@ -97,6 +97,9 @@ class Game {
         new TotalProductiveMaintenance(this.workstations)
       );
     }
+    if(method === "orderly_workplace"){
+      this.leanMethods.set(method,null);
+    }
   }
 
   moveCar(carToAdd) {
@@ -142,6 +145,7 @@ class Game {
     this.moveWaitingCars();
     const currentWorkstation = this.workstations.get(workstationId);
     const car = this.getCarFromWorkstation(workstationId);
+    
     try {
       currentWorkstation.addPartToCar(this.workstations);
       this.stock.requestPart(part);
@@ -166,6 +170,10 @@ class Game {
     await this.db.addHighscore(this.playerName, this.stats.capital.amount);
   }  
   
+  getAmountOfPart(part){
+    return this.stock.getAmountOfPart(part);
+  }
+
 }
 
 export { Game };

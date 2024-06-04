@@ -20,7 +20,7 @@ class RoundStats {
   updateOnCarCompletion(car) {
     this.carsCompleted++;
     this.totalIncome += car.fixedPrice;
-    this.capital += (car.fixedPrice);
+    this.capital += car.fixedPrice;
     this.totalCompletionTime += car.completionTime; // Assuming car has a completionTime property
 
     // Update part usage for this round

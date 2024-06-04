@@ -13,19 +13,19 @@ class CarInLine extends CarState {
       throw new Error(`Can't add ${part} if car is not at workstation`)
     }
 
-    qualityControl(){
-        throw new Error('Quality control is not applicable to cars in line')
-    }
+  qualityControl() {
+    throw new Error("Quality control is not applicable to cars in line");
+  }
 
-    move(cars){
-      // Check if a car with the same workstation ID and CarAtWorkstation type already exists
-      const existingCar = Array.from(cars.values()).find((car) => {
-        return (
-          car.id != this.id &&
-          car.workstationId === this.workstationId &&
-          car instanceof CarAtWorkstation
-        );
-      });
+  move(cars) {
+    // Check if a car with the same workstation ID and CarAtWorkstation type already exists
+    const existingCar = Array.from(cars.values()).find((car) => {
+      return (
+        car.id != this.id &&
+        car.workstationId === this.workstationId &&
+        car instanceof CarAtWorkstation
+      );
+    });
 
       // If no conflicting car exists, add the new CarAtWorkstation
       if (!existingCar) {
@@ -43,4 +43,4 @@ class CarInLine extends CarState {
     // ... other methods inherited from Car
   }
 
-  export {CarInLine}
+export { CarInLine };
