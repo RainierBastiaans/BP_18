@@ -76,6 +76,12 @@ class GameOptions extends HTMLElement {
       })
     );
   }
+  show(){
+    this.classList.remove("hidden")
+  }
+  hide(){
+    this.classList.add("hidden")
+  }
 }
 
 customElements.define("game-options", GameOptions);

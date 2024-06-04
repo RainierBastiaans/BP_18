@@ -389,6 +389,12 @@ gameTemplate.innerHTML = `
   getCurrentWorkstation() {
     return this.game.workstations.get(parseInt(this.currentWorkstationIndex));
   }
+  show(){
+    this.classList.remove("hidden")
+  }
+  hide(){
+    this.classList.add("hidden")
+  }
 }
 
 customElements.define("lean-game", LeanGame);

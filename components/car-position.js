@@ -60,6 +60,12 @@ class CarPositionLine extends HTMLElement {
       }
     });
   }
+  show(){
+    this.classList.remove("hidden")
+  }
+  hide(){
+    this.classList.add("hidden")
+  }
 }
 
 customElements.define("car-position-line", CarPositionLine);

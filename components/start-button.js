@@ -34,7 +34,7 @@ class StartButton extends HTMLElement {
     `;
 
     shadowRoot.innerHTML = `${styles}
-      <input type="text" id="playerName" placeholder="Enter your name" />
+      <input type="text" id="playerName" value = "Simon" placeholder="Enter your name" />
       <button id="startButton">Start Game</button>
     `;
 
@@ -57,6 +57,13 @@ class StartButton extends HTMLElement {
       );
     });
   }
+  show(){
+    this.classList.remove("hidden")
+  }
+  hide(){
+    this.classList.add("hidden")
+  }
 }
 
 customElements.define("start-button", StartButton);
+export {StartButton}

@@ -15,6 +15,13 @@ class GameHeader extends HTMLElement {
             <h1>Welcome to the LEAN Game</h1>
         `;
   }
+  show(){
+    this.classList.remove("hidden")
+  }
+  hide(){
+    this.classList.add("hidden")
+  }
 }
 
 customElements.define("game-header", GameHeader);
+export {GameHeader}

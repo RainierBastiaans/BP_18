@@ -68,7 +68,14 @@ class ShowStats extends HTMLElement {
       this.totalIncomeElement.textContent = gameStats.totalIncome + "€";
       this.capitalElement.textContent = gameStats.capital.amount + "€"
     }
+    show(){
+      this.classList.remove("hidden")
+    }
+    hide(){
+      this.classList.add("hidden")
+    }
   }
   
   customElements.define("show-stats", ShowStats);
+  export {ShowStats}
   
