@@ -43,9 +43,9 @@ class StartButton extends HTMLElement {
 
     startButton.addEventListener("click", () => {
       const playerName = playerNameInput.value.trim();
-
-      if (playerName.length < 3) {
-        alert("Please enter a valid name (minimum 3 characters).");
+      const allowedChars = /^[A-Za-z0-9 ]+$/;
+      if (playerName.length < 3 || playerName.length > 15|| !allowedChars.test(playerName)) {
+        alert("Please enter a valid name (minimum 3 characters, maximum 15, Only letters, numbers, and spaces are allowed).");
         return;
       }
       this.dispatchEvent(
