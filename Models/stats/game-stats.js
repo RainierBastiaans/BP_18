@@ -18,6 +18,10 @@ class GameStats extends Subject {
     this.facilityCost = gameValues.facilityCost;
     this.staffCost = gameValues.staffCost;
   }
+  addObserver(observer) {
+    this.observers.push(observer);
+    this.notifyObservers(this)
+  }
 
   updateStock(addedStock) {
     const stockPrice = addedStock.price * addedStock.amount; //the price of the stock times the amount of stocks added.

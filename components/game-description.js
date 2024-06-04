@@ -9,6 +9,13 @@ class GameDescription extends HTMLElement {
             </p>
         `;
   }
+  show(){
+    this.classList.remove("hidden")
+  }
+  hide(){
+    this.classList.add("hidden")
+  }
 }
 
 customElements.define("game-description", GameDescription);
+export {GameDescription}

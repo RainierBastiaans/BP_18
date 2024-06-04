@@ -95,6 +95,12 @@ class RoundSummary extends HTMLElement {
         appliedMethodsContainer.appendChild(list);
       }
     }
+    show(){
+      this.classList.remove("hidden")
+    }
+    hide(){
+      this.classList.add("hidden")
+    }
   }
   
   customElements.define("round-summary", RoundSummary);

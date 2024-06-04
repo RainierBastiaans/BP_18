@@ -5,114 +5,123 @@ import "./components/start-button.js";
 import "./components/show-stats.js";
 import "./components/show-ingame-stats.js";
 import "./components/game-options.js";
+import { HighscoresDB } from "./db/highscores.js";
+import { HighscoreBoard } from "./components/highscore-board.js";
+import { LeanGame } from "./components/lean-game.js";
+import { GameOptions } from "./components/game-options.js";
+import { RoundSummary } from "./components/round-summary.js";
+import { StartButton } from "./components/start-button.js";
+import { GameHeader } from "./components/game-header.js";
+import { GameDescription } from "./components/game-description.js";
+import { ShowStats } from "./components/show-stats.js";
+import { NewRoundButton } from "./components/new-round-button.js";
 
-const leanGame = document
-  .getElementById("game-container")
-  .querySelector("lean-game");
+let db = new HighscoresDB();
 
-let selectedLeanMethod; // To store selected options
+const leanGame = new LeanGame();
+const gameContainer = document.getElementById("game-container");
+gameContainer.appendChild(leanGame);
+
+let selectedLeanMethod;
 let selectedWorkstation;
 
-document.addEventListener("DOMContentLoaded", () => {
-  document
-    .querySelector("game-options")
-    .addEventListener("workstationchange", (event) => {
-      selectedWorkstation = parseInt(event.detail.workstation);
-    });
+const homePage = document.getElementById("home-page");
 
-  document
-    .querySelector("round-summary")
-    .addEventListener("leanmethodchange", (event) => {
-      selectedLeanMethod = event.detail.selectedLeanMethod;
-    });
+const highscoreBoard = new HighscoreBoard(db); // Pass db instance
+
+const gameOptions = new GameOptions();
+
+const roundSummary = new RoundSummary();
+const newRoundButton = new NewRoundButton();
+
+const startButton = new StartButton();
+
+const gameHeader = new GameHeader();
+
+const gameDescription = new GameDescription();
+
+homePage.appendChild(gameHeader);
+homePage.appendChild(gameDescription);
+homePage.appendChild(gameOptions);
+homePage.appendChild(roundSummary);
+homePage.appendChild(startButton);
+homePage.appendChild(highscoreBoard);
+homePage.appendChild(roundSummary);
+homePage.appendChild(newRoundButton);
+
+const showStats = new ShowStats();
+
+const statsContainer = document.getElementById("stats-container");
+
+statsContainer.appendChild(showStats);
+
+document.addEventListener("DOMContentLoaded", () => {
+  roundSummary.hide();
+  showStats.hide();
+  leanGame.hide();
+  roundSummary.hide();
+  newRoundButton.hide();
+  gameOptions.addEventListener("workstationchange", (event) => {
+    selectedWorkstation = parseInt(event.detail.workstation);
+  });
+
+  roundSummary.addEventListener("leanmethodchange", (event) => {
+    selectedLeanMethod = event.detail.selectedLeanMethod;
+  });
 
   // Game start
-  document.querySelector("start-button").addEventListener("startgame", () => {
-    document.querySelector("game-header").classList.add("hidden");
-    document.querySelector("game-description").classList.add("hidden");
-    document.querySelector("start-button").classList.add("hidden");
-    document.getElementById("game-container").classList.remove("hidden");
-    document
-      .getElementById("ingame-stats-container")
-      .classList.remove("hidden");
-    document.getElementById("stats-container").classList.remove("hidden");
-    document.querySelector("game-options").classList.add("hidden");
-    leanGame.newGame(selectedWorkstation);
+  startButton.addEventListener("startgame", (event) => {
+    const playerName = event.detail.playerName;
+    gameHeader.hide();
+    gameDescription.hide();
+    startButton.hide();
+    leanGame.show();
+    showStats.show();
+    gameOptions.hide();
+    highscoreBoard.hide();
+    leanGame.newGame(db, playerName, selectedWorkstation);
+    leanGame.game.stats.addObserver(showStats)
   });
-  document
-    .querySelector("new-round-button")
-    .addEventListener("newRound", (event) => {
-      // Access the selected lean method from the event detail
-      document.querySelector("game-header").classList.add("hidden");
-      document.querySelector("new-round-button").classList.add("hidden");
-      document
-        .getElementById("ingame-stats-container")
-        .classList.remove("hidden");
-        document
-          .getElementById("stats-container")
-          .classList.remove("hidden");
-      document.querySelector("round-summary").classList.add("hidden");
+  newRoundButton.addEventListener("newRound", (event) => {
+    // Access the selected lean method from the event detail
+    gameHeader.hide()
+    newRoundButton.hide()
+    roundSummary.hide()
 
-      document.getElementById("game-container").classList.remove("hidden");
-      const leanGame = document
-        .getElementById("game-container")
-        .querySelector("lean-game");
-      // Pass the selected lean method to the newRound method
-      leanGame.newRound(selectedLeanMethod);
-    });
+    leanGame.show()
+    leanGame.newRound(selectedLeanMethod);
+  });
 
   //Round end
   document.addEventListener("roundover", (event) => {
     const { gameStats, leanMethods } = event.detail;
 
     //update statistics
-    const showStatsComponent = document.querySelector("show-stats");
-    showStatsComponent.update(gameStats);
-
-    const showIngameStatsComponent =
-      document.querySelector("show-ingame-stats");
-    showIngameStatsComponent.update(gameStats);
+    showStats.update(gameStats);
 
     // Show statistics and reset home screen
-    document.querySelector("game-header").classList.remove("hidden");
-    document.querySelector("new-round-button").classList.remove("hidden");
-    document.getElementById("game-container").classList.add("hidden");
-    document.getElementById("stats-container").classList.remove("hidden");
-    const roundsummaryElement = document.querySelector("round-summary");
-    roundsummaryElement.showLeanMethods(leanMethods);
-    roundsummaryElement.classList.remove("hidden");
+    gameHeader.show();
+    leanGame.hide();
+    showStats.show();
+    roundSummary.showLeanMethods(leanMethods);
+    roundSummary.show();
+    newRoundButton.show();
   });
 
-  // //Game end
-  // leanGame.emitter.on("gameOver", (data) => {
-  //   console.log("x");
-  //   const { gameStats } = data;
-
-  //   //update statistics
-  //   const showStatsComponent = document.querySelector("show-stats");
-  //   showStatsComponent.update(gameStats);
-
-  //   // Show statistics and reset home screen
-  //   document.querySelector("game-header").classList.remove("hidden");
-  //   document.querySelector("game-description").classList.remove("hidden");
-  //   document.querySelector("start-button").classList.remove("hidden");
-  //   document.getElementById("game-container").classList.add("hidden");
-  //   document.getElementById("stats-container").classList.remove("hidden");
-  //   document.querySelector("game-options").classList.remove("hidden");
-  // });
+  //Game end
   document.addEventListener("gameover", (event) => {
     const { gameStats } = event.detail;
 
     //update statistics
-    const showStatsComponent = document.querySelector("show-stats");
-    showStatsComponent.update(gameStats);
+    showStats.update(gameStats);
 
     // Show statistics and reset home screen
-    document.querySelector("game-header").classList.remove("hidden");
-    document.querySelector("game-description").classList.remove("hidden");
-    document.querySelector("start-button").classList.remove("hidden");
-    document.getElementById("game-container").classList.add("hidden");
-    document.getElementById("stats-container").classList.remove("hidden");
-    document.querySelector("game-options").classList.remove("hidden");
+    gameHeader.show()
+    gameDescription.show()
+    startButton.show()
+    leanGame.hide()
+    showStats.show()
+    gameOptions.show()
+    highscoreBoard.show();
   });
 });

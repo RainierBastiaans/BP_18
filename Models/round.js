@@ -21,6 +21,10 @@ class Round{
     }, 1000);
   }
 
+  getRemainingTime(){
+    return this.timeLeft;
+  }
+
   endRound() {
     clearInterval(this.timerInterval);
     this.emitter.emit("roundoverInModel"); // Emit the event
