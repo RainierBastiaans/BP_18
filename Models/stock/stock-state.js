@@ -12,7 +12,6 @@ class StockState extends Subject{
       }
 
       usePart(parts, part) {
-        console.log(parts)
         if (this.hasEnoughParts(parts,part)) {
           parts.get(part).quantity -= 1;
           this.deductPrice(part);

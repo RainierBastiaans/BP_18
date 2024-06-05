@@ -108,8 +108,8 @@ class LeanGame extends HTMLElement {
     );
   }
 
-  newGame(db, playerName, selectedWorkstation = 1) {
-    this.game = new Game(selectedWorkstation, db, playerName);
+  newGame(db, playerName, leanMethodService, selectedWorkstation = 1){
+    this.game = new Game(db, leanMethodService); 
     this.currentWorkstationIndex = selectedWorkstation;
     // Disable buttons based on selected workstation
     this.previousButton.disabled = selectedWorkstation === 1;

@@ -44,7 +44,6 @@ class Stock extends Subject {
   }
 
   getAmountOfPart(part) {
-    console.log(this.parts)
     return this.parts.get(part).quantity;
   }
 }
