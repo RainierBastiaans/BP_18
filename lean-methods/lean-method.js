@@ -2,11 +2,11 @@ class LeanMethod {
   constructor(name, description) {
     this.name = name;
     this.description = description;
+    this.isEnabled = false;
   }
 
-  applyMethod() {
-    // Implement basic functionality (optional)
-    throw new Error("Abstract method. Implement in concrete subclasses.");
+  enable(){
+    this.isEnabled = true;
   }
 }
 

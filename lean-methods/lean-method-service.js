@@ -32,8 +32,12 @@ class LeanMethodService {
     return Array.from(this.leanMethods.values()); // Convert Map values to an array
   }
   getLeanMethod(leanMethodId) {
+    if (!this.leanMethods.has(leanMethodId)) {
+      throw new Error(`Invalid leanMethodId: '${leanMethodId}' does not exist`);
+    }
     return this.leanMethods.get(leanMethodId); // Return the class instance
   }
+  
   enableLeanMethod(leanMethodId) {
     const leanMethod = this.getLeanMethod(leanMethodId);
     if (leanMethod) {
