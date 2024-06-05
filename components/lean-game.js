@@ -108,13 +108,14 @@ class LeanGame extends HTMLElement {
     );
   }
 
-  newGame(db, playerName, leanMethodService, selectedWorkstation = 1){
-    this.game = new Game(db, leanMethodService); 
+  newGame(db, playerName, leanMethodService, selectedWorkstation = 1) {
+    this.game = new Game(db, leanMethodService);
     this.currentWorkstationIndex = selectedWorkstation;
     // Disable buttons based on selected workstation
     this.previousButton.disabled = selectedWorkstation === 1;
     this.nextButton.disabled = selectedWorkstation === 5;
-    this.game.newGame(selectedWorkstation, playerName)
+    this.game.newGame(selectedWorkstation, playerName);
+    this.leanMethodService = leanMethodService;
     this.newRound();
   }
 
@@ -219,15 +220,6 @@ class LeanGame extends HTMLElement {
     // Game Timer
     this.runGameTimer(this.shadowRoot.querySelector(".game-timer"));
 
-    //time left, this has to be redone in a better way!
-    this.shadowRoot.querySelector(".time-left")?.remove();
-    this.timeLeftElement = document.createElement("div")
-    this.timeLeftElement.classList.add("time-left")
-    this.timeLeftElement.innerHTML = this.game.getRemainingTime()
-    this.shadowRoot.appendChild(this.timeLeftElement)
-
-
-
     // ... (update previous/next button states)
     this.clearButtons();
     this.roundMessageEl.textContent =
@@ -282,7 +274,10 @@ class LeanGame extends HTMLElement {
   getPartCount(part) {
     let amount = Number(this.game.getAmountOfPart(part));
     let count = Math.min(amount, 4);
-    if (this.game.leanMethods.has("just_in_time") && count <= 1) {
+    if (
+      this.leanMethodService.getLeanMethod("just-in-time").isEnabled &&
+      count <= 1
+    ) {
       count = 1;
     }
     return count;
@@ -298,7 +293,9 @@ class LeanGame extends HTMLElement {
       this.moveCarButton.disabled = !isComplete;
       this.qualityControlButton.disabled = !isComplete;
 
-      if (this.game.leanMethods.has("total_quality_control")) {
+      if (
+        this.leanMethodService.getLeanMethod("total-quality-control").isEnabled
+      ) {
         this.qualityControlButton.style.display = "";
         this.removeButton.style.display = "";
       }
@@ -306,7 +303,7 @@ class LeanGame extends HTMLElement {
       const buttonContainer = document.createElement("div");
       buttonContainer.id = "part-buttons";
 
-      if (this.game.leanMethods.has("orderly_workplace")) {
+      if (this.leanMethodService.getLeanMethod("orderly-workplace").isEnabled) {
         buttonContainer.classList.add("part-buttons-oderly");
 
         this.getCurrentWorkstation().partnames.forEach((part) => {
@@ -320,7 +317,9 @@ class LeanGame extends HTMLElement {
           }
           const stockCount = document.createElement("p");
           stockCount.id = "stockCount";
-          stockCount.innerText = this.game.leanMethods.has("just_in_time")
+          stockCount.innerText = this.leanMethodService.getLeanMethod(
+            "just-in-time"
+          ).isEnabled
             ? `Just enough stock (JIT)`
             : `${Number(this.game.getAmountOfPart(part)).toString()} in stock.`;
           partContainer.appendChild(stockCount);
