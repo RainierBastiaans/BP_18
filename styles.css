@@ -204,7 +204,6 @@ button:disabled {
   position: relative;
 }
 
-/*TODO make car-visuals scale using % and not px*/
 /** Car visuals */
 .car-container {
   display: flex;
