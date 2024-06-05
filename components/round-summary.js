@@ -35,7 +35,7 @@ class RoundSummary extends HTMLElement {
     appliedMethodsContainer.innerHTML = "";
 
     this.availableMethods.forEach((leanMethod) => {
-      if (!leanMethod.isEnabled) { // Only show non-applied methods
+      if (!Array.from(leanMethods.keys()).includes(leanMethod.id)) { // Only show non-applied methods
         const option = document.createElement("div");
         option.classList.add("option");
 
