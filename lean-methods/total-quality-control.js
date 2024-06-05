@@ -3,7 +3,7 @@ import { LeanMethod } from "./lean-method.js";
 
 class TotalQualityControl extends LeanMethod {
     constructor() {
-      super("Quality Control", "Inspects parts before assembly to reduce defects.");
+      super("total-quality-control", "Quality Control", "Inspects parts before assembly to reduce defects.");
     }
 
 

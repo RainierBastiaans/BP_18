@@ -3,6 +3,7 @@ import { LeanMethod } from "./lean-method.js";
 class OrderlyWorkplace extends LeanMethod {
   constructor() {
     super(
+        "orderly-workplace",
       "Orderly Workplace",
       "description"
     );

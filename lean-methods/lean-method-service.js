@@ -28,6 +28,7 @@ class LeanMethodService {
       const leanMethodId = leanMethod.id;
       await this.registerLeanMethod(leanMethodId);
     }
+    console.log(this.leanMethods)
   }
 
   async registerLeanMethod(leanMethodId) {
@@ -46,7 +47,7 @@ class LeanMethodService {
 
 
   getAllLeanMethods() {
-    return Array.from(this.leanMethods.values()); // Convert Map values to an array
+    return this.leanMethods; // Convert Map values to an array
   }
   getLeanMethod(leanMethodId) {
     if (!this.leanMethods.has(leanMethodId)) {

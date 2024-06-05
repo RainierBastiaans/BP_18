@@ -3,7 +3,7 @@ import { gameValues } from "../game-values.js";
 
 class TotalProductiveMaintenance extends LeanMethod {
   constructor(workstations) {
-    super("Total Productive Maintenance", "Focuses on preventing equipment breakdowns to maximize production efficiency.");
+    super("total-productive-maintenance","Total Productive Maintenance", "Focuses on preventing equipment breakdowns to maximize production efficiency.");
   }
 
   getMaintenanceChance(){

@@ -48,7 +48,7 @@ const highscoreBoard = new HighscoreBoard(db); // Pass db instance
 
 const gameOptions = new GameOptions();
 
-const roundSummary = new RoundSummary();
+const roundSummary = new RoundSummary(leanMethodService.getAllLeanMethods());
 const newRoundButton = new NewRoundButton();
 
 const startButton = new StartButton();

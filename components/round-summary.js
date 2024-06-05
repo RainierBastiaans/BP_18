@@ -1,7 +1,5 @@
-import availableMethods from "../db/leanmethods.json" with {type: "json"}
-
 class RoundSummary extends HTMLElement {
-  constructor() {
+  constructor(leanMethods) {
     super();
     this.attachShadow({ mode: "open" });
 
@@ -17,7 +15,7 @@ class RoundSummary extends HTMLElement {
       </div>
     `;
 
-    this.availableMethods = availableMethods.leanMethods;
+    this.leanMethods = leanMethods;
   }
 
   connectedCallback() {
@@ -33,9 +31,11 @@ class RoundSummary extends HTMLElement {
 
     availableMethodsContainer.innerHTML = ""; // Clear previous options
     appliedMethodsContainer.innerHTML = "";
+    console.log(this.leanMethods)
 
-    this.availableMethods.forEach((leanMethod) => {
-      if (!Array.from(leanMethods.keys()).includes(leanMethod.id)) { // Only show non-applied methods
+    this.leanMethods.forEach((leanMethod) => {
+      console.log(leanMethod)
+      if(!leanMethod.isEnabled){
         const option = document.createElement("div");
         option.classList.add("option");
 
@@ -76,6 +76,7 @@ class RoundSummary extends HTMLElement {
 
   handleLeanMethodChange(event) {
     const selectedLeanMethod = event.target.value;
+    console.log(selectedLeanMethod)
 
     this.dispatchEvent(
       new CustomEvent("leanmethodchange", {
