@@ -22,7 +22,20 @@ let db = new HighscoresDB();
 
 const leanGame = new LeanGame();
 const leanMethodService = new LeanMethodService();
-await leanMethodService.registerLeanMethods();
+await leanMethodService.fetchLeanMethods();
+async function fetchParts() {
+  try {
+    const response = await fetch("./db/parts.json"); // Replace with your actual API endpoint
+    if (!response.ok) {
+      throw new Error(`Failed to fetch parts data: ${response.statusText}`);
+    }
+    const data = await response.json();
+    return data.parts; // Assuming the API response has a "parts" property
+  } catch (error) {
+    console.error("Error fetching parts data:", error);
+    // Handle the error here (e.g., set a default parts object)
+  }
+}
 const gameContainer = document.getElementById("game-container");
 gameContainer.appendChild(leanGame);
 
@@ -88,9 +101,17 @@ startButton.addEventListener("startgame", (event) => {
   showIngameStats.show();
   gameOptions.hide();
   highscoreBoard.hide();
-  leanGame.newGame(db, playerName, leanMethodService, selectedWorkstation);
-  leanGame.game.stats.addObserver(showStats);
-  leanGame.game.stats.addObserver(showIngameStats);
+  fetchParts().then((fetchedParts) => {
+    leanGame.newGame(
+      db,
+      playerName,
+      leanMethodService,
+      fetchedParts,
+      selectedWorkstation
+    );
+    leanGame.game.stats.addObserver(showStats);
+    leanGame.game.stats.addObserver(showIngameStats);
+  });
 });
 newRoundButton.addEventListener("newRound", (event) => {
   // Access the selected lean method from the event detail

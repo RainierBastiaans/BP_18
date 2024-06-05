@@ -5,6 +5,7 @@ import { TraditionalStock } from "./traditional-stock.js";
 class Stock extends Subject {
   constructor(parts, gamestats, leanMethodService) {
     super();
+    console.log(parts)
     this.parts = new Map(
       parts.reduce((acc, part) => {
         // Ensure each part is an object with a "name" property
@@ -28,10 +29,12 @@ class Stock extends Subject {
     if (this._state){
       if (!(newState instanceof this._state.constructor)) {
         // Only update if the new state type is different
-        throw new Error('Invalid state type: must be of the same type as current state');
+        this._state = newState;
       }
+    }
+    else{
+      this._state = newState;
     }   
-    this._state = newState;
   }
 
   get state() {

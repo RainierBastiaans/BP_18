@@ -1,6 +1,5 @@
 import { Round } from "./round.js";
 import { Bot } from "./occupant/bot.js";
-import data from "../db/parts.json" with { type: "json" };
 import { GameStats } from "./stats/game-stats.js";
 import { TraditionalStock } from "./stock/traditional-stock.js";
 import { CarAtWorkstation } from "./state/car/car-at-workstation.js";
@@ -12,15 +11,14 @@ import { LeanMethodService } from "../lean-methods/lean-method-service.js";
 import { Stock } from "./stock/stock.js";
 import { HighscoresDB } from "../db/highscores.js";
 class Game {
-  constructor(db, leanMethodService) {
+  constructor(db, leanMethodService, parts) {
     this.db = db;
     this.leanMethodService = leanMethodService;
     this.workstations = new Map();
     this.rounds = new Map();
     this.carId = 1;
     this.cars = new Map();
-    this.parts = data.parts;
-    console.log(this.parts)
+    this.parts = parts;
     this.leanMethods = new Map();
     this.emitter = new Emitter(); // Create an Emitter instance
     this.isOver = false;
