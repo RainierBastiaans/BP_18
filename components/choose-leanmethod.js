@@ -1,6 +1,6 @@
 import availableMethods from "../db/leanmethods.json" with {type: "json"}
 
-class RoundSummary extends HTMLElement {
+class ChooseLeanmethod extends HTMLElement {
   constructor() {
     super();
     this.attachShadow({ mode: "open" });
@@ -93,5 +93,5 @@ class RoundSummary extends HTMLElement {
   }
   
 }
-customElements.define("round-summary", RoundSummary);
-export { RoundSummary };
+customElements.define("choose-leanmethod", ChooseLeanmethod);
+export { ChooseLeanmethod };

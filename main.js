@@ -9,7 +9,7 @@ import { HighscoresDB } from "./db/highscores.js";
 import { HighscoreBoard } from "./components/highscore-board.js";
 import { LeanGame } from "./components/lean-game.js";
 import { GameOptions } from "./components/game-options.js";
-import { RoundSummary } from "./components/round-summary.js";
+import { ChooseLeanmethod } from "./components/choose-leanmethod.js";
 import { StartButton } from "./components/start-button.js";
 import { GameHeader } from "./components/game-header.js";
 import { GameDescription } from "./components/game-description.js";
@@ -23,19 +23,7 @@ let db = new HighscoresDB();
 const leanGame = new LeanGame();
 const leanMethodService = new LeanMethodService();
 await leanMethodService.fetchLeanMethods();
-async function fetchParts() {
-  try {
-    const response = await fetch("./db/parts.json"); // Replace with your actual API endpoint
-    if (!response.ok) {
-      throw new Error(`Failed to fetch parts data: ${response.statusText}`);
-    }
-    const data = await response.json();
-    return data.parts; // Assuming the API response has a "parts" property
-  } catch (error) {
-    console.error("Error fetching parts data:", error);
-    // Handle the error here (e.g., set a default parts object)
-  }
-}
+
 const gameContainer = document.getElementById("game-container");
 gameContainer.appendChild(leanGame);
 
@@ -48,7 +36,7 @@ const highscoreBoard = new HighscoreBoard(db); // Pass db instance
 
 const gameOptions = new GameOptions();
 
-const roundSummary = new RoundSummary();
+const roundSummary = new ChooseLeanmethod();
 const newRoundButton = new NewRoundButton();
 
 const startButton = new StartButton();
@@ -76,12 +64,8 @@ const showIngameStats = new ShowIngameStats();
 const ingameStatsContainer = document.getElementById("ingame-stats-container");
 ingameStatsContainer.appendChild(showIngameStats);
 
-roundSummary.hide();
-showStats.hide();
-showIngameStats.hide();
-leanGame.hide();
-roundSummary.hide();
-newRoundButton.hide();
+showStartView(); //Show the startView
+
 gameOptions.addEventListener("workstationchange", (event) => {
   selectedWorkstation = parseInt(event.detail.workstation);
 });
@@ -93,14 +77,7 @@ roundSummary.addEventListener("leanmethodchange", (event) => {
 // Game start
 startButton.addEventListener("startgame", (event) => {
   const playerName = event.detail.playerName;
-  gameHeader.hide();
-  gameDescription.hide();
-  startButton.hide();
-  leanGame.show();
-  showStats.hide();
-  showIngameStats.show();
-  gameOptions.hide();
-  highscoreBoard.hide();
+  showGameView()
   fetchParts().then((fetchedParts) => {
     leanGame.newGame(
       db,
@@ -115,12 +92,7 @@ startButton.addEventListener("startgame", (event) => {
 });
 newRoundButton.addEventListener("newRound", (event) => {
   // Access the selected lean method from the event detail
-  gameHeader.hide();
-  newRoundButton.hide();
-  roundSummary.hide();
-  showStats.hide();
-  showIngameStats.show();
-  leanGame.show();
+  showGameView()
   leanGame.newRound(selectedLeanMethod);
 });
 
@@ -131,14 +103,11 @@ document.addEventListener("roundover", (event) => {
   //update statistics
   showStats.update(gameStats);
 
-  // Show statistics and reset home screen
-  gameHeader.show();
-  leanGame.hide();
-  showStats.show();
-  showIngameStats.hide();
   roundSummary.showLeanMethods(leanMethods);
-  roundSummary.show();
-  newRoundButton.show();
+
+
+  // Show statistics and reset home screen
+  showRoundView()
 });
 
 //Game end
@@ -149,6 +118,56 @@ document.addEventListener("gameover", (event) => {
   showStats.update(gameStats);
 
   // Show statistics and reset home screen
+  showEndGameView()
+});
+
+async function fetchParts() {
+  try {
+    const response = await fetch("./db/parts.json"); // Replace with your actual API endpoint
+    if (!response.ok) {
+      throw new Error(`Failed to fetch parts data: ${response.statusText}`);
+    }
+    const data = await response.json();
+    return data.parts; // Assuming the API response has a "parts" property
+  } catch (error) {
+    console.error("Error fetching parts data:", error);
+    // Handle the error here (e.g., set a default parts object)
+  }
+}
+
+function showStartView() {
+  roundSummary.hide();
+  showStats.hide();
+  showIngameStats.hide();
+  leanGame.hide();
+  newRoundButton.hide();
+  gameHeader.show();
+  gameDescription.show();
+  gameOptions.show();
+  startButton.show();
+}
+
+function showGameView() {
+  gameHeader.hide();
+  gameDescription.hide();
+  startButton.hide();
+  leanGame.show();
+  showStats.hide();
+  showIngameStats.show();
+  gameOptions.hide();
+  highscoreBoard.hide();
+}
+
+function showRoundView() {
+  gameHeader.show();
+  leanGame.hide();
+  showStats.show();
+  showIngameStats.hide();
+  roundSummary.show();
+  newRoundButton.show();
+}
+
+function showEndGameView() {
   gameHeader.show();
   gameDescription.show();
   startButton.show();
@@ -157,4 +176,5 @@ document.addEventListener("gameover", (event) => {
   showIngameStats.hide();
   gameOptions.show();
   highscoreBoard.show();
-});
+}
+
