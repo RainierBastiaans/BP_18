@@ -212,9 +212,12 @@ button:disabled {
   align-items: center;
   margin: 2px auto;
   border: 2px solid black;
-  width: 400px;
-  height: 470px;
+  width: auto;
+  height: 40vh;
+  max-width: 400px;
+  max-width: 470px;
   position: relative;
+  aspect-ratio: 8 / 10;
 }
 
 .car-part {
@@ -225,8 +228,8 @@ button:disabled {
 
 .part-buttons {
   display: grid;
-  grid-template-columns: repeat(10, 10%);
-  grid-template-rows: repeat(3, 100px);
+  grid-template-columns: repeat(10, 9%);
+  grid-template-rows: repeat(3, 10vh);
   width: 100%;
   margin-top: 5px;
 }
@@ -264,153 +267,153 @@ button:disabled {
 /** Workstations parts visuals*/
 /* Workstation 1 */
 #chassis {
-  top: 101px;
-  left: 135px;
-  height: 50px;
+  top: 22%;
+  height: 12%;
 }
 
 #hood {
-  top: 150px;
-  height: 50px;
+  top: 33%;
+  height: 14%;
 }
 
 #trunk {
-  top: 200px;
-  height: 50px;
+  top: 47%;
+  height: 13%;
 }
 
 #door {
-  top: 250px;
-  height: 50px;
+  top: 60%;
+  height: 12%;
 }
 
 /* Workstation 2 */
 #engineBlock {
-  top: 240px;
-  left: 310px;
-  height: 25px;
+  top: 51%;
+  left: 81%;
+  height: 5%;
   width: auto;
 }
 
 #cylinderHead {
-  top: 216px;
-  left: 310px;
-  height: 25px;
+  top: 47%;
+  left: 81%;
+  height: 5%;
   width: auto;
 }
 
 #piston {
-  top: 223px;
-  left: 314px;
-  height: 10px;
+  top: 48%;
+  left: 82%;
+  height: 2%;
   width: auto;
 }
 
 #sparkPlugs {
-  top: 202px;
-  left: 312px;
-  height: 15px;
+  top: 44%;
+  left: 82%;
+  height: 3%;
   width: auto;
 }
 
 /* Workstation 3 */
 #dashboard {
-  top: 150px;
-  height: 50px;
+  top: 20%;
+  height: 14%;
+  width: auto;
 }
 
 #steeringWheel {
-  top: 150px;
-  left: 150px;
-  height: 50px;
+  top: 21%;
+  left: 32%;
+  height: 13%;
 }
 
 #seat {
-  top: 275px;
-  left: 150px;
-  height: 60px;
+  top: 53%;
+  left: 23%;
+  height: 20%;
 }
 
 #carpet {
-  top: 210px;
-  left: 150px;
-  height: 50px;
+  top: 37%;
+  left: 29%;
+  height: 14%;
 }
 
 /* Workstation 4 */
 #battery {
-  top: 225px;
-  left: 132px;
-  height: 25px;
+  top: 47%;
+  left: 28%;
+  height: 6%;
 }
 
 
 #alternator {
-  top: 232px;
-  left: 57px;
-  height: 20px;
+  top: 50%;
+  left: 10%;
+  height: 4%;
 }
 
 #wiringHarness {
-  top: 232px;
-  left: 95px;
-  height: 15px;
+  top: 49%;
+  left: 19%;
+  height: 3%;
 }
 
 #headlights {
-  top: 234px;
-  left: 342px;
-  height: 22px;
+  top: 50%;
+  left: 89%;
+  height: 4%;
 }
 
 /* Workstation 5 */
 #brakePads {
-  top: 263px;
-  left: 245px;
-  height: 26px;
+  top: 55%;
+  left: 62%;
+  height: 7%;
 }
 
 #wheel {
-  top: 256px;
-  left: 238px;
-  height: 42px;
+  top: 54%;
+  left: 60%;
+  height: 10%;
 }
 
 #tire {
-  top: 252px;
-  left: 234px;
-  height: 50px;
+  top: 53%;
+  left: 59%;
+  height: 12%;
 }
 
 #hubcap {
-  top: 263px;
-  left: 245px;
-  height: 28px;
+  top: 56%;
+  left: 62%;
+  height: 7%;
 }
 
 /* Background/Placeholder for workstations */
 #placeholder2 {
   position: absolute;
   height: auto;
-  width: 350px;
+  width: 95%;
 }
 
 #placeholder3 {
   position: absolute;
-  height: 250px;
+  height: 80%;
   width: auto;
 }
 
 #placeholder4 {
   position: absolute;
   height: auto;
-  width: 300px;
+  width: 85%;
 }
 
 #placeholder5 {
   position: absolute;
   height: auto;
-  width: 350px;
+  width: 95%;
 }
 
 /** Timer */
