@@ -7,7 +7,8 @@ class StartButton extends HTMLElement {
 
     shadowRoot.innerHTML = `
       <link rel="stylesheet" href="styles.css">
-      <input type="text" id="playerName" value = "Gregory" placeholder="Enter your name" />
+      <input type="text" id="playerName" value = "Player 1" 
+      placeholder="Enter your name" minLength="3" maxLength="15"/>
       <button id="startButton">Start Game</button>
     `;
 
@@ -23,7 +24,7 @@ class StartButton extends HTMLElement {
         !allowedChars.test(playerName)
       ) {
         alert(
-          "Please enter a valid name (minimum 3 characters, maximum 15, Only letters, numbers, and spaces are allowed)."
+          "Please enter a valid name (minimum 3 characters, maximum 15. Only letters, numbers, and spaces are allowed)."
         );
         return;
       }
