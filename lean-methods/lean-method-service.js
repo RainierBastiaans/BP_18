@@ -1,29 +1,46 @@
-import availableLeanmethods from "../db/leanmethods.json" with { type: "json" };
-
 class LeanMethodService {
   constructor() {
     this.leanMethods = new Map(); // Initialize with a Map
-    this.availableLeanmethods = availableLeanmethods.leanMethods;
   }
 
-  async registerLeanMethods() {
-    // Loop through available lean methods and register them
-    for (const leanMethod of this.availableLeanmethods) {
+  async fetchLeanMethods() {
+    try {
+      const response = await fetch('./db/leanmethods.json'); // Adjust path as needed
+      if (!response.ok) {
+        throw new Error(`Failed to fetch lean methods: ${response.statusText}`);
+      }
+      const data = await response.json();
+      const leanMethodData = data.leanMethods; // Assuming "leanMethods" property in JSON
+
+      // Validate data structure (optional but recommended)
+      if (!Array.isArray(leanMethodData)) {
+        throw new Error('Invalid data format: Lean methods must be an array.');
+      }
+
+      await this.registerLeanMethods(leanMethodData);
+    } catch (error) {
+      console.error('Error fetching or registering lean methods:', error);
+    }
+  }
+
+  async registerLeanMethods(leanMethodData) {
+    for (const leanMethod of leanMethodData) {
       const leanMethodId = leanMethod.id;
-      await this.registerLeanMethod(leanMethodId); // Call registerLeanMethod for each ID
+      await this.registerLeanMethod(leanMethodId);
     }
   }
 
   async registerLeanMethod(leanMethodId) {
     if (this.leanMethods.has(leanMethodId)) {
       console.warn(`Lean method with ID '${leanMethodId}' already exists.`);
-    } else {
-      try {
-        const leanMethodClass = await import(`./${leanMethodId}.js`);
-        this.leanMethods.set(leanMethodId, new leanMethodClass.default()); // Assuming default export for the class
-      } catch (error) {
-        console.error(`Error importing or creating lean method '${leanMethodId}':`, error);
-      }
+      return; // Avoid registering duplicates
+    }
+
+    try {
+      const leanMethodClass = await import(`./${leanMethodId}.js`);
+      this.leanMethods.set(leanMethodId, new leanMethodClass.default()); // Assuming default export
+    } catch (error) {
+      console.error(`Error importing or creating lean method '${leanMethodId}':`, error);
     }
   }
 
