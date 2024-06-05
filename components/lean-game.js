@@ -108,12 +108,13 @@ class LeanGame extends HTMLElement {
     );
   }
 
-  newGame(db, playerName, selectedWorkstation = 1) {
-    this.game = new Game(selectedWorkstation, db, playerName);
+  newGame(db, playerName, leanMethodService, selectedWorkstation = 1){
+    this.game = new Game(db, leanMethodService); 
     this.currentWorkstationIndex = selectedWorkstation;
     // Disable buttons based on selected workstation
     this.previousButton.disabled = selectedWorkstation === 1;
     this.nextButton.disabled = selectedWorkstation === 5;
+    this.game.newGame(selectedWorkstation, playerName)
     this.newRound();
   }
 
@@ -217,6 +218,15 @@ class LeanGame extends HTMLElement {
 
     // Game Timer
     this.runGameTimer(this.shadowRoot.querySelector(".game-timer"));
+
+    //time left, this has to be redone in a better way!
+    this.shadowRoot.querySelector(".time-left")?.remove();
+    this.timeLeftElement = document.createElement("div")
+    this.timeLeftElement.classList.add("time-left")
+    this.timeLeftElement.innerHTML = this.game.getRemainingTime()
+    this.shadowRoot.appendChild(this.timeLeftElement)
+
+
 
     // ... (update previous/next button states)
     this.clearButtons();

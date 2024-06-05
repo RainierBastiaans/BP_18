@@ -9,10 +9,11 @@ class CarAtWorkstation extends CarState {
   constructor(workstationid) {
     super()
     this.workstationId = workstationid;
+    this.partBreakageChance = gameValues.partBreakageChanceNoTQC;
   }
 
-  addPart(parts, partToAdd) {
-    parts = this.breakPart(parts, partToAdd);
+  addPart(parts, partToAdd, leanMethodService) {
+    parts = this.breakPart(parts, partToAdd, leanMethodService);
     // Check if the part exists in the map (case-sensitive)
     // Update the partAdded property to true for the existing part
     const partInfo = parts.get(partToAdd);
@@ -52,12 +53,11 @@ class CarAtWorkstation extends CarState {
     return new CarBroken();
   }
 
-  breakPart(parts, partToBreak) {
+  breakPart(parts, partToBreak, leanMethodService) {
     // Get the part information from the parts list
     const partInfo = parts.get(partToBreak);
-
     // Simulate a chance to break with a probability of x
-    const isBroken = Math.random() < gameValues.partBreakageChance;
+    const isBroken = Math.random() < leanMethodService.getLeanMethod("total-quality-control").getPartBreakageChance();
     partInfo.broken = isBroken;
     parts.set(partInfo.name, partInfo)
     return parts;

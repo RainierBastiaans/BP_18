@@ -3,14 +3,11 @@ import { WorkingWorkstation } from "./workstation-working.js";
 import { gameValues } from "../../../game-values.js";
 
 class UnderMaintenanceWorkstation extends Workstation {
-  constructor(id, partsList, tpm, workstations) {
+  constructor(id, partsList, leanmethodService, workstations) {
     // Default duration in milliseconds (3 seconds)
-    super(id, partsList);
-    this.maintenanceDuration = gameValues.workstationMaintenanceDuration;
+    super(id, partsList, leanmethodService);
     this.startTime = Date.now(); // Set startTime immediately in constructor
-    this.workstations = workstations;
-    this.tpm = tpm;
-
+    this.workstations = workstations;    
     // Optionally, set up a timer to transition back to working state
     this.setupMaintenanceTimer();
   }
@@ -45,7 +42,7 @@ class UnderMaintenanceWorkstation extends Workstation {
 
     this.workstations.set(
       this.id,
-      new WorkingWorkstation(this.id, this.partnames, this.tpm)
+      new WorkingWorkstation(this.id, this.partnames, this.leanMethodService)
     );
   }
 }

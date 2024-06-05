@@ -2,11 +2,11 @@ import { Workstation } from "./workstation.js";
 import { UnderMaintenanceWorkstation } from "./workstation-under-maintenance.js";
 
 class WorkingWorkstation extends Workstation {
-  constructor(id, partsList, tpm) {
-    super(id, partsList, tpm);
+  constructor(id, partsList, leanMethodService) {
+    super(id, partsList, leanMethodService);
   }
 
-  addPartToCar(workstations) {
+  addPartToCar(workstations, leanMethodService) {
     // Check if adding the part should trigger a random chance of under maintenance
     if (Math.random() < this.maintenanceChance) {
       // Update the workstation state to UnderMaintenanceWorkstation
@@ -15,7 +15,7 @@ class WorkingWorkstation extends Workstation {
         new UnderMaintenanceWorkstation(
           this.id,
           this.partnames,
-          undefined,
+          leanMethodService,
           workstations
         )
       );

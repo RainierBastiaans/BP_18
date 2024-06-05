@@ -1,20 +1,29 @@
 import { LeanMethod } from "./lean-method.js";
+import { gameValues } from "../game-values.js";
 
 class TotalProductiveMaintenance extends LeanMethod {
   constructor(workstations) {
     super("Total Productive Maintenance", "Focuses on preventing equipment breakdowns to maximize production efficiency.");
-    this.workstations = workstations; // Store workstations for later use
-    this.maintenanceChance = 0.001;
+    this.isEnabled = false;
   }
 
-  applyMethod() {
-    // Iterate through the workstations and apply TPM logic
-    for (const workstation of this.workstations) {
-      // Implement TPM logic for each workstation
-      workstation.maintenanceChance = this.maintenanceChance; // Assuming 'maintenanceChance' exists in Workstation (replace with your TPM logic)
-      //console.log(`TPM applied to workstation ${workstation.id}`); // Optional logging
+  getMaintenanceChance(){
+    if (this.isEnabled){
+      return gameValues.workstationBreakdownChanceTPM
     }
+    return gameValues.workstationBreakdownChanceNoTPM
+  }
+
+  getMaintenanceDuration(){
+    if (this.isEnabled){
+      return gameValues.workstationMaintenanceDurationTPM
+    }
+    return gameValues.workstationMaintenanceDurationNoTPM
+  }
+
+  enable(){
+    this.isEnabled = true;
   }
 }
 
-export { TotalProductiveMaintenance };
+export default TotalProductiveMaintenance;

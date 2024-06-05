@@ -1,11 +1,13 @@
 import { gameValues } from "../../../game-values.js";
 
 class Workstation {
-  constructor(id, partsList, tpm, workstations) {
+  constructor(id, partsList, leanMethodService) {
     this.id = id;
     this.partnames = partsList; // Create a list of part names
     this.occupant = null; // Reference to the current occupant (User or Bot)
-    this.maintenanceChance = tpm ? gameValues.workstationBreakdownChanceTPM : gameValues.workstationBreakdownChanceNoTPM; // Ternary operator for conditional assignment
+    this.leanMethodService = leanMethodService;
+    this.maintenanceChance = leanMethodService.getLeanMethod("total-productive-maintenance").getMaintenanceChance();
+    this.maintenanceDuration = leanMethodService.getLeanMethod("total-productive-maintenance").getMaintenanceDuration();
   }
 
   setMaintenanceChance(maintenanceChance) {
