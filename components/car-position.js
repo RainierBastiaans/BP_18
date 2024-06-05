@@ -21,8 +21,8 @@ class CarPositionLine extends HTMLElement {
   setCarPositions(cars) {
     this.workstationElements.forEach((element, index) => {
       const workstationId = index + 1; // Adjust for 1-based indexing
-      const hasCar = cars
-        .values()
+      const hasCar = Array.from(cars
+        .values())
         .some((car) => car.state.workstationId === workstationId);
       element.textContent = workstationId; // Display workstation number
       element.classList.remove("active");
@@ -35,8 +35,8 @@ class CarPositionLine extends HTMLElement {
   setCurrentWorkstation(workstations) {
     this.workstationElements.forEach((element, index) => {
       const workstationId = index + 1; // Adjust for 1-based indexing
-      const workstation = workstations
-        .values()
+      const workstation = Array.from(workstations
+        .values())
         .find((station) => station.id === workstationId); // Find matching workstation
 
       if (workstation && workstation.getRemainingTime()) {
