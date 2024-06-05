@@ -59,8 +59,13 @@ const statsContainer = document.getElementById("stats-container");
 
 statsContainer.appendChild(showStats);
 
+const showIngameStats = new ShowIngameStats();
+const ingameStatsContainer = document.getElementById("ingame-stats-container");
+ingameStatsContainer.appendChild(showIngameStats);
+
 roundSummary.hide();
 showStats.hide();
+showIngameStats.hide();
 leanGame.hide();
 roundSummary.hide();
 newRoundButton.hide();
@@ -79,18 +84,21 @@ startButton.addEventListener("startgame", (event) => {
   gameDescription.hide();
   startButton.hide();
   leanGame.show();
-  showStats.show();
+  showStats.hide();
+  showIngameStats.show();
   gameOptions.hide();
   highscoreBoard.hide();
   leanGame.newGame(db, playerName, leanMethodService, selectedWorkstation);
   leanGame.game.stats.addObserver(showStats);
+  leanGame.game.stats.addObserver(showIngameStats);
 });
 newRoundButton.addEventListener("newRound", (event) => {
   // Access the selected lean method from the event detail
   gameHeader.hide();
   newRoundButton.hide();
   roundSummary.hide();
-
+  showStats.hide();
+  showIngameStats.show();
   leanGame.show();
   leanGame.newRound(selectedLeanMethod);
 });
@@ -106,6 +114,7 @@ document.addEventListener("roundover", (event) => {
   gameHeader.show();
   leanGame.hide();
   showStats.show();
+  showIngameStats.hide();
   roundSummary.showLeanMethods(leanMethods);
   roundSummary.show();
   newRoundButton.show();
@@ -124,6 +133,7 @@ document.addEventListener("gameover", (event) => {
   startButton.show();
   leanGame.hide();
   showStats.show();
+  showIngameStats.hide();
   gameOptions.show();
   highscoreBoard.show();
 });
