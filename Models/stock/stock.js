@@ -5,7 +5,6 @@ import { TraditionalStock } from "./traditional-stock.js";
 class Stock extends Subject {
   constructor(parts, gamestats, leanMethodService) {
     super();
-    console.log(parts)
     this.parts = new Map(
       parts.reduce((acc, part) => {
         // Ensure each part is an object with a "name" property

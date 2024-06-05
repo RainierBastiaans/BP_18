@@ -27,6 +27,7 @@ class Round{
 
   endRound() {
     clearInterval(this.timerInterval);
+    this.isOver = true; //this is not necessary anymore
     this.emitter.emit("roundoverInModel"); // Emit the event
   }
     

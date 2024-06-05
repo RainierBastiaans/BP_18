@@ -11,7 +11,7 @@ jest.mock("../../../Models/stats/game-stats.js"); // Mock GameStats dependency (
 jest.mock("../../../Models/stock/stock.js"); // Mock Stock dependency (optional)
 jest.mock("../../../Models/occupant/bot.js"); // Mock Bot dependency (optional)
 
-const parts = [
+export const parts = [
   {
       "name": "chassis",
       "price": 1000.99
@@ -153,5 +153,43 @@ describe("Game", () => {
     expect(() => game.newGame("John", 0)).toThrow(Error);
     expect(() => game.newGame("John", 6)).toThrow(Error);
   });
+
+  // //newRound
   
+
+  // test("newRound initializes new round and updates game state (valid input)", () => {
+  //   game.newGame(2, "John Doe");
+  //   const initialRoundsSize = game.rounds.size;
+
+  //   game.newRound('total-quality-control'); // Replace with actual leanMethod
+
+  //   expect(game.rounds.size).toBe(initialRoundsSize + 1);
+  //   expect(game.rounds.get(initialRoundsSize + 1) instanceof Round).toBe(true); // Assuming mocked Round
+  //   expect(game.currentRound).toBe(game.rounds.get(initialRoundsSize + 1));
+  // });
+
+  // test("newRound throws error if numberOfRounds exceeded", () => {
+  //   // Set numberOfRounds to 1 for testing
+  //   game = new Game(null, null, { numberOfRounds: 1 });
+
+  //   expect(() => game.newRound({ anyLeanMethod: true })).toThrow(Error);
+  // });
+
+  // test("newRound updates stats, stock, starts bots, refreshes workstations, sets up event listener", () => {
+  //   const statsSpy = jest.spyOn(game.stats, "newRound");
+  //   const stockRefreshSpy = jest.spyOn(game.stock, "refreshStock");
+  //   const stockNewRoundSpy = jest.spyOn(game.stock, "newRound");
+  //   const botsStartWorkingSpy = jest.spyOn(game.bots, "forEach");
+  //   const createRefreshWorkstationsSpy = jest.spyOn(game, "createOrRefreshWorkstations");
+  //   const endRoundSpy = jest.spyOn(game, "endRound");
+
+  //   game.newRound({ anyLeanMethod: true }); // Replace with actual leanMethod
+
+  //   expect(statsSpy).toHaveBeenCalled();
+  //   expect(stockRefreshSpy).toHaveBeenCalledWith(expect.any(), expect.any()); // Verify arguments passed
+  //   expect(stockNewRoundSpy).toHaveBeenCalled();
+  //   expect(botsStartWorkingSpy).toHaveBeenCalled();
+  //   expect(createRefreshWorkstationsSpy).toHaveBeenCalled();
+  //   expect(mockEmitter.on).toHaveBeenCalledWith("roundoverInModel", expect.any(Function)); // Verify event listener
+  // });
 });
