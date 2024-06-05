@@ -6,61 +6,7 @@ class RoundSummary extends HTMLElement {
     this.attachShadow({ mode: "open" });
 
     this.shadowRoot.innerHTML = `
-      <style>
-        .options-container {
-          text-align: center;
-          margin: 20px;
-        }
-        .options-heading {
-          font-size: 1.5em;
-          margin-bottom: 10px;
-        }
-        .summary-text {
-          margin-bottom: 20px;
-        }
-        #applied-methods {
-          /* Style for applied methods section */
-        }
-
-        label {
-          position: relative;
-          display: inline-block;
-          border-bottom: 1px dotted black;
-        }
-        
-        label .tooltip {
-          visibility: hidden;
-          width: 300px;
-          background-color: #555;
-          color: #fff;
-          text-align: center;
-          border-radius: 6px;
-          padding: 5px 0;
-          position: absolute;
-          z-index: 1;
-          bottom: 125%;
-          left: 50%;
-          margin-left: -60px;
-          opacity: 0;
-          transition: opacity 0.3s;
-        }
-        
-        label .tooltip::after {
-          content: "";
-          position: absolute;
-          top: 100%;
-          left: 50%;
-          margin-left: -5px;
-          border-width: 5px;
-          border-style: solid;
-          border-color: #555 transparent transparent transparent;
-        }
-        
-        label:hover .tooltip {
-          visibility: visible;
-          opacity: 1;
-        }
-              </style>
+      <link rel="stylesheet" href="styles.css">
       <div id="options-container" class="options-container">
         <h2>Round Summary</h2>
         <h2>Select Lean Method</h2>
@@ -89,7 +35,7 @@ class RoundSummary extends HTMLElement {
     appliedMethodsContainer.innerHTML = "";
 
     this.availableMethods.forEach((leanMethod) => {
-      if (!Array.from(leanMethods.keys()).includes(leanMethod.id)) { // Only show non-applied methods
+      if (!leanMethod.isEnabled) { // Only show non-applied methods
         const option = document.createElement("div");
         option.classList.add("option");
 
@@ -148,5 +94,4 @@ class RoundSummary extends HTMLElement {
   
 }
 customElements.define("round-summary", RoundSummary);
-  
 export { RoundSummary };

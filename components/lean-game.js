@@ -96,7 +96,7 @@ class LeanGame extends HTMLElement {
     }
     const gameDetails = {
       gameStats: this.game.stats,
-      leanMethods: this.game.leanMethods,
+      leanMethods: this.leanMethodService.getAllLeanMethods(),
     };
 
     this.dispatchEvent(

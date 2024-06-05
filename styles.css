@@ -44,6 +44,45 @@ input[type="text"] {
   left: 150px;
 }
 
+label {
+  position: relative;
+  display: inline-block;
+  border-bottom: 1px dotted black;
+}
+
+label .tooltip {
+  visibility: hidden;
+  width: 300px;
+  background-color: #555;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 0;
+  position: absolute;
+  z-index: 1;
+  bottom: 125%;
+  left: 50%;
+  margin-left: -60px;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+label .tooltip::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: #555 transparent transparent transparent;
+}
+
+label:hover .tooltip {
+  visibility: visible;
+  opacity: 1;
+}
+
 /* Button visuals */
 
 #newRoundButton,
@@ -432,7 +471,7 @@ button:disabled {
 .timer>svg>circle {
   fill: none;
   stroke-opacity: 0.3;
-  stroke: #0d6efd;
+  stroke: #fd0d0d;
   stroke-width: 10;
   transform-origin: center center;
   transform: rotate(-90deg);
