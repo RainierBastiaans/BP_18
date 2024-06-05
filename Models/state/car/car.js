@@ -47,8 +47,8 @@ class Car extends Subject {
     this.state.qualityControl(this.parts);
   }
 
-  addPart(partsToAdd) {
-    this.parts = this.state.addPart(this.parts, partsToAdd);
+  addPart(partsToAdd, leanMethodService) {
+    this.parts = this.state.addPart(this.parts, partsToAdd, leanMethodService);
   }
 
   move(cars) {

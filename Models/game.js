@@ -1,37 +1,27 @@
-import { Workstation } from "./state/workstation/workstation.js";
 import { Round } from "./round.js";
 import { Bot } from "./occupant/bot.js";
 import data from "../db/parts.json" with { type: "json" };
-import availableLeanmethods from "../db/leanmethods.json" with {type: "json"};
 import { GameStats } from "./stats/game-stats.js";
-import { Money } from "./money.js";
-import { RoundStats } from "./stats/round-stats.js";
-import { JustInTime } from "../lean-methods/just-in-time.js";
-import { QualityControl } from "../lean-methods/quality-control.js";
 import { TraditionalStock } from "./stock/traditional-stock.js";
-import { JITStock } from "./stock/jit-stock.js";
 import { CarAtWorkstation } from "./state/car/car-at-workstation.js";
 import { WorkingWorkstation } from "./state/workstation/workstation-working.js";
-import { TotalProductiveMaintenance } from "../lean-methods/total-productive-maintenance.js";
 import { Car } from "./state/car/car.js";
 import { Emitter } from "../emitter.js";
 import { gameValues } from "../game-values.js";
-import { HighscoresDB } from "../db/highscores.js";
+import { LeanMethodService } from "../lean-methods/lean-method-service.js";
+import { Stock } from "./stock/stock.js";
 class Game {
-  constructor(selectedWorkstation, db, playerName) {
+  constructor(db, leanMethodService) {
     this.db = db
-    this.playerName = playerName
-    this.selectedWorkstation = selectedWorkstation
+    this.leanMethodService = leanMethodService;
     this.workstations = new Map();
     this.rounds = new Map();
     this.carId = 1;
     this.cars = new Map();
     this.parts = data.parts;
     this.leanMethods = new Map();
-    this.availableLeanmethods = availableLeanmethods.leanMethods;
     this.emitter = new Emitter(); // Create an Emitter instance
     this.isOver = false;
-    this.newGame(selectedWorkstation)
   }
 
   createOrRefreshWorkstations() {
@@ -44,13 +34,16 @@ class Game {
         new WorkingWorkstation(
           i + 1,
           partList.map((partData) => partData.name),
-          this.leanMethods.get("total_productive_maintenance")
+          this.leanMethodService
         )
       );
     }
   }
-  newGame(selectedWorkstation) {
-    console.log(selectedWorkstation)
+  newGame(selectedWorkstation, playerName) {
+    this.playerName = playerName;
+    this.selectedWorkstation = selectedWorkstation;
+    this.stats = new GameStats(this);
+    this.stock = new Stock( this.parts, this.stats, this.leanMethodService);
     this.bots = [];
     // Create bots only for workstations other than selectedWorkstation
     for (let i = 1; i <= 5; i++) {
@@ -58,14 +51,11 @@ class Game {
         this.bots.push(new Bot(`bot${i}`, i, this));
       }
     }
-    this.createOrRefreshWorkstations();
-    this.stats = new GameStats(this);
-    this.stock = new TraditionalStock(this.stats, this.parts);
+    
     this.emitter.on("gameOverInModel", () => {
       this.endGame()
     });
     this.newCar();
-    console.log(this)
   }
 
   newRound(leanMethod) {
@@ -75,6 +65,7 @@ class Game {
     this.rounds.set(roundnumber, newRound);
     this.currentRound = newRound;
     this.newLeanMethod(leanMethod);
+    this.stock.refreshStock(this.leanMethodService)
     this.stock.newRound();
     this.bots.forEach((bot) => bot.startWorking());
     this.createOrRefreshWorkstations();
@@ -84,21 +75,8 @@ class Game {
   }
 
   newLeanMethod(method) {
-    if (method === "just_in_time") {
-      this.leanMethods.set(method, new JustInTime());
-      this.stock = new JITStock(this.stats, this.stock.parts);
-    }
-    if (method === "total_quality_control") {
-      this.leanMethods.set(method, new QualityControl());
-    }
-    if (method === "total_productive_maintenance") {
-      this.leanMethods.set(
-        method,
-        new TotalProductiveMaintenance(this.workstations)
-      );
-    }
-    if(method === "orderly_workplace"){
-      this.leanMethods.set(method,null);
+    if(method){
+      this.leanMethodService.enableLeanMethod(method)
     }
   }
 
@@ -111,6 +89,7 @@ class Game {
       this.endGame();
     }
     this.bots.forEach((bot) => bot.stopAddingParts());
+    console.log(this.cars)
   }
 
   newCar() {
@@ -147,11 +126,11 @@ class Game {
     const car = this.getCarFromWorkstation(workstationId);
     
     try {
-      currentWorkstation.addPartToCar(this.workstations);
+      currentWorkstation.addPartToCar(this.workstations, this.leanMethodService);
       this.stock.requestPart(part);
-      this.cars.get(car.id).addPart(part, currentWorkstation);
+      this.cars.get(car.id).addPart(part, this.leanMethodService);
     } catch (error) {
-      //console.error(error);
+      console.error(error);
     }
   }
 

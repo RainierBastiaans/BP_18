@@ -12,15 +12,18 @@ export const gameValues = {
   // - Chance of breakdown with preventive maintenance (TPM)
   workstationBreakdownChanceTPM: 0.001,
   // - Chance of breakdown without preventive maintenance
-  workstationBreakdownChanceNoTPM: 0.0,
+  workstationBreakdownChanceNoTPM: 0.10,
   // - Workstation maintenance duration (seconds)
-  workstationMaintenanceDuration: 3000,
+  workstationMaintenanceDurationTPM: 1000,
+  workstationMaintenanceDurationNoTPM: 3000,
+
 
   // Car production:
   // - Fixed price per completed car
   carPrice: 20000,
   // - Chance of a part breaking during car assembly
-  partBreakageChance: 0.02,
+  partBreakageChanceNoTQC: 0.02,
+  partBreakageChanceTQC: 0.01,
 
   // Bot movement interval (time between moves in milliseconds)
   botMoveInterval: 500,
@@ -29,7 +32,7 @@ export const gameValues = {
   jitExtraPrice: 1.5, // Shorter name for extrapriceJit
 
   // Round duration (seconds)
-  roundDuration: 20, // Shorter name for timeOfRound
+  roundDuration: 3, // Shorter name for timeOfRound
 
   // Parts added to stock per round
   partsPerRound: 50,

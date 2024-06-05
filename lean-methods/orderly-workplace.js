@@ -1,10 +1,10 @@
 import { LeanMethod } from "./lean-method.js";
 
-class JustInTime extends LeanMethod {
+class OrderlyWorkplace extends LeanMethod {
   constructor() {
     super(
-      "Just-In-Time",
-      "Orders parts only when needed, reducing inventory costs."
+      "Orderly Workplace",
+      "description"
     );
     this.isEnabled = false;
   }
@@ -12,6 +12,7 @@ class JustInTime extends LeanMethod {
   enable(){
     this.isEnabled = true;
   }
+  
 }
 
-export default JustInTime;
+export default OrderlyWorkplace;
