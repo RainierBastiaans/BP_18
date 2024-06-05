@@ -12,7 +12,6 @@ class LeanMethodService {
       const leanMethodId = leanMethod.id;
       await this.registerLeanMethod(leanMethodId); // Call registerLeanMethod for each ID
     }
-    console.log(this.leanMethods)
   }
 
   async registerLeanMethod(leanMethodId) {
