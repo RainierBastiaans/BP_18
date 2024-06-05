@@ -32,7 +32,7 @@ export const gameValues = {
   roundDuration: 20, // Shorter name for timeOfRound
 
   // Parts added to stock per round
-  partsPerRound: 50,
+  partsPerRound: 10,
 
   //Number of rounds
   numberOfRounds: 5,
