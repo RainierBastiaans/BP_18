@@ -201,7 +201,6 @@ button:disabled {
 /** Game visuals */
 #game-container {
   text-align: center;
-  position: relative;
 }
 
 /** Car visuals */
@@ -210,7 +209,8 @@ button:disabled {
   justify-content: center;
   align-items: center;
   margin: 2px auto;
-  border: 2px solid black;
+  border: 5px solid black;
+  background-color: #4695dfcb;
   width: auto;
   height: 40vh;
   max-width: 400px;
@@ -227,10 +227,15 @@ button:disabled {
 
 .part-buttons {
   display: grid;
+  align-items: center;
+  justify-content: center;
   grid-template-columns: repeat(10, 9%);
   grid-template-rows: repeat(3, 10vh);
-  width: 100%;
-  margin-top: 5px;
+  width: 98%;
+  margin: 5px;
+  background-color: grey;
+  border: 5px solid black;
+
 }
 
 .part-buttons-oderly {
@@ -238,6 +243,9 @@ button:disabled {
   grid-template-columns: repeat(4, 0.5fr);
   max-width: 1100px;
   margin-left: 10%;
+  margin-bottom: 10px;
+  background-color: grey;
+  border: 5px solid black;
 }
 
 .part-container {
@@ -245,13 +253,14 @@ button:disabled {
   align-content: center;
   justify-items: center;
   align-items: center;
+  background-color: rgb(199, 195, 195);
+  border: 5px solid black;
+  margin: 5px;
 }
 
 .part-button {
-  min-width: 35px;
-  max-width: 100px;
-  min-height: 35px;
-  max-height: 90px;
+  max-width: 80px;
+  max-height: 80px;
   padding: 10px;
 }
 
@@ -462,7 +471,7 @@ button:disabled {
 .timer {
   margin-top: 10px;
   position: absolute;
-  top: 50%;
+  top: 60%;
   left: 10%;
 }
 
@@ -564,7 +573,7 @@ button:disabled {
 }
 
 .ingame-statistics-item {
-  margin: 10px;
+  margin: 5px;
   display: flex;
 }
 

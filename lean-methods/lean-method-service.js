@@ -19,7 +19,7 @@ class LeanMethodService {
 
       await this.registerLeanMethods(leanMethodData);
     } catch (error) {
-      console.error('Error fetching or registering lean methods:', error);
+      //console.error('Error fetching or registering lean methods:', error);
     }
   }
 
@@ -59,7 +59,7 @@ class LeanMethodService {
     const leanMethod = this.getLeanMethod(leanMethodId);
     if (leanMethod) {
       leanMethod.isEnabled = true; // Assuming the lean method has an 'isEnabled' property
-      console.log(`Lean method '${leanMethodId}' enabled.`);
+      (`Lean method '${leanMethodId}' enabled.`);
     } else {
       console.warn(`Lean method with ID '${leanMethodId}' not found.`);
     }

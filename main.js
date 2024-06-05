@@ -32,7 +32,7 @@ async function fetchParts() {
     const data = await response.json();
     return data.parts; // Assuming the API response has a "parts" property
   } catch (error) {
-    console.error("Error fetching parts data:", error);
+    //console.error("Error fetching parts data:", error);
     // Handle the error here (e.g., set a default parts object)
   }
 }

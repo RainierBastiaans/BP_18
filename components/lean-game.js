@@ -10,13 +10,13 @@ class LeanGame extends HTMLElement {
 <link rel="stylesheet" href="styles.css">
 <h4 id="roundMessage">Round </h4>
 <p id="message">Work On Workstation</p>
-<div class="car-container" id="car-container"></div>
 <button id="previous-station-button">Previous Station</button>
 <button id="next-station-button">Next Station</button>
 <p></p>
 <button id="move-car-button">Move Car to Next Station</button>
 <button id = "quality-control">Quality Control</button> 
 <button id = "remove-button">Remove Car</button>
+<div class="car-container" id="car-container"></div>
 <div id="current-workstation"></div>
 <div class="game-timer">
   <svg>
@@ -321,7 +321,9 @@ class LeanGame extends HTMLElement {
             "just-in-time"
           ).isEnabled
             ? `Just enough stock (JIT)`
-            : `${Number(this.game.getAmountOfPart(part)).toString()} in stock.`;
+            : `${part} in stock: ${Number(
+                this.game.getAmountOfPart(part)
+              ).toString()}`;
           partContainer.appendChild(stockCount);
           buttonContainer.appendChild(partContainer);
         });

@@ -8,7 +8,7 @@ class HighscoresDB {
         resolve(); // Resolve the promise when database is opened
       };
       this.openRequest.onerror = (event) => {
-        console.error("Error opening IndexedDB database:", event.target.error);
+        //console.error("Error opening IndexedDB database:", event.target.error);
         reject(event.target.error); // Reject the promise on error
       };
     });
@@ -47,11 +47,11 @@ class HighscoresDB {
     });
 
     if (count === 0) {
-      console.log("Database is empty, adding default high score.");
+      //console.log("Database is empty, adding default high score.");
       this.addHighscore("Simon", 50);
       this.addHighscore("Gregory", 70);
     } else {
-      console.log("Database has existing scores.");
+      //console.log("Database has existing scores.");
     }
   }
 
@@ -70,7 +70,7 @@ class HighscoresDB {
         resolve();
       };
       request.onerror = (event) => {
-        console.error("Error adding high score:", event.target.error);
+        //console.error("Error adding high score:", event.target.error);
         reject(event.target.error);
       };
     });
@@ -100,7 +100,7 @@ class HighscoresDB {
       };
 
       request.onerror = (event) => {
-        console.error("Error retrieving high scores:", event.target.error);
+        //console.error("Error retrieving high scores:", event.target.error);
         reject(event.target.error);
       };
     });
