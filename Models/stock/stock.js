@@ -21,8 +21,21 @@ class Stock extends Subject {
     );
 
     this.addObserver(gamestats);
-    this.state = leanMethodService.getLeanMethod("just-in-time").isEnabled ? new JITStock(gamestats): new TraditionalStock(gamestats);
+  }
 
+  // Setter for state with conditional update
+  set state(newState) {
+    if (this._state){
+      if (!(newState instanceof this._state.constructor)) {
+        // Only update if the new state type is different
+        throw new Error('Invalid state type: must be of the same type as current state');
+      }
+    }   
+    this._state = newState;
+  }
+
+  get state() {
+    return this._state;
   }
 
 
@@ -31,7 +44,7 @@ class Stock extends Subject {
   }
   
   refreshStock(leanMethodService, stats){
-    this.state = leanMethodService.getLeanMethod("just-in-time").isEnabled ? new JITStock(stats): this.state;
+    this.state = leanMethodService.getLeanMethod("just-in-time").isEnabled ? new JITStock(stats): new TraditionalStock(stats);
   }
 
   // Placeholder method for requestPart, subclasses will implement their own behavior
