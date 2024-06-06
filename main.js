@@ -79,6 +79,7 @@ ingameStatsContainer.appendChild(showIngameStats);
 roundSummary.hide();
 showStats.hide();
 showIngameStats.hide();
+gameContainer.classList.add("hidden");
 leanGame.hide();
 roundSummary.hide();
 newRoundButton.hide();
@@ -96,6 +97,7 @@ startButton.addEventListener("startgame", (event) => {
   gameHeader.hide();
   gameDescription.hide();
   startButton.hide();
+  gameContainer.classList.remove("hidden");
   leanGame.show();
   showStats.hide();
   showIngameStats.show();
@@ -120,6 +122,7 @@ newRoundButton.addEventListener("newRound", (event) => {
   roundSummary.hide();
   showStats.hide();
   showIngameStats.show();
+  gameContainer.classList.remove("hidden");
   leanGame.show();
   leanGame.newRound(selectedLeanMethod);
 });
@@ -133,6 +136,7 @@ document.addEventListener("roundover", (event) => {
 
   // Show statistics and reset home screen
   gameHeader.show();
+  gameContainer.classList.add("hidden");
   leanGame.hide();
   showStats.show();
   showIngameStats.hide();
@@ -152,6 +156,7 @@ document.addEventListener("gameover", (event) => {
   gameHeader.show();
   gameDescription.show();
   startButton.show();
+  gameContainer.classList.add("hidden");
   leanGame.hide();
   showStats.show();
   showIngameStats.hide();

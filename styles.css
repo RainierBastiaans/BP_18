@@ -10,7 +10,8 @@ body {
   margin: 0;
   padding: 0;
   width: 100%;
-  height: 90%;
+  height: 100%;
+
 }
 
 img {
@@ -21,7 +22,8 @@ img {
 }
 
 p {
-  margin: 5px;
+  padding: 5px;
+  margin: 0;
 }
 
 input[type="text"] {
@@ -201,6 +203,10 @@ button:disabled {
 /** Game visuals */
 #game-container {
   text-align: center;
+  background: url("./img/background/game-station.svg") center center;
+  background-size: cover;
+  overflow: hidden;
+  height: 100vh;
 }
 
 /** Car visuals */
@@ -208,9 +214,9 @@ button:disabled {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 2px auto;
+  margin: 10px auto;
   border: 5px solid black;
-  background-color: #4695dfcb;
+  background-color: #4695df;
   width: auto;
   height: 40vh;
   max-width: 400px;
@@ -231,9 +237,9 @@ button:disabled {
   justify-content: center;
   grid-template-columns: repeat(10, 9%);
   grid-template-rows: repeat(3, 10vh);
-  width: 98%;
-  margin: 5px;
-  background-color: grey;
+  width: 95vw;
+  margin: 5px auto;
+  background-color: rgb(68, 67, 67);
   border: 5px solid black;
 
 }
@@ -472,7 +478,7 @@ button:disabled {
   margin-top: 10px;
   position: absolute;
   top: 60%;
-  left: 10%;
+  left: 8%;
 }
 
 .timer>svg {
