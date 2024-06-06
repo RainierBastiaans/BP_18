@@ -6,6 +6,7 @@ import "./components/show-stats.js";
 import "./components/show-ingame-stats.js";
 import "./components/game-options.js";
 import { HighscoresDB } from "./db/highscores.js";
+//COMPONENTS
 import { HighscoreBoard } from "./components/highscore-board.js";
 import { LeanGame } from "./components/lean-game.js";
 import { GameOptions } from "./components/game-options.js";
@@ -16,54 +17,58 @@ import { GameDescription } from "./components/game-description.js";
 import { ShowStats } from "./components/show-stats.js";
 import { ShowIngameStats } from "./components/show-ingame-stats.js";
 import { NewRoundButton } from "./components/new-round-button.js";
+import { ConfigGrid } from "./components/config-grid.js";
+
+//MODELS
 import { LeanMethodService } from "./lean-methods/lean-method-service.js";
 
+//INITIALIZE COMPONENTS
 let db = new HighscoresDB();
-
 const leanGame = new LeanGame();
 const leanMethodService = new LeanMethodService();
 await leanMethodService.fetchLeanMethods();
+const configGrid = new ConfigGrid();
+const gameOptions = new GameOptions();
+const startButton = new StartButton();
+const gameHeader = new GameHeader();
+const gameDescription = new GameDescription();
+const showIngameStats = new ShowIngameStats();
+const highscoreBoard = new HighscoreBoard(db); // Pass db instance
+const roundSummary = new ChooseLeanmethod();
+const newRoundButton = new NewRoundButton();
+const showStats = new ShowStats();
 
-const gameContainer = document.getElementById("game-container");
-gameContainer.appendChild(leanGame);
+//START VIEW
 
+//GAME CONFIGURATION
+const homePage = document.getElementById("home-page");
 let selectedLeanMethod;
 let selectedWorkstation;
 
-const homePage = document.getElementById("home-page");
-
-const highscoreBoard = new HighscoreBoard(db); // Pass db instance
-
-const gameOptions = new GameOptions();
-
-const roundSummary = new ChooseLeanmethod();
-const newRoundButton = new NewRoundButton();
-
-const startButton = new StartButton();
-
-const gameHeader = new GameHeader();
-
-const gameDescription = new GameDescription();
-
+//APPEND TO CONFIG PAGE
 homePage.appendChild(gameHeader);
-homePage.appendChild(gameDescription);
-homePage.appendChild(gameOptions);
-homePage.appendChild(roundSummary);
-homePage.appendChild(startButton);
-homePage.appendChild(highscoreBoard);
-homePage.appendChild(roundSummary);
-homePage.appendChild(newRoundButton);
+homePage.appendChild(configGrid);
+configGrid.appendComponent(gameDescription);
+configGrid.appendComponent(gameOptions);
+configGrid.appendComponent(roundSummary);
+configGrid.appendComponent(startButton);
+configGrid.appendComponent(highscoreBoard);
+configGrid.appendComponent(roundSummary);
+configGrid.appendComponent(newRoundButton);
 
-const showStats = new ShowStats();
+//GAME
+const gameContainer = document.getElementById("game-container");
+gameContainer.appendChild(leanGame);
 
-const statsContainer = document.getElementById("stats-container");
-
-statsContainer.appendChild(showStats);
-
-const showIngameStats = new ShowIngameStats();
+//IN-GAME STATS
 const ingameStatsContainer = document.getElementById("ingame-stats-container");
 ingameStatsContainer.appendChild(showIngameStats);
 
+//STATS
+const statsContainer = document.getElementById("stats-container");
+statsContainer.appendChild(showStats);
+
+//EVENT LISTENERS
 showStartView(); //Show the startView
 
 gameOptions.addEventListener("workstationchange", (event) => {
@@ -77,7 +82,7 @@ roundSummary.addEventListener("leanmethodchange", (event) => {
 // Game start
 startButton.addEventListener("startgame", (event) => {
   const playerName = event.detail.playerName;
-  showGameView()
+  showGameView();
   fetchParts().then((fetchedParts) => {
     leanGame.newGame(
       db,
@@ -92,7 +97,7 @@ startButton.addEventListener("startgame", (event) => {
 });
 newRoundButton.addEventListener("newRound", (event) => {
   // Access the selected lean method from the event detail
-  showGameView()
+  showGameView();
   leanGame.newRound(selectedLeanMethod);
 });
 
@@ -105,9 +110,8 @@ document.addEventListener("roundover", (event) => {
 
   roundSummary.showLeanMethods(leanMethods);
 
-
   // Show statistics and reset home screen
-  showRoundView()
+  showRoundView();
 });
 
 //Game end
@@ -118,7 +122,7 @@ document.addEventListener("gameover", (event) => {
   showStats.update(gameStats);
 
   // Show statistics and reset home screen
-  showEndGameView()
+  showEndGameView();
 });
 
 async function fetchParts() {
@@ -177,4 +181,3 @@ function showEndGameView() {
   gameOptions.show();
   highscoreBoard.show();
 }
-

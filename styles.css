@@ -1,16 +1,60 @@
 /** Regular visuals */
 
+* {
+  box-sizing: border-box;
+  font-family: "Roboto", sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
 .hidden {
   display: none;
 }
 
 body {
-  font-family: "Arial", sans-serif;
+/* 
   background-color: #f4f4f4;
-  margin: 0;
-  padding: 0;
+
   width: 100%;
   height: 90%;
+  box-sizing: border-box; */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background: #e0e0e0;
+  color: #333;
+}
+
+
+#home-page {
+  width: 95%;
+  height: 95%;
+  background: #f7f7f7;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  display: grid;
+  grid-template-rows: 1fr 9fr;
+  grid-gap: 20px;
+  border: 2px solid #ccc;
+}
+
+.start-config {
+  display: grid;
+  grid-template-rows: 1fr 1fr;
+  grid-gap: 20px;
+}
+
+.header {
+  grid-area: header;
+  text-align: center;
+  background: #4b4b4b;
+  color: #fff;
+  padding: 10px;
+  border-radius: 4px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
 }
 
 img {
@@ -87,7 +131,7 @@ label:hover .tooltip {
 
 #newRoundButton,
 #startButton {
-  display: block;
+  /* display: block;
   padding: 10px 20px;
   font-size: 20px;
   margin: 30px auto;
@@ -95,7 +139,16 @@ label:hover .tooltip {
   color: white;
   border: none;
   border-radius: 5px;
+  cursor: pointer; */
+  grid-area: start;
+  background: #28a745;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 15px 30px;
+  font-size: 1.2em;
   cursor: pointer;
+  transition: background 0.3s;
 }
 
 #newRoundButton:hover,
