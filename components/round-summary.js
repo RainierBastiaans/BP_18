@@ -31,10 +31,8 @@ class RoundSummary extends HTMLElement {
 
     availableMethodsContainer.innerHTML = ""; // Clear previous options
     appliedMethodsContainer.innerHTML = "";
-    console.log(this.leanMethods)
 
     this.leanMethods.forEach((leanMethod) => {
-      console.log(leanMethod)
       if(!leanMethod.isEnabled){
         const option = document.createElement("div");
         option.classList.add("option");

@@ -4,20 +4,31 @@ import { Occupant } from "./occupant.js";
 class Bot extends Occupant {
   constructor(name, workstationId, game) {
     super(name, workstationId, game);
-    this.timeInterval = gameValues.botMoveInterval; // Default interval (1 second)
+    this.timeIntervalMin = gameValues.botMoveIntervalNoOWMin;
+    this.timeIntervalMax = gameValues.botMoveIntervalNoOWMax;
     this.timer = null; // Timer for adding parts
+    this.timeoutId = null; // Store the timeout ID
+
   }
 
   startWorking() {
-    // Add a part to the workstation every time interval (simulates bot behavior)
-    this.timer = setInterval(() => {
+    const randomInterval = Math.floor(Math.random() * (this.timeIntervalMax - this.timeIntervalMin + 1)) + this.timeIntervalMin;  
+    this.timeoutId = setTimeout(() => {
       this.performActionAtWorkstation();
-    }, this.timeInterval);
+      this.startWorking(); // Restart after action
+    }, randomInterval);
+  }
+  
+  stopWorking() {
+    if (this.timeoutId) {
+      clearTimeout(this.timeoutId);
+      this.timeoutId = null;
+    }
   }
 
-  stopAddingParts() {
-    clearInterval(this.timer);
-    this.timer = null;
+  refresh(leanMethodService){
+    this.timeIntervalMin = leanMethodService.getLeanMethod("orderly-workplace").getBotIntervalMin()
+    this.timeIntervalMax = leanMethodService.getLeanMethod("orderly-workplace").getBotIntervalMax()
   }
 
   async performActionAtWorkstation() {
