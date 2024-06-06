@@ -6,14 +6,12 @@ class ShopComponent extends HTMLElement {
     <link rel="stylesheet" href="styles.css">
   `;
     this.allParts = allParts;
-    console.log(allParts);
     this.currentWorkstationIndex = 0; // Track current workstation
 
     // Group parts by workstation
     this.partsByWorkstation = this.groupPartsByWorkstation();
 
     this.render();
-    console.log(this.shadowRoot.innerHTML);
   }
 
   groupPartsByWorkstation() {

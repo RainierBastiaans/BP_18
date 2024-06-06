@@ -72,7 +72,6 @@ class Stock extends Subject {
   }
 
   addPartsToStock(parts) {
-    console.log(parts)
     if (!parts || !Array.isArray(parts)) {
       throw new Error("Invalid parts argument: Must be an array of objects");
     }
@@ -87,7 +86,6 @@ class Stock extends Subject {
       const quantity = part.quantity;
       this.parts = this.state.addPartsToStock(this.parts, partId, quantity);
     }
-    console.log(this.parts)
   }
   
 }

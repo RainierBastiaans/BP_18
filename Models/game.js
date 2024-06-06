@@ -111,6 +111,9 @@ class Game {
     this.currentRound = newRound;
     this.newLeanMethod(leanMethod);
     this.stock.refreshStock(this.leanMethodService, this.stats)
+    this.bots.forEach((bot)=>{
+      bot.refresh(this.leanMethodService)
+    })
     // this.stock.newRound();
     this.bots.forEach((bot) => bot.startWorking());
     this.createOrRefreshWorkstations();
@@ -130,7 +133,7 @@ class Game {
   }
 
   endRound() {
-    this.bots.forEach((bot) => bot.stopAddingParts());
+    this.bots.forEach((bot) => bot.stopWorking());
     this.stock.endRound();
     if (this.currentRound.roundNumber === gameValues.numberOfRounds){
       this.endGame();

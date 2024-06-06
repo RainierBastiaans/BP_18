@@ -28,7 +28,6 @@ class LeanMethodService {
       const leanMethodId = leanMethod.id;
       await this.registerLeanMethod(leanMethodId);
     }
-    console.log(this.leanMethods)
   }
 
   async registerLeanMethod(leanMethodId) {
