@@ -43,7 +43,7 @@ input[type="text"] {
 #roundMessage {
   position: absolute;
   top: 18vh;
-  left: 50vw;
+  left: 48vw;
 }
 
 label {
@@ -215,12 +215,12 @@ button:disabled {
   justify-content: center;
   align-items: center;
   border: 5px solid black;
-  background-color: #4695df;
+  background-color: rgb(190, 184, 122);
   width: auto;
   height: 50vh;
   position: absolute;
   top: 30vh;
-  left: 38.5vw;
+  left: 40vw;
   aspect-ratio: 8 / 10;
 }
 
@@ -234,14 +234,14 @@ button:disabled {
   display: grid;
   align-items: center;
   justify-content: center;
-  grid-template-columns: repeat(3, 10vw);
+  grid-template-columns: repeat(3, 8vw);
   grid-template-rows: repeat(10, 6.5vh);
-  width: 30vw;
+  width: 25vw;
   height: 65vh;
-  background-color: rgb(68, 67, 67);
+  background-color: rgb(85, 82, 82);
   border: 5px solid black;
   position: absolute;
-  left: 3vw;
+  left: 6vw;
   top: 20.5vh;
 
 }
@@ -252,7 +252,7 @@ button:disabled {
   background-color: grey;
   border: 5px solid black;
   position: absolute;
-  left: 3vw;
+  left: 6vw;
   top: 20.5vh;
   width: 30vw;
   height: 65vh;
@@ -290,13 +290,13 @@ button:disabled {
 #quality-control {
   position: absolute;
   top: 30vh;
-  left: 60vw;
+  left: 63vw;
 }
 
 #remove-button {
   position: absolute;
   top: 35vh;
-  left: 60vw;
+  left: 63vw;
 }
 
 /** Workstations parts visuals*/
@@ -499,7 +499,7 @@ button:disabled {
   margin-top: 10px;
   position: absolute;
   top: 40vh;
-  right: 5vw;
+  right: 8vw;
 }
 
 .timer>svg {
