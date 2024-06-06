@@ -2,8 +2,8 @@ import { gameValues } from "../game-values.js";
 import { LeanMethod } from "./lean-method.js";
 
 class OrderlyWorkplace extends LeanMethod {
-  constructor() {
-    super("orderly-workplace", "Orderly Workplace", "description");
+  constructor(id, name, description) {
+    super(id, name, description);
   }
 
   getBotIntervalMin() {

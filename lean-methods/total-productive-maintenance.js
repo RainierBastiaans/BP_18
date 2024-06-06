@@ -2,8 +2,8 @@ import { LeanMethod } from "./lean-method.js";
 import { gameValues } from "../game-values.js";
 
 class TotalProductiveMaintenance extends LeanMethod {
-  constructor(workstations) {
-    super("total-productive-maintenance","Total Productive Maintenance", "Focuses on preventing equipment breakdowns to maximize production efficiency.");
+  constructor(id, name, description) {
+    super(id, name, description);
   }
 
   getMaintenanceChance(){
