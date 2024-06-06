@@ -22,6 +22,8 @@ class Game {
     this.leanMethods = new Map();
     this.emitter = new Emitter(); // Create an Emitter instance
     this.isOver = false;
+    this.stats = new GameStats(this);
+    this.stock = new Stock(this.parts, this.stats, this.leanMethodService);
   }
 
   partExists(partName) {
@@ -73,8 +75,6 @@ class Game {
   newGame(selectedWorkstation, playerName) {
     this.playerName = playerName;
     this.selectedWorkstation = parseInt(selectedWorkstation);
-    this.stats = new GameStats(this);
-    this.stock = new Stock(this.parts, this.stats, this.leanMethodService);
     this.bots = [];
     // Create bots only for workstations other than selectedWorkstation
     for (let i = 1; i <= 5; i++) {
@@ -111,7 +111,7 @@ class Game {
     this.currentRound = newRound;
     this.newLeanMethod(leanMethod);
     this.stock.refreshStock(this.leanMethodService, this.stats)
-    this.stock.newRound();
+    // this.stock.newRound();
     this.bots.forEach((bot) => bot.startWorking());
     this.createOrRefreshWorkstations();
     this.currentRound.emitter.on("roundoverInModel", () => {

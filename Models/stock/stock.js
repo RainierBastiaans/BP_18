@@ -19,7 +19,7 @@ class Stock extends Subject {
         return acc;
       }, new Map())
     );
-
+    this.state = new TraditionalStock(gamestats)
     this.addObserver(gamestats);
   }
 
@@ -63,6 +63,7 @@ class Stock extends Subject {
   }
 
   addPartsToStock(parts) {
+    console.log(parts)
     if (!parts || !Array.isArray(parts)) {
       throw new Error("Invalid parts argument: Must be an array of objects");
     }
