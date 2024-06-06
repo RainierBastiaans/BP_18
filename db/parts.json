@@ -3,102 +3,102 @@
       {
         "id": "chassis",
         "name": "Chassis",
-        "price": 1000.99
+        "price": 999
       },
       {
         "id": "hood",
         "name": "Hood",
-        "price": 55.55
+        "price": 55
       },
       {
         "id": "trunk",
         "name": "Trunk",
-        "price": 33.33
+        "price": 33
       },
       {
         "id": "door",
         "name": "Door",
-        "price": 22.22
+        "price": 75
       },
       {
         "id": "engineBlock",
         "name": "Engine Block",
-        "price": 500.50
+        "price": 500
       },
       {
         "id": "cylinderHead",
         "name": "Cylinder Head",
-        "price": 49.99
+        "price": 49
       },
       {
         "id": "piston",
         "name": "Piston",
-        "price": 120.22
+        "price": 120
       },
       {
         "id": "sparkPlugs",
         "name": "Spark Plugs",
-        "price": 99.99
+        "price": 99
       },
       {
         "id": "dashboard",
         "name": "Dashboard",
-        "price": 299.99
+        "price": 299
       },
       {
         "id": "steeringWheel",
         "name": "Steering Wheel",
-        "price": 69.69
+        "price": 69
       },
       {
         "id": "seat",
         "name": "Seat",
-        "price": 5.99
+        "price": 30
       },
       {
         "id": "carpet",
         "name": "Carpet",
-        "price": 50.01
+        "price": 50
       },
       {
         "id": "battery",
         "name": "Battery",
-        "price": 121.11
+        "price": 121
       },
       {
         "id": "alternator",
         "name": "Alternator",
-        "price": 130.00
+        "price": 130
       },
       {
         "id": "wiringHarness",
         "name": "Wiring Harness",
-        "price": 169.20
+        "price": 169
       },
       {
         "id": "headlights",
         "name": "Headlights",
-        "price": 44.44
+        "price": 44
       },
       {
         "id": "brakePads",
         "name": "Brake Pads",
-        "price": 666.66
+        "price": 666
       },
       {
         "id": "wheel",
         "name": "Wheel",
-        "price": 99.00
+        "price": 99
       },
       {
         "id": "tire",
         "name": "Tire",
-        "price": 1.00
+        "price": 50
       },
       {
         "id": "hubcap",
         "name": "Hubcap",
-        "price": 0.69
+        "price": 25
       }
     ]
   }

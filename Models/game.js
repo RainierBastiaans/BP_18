@@ -130,11 +130,11 @@ class Game {
   }
 
   endRound() {
+    this.bots.forEach((bot) => bot.stopAddingParts());
+    this.stock.endRound();
     if (this.currentRound.roundNumber === gameValues.numberOfRounds){
       this.endGame();
     }
-    this.bots.forEach((bot) => bot.stopAddingParts());
-    console.log(this.cars)
   }
 
   newCar() {

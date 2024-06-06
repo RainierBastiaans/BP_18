@@ -24,7 +24,7 @@ class GameStats extends Subject {
   }
 
   updateStock(addedStock) {
-    const stockPrice = addedStock.price * addedStock.amount; //the price of the stock times the amount of stocks added.
+    const stockPrice = addedStock.price;
     this.capital.deduct(stockPrice);
     this.notifyObservers(this);
   }

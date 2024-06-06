@@ -23,7 +23,7 @@ class StockState extends Subject {
   addPartsToStock(parts, part, count) {
     parts.get(part).quantity += count;
     this.notifyObservers(
-      { price: parts.get(part).price, amount: count },
+      { price: parts.get(part).price*count},
       "stock"
     ); //probably need to adapt the pricing for JIT
     return parts;
