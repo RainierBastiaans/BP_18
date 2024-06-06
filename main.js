@@ -17,25 +17,19 @@ import { ShowStats } from "./components/show-stats.js";
 import { ShowIngameStats } from "./components/show-ingame-stats.js";
 import { NewRoundButton } from "./components/new-round-button.js";
 import { LeanMethodService } from "./lean-methods/lean-method-service.js";
+import { ShopComponent } from "./components/shop-component.js";
 
 let db = new HighscoresDB();
 
 const leanGame = new LeanGame();
 const leanMethodService = new LeanMethodService();
 await leanMethodService.fetchLeanMethods();
-async function fetchParts() {
-  try {
-    const response = await fetch("./db/parts.json"); // Replace with your actual API endpoint
-    if (!response.ok) {
-      throw new Error(`Failed to fetch parts data: ${response.statusText}`);
-    }
-    const data = await response.json();
-    return data.parts; // Assuming the API response has a "parts" property
-  } catch (error) {
-    console.error("Error fetching parts data:", error);
-    // Handle the error here (e.g., set a default parts object)
-  }
-}
+fetchParts().then((fetchedParts) => {
+  leanGame.newGame(db, leanMethodService, fetchedParts);
+  leanGame.game.stats.addObserver(showStats);
+  leanGame.game.stats.addObserver(showIngameStats);
+});
+
 const gameContainer = document.getElementById("game-container");
 gameContainer.appendChild(leanGame);
 
@@ -56,6 +50,15 @@ const startButton = new StartButton();
 const gameHeader = new GameHeader();
 
 const gameDescription = new GameDescription();
+let shopComponent;
+fetchParts().then((fetchedParts) => {
+  shopComponent = new ShopComponent(fetchedParts);
+  homePage.appendChild(shopComponent);
+  shopComponent.addEventListener("buy-parts", (event) => {
+    const boughtParts = event.detail.parts;
+    leanGame.game.buyStock(boughtParts)
+  });
+});
 
 homePage.appendChild(gameHeader);
 homePage.appendChild(gameDescription);
@@ -78,7 +81,6 @@ ingameStatsContainer.appendChild(showIngameStats);
 
 roundSummary.hide();
 showStats.hide();
-showIngameStats.hide();
 leanGame.hide();
 roundSummary.hide();
 newRoundButton.hide();
@@ -101,17 +103,7 @@ startButton.addEventListener("startgame", (event) => {
   showIngameStats.show();
   gameOptions.hide();
   highscoreBoard.hide();
-  fetchParts().then((fetchedParts) => {
-    leanGame.newGame(
-      db,
-      playerName,
-      leanMethodService,
-      fetchedParts,
-      selectedWorkstation
-    );
-    leanGame.game.stats.addObserver(showStats);
-    leanGame.game.stats.addObserver(showIngameStats);
-  });
+  leanGame.startGame(playerName, selectedWorkstation);
 });
 newRoundButton.addEventListener("newRound", (event) => {
   // Access the selected lean method from the event detail
@@ -158,3 +150,17 @@ document.addEventListener("gameover", (event) => {
   gameOptions.show();
   highscoreBoard.show();
 });
+
+async function fetchParts() {
+  try {
+    const response = await fetch("./db/parts.json"); // Replace with your actual API endpoint
+    if (!response.ok) {
+      throw new Error(`Failed to fetch parts data: ${response.statusText}`);
+    }
+    const data = await response.json();
+    return data.parts; // Assuming the API response has a "parts" property
+  } catch (error) {
+    console.error("Error fetching parts data:", error);
+    // Handle the error here (e.g., set a default parts object)
+  }
+}

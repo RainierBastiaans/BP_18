@@ -8,18 +8,18 @@ class Stock extends Subject {
     this.parts = new Map(
       parts.reduce((acc, part) => {
         // Ensure each part is an object with a "name" property
-        if (!part || !part.name) {
+        if (!part || !part.id) {
           //console.warn("Warning: Ignoring invalid part in parts array:", part);
           return acc; // Skip invalid parts
         }
 
         // Create a new object with price and initial quantity (0)
         const partInfo = { price: part.price, quantity: 0 };
-        acc.set(part.name, partInfo);
+        acc.set(part.id, partInfo);
         return acc;
       }, new Map())
     );
-
+    this.state = new TraditionalStock(gamestats)
     this.addObserver(gamestats);
   }
 
@@ -61,6 +61,26 @@ class Stock extends Subject {
   getAmountOfPart(part) {
     return this.parts.get(part).quantity;
   }
+
+  addPartsToStock(parts) {
+    console.log(parts)
+    if (!parts || !Array.isArray(parts)) {
+      throw new Error("Invalid parts argument: Must be an array of objects");
+    }
+  
+    for (const part of parts) {
+      if (!part || !part.id || !Number.isInteger(part.quantity)) {
+        console.warn("Ignoring invalid part entry:", part);
+        continue; // Skip invalid part entries
+      }
+  
+      const partId = part.id;
+      const quantity = part.quantity;
+      this.parts = this.state.addPartsToStock(this.parts, partId, quantity);
+    }
+    console.log(this.parts)
+  }
+  
 }
 
 export { Stock };

@@ -11,14 +11,6 @@ class TraditionalStock extends StockState{
     return this.usePart(parts, part);
   }
 
-
-  
-
-  addPartsToStock(parts, part, count) {
-    parts.get(part).quantity += count;
-    this.notifyObservers({price: parts.get(part).price, amount: count}, "stock")
-    return parts
-  }
   deductPrice(part){
     return
   }

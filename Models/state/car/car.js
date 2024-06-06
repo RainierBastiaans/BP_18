@@ -11,18 +11,18 @@ class Car extends Subject {
     this.parts = new Map(
       parts.reduce((acc, part) => {
         // Ensure each part is an object with a "name" property
-        if (!part || !part.name) {
+        if (!part || !part.id) {
           console.warn("Warning: Ignoring invalid part in parts array:", part);
           return acc; // Skip invalid parts
         }
 
         // Create a new object with partAdded and broken properties
         const partInfo = {
-          name: part.name,
+          name: part.id,
           partAdded: false,
           broken: undefined,
         };
-        acc.set(part.name, partInfo);
+        acc.set(part.id, partInfo);
         return acc;
       }, new Map())
     ); // Initialize an empty Map

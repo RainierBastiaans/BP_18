@@ -22,10 +22,12 @@ class Game {
     this.leanMethods = new Map();
     this.emitter = new Emitter(); // Create an Emitter instance
     this.isOver = false;
+    this.stats = new GameStats(this);
+    this.stock = new Stock(this.parts, this.stats, this.leanMethodService);
   }
 
   partExists(partName) {
-    const matchingPart = this.parts.find(part => part.name === partName);
+    const matchingPart = this.parts.find(part => part.id === partName);
     if (!matchingPart) {
       throw new Error(`Part not found: '${partName}' does not exist in available parts`);
     }
@@ -63,7 +65,7 @@ class Game {
         i + 1,
         new WorkingWorkstation(
           i + 1,
-          partList.map((partData) => partData.name),
+          partList.map((partData) => partData.id),
           this.leanMethodService
         )
       );
@@ -73,8 +75,6 @@ class Game {
   newGame(selectedWorkstation, playerName) {
     this.playerName = playerName;
     this.selectedWorkstation = parseInt(selectedWorkstation);
-    this.stats = new GameStats(this);
-    this.stock = new Stock(this.parts, this.stats, this.leanMethodService);
     this.bots = [];
     // Create bots only for workstations other than selectedWorkstation
     for (let i = 1; i <= 5; i++) {
@@ -208,6 +208,10 @@ class Game {
   }
   getRemainingTime(){
     return this.currentRound.getRemainingTime()
+  }
+
+  buyStock(parts){
+    this.stock.addPartsToStock(parts)
   }
 }
 
