@@ -22,6 +22,7 @@ import { PlayerName } from "./components/player-name.js";
 
 //MODELS
 import { LeanMethodService } from "./lean-methods/lean-method-service.js";
+import { ShopComponent } from "./components/shop-component.js";
 
 //INITIALIZE COMPONENTS
 let db = new HighscoresDB();
@@ -29,8 +30,24 @@ const leanGame = new LeanGame();
 const leanMethodService = new LeanMethodService();
 await leanMethodService.fetchLeanMethods();
 const configGrid = new ConfigGrid();
+fetchParts().then((fetchedParts) => {
+  leanGame.newGame(db, leanMethodService, fetchedParts);
+  leanGame.game.stats.addObserver(showStats);
+  leanGame.game.stats.addObserver(showIngameStats);
+});
+
+const gameContainer = document.getElementById("game-container");
+gameContainer.appendChild(leanGame);
+
+let selectedLeanMethod;
+let selectedWorkstation;
+
+const homePage = document.getElementById("home-page");
+
+const highscoreBoard = new HighscoreBoard(db); // Pass db instance
+
 const gameOptions = new GameOptions();
-const playerNameInput = new PlayerName();
+const playerNameInput = new PlayerName(leanMethodService.getAllLeanMethods());
 const startButton = new StartButton(playerNameInput.playerName);
 const gameHeader = new GameHeader();
 const gameDescription = new GameDescription();
@@ -47,7 +64,16 @@ const homePage = document.getElementById("home-page");
 let selectedLeanMethod;
 let selectedWorkstation;
 
-//APPEND TO HOME PAGE
+//APPEND TO HOME PAGElet shopComponent;
+fetchParts().then((fetchedParts) => {
+  shopComponent = new ShopComponent(fetchedParts);
+  homePage.appendChild(shopComponent);
+  shopComponent.addEventListener("buy-parts", (event) => {
+    const boughtParts = event.detail.parts;
+    leanGame.game.buyStock(boughtParts)
+  });
+});
+
 homePage.appendChild(gameHeader);
 homePage.appendChild(configGrid);
 homePage.appendChild(chooseLeanMethod);
@@ -72,6 +98,11 @@ gameContainer.appendChild(leanGame);
 const ingameStatsContainer = document.getElementById("ingame-stats-container");
 ingameStatsContainer.appendChild(showIngameStats);
 
+roundSummary.hide();
+showStats.hide();
+leanGame.hide();
+roundSummary.hide();
+newRoundButton.hide();
 //STATS
 const statsContainer = document.getElementById("stats-container");
 statsContainer.appendChild(showStats);
@@ -90,23 +121,27 @@ chooseLeanMethod.addEventListener("leanmethodchange", (event) => {
 // Game start
 startButton.addEventListener("startgame", (event) => {
   const playerName = event.detail.playerName;
-  showGameView();
-  fetchParts().then((fetchedParts) => {
-    leanGame.newGame(
-      db,
-      playerName,
-      leanMethodService,
-      fetchedParts,
-      selectedWorkstation
-    );
-    leanGame.game.stats.addObserver(showStats);
-    leanGame.game.stats.addObserver(showIngameStats);
-  });
+  gameHeader.hide();
+  gameDescription.hide();
+  startButton.hide();
+  leanGame.show();
+  showStats.hide();
+  showIngameStats.show();
+  gameOptions.hide();
+  highscoreBoard.hide();
+  shopComponent.hide()
+  leanGame.startGame(playerName, selectedWorkstation);
 });
 
 newRoundButton.addEventListener("newRound", (event) => {
   // Access the selected lean method from the event detail
-  showGameView();
+  gameHeader.hide();
+  newRoundButton.hide();
+  roundSummary.hide();
+  showStats.hide();
+  showIngameStats.show();
+  leanGame.show();
+  shopComponent.hide();
   leanGame.newRound(selectedLeanMethod);
 });
 
@@ -120,7 +155,14 @@ document.addEventListener("roundover", (event) => {
   chooseLeanMethod.showLeanMethods(leanMethods);
 
   // Show statistics and reset home screen
-  showRoundView();
+  gameHeader.show();
+  leanGame.hide();
+  showStats.show();
+  showIngameStats.hide();
+  roundSummary.showLeanMethods(leanMethods);
+  roundSummary.show();
+  newRoundButton.show();
+  shopComponent.show()
 });
 
 //Game end
@@ -192,4 +234,18 @@ function showEndGameView() {
   showIngameStats.hide();
   gameOptions.show();
   highscoreBoard.show();
+});
+
+async function fetchParts() {
+  try {
+    const response = await fetch("./db/parts.json"); // Replace with your actual API endpoint
+    if (!response.ok) {
+      throw new Error(`Failed to fetch parts data: ${response.statusText}`);
+    }
+    const data = await response.json();
+    return data.parts; // Assuming the API response has a "parts" property
+  } catch (error) {
+    console.error("Error fetching parts data:", error);
+    // Handle the error here (e.g., set a default parts object)
+  }
 }

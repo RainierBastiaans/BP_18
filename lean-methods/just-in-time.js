@@ -1,13 +1,9 @@
 import { LeanMethod } from "./lean-method.js";
 
 class JustInTime extends LeanMethod {
-  constructor() {
-    super(
-      "Just-In-Time",
-      "Orders parts only when needed, reducing inventory costs."
-    );
+  constructor(id, name, description) {
+    super(id, name, description);
   }
-
 }
 
 export default JustInTime;

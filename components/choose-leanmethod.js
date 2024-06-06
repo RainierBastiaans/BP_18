@@ -1,7 +1,5 @@
-import availableMethods from "../db/leanmethods.json" with {type: "json"}
-
 class ChooseLeanmethod extends HTMLElement {
-  constructor() {
+  constructor(leanMethods) {
     super();
     this.attachShadow({ mode: "open" });
 
@@ -17,25 +15,32 @@ class ChooseLeanmethod extends HTMLElement {
       </div>
     `;
 
-    this.availableMethods = availableMethods.leanMethods;
+    this.leanMethods = leanMethods;
   }
 
   connectedCallback() {
-    this.leanMethodRadioButtons = this.shadowRoot.querySelectorAll('input[type="radio"][name="game-option"]');
+    this.leanMethodRadioButtons = this.shadowRoot.querySelectorAll(
+      'input[type="radio"][name="game-option"]'
+    );
     this.leanMethodRadioButtons.forEach((radioButton) => {
-      radioButton.addEventListener("change", this.handleLeanMethodChange.bind(this));
+      radioButton.addEventListener(
+        "change",
+        this.handleLeanMethodChange.bind(this)
+      );
     });
   }
 
   showLeanMethods(leanMethods) {
-    const availableMethodsContainer = this.shadowRoot.getElementById("available-methods");
-    const appliedMethodsContainer = this.shadowRoot.getElementById("applied-methods");
+    const availableMethodsContainer =
+      this.shadowRoot.getElementById("available-methods");
+    const appliedMethodsContainer =
+      this.shadowRoot.getElementById("applied-methods");
 
     availableMethodsContainer.innerHTML = ""; // Clear previous options
     appliedMethodsContainer.innerHTML = "";
 
-    this.availableMethods.forEach((leanMethod) => {
-      if (!Array.from(leanMethods.keys()).includes(leanMethod.id)) { // Only show non-applied methods
+    this.leanMethods.forEach((leanMethod) => {
+      if (!leanMethod.isEnabled) {
         const option = document.createElement("div");
         option.classList.add("option");
 
@@ -44,7 +49,10 @@ class ChooseLeanmethod extends HTMLElement {
         radioButton.id = leanMethod.id; // Use leanMethod as ID
         radioButton.name = "game-option";
         radioButton.value = leanMethod.id;
-        radioButton.addEventListener("change", this.handleLeanMethodChange.bind(this));
+        radioButton.addEventListener(
+          "change",
+          this.handleLeanMethodChange.bind(this)
+        );
 
         const label = document.createElement("label");
         label.textContent = leanMethod.name;
@@ -57,7 +65,7 @@ class ChooseLeanmethod extends HTMLElement {
 
         option.appendChild(radioButton);
         option.appendChild(label);
-        label.appendChild(tooltip); 
+        label.appendChild(tooltip);
 
         availableMethodsContainer.appendChild(option);
       } else {
@@ -76,6 +84,7 @@ class ChooseLeanmethod extends HTMLElement {
 
   handleLeanMethodChange(event) {
     const selectedLeanMethod = event.target.value;
+    console.log(selectedLeanMethod);
 
     this.dispatchEvent(
       new CustomEvent("leanmethodchange", {
@@ -85,13 +94,12 @@ class ChooseLeanmethod extends HTMLElement {
       })
     );
   }
-  show(){
-    this.classList.remove("hidden")
+  show() {
+    this.classList.remove("hidden");
   }
-  hide(){
-    this.classList.add("hidden")
+  hide() {
+    this.classList.add("hidden");
   }
-  
 }
 customElements.define("choose-leanmethod", ChooseLeanmethod);
 export { ChooseLeanmethod };

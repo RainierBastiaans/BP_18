@@ -25,28 +25,31 @@ class LeanMethodService {
 
   async registerLeanMethods(leanMethodData) {
     for (const leanMethod of leanMethodData) {
-      const leanMethodId = leanMethod.id;
-      await this.registerLeanMethod(leanMethodId);
+      await this.registerLeanMethod(leanMethod);
     }
+    console.log(this.leanMethods)
   }
 
-  async registerLeanMethod(leanMethodId) {
-    if (this.leanMethods.has(leanMethodId)) {
-      console.warn(`Lean method with ID '${leanMethodId}' already exists.`);
+  async registerLeanMethod(leanMethod) {
+    if (this.leanMethods.has(leanMethod.id)) {
+      console.warn(`Lean method with ID '${leanMethod.id}' already exists.`);
       return; // Avoid registering duplicates
     }
 
     try {
-      const leanMethodClass = await import(`./${leanMethodId}.js`);
-      this.leanMethods.set(leanMethodId, new leanMethodClass.default()); // Assuming default export
-    } catch (error) {
-      console.error(`Error importing or creating lean method '${leanMethodId}':`, error);
-    }
+        const leanMethodModule = await import(`./${leanMethod.id}.js`);
+        const LeanMethodClass = leanMethodModule.default; // Assuming default export
+      
+        // Pass arguments to the constructor during instantiation
+        this.leanMethods.set(leanMethod.id, new LeanMethodClass( leanMethod.id, leanMethod.name, leanMethod.description));
+      } catch (error) {
+        console.error(`Error importing or creating lean method '${leanMethodId}':`, error);
+      }
   }
 
 
   getAllLeanMethods() {
-    return Array.from(this.leanMethods.values()); // Convert Map values to an array
+    return this.leanMethods; // Convert Map values to an array
   }
   getLeanMethod(leanMethodId) {
     if (!this.leanMethods.has(leanMethodId)) {

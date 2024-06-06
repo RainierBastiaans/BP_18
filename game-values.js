@@ -25,16 +25,23 @@ export const gameValues = {
   partBreakageChanceTQC: 0.01,
 
   // Bot movement interval (time between moves in milliseconds)
-  botMoveInterval: 500,
+  botMoveIntervalNoOWMin: 1500,
+  botMoveIntervalNoOWMax: 2500,
+  botMoveIntervalOWMin: 750,
+  botMoveIntervalOWMax: 1750,
+
 
   // JIT parts extra price multiplier
   jitExtraPrice: 1.5, // Shorter name for extrapriceJit
 
   // Round duration (seconds)
-  roundDuration: 120, // Shorter name for timeOfRound
+  roundDuration: 5, // Shorter name for timeOfRound
 
   // Parts added to stock per round
   partsPerRound: 20,
+
+  //Price you have to pay each round for a part that is not used
+  pricePerPart: 100,
 
   //Number of rounds
   numberOfRounds: 5,
