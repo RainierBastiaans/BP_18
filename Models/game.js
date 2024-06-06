@@ -27,7 +27,7 @@ class Game {
   }
 
   partExists(partName) {
-    const matchingPart = this.parts.find(part => part.name === partName);
+    const matchingPart = this.parts.find(part => part.id === partName);
     if (!matchingPart) {
       throw new Error(`Part not found: '${partName}' does not exist in available parts`);
     }
@@ -65,7 +65,7 @@ class Game {
         i + 1,
         new WorkingWorkstation(
           i + 1,
-          partList.map((partData) => partData.name),
+          partList.map((partData) => partData.id),
           this.leanMethodService
         )
       );
@@ -111,7 +111,7 @@ class Game {
     this.currentRound = newRound;
     this.newLeanMethod(leanMethod);
     this.stock.refreshStock(this.leanMethodService, this.stats)
-    // this.stock.newRound();
+    this.stock.newRound();
     this.bots.forEach((bot) => bot.startWorking());
     this.createOrRefreshWorkstations();
     this.currentRound.emitter.on("roundoverInModel", () => {

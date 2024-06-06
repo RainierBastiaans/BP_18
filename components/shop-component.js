@@ -51,28 +51,8 @@ class ShopComponent extends HTMLElement {
     // Parts list for current workstation
     const partsList = document.createElement("ul");
     partsList.classList.add("shop-parts-list");
-    const currentParts = this.partsByWorkstation.get(
-      this.currentWorkstationIndex + 1
-    );
-    for (const partName in currentParts) {
-      const part = currentParts[partName];
-      const listItem = document.createElement("li");
-      listItem.classList.add("shop-part-item");
-
-      const partNameElement = document.createElement("span");
-      partNameElement.textContent = part.name;
-      listItem.appendChild(partNameElement);
-
-      const quantityInput = document.createElement("input");
-      quantityInput.type = "number";
-      quantityInput.min = 0;
-      quantityInput.max = 100;
-      quantityInput.value = 0; // Default quantity
-      listItem.appendChild(quantityInput);
-
-      partsList.appendChild(listItem);
-    }
     shopElement.appendChild(partsList);
+    
 
     // Buy button
     const buyButton = document.createElement("button");
@@ -82,6 +62,7 @@ class ShopComponent extends HTMLElement {
     shopElement.appendChild(buyButton);
 
     this.shadowRoot.appendChild(shopElement);
+    this.renderWorkstationParts()
   }
 
   changeWorkstation(offset) {
