@@ -42,8 +42,8 @@ input[type="text"] {
 
 #roundMessage {
   position: absolute;
-  top: 50px;
-  left: 150px;
+  top: 18vh;
+  left: 50vw;
 }
 
 label {
@@ -220,7 +220,7 @@ button:disabled {
   height: 50vh;
   position: absolute;
   top: 30vh;
-  left: 40vw;
+  left: 38.5vw;
   aspect-ratio: 8 / 10;
 }
 
@@ -284,19 +284,19 @@ button:disabled {
 #move-car-button {
   position: absolute;
   top: 24vh;
-  left: 47vw;
+  left: 44vw;
 }
 
 #quality-control {
   position: absolute;
   top: 30vh;
-  right: 8vw;
+  left: 60vw;
 }
 
 #remove-button {
   position: absolute;
   top: 35vh;
-  right: 10vw;
+  left: 60vw;
 }
 
 /** Workstations parts visuals*/

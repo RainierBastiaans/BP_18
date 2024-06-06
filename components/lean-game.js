@@ -8,7 +8,7 @@ class LeanGame extends HTMLElement {
     const gameTemplate = document.createElement("template");
     gameTemplate.innerHTML = `
 <link rel="stylesheet" href="styles.css">
-<h4 id="roundMessage">Round </h4>
+<h2 id="roundMessage">Round </h2>
 <p id="message">Work On Workstation</p>
 <button id="previous-station-button">Previous Station</button>
 <button id="next-station-button">Next Station</button>
