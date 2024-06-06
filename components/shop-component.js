@@ -67,6 +67,25 @@ class ShopComponent extends HTMLElement {
 
     this.shadowRoot.appendChild(shopElement);
     this.renderWorkstationParts();
+
+    // Button to add 5 to all quantities
+    const addFiveButton = document.createElement("button");
+    addFiveButton.classList.add("shop-add-five-button"); // Add a class for styling
+    addFiveButton.textContent = "Add 5 to All";
+    addFiveButton.addEventListener("click", () => this.addFiveToQuantities());
+    shopElement.appendChild(addFiveButton);
+  }
+
+  // Function to increment all quantities by 5
+  addFiveToQuantities() {
+    const partsList = this.shadowRoot.querySelector(".shop-parts-list");
+    const quantityInputs = partsList.querySelectorAll("input[type='number']");
+
+    for (const input of quantityInputs) {
+      const currentValue = parseInt(input.value, 10); // Parse string value to integer
+      const newValue = currentValue + 5;
+      input.value = Math.max(newValue, 0); // Ensure value doesn't go below 0
+    }
   }
 
   changeWorkstation(offset) {
