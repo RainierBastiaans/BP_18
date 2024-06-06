@@ -6,13 +6,14 @@ class ShopComponent extends HTMLElement {
     <link rel="stylesheet" href="styles.css">
   `;
     this.allParts = allParts;
+    console.log(allParts);
     this.currentWorkstationIndex = 0; // Track current workstation
 
     // Group parts by workstation
     this.partsByWorkstation = this.groupPartsByWorkstation();
 
     this.render();
-    console.log(this.shadowRoot.innerHTML)
+    console.log(this.shadowRoot.innerHTML);
   }
 
   groupPartsByWorkstation() {
@@ -56,7 +57,6 @@ class ShopComponent extends HTMLElement {
     const partsList = document.createElement("ul");
     partsList.classList.add("shop-parts-list");
     shopElement.appendChild(partsList);
-    
 
     // Buy button
     const buyButton = document.createElement("button");
@@ -66,7 +66,7 @@ class ShopComponent extends HTMLElement {
     shopElement.appendChild(buyButton);
 
     this.shadowRoot.appendChild(shopElement);
-    this.renderWorkstationParts()
+    this.renderWorkstationParts();
   }
 
   changeWorkstation(offset) {
@@ -81,42 +81,46 @@ class ShopComponent extends HTMLElement {
     const shopElement = this.shadowRoot.querySelector(".shop-component");
     const workstationName = shopElement.querySelector(".workstation-label");
     workstationName.innerHTML = "";
-    workstationName.textContent = `Workstation ${this.currentWorkstationIndex + 1}`;
-  
+    workstationName.textContent = `Workstation ${
+      this.currentWorkstationIndex + 1
+    }`;
+
     const partsList = shopElement.querySelector(".shop-parts-list");
     partsList.innerHTML = ""; // Clear existing list
-  
-    const currentParts = this.partsByWorkstation.get(this.currentWorkstationIndex + 1);
+
+    const currentParts = this.partsByWorkstation.get(
+      this.currentWorkstationIndex + 1
+    );
     for (const partName in currentParts) {
       const part = currentParts[partName];
-  
+
       const listItem = document.createElement("div"); // Use 'div' for vertical layout
       listItem.classList.add("shop-part-item");
-  
+
       const partDetails = document.createElement("div");
       partDetails.classList.add("shop-part-details");
-  
+
       const partNameElement = document.createElement("span");
       partNameElement.textContent = part.name;
+      partNameElement.dataset.partId = part.id; // Use a descriptive key
       partDetails.appendChild(partNameElement);
-  
+
       const priceElement = document.createElement("span");
       priceElement.textContent = `$${part.price.toFixed(2)}`; // Format price with 2 decimals
       partDetails.appendChild(priceElement);
-  
+
       listItem.appendChild(partDetails);
-  
+
       const quantityInput = document.createElement("input");
       quantityInput.type = "number";
       quantityInput.min = 0;
       quantityInput.max = 100;
       quantityInput.value = 0; // Default quantity
       listItem.appendChild(quantityInput);
-  
+
       partsList.appendChild(listItem);
     }
   }
-  
 
   handleBuyParts() {
     const boughtParts = [];
@@ -124,13 +128,13 @@ class ShopComponent extends HTMLElement {
     const partsList = shopElement.querySelector(".shop-parts-list");
 
     for (const listItem of partsList.children) {
-      const partName = listItem.querySelector("span").textContent;
+      const partId = listItem.querySelector("span").dataset.partId;
       const quantityInput = listItem.querySelector("input");
       const quantity = parseInt(quantityInput.value, 10); // Parse quantity as integer
 
       if (quantity > 0) {
         // Only consider parts with positive quantity
-        boughtParts.push({ name: partName, quantity });
+        boughtParts.push({ id: partId, quantity });
       }
     }
     // Dispatch custom event with bought parts list

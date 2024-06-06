@@ -69,14 +69,14 @@ class Stock extends Subject {
     }
   
     for (const part of parts) {
-      if (!part || !part.name || !Number.isInteger(part.quantity)) {
+      if (!part || !part.id || !Number.isInteger(part.quantity)) {
         console.warn("Ignoring invalid part entry:", part);
         continue; // Skip invalid part entries
       }
   
-      const partName = part.name;
+      const partId = part.id;
       const quantity = part.quantity;
-      this.parts = this.state.addPartsToStock(this.parts, partName, quantity);
+      this.parts = this.state.addPartsToStock(this.parts, partId, quantity);
     }
     console.log(this.parts)
   }
