@@ -18,6 +18,7 @@ import { ShowStats } from "./components/show-stats.js";
 import { ShowIngameStats } from "./components/show-ingame-stats.js";
 import { NewRoundButton } from "./components/new-round-button.js";
 import { ConfigGrid } from "./components/config-grid.js";
+import { PlayerName } from "./components/player-name.js";
 
 //MODELS
 import { LeanMethodService } from "./lean-methods/lean-method-service.js";
@@ -29,12 +30,13 @@ const leanMethodService = new LeanMethodService();
 await leanMethodService.fetchLeanMethods();
 const configGrid = new ConfigGrid();
 const gameOptions = new GameOptions();
-const startButton = new StartButton();
+const playerNameInput = new PlayerName();
+const startButton = new StartButton(playerNameInput.playerName);
 const gameHeader = new GameHeader();
 const gameDescription = new GameDescription();
 const showIngameStats = new ShowIngameStats();
 const highscoreBoard = new HighscoreBoard(db); // Pass db instance
-const roundSummary = new ChooseLeanmethod();
+const chooseLeanMethod = new ChooseLeanmethod();
 const newRoundButton = new NewRoundButton();
 const showStats = new ShowStats();
 
@@ -45,16 +47,22 @@ const homePage = document.getElementById("home-page");
 let selectedLeanMethod;
 let selectedWorkstation;
 
-//APPEND TO CONFIG PAGE
+//APPEND TO HOME PAGE
 homePage.appendChild(gameHeader);
 homePage.appendChild(configGrid);
-configGrid.appendComponent(gameDescription);
-configGrid.appendComponent(gameOptions);
-configGrid.appendComponent(roundSummary);
-configGrid.appendComponent(startButton);
-configGrid.appendComponent(highscoreBoard);
-configGrid.appendComponent(roundSummary);
-configGrid.appendComponent(newRoundButton);
+homePage.appendChild(chooseLeanMethod);
+homePage.appendChild(highscoreBoard);
+homePage.appendChild(newRoundButton);
+//BUILD COLUMNS
+//BUILD COLUMN 1
+configGrid.appendColumn(1, playerNameInput);
+
+//BUILD COLUMN 2
+configGrid.appendColumn(2, gameDescription);
+configGrid.appendColumn(2, startButton);
+
+//BUILD COLUMN 3
+configGrid.appendColumn(3, gameOptions);
 
 //GAME
 const gameContainer = document.getElementById("game-container");
@@ -75,7 +83,7 @@ gameOptions.addEventListener("workstationchange", (event) => {
   selectedWorkstation = parseInt(event.detail.workstation);
 });
 
-roundSummary.addEventListener("leanmethodchange", (event) => {
+chooseLeanMethod.addEventListener("leanmethodchange", (event) => {
   selectedLeanMethod = event.detail.selectedLeanMethod;
 });
 
@@ -95,6 +103,7 @@ startButton.addEventListener("startgame", (event) => {
     leanGame.game.stats.addObserver(showIngameStats);
   });
 });
+
 newRoundButton.addEventListener("newRound", (event) => {
   // Access the selected lean method from the event detail
   showGameView();
@@ -108,7 +117,7 @@ document.addEventListener("roundover", (event) => {
   //update statistics
   showStats.update(gameStats);
 
-  roundSummary.showLeanMethods(leanMethods);
+  chooseLeanMethod.showLeanMethods(leanMethods);
 
   // Show statistics and reset home screen
   showRoundView();
@@ -140,11 +149,12 @@ async function fetchParts() {
 }
 
 function showStartView() {
-  roundSummary.hide();
+  chooseLeanMethod.hide();
   showStats.hide();
   showIngameStats.hide();
   leanGame.hide();
   newRoundButton.hide();
+  highscoreBoard.hide();
   gameHeader.show();
   gameDescription.show();
   gameOptions.show();
@@ -152,14 +162,16 @@ function showStartView() {
 }
 
 function showGameView() {
+  homePage.classList.add("hidden");
+  configGrid.hide();
   gameHeader.hide();
   gameDescription.hide();
   startButton.hide();
-  leanGame.show();
-  showStats.hide();
-  showIngameStats.show();
   gameOptions.hide();
   highscoreBoard.hide();
+  showStats.hide();
+  leanGame.show();
+  showIngameStats.show();
 }
 
 function showRoundView() {
@@ -167,7 +179,7 @@ function showRoundView() {
   leanGame.hide();
   showStats.show();
   showIngameStats.hide();
-  roundSummary.show();
+  chooseLeanMethod.show();
   newRoundButton.show();
 }
 

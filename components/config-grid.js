@@ -5,14 +5,54 @@ class ConfigGrid extends HTMLElement {
     const shadowRoot = this.shadowRoot;
     shadowRoot.innerHTML = `
         <link rel="stylesheet" href="styles.css">
-        <section></section>
+        <style>
+            .config-grid {
+                display: grid;
+                grid-template-columns: repeat(3, 1fr);
+                gap: 1rem;
+            }
+            .config-column {
+                display: flex;
+                flex-direction: column;
+                gap: 1rem;
+            }
+        </style>
+            <section class="config-column" id="config-column-1">
+            </section>
+            <section class="config-column" id="config-column-2">
+            </section>
+            <section class="config-column" id="config-column-3">
+            </section> 
     `;
 
-    this.container = shadowRoot.querySelector("section");
+    this.classList.add("config-grid");
+    // this.container = shadowRoot.querySelector("section");
+    this.column1 = shadowRoot.querySelector("#config-column-1");
+    this.column2 = shadowRoot.querySelector("#config-column-2");
+    this.column3 = shadowRoot.querySelector("#config-column-3");
   }
 
-  appendComponent(component) {
-    this.container.appendChild(component);
+  appendColumn(number, component) {
+    switch (number) {
+      case 1:
+        this.column1.appendChild(component);
+        break;
+      case 2:
+        this.column2.appendChild(component);
+        break;
+      case 3:
+        this.column3.appendChild(component);
+        break;
+      default:
+        this.column1.appendChild(component);
+    }
+  }
+
+  show() {
+    this.classList.remove("hidden");
+  }
+  hide() {
+    this.classList.add("hidden");
   }
 }
 
