@@ -61,6 +61,25 @@ class Stock extends Subject {
   getAmountOfPart(part) {
     return this.parts.get(part).quantity;
   }
+
+  addPartsToStock(parts) {
+    if (!parts || !Array.isArray(parts)) {
+      throw new Error("Invalid parts argument: Must be an array of objects");
+    }
+  
+    for (const part of parts) {
+      if (!part || !part.name || !Number.isInteger(part.quantity)) {
+        console.warn("Ignoring invalid part entry:", part);
+        continue; // Skip invalid part entries
+      }
+  
+      const partName = part.name;
+      const quantity = part.quantity;
+      this.parts = this.state.addPartsToStock(this.parts, partName, quantity);
+    }
+    console.log(this.parts)
+  }
+  
 }
 
 export { Stock };

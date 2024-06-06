@@ -17,6 +17,7 @@ import { ShowStats } from "./components/show-stats.js";
 import { ShowIngameStats } from "./components/show-ingame-stats.js";
 import { NewRoundButton } from "./components/new-round-button.js";
 import { LeanMethodService } from "./lean-methods/lean-method-service.js";
+import { ShopComponent } from "./components/shop-component.js";
 
 let db = new HighscoresDB();
 
@@ -56,6 +57,10 @@ const startButton = new StartButton();
 const gameHeader = new GameHeader();
 
 const gameDescription = new GameDescription();
+fetchParts().then((fetchedParts) => {
+  const shopComponent = new ShopComponent(fetchedParts);
+  homePage.appendChild(shopComponent);
+});
 
 homePage.appendChild(gameHeader);
 homePage.appendChild(gameDescription);

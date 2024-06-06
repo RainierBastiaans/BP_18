@@ -209,6 +209,10 @@ class Game {
   getRemainingTime(){
     return this.currentRound.getRemainingTime()
   }
+
+  buyStock(parts){
+    this.stock.addPartsToStock(parts)
+  }
 }
 
 export { Game };

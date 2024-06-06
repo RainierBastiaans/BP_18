@@ -22,11 +22,7 @@ class JITStock extends StockState{
   deductPrice(part) {
     return;
   }
-  addPartsToStock(parts, part, count) {
-    this.parts.get(part).quantity += count;
-    this.notifyObservers({price: parts.get(part).price , amount: count}, "stock") //probably need to adapt the pricing for JIT
-    return this.parts
-  }
+
 }
 
 export { JITStock };
