@@ -111,7 +111,7 @@ class Game {
     this.currentRound = newRound;
     this.newLeanMethod(leanMethod);
     this.stock.refreshStock(this.leanMethodService, this.stats)
-    this.stock.newRound();
+    // this.stock.newRound();
     this.bots.forEach((bot) => bot.startWorking());
     this.createOrRefreshWorkstations();
     this.currentRound.emitter.on("roundoverInModel", () => {
