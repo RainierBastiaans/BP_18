@@ -568,5 +568,98 @@ button:disabled {
   display: flex;
 }
 
+/* Shop component styles */
+.shop-component {
+  max-width: 600px;
+  margin: 20px auto;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Navigation styles */
+.shop-navigation {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.shop-navigation button {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.shop-navigation button:hover {
+  background-color: #0056b3;
+}
+
+.workstation-label {
+  font-weight: bold;
+  font-size: 1.2em;
+}
+
+/* Parts list styles */
+.shop-parts-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.shop-part-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 0;
+  border-bottom: 1px solid #ddd;
+}
+
+.shop-part-item:last-child {
+  border-bottom: none;
+}
+
+.shop-part-details {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  margin-right: 10px;
+}
+
+.shop-part-details span:first-child {
+  font-weight: bold;
+}
+
+input[type="number"] {
+  width: 60px;
+  padding: 5px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+/* Buy button styles */
+.shop-buy-button {
+  width: 100%;
+  background-color: #28a745;
+  color: #fff;
+  border: none;
+  padding: 15px 0;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  font-size: 1.1em;
+  font-weight: bold;
+  margin-top: 20px;
+}
+
+.shop-buy-button:hover {
+  background-color: #218838;
+}
+
 
 /*! Statisctics visuals end */

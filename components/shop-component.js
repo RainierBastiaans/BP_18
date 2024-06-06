@@ -2,6 +2,9 @@ class ShopComponent extends HTMLElement {
   constructor(allParts) {
     super();
     this.attachShadow({ mode: "open" });
+    this.shadowRoot.innerHTML = `
+    <link rel="stylesheet" href="styles.css">
+  `;
     this.allParts = allParts;
     this.currentWorkstationIndex = 0; // Track current workstation
 
@@ -9,6 +12,7 @@ class ShopComponent extends HTMLElement {
     this.partsByWorkstation = this.groupPartsByWorkstation();
 
     this.render();
+    console.log(this.shadowRoot.innerHTML)
   }
 
   groupPartsByWorkstation() {
@@ -77,34 +81,42 @@ class ShopComponent extends HTMLElement {
     const shopElement = this.shadowRoot.querySelector(".shop-component");
     const workstationName = shopElement.querySelector(".workstation-label");
     workstationName.innerHTML = "";
-    workstationName.textContent = `Workstation ${
-      this.currentWorkstationIndex + 1
-    }`;
+    workstationName.textContent = `Workstation ${this.currentWorkstationIndex + 1}`;
+  
     const partsList = shopElement.querySelector(".shop-parts-list");
     partsList.innerHTML = ""; // Clear existing list
-
-    const currentParts = this.partsByWorkstation.get(
-      this.currentWorkstationIndex + 1
-    );
+  
+    const currentParts = this.partsByWorkstation.get(this.currentWorkstationIndex + 1);
     for (const partName in currentParts) {
       const part = currentParts[partName];
-      const listItem = document.createElement("li");
+  
+      const listItem = document.createElement("div"); // Use 'div' for vertical layout
       listItem.classList.add("shop-part-item");
-
+  
+      const partDetails = document.createElement("div");
+      partDetails.classList.add("shop-part-details");
+  
       const partNameElement = document.createElement("span");
       partNameElement.textContent = part.name;
-      listItem.appendChild(partNameElement);
-
+      partDetails.appendChild(partNameElement);
+  
+      const priceElement = document.createElement("span");
+      priceElement.textContent = `$${part.price.toFixed(2)}`; // Format price with 2 decimals
+      partDetails.appendChild(priceElement);
+  
+      listItem.appendChild(partDetails);
+  
       const quantityInput = document.createElement("input");
       quantityInput.type = "number";
       quantityInput.min = 0;
       quantityInput.max = 100;
       quantityInput.value = 0; // Default quantity
       listItem.appendChild(quantityInput);
-
+  
       partsList.appendChild(listItem);
     }
   }
+  
 
   handleBuyParts() {
     const boughtParts = [];
