@@ -103,6 +103,7 @@ startButton.addEventListener("startgame", (event) => {
   showIngameStats.show();
   gameOptions.hide();
   highscoreBoard.hide();
+  shopComponent.hide()
   leanGame.startGame(playerName, selectedWorkstation);
 });
 newRoundButton.addEventListener("newRound", (event) => {
@@ -113,6 +114,7 @@ newRoundButton.addEventListener("newRound", (event) => {
   showStats.hide();
   showIngameStats.show();
   leanGame.show();
+  shopComponent.hide();
   leanGame.newRound(selectedLeanMethod);
 });
 
@@ -131,6 +133,7 @@ document.addEventListener("roundover", (event) => {
   roundSummary.showLeanMethods(leanMethods);
   roundSummary.show();
   newRoundButton.show();
+  shopComponent.show()
 });
 
 //Game end

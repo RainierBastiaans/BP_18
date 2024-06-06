@@ -166,6 +166,13 @@ class ShopComponent extends HTMLElement {
     });
     this.dispatchEvent(buyPartsEvent);
   }
+
+  show(){
+    this.classList.remove("hidden")
+  }
+  hide(){
+    this.classList.add("hidden")
+  }
 }
 
 customElements.define("shop-component", ShopComponent);
