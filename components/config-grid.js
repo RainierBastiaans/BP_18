@@ -33,6 +33,12 @@ class ConfigGrid extends HTMLElement {
   }
 
   appendColumn(number, component) {
+    if (number < 1 || number > 3) {
+      throw new Error("Column number must be between 1 and 3");
+    }
+    if (component === undefined || component === null) {
+      throw new Error("Component must be defined");
+    }
     switch (number) {
       case 1:
         this.column1.appendChild(component);

@@ -19,14 +19,21 @@ import { ShowIngameStats } from "./components/show-ingame-stats.js";
 import { NewRoundButton } from "./components/new-round-button.js";
 import { ConfigGrid } from "./components/config-grid.js";
 import { PlayerName } from "./components/player-name.js";
+import { ShopComponent } from "./components/shop-component.js";
 
 //MODELS
 import { LeanMethodService } from "./lean-methods/lean-method-service.js";
-import { ShopComponent } from "./components/shop-component.js";
+
+/*======================
+========GAME LOGIC======
+======================*/
+//START GAME
+const leanGame = new LeanGame();
+const gameContainer = document.getElementById("game-container");
+gameContainer.appendChild(leanGame);
 
 //INITIALIZE COMPONENTS
 let db = new HighscoresDB();
-const leanGame = new LeanGame();
 const leanMethodService = new LeanMethodService();
 await leanMethodService.fetchLeanMethods();
 const configGrid = new ConfigGrid();
@@ -35,16 +42,6 @@ fetchParts().then((fetchedParts) => {
   leanGame.game.stats.addObserver(showStats);
   leanGame.game.stats.addObserver(showIngameStats);
 });
-
-const gameContainer = document.getElementById("game-container");
-gameContainer.appendChild(leanGame);
-
-let selectedLeanMethod;
-let selectedWorkstation;
-
-const homePage = document.getElementById("home-page");
-
-const highscoreBoard = new HighscoreBoard(db); // Pass db instance
 
 const gameOptions = new GameOptions();
 const playerNameInput = new PlayerName(leanMethodService.getAllLeanMethods());
@@ -63,17 +60,9 @@ const showStats = new ShowStats();
 const homePage = document.getElementById("home-page");
 let selectedLeanMethod;
 let selectedWorkstation;
+let shopComponent;
 
-//APPEND TO HOME PAGElet shopComponent;
-fetchParts().then((fetchedParts) => {
-  shopComponent = new ShopComponent(fetchedParts);
-  homePage.appendChild(shopComponent);
-  shopComponent.addEventListener("buy-parts", (event) => {
-    const boughtParts = event.detail.parts;
-    leanGame.game.buyStock(boughtParts)
-  });
-});
-
+//APPEND TO HOME PAGE
 homePage.appendChild(gameHeader);
 homePage.appendChild(configGrid);
 homePage.appendChild(chooseLeanMethod);
@@ -90,25 +79,29 @@ configGrid.appendColumn(2, startButton);
 //BUILD COLUMN 3
 configGrid.appendColumn(3, gameOptions);
 
-//GAME
-const gameContainer = document.getElementById("game-container");
-gameContainer.appendChild(leanGame);
+fetchParts().then((fetchedParts) => {
+  shopComponent = new ShopComponent(fetchedParts);
+  configGrid.appendColumn(2, shopComponent);
+  shopComponent.addEventListener("buy-parts", (event) => {
+    const boughtParts = event.detail.parts;
+    leanGame.game.buyStock(boughtParts);
+  });
+});
 
 //IN-GAME STATS
 const ingameStatsContainer = document.getElementById("ingame-stats-container");
 ingameStatsContainer.appendChild(showIngameStats);
 
-roundSummary.hide();
-showStats.hide();
-leanGame.hide();
-roundSummary.hide();
-newRoundButton.hide();
 //STATS
 const statsContainer = document.getElementById("stats-container");
 statsContainer.appendChild(showStats);
 
+chooseLeanMethod.hide();
+showStats.hide();
+leanGame.hide();
+newRoundButton.hide();
 //EVENT LISTENERS
-showStartView(); //Show the startView
+//showStartView(); //Show the startView
 
 gameOptions.addEventListener("workstationchange", (event) => {
   selectedWorkstation = parseInt(event.detail.workstation);
@@ -129,7 +122,7 @@ startButton.addEventListener("startgame", (event) => {
   showIngameStats.show();
   gameOptions.hide();
   highscoreBoard.hide();
-  shopComponent.hide()
+  shopComponent.hide();
   leanGame.startGame(playerName, selectedWorkstation);
 });
 
@@ -137,7 +130,7 @@ newRoundButton.addEventListener("newRound", (event) => {
   // Access the selected lean method from the event detail
   gameHeader.hide();
   newRoundButton.hide();
-  roundSummary.hide();
+  chooseLeanMethod.hide();
   showStats.hide();
   showIngameStats.show();
   leanGame.show();
@@ -152,17 +145,15 @@ document.addEventListener("roundover", (event) => {
   //update statistics
   showStats.update(gameStats);
 
-  chooseLeanMethod.showLeanMethods(leanMethods);
-
   // Show statistics and reset home screen
   gameHeader.show();
   leanGame.hide();
   showStats.show();
   showIngameStats.hide();
-  roundSummary.showLeanMethods(leanMethods);
-  roundSummary.show();
+  chooseLeanMethod.showLeanMethods(leanMethods);
+  chooseLeanMethod.show();
   newRoundButton.show();
-  shopComponent.show()
+  shopComponent.show();
 });
 
 //Game end
@@ -173,59 +164,6 @@ document.addEventListener("gameover", (event) => {
   showStats.update(gameStats);
 
   // Show statistics and reset home screen
-  showEndGameView();
-});
-
-async function fetchParts() {
-  try {
-    const response = await fetch("./db/parts.json"); // Replace with your actual API endpoint
-    if (!response.ok) {
-      throw new Error(`Failed to fetch parts data: ${response.statusText}`);
-    }
-    const data = await response.json();
-    return data.parts; // Assuming the API response has a "parts" property
-  } catch (error) {
-    console.error("Error fetching parts data:", error);
-    // Handle the error here (e.g., set a default parts object)
-  }
-}
-
-function showStartView() {
-  chooseLeanMethod.hide();
-  showStats.hide();
-  showIngameStats.hide();
-  leanGame.hide();
-  newRoundButton.hide();
-  highscoreBoard.hide();
-  gameHeader.show();
-  gameDescription.show();
-  gameOptions.show();
-  startButton.show();
-}
-
-function showGameView() {
-  homePage.classList.add("hidden");
-  configGrid.hide();
-  gameHeader.hide();
-  gameDescription.hide();
-  startButton.hide();
-  gameOptions.hide();
-  highscoreBoard.hide();
-  showStats.hide();
-  leanGame.show();
-  showIngameStats.show();
-}
-
-function showRoundView() {
-  gameHeader.show();
-  leanGame.hide();
-  showStats.show();
-  showIngameStats.hide();
-  chooseLeanMethod.show();
-  newRoundButton.show();
-}
-
-function showEndGameView() {
   gameHeader.show();
   gameDescription.show();
   startButton.show();
