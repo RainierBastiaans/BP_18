@@ -26,6 +26,7 @@ class GameStats extends Subject {
 
   updateStock(addedStock) {
     const stockPrice = addedStock.price;
+    this.currentRound.updateStock(stockPrice)
     this.capital.deduct(stockPrice);
     this.notifyObservers(this);
   }
@@ -48,13 +49,16 @@ class GameStats extends Subject {
 
   newCarInProgress(car){
     this.carsInProgress ++;
+    this.currentRound.newCarInProgress(car)
     this.notifyObservers(this)
   }
   newRound() {
     this.rounds.set(
       this.rounds.size + 1,
       new RoundStats(this.rounds.size + 1, this.game)
-    );
+    )
+    this.currentRound = this.rounds.get(this.rounds.size)
+    console.log(this.currentRound)
     this.deductRoundCosts();
     this.notifyObservers(this)
   }
@@ -67,12 +71,14 @@ class GameStats extends Subject {
     this.carsCompleted++;
     this.totalIncome += car.fixedPrice;
     this.carsInProgress--;
+    this.currentRound.newCarCompleted(car)
     this.capital.add(car.fixedPrice);
     this.notifyObservers(this);
   }
   newCarBroken() {
     this.carsBroken++;
     this.carsInProgress--;
+    this.currentRound.newCarBroken()
     this.notifyObservers(this);
   }
 }

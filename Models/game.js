@@ -24,6 +24,7 @@ class Game {
     this.isOver = false;
     this.stats = new GameStats(this);
     this.stock = new Stock(this.parts, this.stats, this.leanMethodService);
+    this.stats.newRound(); //stats already start at the beginning
   }
 
   partExists(partName) {
@@ -91,7 +92,7 @@ class Game {
     }
   }
 
-  newGame(selectedWorkstation, playerName) {
+  startGame(selectedWorkstation, playerName) {
     this.playerName = playerName;
     this.selectedWorkstation = parseInt(selectedWorkstation);
     this.bots = [];
@@ -105,7 +106,6 @@ class Game {
     this.emitter.on("gameOverInModel", () => {
       this.endGame();
     });
-    this.newCar();
   }
 
   // Add a setter for selectedWorkstation
@@ -126,7 +126,6 @@ class Game {
   newRound(leanMethod) {
     const roundnumber = this.rounds.size + 1;
     const newRound = new Round(roundnumber);
-    this.stats.newRound();
     this.rounds.set(roundnumber, newRound);
     this.currentRound = newRound;
     this.newLeanMethod(leanMethod);
@@ -140,6 +139,7 @@ class Game {
     this.currentRound.emitter.on("roundoverInModel", () => {
       this.endRound();
     });
+    this.newCar();
   }
 
   newLeanMethod(method) {

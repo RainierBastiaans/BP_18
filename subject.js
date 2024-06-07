@@ -18,7 +18,6 @@ class Subject {
     if (sortOfUpdate === "stock") {
       this.observers.forEach((observer) => observer.updateStock(data));
     } else if (sortOfUpdate === "car") {
-      console.log(this)
       this.observers.forEach((observer) => observer.updateCars(data));
     } else if ((sortOfUpdate === "capital")) {
       this.observers.forEach((observer) => observer.updateCapital(data));

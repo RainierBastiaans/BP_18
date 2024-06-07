@@ -37,6 +37,7 @@ class ShowStats extends HTMLElement {
 
   // Methods to update the stats
   update(gameStats) {
+    console.log(gameStats)
     this.carsCompletedElement.textContent = gameStats.carsCompleted;
     this.carsBrokenElement.textContent = gameStats.carsBroken;
     this.totalIncomeElement.textContent = "€" + gameStats.totalIncome;

@@ -120,7 +120,7 @@ class LeanGame extends HTMLElement {
     // Disable buttons based on selected workstation
     this.previousButton.disabled = selectedWorkstation === 1;
     this.nextButton.disabled = selectedWorkstation === 5;
-    this.game.newGame(selectedWorkstation, playerName);
+    this.game.startGame(selectedWorkstation, playerName);
     this.newRound();
   }
 
