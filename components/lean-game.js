@@ -490,6 +490,14 @@ class LeanGame extends HTMLElement {
 
     this.updateMessage();
     this.draw();
+    // Dispatch custom event 'change-workstation'
+    document.dispatchEvent(new CustomEvent('change-workstation', {
+      detail: {
+        currentWorkstationIndex: this.currentWorkstationIndex-1,
+        bubbles: true,
+        composed: true,
+      },
+    }));
   }
 
   goToNextWorkstation() {
@@ -503,6 +511,14 @@ class LeanGame extends HTMLElement {
 
     this.updateMessage();
     this.draw();
+    // Dispatch custom event 'change-workstation'
+    document.dispatchEvent(new CustomEvent('change-workstation', {
+      detail: {
+        currentWorkstationIndex: this.currentWorkstationIndex-1,
+        bubbles: true,
+        composed: true,
+      },
+    }));
   }
 
   getCurrentWorkstation() {
