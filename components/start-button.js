@@ -8,7 +8,7 @@ class StartButton extends HTMLElement {
 
     shadowRoot.innerHTML = `
       <link rel="stylesheet" href="styles.css">
-      <button id="startButton">Start Game</button>
+      <button id="startButton">Start Game!</button>
     `;
 
     const startButton = shadowRoot.querySelector("#startButton");

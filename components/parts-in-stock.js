@@ -1,5 +1,5 @@
 class PartsInStock extends HTMLElement {
-  constructor(currentWorkstationIndex = 0) {
+  constructor() {
     super();
     this.attachShadow({ mode: "open" });
     const shadowRoot = this.shadowRoot;
@@ -7,26 +7,29 @@ class PartsInStock extends HTMLElement {
         <link rel="stylesheet" href="styles.css">
         <div class="parts-in-stock">
             <h2>Parts in stock</h2>
-            <ul class="parts-list>
-            </ul>
+            <p class="parts-in-stock-empty">Buy parts to build your cars!</p>
         </div>
         `;
 
-    this.partsList = shadowRoot.querySelector(".parts-list");
-    this.partsByWorkstation = this.getPartsByWorkstation(
-      currentWorkstationIndex
-    );
-
-    //this.render();
+    this.partsInStockElement = shadowRoot.querySelector(".parts-in-stock");
   }
 
-  update(relevantParts) {
-    this.partsByWorkstation = relevantParts;
-    this.render();
-  }
-
-  getPartsByWorkstation(workstationIndex) {
-    return [];
+  update(relevantStock) {
+    if (relevantStock.length !== undefined || relevantStock.length !== null) {
+      this.shadowRoot
+        .querySelector(".parts-in-stock-empty")
+        .classList.add("hidden");
+      return;
+    }
+    const stockList = document.createElement("ul");
+    stockList.classList.add("parts-in-stock-list");
+    this.partsInStockElement.appendChild(stockList);
+    const partsInStockComponents = relevantStock.map((part) => {
+      const partElement = document.createElement("li");
+      partElement.textContent = part.name;
+      return partElement;
+    });
+    stockList.append(...partsInStockComponents);
   }
 }
 

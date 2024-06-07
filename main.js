@@ -72,6 +72,11 @@ homePage.appendChild(configGrid);
 homePage.appendChild(chooseLeanMethod);
 homePage.appendChild(highscoreBoard);
 homePage.appendChild(newRoundButton);
+
+gameOptions.addEventListener("workstationchange", (event) => {
+  selectedWorkstation = parseInt(event.detail.workstation);
+});
+
 //BUILD COLUMNS
 //BUILD COLUMN 1
 configGrid.appendColumn(1, playerNameInput);
@@ -88,9 +93,10 @@ fetchParts().then((fetchedParts) => {
   shopComponent.addEventListener("buy-parts", (event) => {
     const boughtParts = event.detail.parts;
     leanGame.game.buyStock(boughtParts);
-    // partsInStock.update(
-    //   leanGame.game.workstations.get(selectedWorkstation).partnames
-    // );
+    const relevantStock =
+      leanGame.game.getStockFromWorkstation(selectedWorkstation);
+    console.log(relevantStock);
+    partsInStock.update(relevantStock);
   });
   configGrid.appendColumn(2, startButton);
 });
@@ -114,10 +120,6 @@ highscoreBoard.hide();
 showIngameStats.hide();
 
 //EVENT LISTENERS
-gameOptions.addEventListener("workstationchange", (event) => {
-  selectedWorkstation = parseInt(event.detail.workstation);
-});
-
 chooseLeanMethod.addEventListener("leanmethodchange", (event) => {
   selectedLeanMethod = event.detail.selectedLeanMethod;
 });

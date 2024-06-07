@@ -238,8 +238,8 @@ class Game {
     return this.stock.getAmountOfPart(part);
   }
 
-  getAmountOfParts() {
-    return this.stock.getAmountOfPart();
+  getStockFromWorkstation(workstationIndex) {
+    return this.workstations.get(workstationIndex).getStock();
   }
 
   getRemainingTime() {

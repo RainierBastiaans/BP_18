@@ -32,6 +32,30 @@ class ShopComponent extends HTMLElement {
     const shopElement = document.createElement("div");
     shopElement.classList.add("shop-component");
 
+    // Heading
+    const heading = document.createElement("div");
+    heading.classList.add("shop-heading");
+    heading.classList.add("horizontal-container");
+    shopElement.appendChild(heading);
+    const shopSourceReference = document.createElement("a");
+    //<a href="" title="warehouse icons"></a>
+    shopSourceReference.href = "https://www.flaticon.com/free-icons/warehouse";
+    shopSourceReference.title = "warehouse icons";
+    heading.appendChild(shopSourceReference);
+    const shopIcon = document.createElement("img");
+    shopIcon.src = "./img/shop.png";
+    shopIcon.alt =
+      "Shop represented by: Warehouse icons created by Vectors Tank - Flaticon";
+    shopIcon.classList.add("shop-icon");
+    shopSourceReference.appendChild(shopIcon);
+    const shopTitle = document.createElement("h2");
+    shopTitle.textContent = "Shop";
+    const shopLabel = document.createElement("label");
+    shopLabel.textContent =
+      "Welcome to the shop of LEAN Enterprises! Here you can buy parts to build your cars!";
+    shopTitle.appendChild(shopLabel);
+    heading.appendChild(shopTitle);
+
     // Workstation navigation
     const navigation = document.createElement("div");
     navigation.classList.add("shop-navigation");
