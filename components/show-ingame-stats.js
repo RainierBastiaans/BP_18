@@ -6,19 +6,19 @@ class ShowIngameStats extends HTMLElement {
     <link rel="stylesheet" href="styles.css">
     <div class="ingame-statistics-container">
       <div class="ingame-statistics-item" title="Number of completed cars">
-          <img src="img/completed.svg" alt="completed cars" >
+          <img src="img/stats/completed.svg" alt="completed cars" >
           <p id="carsCompleted">0</p>
       </div>
       <div class="ingame-statistics-item" title="Number of broken cars">
-          <img src="img/broken.svg" alt="broken cars" >
+          <img src="img/stats/broken.svg" alt="broken cars" >
           <p id="carsBroken">0</p>
       </div>
       <div class="ingame-statistics-item" title="Total profit">
-          <img src="img/profit.svg" alt="profit" >
+          <img src="img/stats/profit.svg" alt="profit" >
           <p id="totalIncome">0€</p>
       </div>
       <div class="ingame-statistics-item" title="Total capital">
-          <img src="img/capital.svg" alt="capital" >
+          <img src="img/stats/capital.svg" alt="capital" >
           <p id="capital">0€</p>
       </div>
     </div>

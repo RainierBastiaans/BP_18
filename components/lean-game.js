@@ -112,9 +112,8 @@ class LeanGame extends HTMLElement {
   newGame(db, leanMethodService, parts) {
     this.game = new Game(db, leanMethodService, parts);
     this.leanMethodService = leanMethodService;
-    
   }
-  startGame(playerName, selectedWorkstation = 1){
+  startGame(playerName, selectedWorkstation = 1) {
     this.currentWorkstationIndex = selectedWorkstation;
     // Disable buttons based on selected workstation
     this.previousButton.disabled = selectedWorkstation === 1;
@@ -262,7 +261,7 @@ class LeanGame extends HTMLElement {
     button.setAttribute("id", `${part}${index}`);
     button.setAttribute("part", part);
     button.setAttribute("type", "image");
-    button.setAttribute("src", `./img/${part}.png`);
+    button.setAttribute("src", `./img/parts/${part}.png`);
     button.setAttribute("alt", `Image of ${part}`);
     button.classList.add("part-button");
     button.dataset.partName = part;
@@ -436,7 +435,7 @@ class LeanGame extends HTMLElement {
           const carPart = document.createElement("img");
           carPart.className = "car-part";
           carPart.id = part;
-          carPart.src = `./img/${part}.png`;
+          carPart.src = `./img/parts/${part}.png`;
           carPart.alt = `image of ${part}`;
           carContainer.append(carPart);
         }

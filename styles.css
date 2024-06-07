@@ -544,6 +544,14 @@ button:disabled {
   margin: 10px 0;
 }
 
+.car-position-box {
+  display: flex;
+  align-items: center;
+  align-content: center;
+  justify-content: center;
+  justify-items: center;
+}
+
 .car-position {
   align-content: center;
   font-weight: bold;
