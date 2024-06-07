@@ -24,6 +24,7 @@ import { PartsInStock } from "./components/parts-in-stock.js";
 
 //MODELS
 import { LeanMethodService } from "./lean-methods/lean-method-service.js";
+import { LiveStock } from "./components/live-stock.js";
 
 /*======================
 ========GAME LOGIC======
@@ -35,13 +36,19 @@ gameContainer.appendChild(leanGame);
 
 //INITIALIZE COMPONENTS
 let db = new HighscoresDB();
+let liveStockComponent;
 const leanMethodService = new LeanMethodService();
 await leanMethodService.fetchLeanMethods();
 const configGrid = new ConfigGrid();
-fetchParts().then((fetchedParts) => {
+const showIngameStats = new ShowIngameStats();
+const showStats = new ShowStats();
+
+await fetchParts().then((fetchedParts) => {
   leanGame.newGame(db, leanMethodService, fetchedParts);
   leanGame.game.stats.addObserver(showStats);
   leanGame.game.stats.addObserver(showIngameStats);
+  liveStockComponent = new LiveStock(fetchedParts);
+  leanGame.game.stock.addObserver(liveStockComponent)
 });
 
 const gameOptions = new GameOptions();
@@ -49,11 +56,9 @@ const playerNameInput = new PlayerName(leanMethodService.getAllLeanMethods());
 const startButton = new StartButton(playerNameInput.playerName);
 const gameHeader = new GameHeader();
 const gameDescription = new GameDescription();
-const showIngameStats = new ShowIngameStats();
 const highscoreBoard = new HighscoreBoard(db); // Pass db instance
 const chooseLeanMethod = new ChooseLeanmethod();
 const newRoundButton = new NewRoundButton();
-const showStats = new ShowStats();
 const partsInStock = new PartsInStock();
 const fixedCosts = document.createElement("fixed-costs");
 const kapitaal = document.createElement("kapitaal");
@@ -67,14 +72,14 @@ let selectedWorkstation;
 let shopComponent;
 
 //APPEND TO HOME PAGE
-homePage.appendChild(gameHeader);
+// homePage.appendChild(gameHeader);
 homePage.appendChild(configGrid);
 homePage.appendChild(chooseLeanMethod);
 homePage.appendChild(highscoreBoard);
 homePage.appendChild(newRoundButton);
 
 gameOptions.addEventListener("workstationchange", (event) => {
-  selectedWorkstation = parseInt(event.detail.workstation);
+  selectedWorkstation = parseInt(event.detail.workstation) || 1;
 });
 
 //BUILD COLUMNS
@@ -93,10 +98,6 @@ fetchParts().then((fetchedParts) => {
   shopComponent.addEventListener("buy-parts", (event) => {
     const boughtParts = event.detail.parts;
     leanGame.game.buyStock(boughtParts);
-    const relevantStock =
-      leanGame.game.getStockFromWorkstation(selectedWorkstation);
-    console.log(relevantStock);
-    partsInStock.update(relevantStock);
   });
   configGrid.appendColumn(2, startButton);
 });
@@ -108,6 +109,9 @@ configGrid.appendColumn(3, gameOptions);
 const ingameStatsContainer = document.getElementById("ingame-stats-container");
 ingameStatsContainer.appendChild(showIngameStats);
 
+const liveStockContainer = document.getElementById("live-stock-container")
+liveStockContainer.appendChild(liveStockComponent)
+
 //STATS
 const statsContainer = document.getElementById("stats-container");
 statsContainer.appendChild(showStats);
@@ -117,7 +121,7 @@ showStats.hide();
 leanGame.hide();
 newRoundButton.hide();
 highscoreBoard.hide();
-showIngameStats.hide();
+// showIngameStats.hide();
 
 //EVENT LISTENERS
 chooseLeanMethod.addEventListener("leanmethodchange", (event) => {

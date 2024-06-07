@@ -808,6 +808,43 @@ button:disabled {
   display: flex;
 }
 
+.livestock-container {
+  width: 33%;
+  max-width: 33%;
+  right: 0;
+  position: fixed;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+
+.livestock-part-list {
+  display: flex;
+  justify-content: space-around;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.livestock-part-list li {
+  text-align: center;
+}
+
+.livestock-part-name {
+  display: block;
+}
+
+.livestock-part-quantity {
+  display: block;
+  margin-top: 5px;
+  font-weight: bold;
+}
+#live {
+  display: flex; /* Enable flexbox layout for #live children */
+  flex: 1; /* Make #live take up remaining space after #content-container */
+  height: 75px; /* Set full viewport height for #live */
+}
+
 
 
 

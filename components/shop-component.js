@@ -9,23 +9,23 @@ class ShopComponent extends HTMLElement {
     this.currentWorkstationIndex = 0; // Track current workstation
 
     // Group parts by workstation
-    this.partsByWorkstation = this.groupPartsByWorkstation();
+    this.groupPartsByWorkstation();
 
     this.render();
   }
 
   groupPartsByWorkstation() {
     this.partsByWorkstation = new Map();
-    //every new round workstations get refreshed
-    for (let i = 0; i < this.allParts.length / 4; i++) {
-      const startIndex = i * 4; // Starting index for each workstation (multiples of 4)
-      const partList = this.allParts.slice(startIndex, startIndex + 4); // Slice the first 4 parts
-      this.partsByWorkstation.set(i + 1, partList);
-    }
-
-    // Optional: Iterate through allParts and assign parts to workstations (if needed)
-    // You can add logic here to assign parts to specific workstations based on their properties
-    return this.partsByWorkstation;
+    this.allParts.forEach((part) => {
+      const workstationId = part.workstationFK; // Assuming attribute name for workstation ID
+  
+      // Check if workstation entry exists in the map
+      if (!this.partsByWorkstation.has(workstationId)) {
+        this.partsByWorkstation.set(workstationId, []); // Create an empty list for the workstation
+      }
+  
+      this.partsByWorkstation.get(workstationId).push(part);
+    });
   }
 
   render() {
@@ -111,12 +111,27 @@ class ShopComponent extends HTMLElement {
   }
 
   changeWorkstation(offset) {
-    const newIndex =
-      (this.currentWorkstationIndex + offset + this.partsByWorkstation.size) %
-      this.partsByWorkstation.size;
+    const workstationSize = this.partsByWorkstation.size; // Get number of workstations
+  
+    // Calculate new index with wrapping (avoid negative values)
+    const newIndex = (this.currentWorkstationIndex + offset + workstationSize) % workstationSize;
+  
+    // Update current workstation index
     this.currentWorkstationIndex = newIndex;
-    this.renderWorkstationParts(); // Update UI with new parts
+  
+    // Render parts for the new workstation
+    this.renderWorkstationParts();
+  
+    // Dispatch custom event 'change-workstation'
+    document.dispatchEvent(new CustomEvent('change-workstation', {
+      detail: {
+        currentWorkstationIndex: this.currentWorkstationIndex,
+        bubbles: true,
+        composed: true,
+      },
+    }));
   }
+  
 
   renderWorkstationParts() {
     const shopElement = this.shadowRoot.querySelector(".shop-component");

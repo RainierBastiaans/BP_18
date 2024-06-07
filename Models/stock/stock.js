@@ -4,7 +4,7 @@ import { JITStock } from "./jit-stock.js";
 import { TraditionalStock } from "./traditional-stock.js";
 
 class Stock extends Subject {
-  constructor(parts, gamestats, leanMethodService) {
+  constructor(parts, gamestats) {
     super();
     this.parts = new Map(
       parts.reduce((acc, part) => {
@@ -15,13 +15,13 @@ class Stock extends Subject {
         }
 
         // Create a new object with price and initial quantity (0)
-        const partInfo = { price: part.price, quantity: 0 };
+        const partInfo = { price: part.price, quantity: 0 , workstationFK: part.workstationFK};
         acc.set(part.id, partInfo);
         return acc;
       }, new Map())
     );
     this.state = new TraditionalStock(gamestats)
-    this.addObserver(gamestats);
+    // this.addObserver(gamestats);
   }
 
   // Setter for state with conditional update
@@ -86,6 +86,7 @@ class Stock extends Subject {
       const quantity = part.quantity;
       this.parts = this.state.addPartsToStock(this.parts, partId, quantity);
     }
+    this.notifyObservers(this.parts)
   }
   
 }

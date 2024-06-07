@@ -239,6 +239,7 @@ class Game {
   }
 
   getStockFromWorkstation(workstationIndex) {
+    console.log(workstationIndex)
     return this.workstations.get(workstationIndex).getStock();
   }
 
