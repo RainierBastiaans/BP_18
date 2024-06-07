@@ -1,3 +1,4 @@
+import { gameValues } from "../../game-values.js";
 import { Subject } from "../../subject.js";
 
 class StockState extends Subject {
@@ -27,6 +28,15 @@ class StockState extends Subject {
       "stock"
     );
     return parts;
+  }
+
+  endRound(parts){
+    let amountOfStock = 0;
+    Array.from(parts.values()).forEach((part)=>{
+      amountOfStock+= part.quantity
+    })
+    console.log(this)
+    this.notifyObservers({price:amountOfStock * gameValues.pricePerPart}, "stock")
   }
 }
 

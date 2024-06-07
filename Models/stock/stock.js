@@ -53,6 +53,7 @@ class Stock extends Subject {
   // Placeholder method for requestPart, subclasses will implement their own behavior
   requestPart(part) {
     this.parts = this.state.requestPart(this.parts, part)
+    this.notifyObservers(this.parts)
   }
 
   newRound() {
@@ -60,11 +61,7 @@ class Stock extends Subject {
   }
 
   endRound(){
-    let amountOfStock = 0;
-    Array.from(this.parts.values()).forEach((part)=>{
-      amountOfStock+= part.quantity
-    })
-    this.notifyObservers({price:amountOfStock * gameValues.pricePerPart}, "stock")
+    this.state.endRound(this.parts)
   }
 
   getAmountOfPart(part) {

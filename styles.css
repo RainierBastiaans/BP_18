@@ -812,7 +812,7 @@ button:disabled {
   width: 33%;
   max-width: 33%;
   right: 0;
-  position: fixed;
+  position: absolute;
   padding: 20px;
   box-sizing: border-box;
 }
