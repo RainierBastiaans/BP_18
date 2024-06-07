@@ -14,24 +14,32 @@ class CarPositionLine extends HTMLElement {
         </div>
         <div class="car-position-box">
           <span class="car-position-q" id="q-2">0</span>
+          <img src="./img/car-position/little-car.svg" alt="little-car" class="car-q hidden" id="q-1-1">
+          <img src="./img/car-position/little-car.svg" alt="little-car" class="car-q hidden" id="q-1-2">
           <span class="car-position" id="workstation-2">2</span>
           <img src="./img/car-position/loading.gif" alt="loading gif" class="loading-gif">
           <img src="./img/car-position/little-wrench.svg" alt="wrench" class="wrench">
         </div>
         <div class="car-position-box">
           <span class="car-position-q" id="q-3">0</span>
+          <img src="./img/car-position/little-car.svg" alt="little-car" class="car-q hidden" id="q-2-1">
+          <img src="./img/car-position/little-car.svg" alt="little-car" class="car-q hidden" id="q-2-2">
           <span class="car-position" id="workstation-3">3</span>
           <img src="./img/car-position/loading.gif" alt="loading gif" class="loading-gif">
           <img src="./img/car-position/little-wrench.svg" alt="wrench" class="wrench">
         </div>
         <div class="car-position-box">
           <span class="car-position-q" id="q-4">0</span>
+          <img src="./img/car-position/little-car.svg" alt="little-car" class="car-q hidden" id="q-3-1">
+          <img src="./img/car-position/little-car.svg" alt="little-car" class="car-q hidden" id="q-3-2">
           <span class="car-position" id="workstation-4">4</span>
           <img src="./img/car-position/loading.gif" alt="loading gif" class="loading-gif">
           <img src="./img/car-position/little-wrench.svg" alt="wrench" class="wrench">
         </div>
         <div class="car-position-box">
           <span class="car-position-q" id="q-5">0</span>
+          <img src="./img/car-position/little-car.svg" alt="little-car" class="car-q hidden" id="q-4-1">
+          <img src="./img/car-position/little-car.svg" alt="little-car" class="car-q hidden" id="q-4-2">
           <span class="car-position" id="workstation-5">5</span>
           <img src="./img/car-position/loading.gif" alt="loading gif" class="loading-gif">
           <img src="./img/car-position/little-wrench.svg" alt="wrench" class="wrench">
@@ -66,10 +74,28 @@ class CarPositionLine extends HTMLElement {
           count++;
         }
       });
-      if (count > 1) {
-        this.carPositionQElements[index].innerHTML = count - 1;
-      } else {
-        this.carPositionQElements[index].innerHTML = 0;
+
+      if (index > 0) {
+        if (count === 2) {
+          this.shadowRoot
+            .getElementById(`q-${index}-1`)
+            .classList.remove("hidden");
+        } else if (count === 3) {
+          this.shadowRoot
+            .getElementById(`q-${index}-2`)
+            .classList.remove("hidden");
+        } else if (count > 3) {
+          this.carPositionQElements[index].classList.remove("hidden");
+          this.carPositionQElements[index].innerHTML = count - 3;
+        } else {
+          this.carPositionQElements[index].classList.add("hidden");
+          this.shadowRoot
+            .getElementById(`q-${index}-1`)
+            .classList.add("hidden");
+          this.shadowRoot
+            .getElementById(`q-${index}-2`)
+            .classList.add("hidden");
+        }
       }
     });
   }

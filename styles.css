@@ -611,6 +611,7 @@ button:disabled {
   margin: 5px;
   display: flex;
 }
+/*! Statisctics visuals end */
 
 /* Shop component styles */
 .shop-component {
@@ -704,6 +705,3 @@ input[type="number"] {
 .shop-buy-button:hover {
   background-color: #218838;
 }
-
-
-/*! Statisctics visuals end */
