@@ -186,7 +186,6 @@ class Game {
 
   addPart(part, workstationId) {
     if (this.partExists(part)) {
-      console.log(this.cars.values());
       this.moveWaitingCars();
       const currentWorkstation = this.workstations.get(workstationId);
       const car = this.getCarFromWorkstation(workstationId);

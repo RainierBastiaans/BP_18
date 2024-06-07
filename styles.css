@@ -261,7 +261,7 @@ button:disabled {
 .part-container {
   align-content: center;
   justify-items: center;
-  background-color: rgb(199, 195, 195);
+  background-color: rgb(226 228 247);
   border: 5px solid black;
   margin: 10px auto;
   width: 260px;

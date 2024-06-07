@@ -267,9 +267,14 @@ class LeanGame extends HTMLElement {
     button.dataset.partName = part;
 
     button.addEventListener("click", this.handleClick.bind(this));
-    button.disabled = this.game
-      .getCarFromWorkstation(this.getCurrentWorkstation().id)
-      .isAdded(part);
+
+    if (this.getCurrentWorkstation().getRemainingTime()) {
+      button.disabled = true;
+    } else {
+      button.disabled = this.game
+        .getCarFromWorkstation(this.getCurrentWorkstation().id)
+        .isAdded(part);
+    }
 
     return button;
   }
@@ -369,9 +374,13 @@ class LeanGame extends HTMLElement {
           const gridItems = buttonContainer.getElementsByClassName("grid-item");
           this.partPosition.forEach((position) => {
             let button = position.button;
-            button.disabled = this.game
-              .getCarFromWorkstation(this.getCurrentWorkstation().id)
-              .isAdded(button.getAttribute("part"));
+            if (this.getCurrentWorkstation().getRemainingTime()) {
+              button.disabled = true;
+            } else {
+              button.disabled = this.game
+                .getCarFromWorkstation(this.getCurrentWorkstation().id)
+                .isAdded(button.getAttribute("part"));
+            }
             gridItems[position.index].appendChild(button);
           });
         }
@@ -443,6 +452,11 @@ class LeanGame extends HTMLElement {
       this.shadowRoot.appendChild(carContainer);
     } catch (error) {
       //console.error(error);
+    }
+    if (workstation.getRemainingTime()) {
+      carContainer.style.backgroundColor = "#ed4f4f";
+    } else {
+      carContainer.style.backgroundColor = "";
     }
   }
 

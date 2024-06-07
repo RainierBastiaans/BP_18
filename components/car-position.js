@@ -74,6 +74,7 @@ class CarPositionLine extends HTMLElement {
     });
   }
 
+  //TODO toon auto voor auto in wacht rij
   setCurrentWorkstation(workstations) {
     this.workstationElements.forEach((element, index) => {
       const workstationId = index + 1; // Adjust for 1-based indexing
