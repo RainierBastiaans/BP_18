@@ -13,6 +13,7 @@ class GameStats extends Subject {
     this.carCompletionTimes = []; // Array to store completion times of each car
     this.carsCompleted = 0;
     this.carsBroken = 0;
+    this.carsInProgress = 0;
     this.totalIncome = 0;
     this.rounds = new Map();
     this.facilityCost = gameValues.facilityCost;
@@ -40,6 +41,14 @@ class GameStats extends Subject {
     } else if (car.isBroken()) {
       this.newCarBroken();
     }
+    else if (car.state.workstationId===1){
+      this.newCarInProgress(car)
+    }
+  }
+
+  newCarInProgress(car){
+    this.carsInProgress ++;
+    this.notifyObservers(this)
   }
   newRound() {
     this.rounds.set(
@@ -57,11 +66,13 @@ class GameStats extends Subject {
   newCarCompleted(car) {
     this.carsCompleted++;
     this.totalIncome += car.fixedPrice;
+    this.carsInProgress--;
     this.capital.add(car.fixedPrice);
     this.notifyObservers(this);
   }
   newCarBroken() {
     this.carsBroken++;
+    this.carsInProgress--;
     this.notifyObservers(this);
   }
 }

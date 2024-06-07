@@ -2,10 +2,11 @@ import { Subject } from "../../../subject.js";
 import { CarAtWorkstation } from "./car-at-workstation.js";
 
 class Car extends Subject {
-  constructor(id, parts) {
+  constructor(id, parts,stats) {
     super();
     this.id = id;
     this.fixedPrice = 20000;
+    this.addObserver(stats)
     this.state = new CarAtWorkstation(1);
     // Create the parts map with key as part name and value as object with properties
     this.parts = new Map(
@@ -28,11 +29,14 @@ class Car extends Subject {
     ); // Initialize an empty Map
   }
 
-  setState(state) {
-    if (this.state != state) {
-      this.state = state;
+  set state(newState) {
+    if (this._state !== newState) {
+      this._state = newState;
       this.notifyObservers(this, "car");
     }
+  }
+  get state(){
+    return this._state
   }
 
   isComplete() {
@@ -52,15 +56,15 @@ class Car extends Subject {
   }
 
   move(cars) {
-    this.setState(this.state.move(cars, this.parts));
+    this.state =this.state.move(cars, this.parts);
   }
 
   manualMove(cars, workstations) {
-    this.setState(this.state.manualMove(this.parts, workstations));
+    this.state = this.state.manualMove(this.parts, workstations);
   }
 
   remove() {
-    this.setState(this.state.remove());
+    this.state = this.state.remove();
   }
 
   isAdded(part) {

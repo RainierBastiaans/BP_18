@@ -161,8 +161,7 @@ class Game {
   }
 
   newCar() {
-    const newCar = new Car(this.cars.size, this.parts);
-    newCar.addObserver(this.stats);
+    const newCar = new Car(this.cars.size, this.parts, this.stats);
     this.cars.set(this.cars.size, newCar);
   }
 
