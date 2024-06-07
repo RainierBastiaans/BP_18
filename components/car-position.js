@@ -7,7 +7,7 @@ class CarPositionLine extends HTMLElement {
       <link rel="stylesheet" href="styles.css">
       <div class="car-position-line">
         <div class="car-position-box">
-          <span class="car-position-q" id="q-1">0</span>
+          <span class="car-position-q hidden" id="q-1">0</span>
           <span class="car-position" id="workstation-1">1</span>
           <img src="./img/car-position/loading.gif" alt="loading gif" class="loading-gif">
           <img src="./img/car-position/little-wrench.svg" alt="wrench" class="wrench">
@@ -43,6 +43,8 @@ class CarPositionLine extends HTMLElement {
       this.shadowRoot.querySelectorAll(".car-position");
     this.loadingElements = this.shadowRoot.querySelectorAll(".loading-gif");
     this.wrenchElements = this.shadowRoot.querySelectorAll(".wrench");
+    this.carPositionQElements =
+      this.shadowRoot.querySelectorAll(".car-position-q");
   }
 
   setCarPositions(cars) {
@@ -57,6 +59,17 @@ class CarPositionLine extends HTMLElement {
       if (hasCar) {
         element.classList.add("active");
         this.loadingElements[index].classList.remove("hidden");
+      }
+      let count = 0;
+      Array.from(cars.values()).forEach((car) => {
+        if (car.state.workstationId === workstationId) {
+          count++;
+        }
+      });
+      if (count > 1) {
+        this.carPositionQElements[index].innerHTML = count - 1;
+      } else {
+        this.carPositionQElements[index].innerHTML = 0;
       }
     });
   }
