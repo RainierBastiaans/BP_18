@@ -238,7 +238,7 @@ button:disabled {
   grid-template-rows: repeat(10, 6.5vh);
   width: 25vw;
   height: 65vh;
-  background-color: rgb(85, 82, 82);
+  background-color: rgb(180, 184, 241);
   border: 5px solid black;
   position: absolute;
   left: 6vw;
@@ -249,7 +249,7 @@ button:disabled {
 .part-buttons-oderly {
   display: grid;
   grid-template-rows: repeat(4, 0.5fr);
-  background-color: grey;
+  background-color: rgb(180, 184, 241);
   border: 5px solid black;
   position: absolute;
   left: 6vw;
