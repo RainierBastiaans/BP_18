@@ -77,6 +77,9 @@ class LeanGame extends HTMLElement {
       "current-workstation"
     );
     if (workstationElement) {
+      if (!workstation) {
+        console.log("das nie goe eh");
+      }
       const seconds = workstation.getRemainingTime();
       if (seconds) {
         workstationElement.classList.add("under-maintenance");
@@ -111,9 +114,8 @@ class LeanGame extends HTMLElement {
   newGame(db, leanMethodService, parts) {
     this.game = new Game(db, leanMethodService, parts);
     this.leanMethodService = leanMethodService;
-    
   }
-  startGame(playerName, selectedWorkstation = 1){
+  startGame(playerName, selectedWorkstation = 1) {
     this.currentWorkstationIndex = selectedWorkstation;
     // Disable buttons based on selected workstation
     this.previousButton.disabled = selectedWorkstation === 1;

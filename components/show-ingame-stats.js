@@ -34,9 +34,10 @@ class ShowIngameStats extends HTMLElement {
   update(gameStats) {
     this.carsCompletedElement.textContent = gameStats.carsCompleted;
     this.carsBrokenElement.textContent = gameStats.carsBroken;
-    this.totalIncomeElement.textContent = gameStats.totalIncome + "€";
-    this.capitalElement.textContent = gameStats.capital.amount + "€";
+    this.totalIncomeElement.textContent = "€" + gameStats.totalIncome;
+    this.capitalElement.textContent = "€" + gameStats.capital.amount;
   }
+
   show() {
     this.classList.remove("hidden");
   }

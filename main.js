@@ -20,6 +20,7 @@ import { NewRoundButton } from "./components/new-round-button.js";
 import { ConfigGrid } from "./components/config-grid.js";
 import { PlayerName } from "./components/player-name.js";
 import { ShopComponent } from "./components/shop-component.js";
+import { PartsInStock } from "./components/parts-in-stock.js";
 
 //MODELS
 import { LeanMethodService } from "./lean-methods/lean-method-service.js";
@@ -53,6 +54,9 @@ const highscoreBoard = new HighscoreBoard(db); // Pass db instance
 const chooseLeanMethod = new ChooseLeanmethod();
 const newRoundButton = new NewRoundButton();
 const showStats = new ShowStats();
+const partsInStock = new PartsInStock();
+const fixedCosts = document.createElement("fixed-costs");
+const kapitaal = document.createElement("kapitaal");
 
 //START VIEW
 
@@ -71,22 +75,28 @@ homePage.appendChild(newRoundButton);
 //BUILD COLUMNS
 //BUILD COLUMN 1
 configGrid.appendColumn(1, playerNameInput);
+configGrid.appendColumn(1, kapitaal);
+//NEEDS TO BE FILLED WITH DATA
+configGrid.appendColumn(1, partsInStock);
+configGrid.appendColumn(1, fixedCosts);
 
 //BUILD COLUMN 2
 configGrid.appendColumn(2, gameDescription);
-configGrid.appendColumn(2, startButton);
-
-//BUILD COLUMN 3
-configGrid.appendColumn(3, gameOptions);
-
 fetchParts().then((fetchedParts) => {
   shopComponent = new ShopComponent(fetchedParts);
   configGrid.appendColumn(2, shopComponent);
   shopComponent.addEventListener("buy-parts", (event) => {
     const boughtParts = event.detail.parts;
     leanGame.game.buyStock(boughtParts);
+    // partsInStock.update(
+    //   leanGame.game.workstations.get(selectedWorkstation).partnames
+    // );
   });
+  configGrid.appendColumn(2, startButton);
 });
+
+//BUILD COLUMN 3
+configGrid.appendColumn(3, gameOptions);
 
 //IN-GAME STATS
 const ingameStatsContainer = document.getElementById("ingame-stats-container");
@@ -100,9 +110,10 @@ chooseLeanMethod.hide();
 showStats.hide();
 leanGame.hide();
 newRoundButton.hide();
-//EVENT LISTENERS
-//showStartView(); //Show the startView
+highscoreBoard.hide();
+showIngameStats.hide();
 
+//EVENT LISTENERS
 gameOptions.addEventListener("workstationchange", (event) => {
   selectedWorkstation = parseInt(event.detail.workstation);
 });

@@ -7,8 +7,11 @@ class PlayerName extends HTMLElement {
 
     shadowRoot.innerHTML = `
         <link rel="stylesheet" href="styles.css">
+        <div class="input-container">
+        <img src="./img/player.png" alt="Player" class="player-icon">
         <input type="text" id="playerName" value = "Player 1" 
         placeholder="Enter your name" minLength="3" maxLength="15"/>
+        </div>
       `;
 
     const playerNameInput = shadowRoot.querySelector("#playerName");

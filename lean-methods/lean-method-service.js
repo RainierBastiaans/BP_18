@@ -5,7 +5,7 @@ class LeanMethodService {
 
   async fetchLeanMethods() {
     try {
-      const response = await fetch('./db/leanmethods.json'); // Adjust path as needed
+      const response = await fetch("./db/leanmethods.json"); // Adjust path as needed
       if (!response.ok) {
         throw new Error(`Failed to fetch lean methods: ${response.statusText}`);
       }
@@ -14,12 +14,12 @@ class LeanMethodService {
 
       // Validate data structure (optional but recommended)
       if (!Array.isArray(leanMethodData)) {
-        throw new Error('Invalid data format: Lean methods must be an array.');
+        throw new Error("Invalid data format: Lean methods must be an array.");
       }
 
       await this.registerLeanMethods(leanMethodData);
     } catch (error) {
-      console.error('Error fetching or registering lean methods:', error);
+      console.error("Error fetching or registering lean methods:", error);
     }
   }
 
@@ -27,7 +27,7 @@ class LeanMethodService {
     for (const leanMethod of leanMethodData) {
       await this.registerLeanMethod(leanMethod);
     }
-    console.log(this.leanMethods)
+    console.log(this.leanMethods);
   }
 
   async registerLeanMethod(leanMethod) {
@@ -37,16 +37,25 @@ class LeanMethodService {
     }
 
     try {
-        const leanMethodModule = await import(`./${leanMethod.id}.js`);
-        const LeanMethodClass = leanMethodModule.default; // Assuming default export
-      
-        // Pass arguments to the constructor during instantiation
-        this.leanMethods.set(leanMethod.id, new LeanMethodClass( leanMethod.id, leanMethod.name, leanMethod.description));
-      } catch (error) {
-        console.error(`Error importing or creating lean method '${leanMethodId}':`, error);
-      }
-  }
+      const leanMethodModule = await import(`./${leanMethod.id}.js`);
+      const LeanMethodClass = leanMethodModule.default; // Assuming default export
 
+      // Pass arguments to the constructor during instantiation
+      this.leanMethods.set(
+        leanMethod.id,
+        new LeanMethodClass(
+          leanMethod.id,
+          leanMethod.name,
+          leanMethod.description
+        )
+      );
+    } catch (error) {
+      console.error(
+        `Error importing or creating lean method '${leanMethodId}':`,
+        error
+      );
+    }
+  }
 
   getAllLeanMethods() {
     return this.leanMethods; // Convert Map values to an array
@@ -57,7 +66,7 @@ class LeanMethodService {
     }
     return this.leanMethods.get(leanMethodId); // Return the class instance
   }
-  
+
   enableLeanMethod(leanMethodId) {
     const leanMethod = this.getLeanMethod(leanMethodId);
     if (leanMethod) {

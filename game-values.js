@@ -30,7 +30,6 @@ export const gameValues = {
   botMoveIntervalOWMin: 750,
   botMoveIntervalOWMax: 1750,
 
-
   // JIT parts extra price multiplier
   jitExtraPrice: 1.5, // Shorter name for extrapriceJit
 
@@ -38,9 +37,11 @@ export const gameValues = {
   roundDuration: 5, // Shorter name for timeOfRound
 
   // Parts added to stock per round
+  //REFACTOR
   partsPerRound: 20,
 
   //Price you have to pay each round for a part that is not used
+  //REFACTOR
   pricePerPart: 100,
 
   //Number of rounds

@@ -29,27 +29,26 @@ class ShowStats extends HTMLElement {
           </table>
         </div>
       `;
-      this.carsCompletedElement = this.shadowRoot.querySelector("#carsCompleted");
-      this.carsBrokenElement = this.shadowRoot.querySelector('#carsBroken')
-      this.totalIncomeElement = this.shadowRoot.querySelector("#totalIncome");
-      this.capitalElement = this.shadowRoot.querySelector("#capital");
-    }
-  
-    // Methods to update the stats
-    update(gameStats) {
-      this.carsCompletedElement.textContent = gameStats.carsCompleted;
-      this.carsBrokenElement.textContent = gameStats.carsBroken
-      this.totalIncomeElement.textContent = gameStats.totalIncome + "€";
-      this.capitalElement.textContent = gameStats.capital.amount + "€"
-    }
-    show(){
-      this.classList.remove("hidden")
-    }
-    hide(){
-      this.classList.add("hidden")
-    }
+    this.carsCompletedElement = this.shadowRoot.querySelector("#carsCompleted");
+    this.carsBrokenElement = this.shadowRoot.querySelector("#carsBroken");
+    this.totalIncomeElement = this.shadowRoot.querySelector("#totalIncome");
+    this.capitalElement = this.shadowRoot.querySelector("#capital");
   }
-  
-  customElements.define("show-stats", ShowStats);
-  export {ShowStats}
-  
+
+  // Methods to update the stats
+  update(gameStats) {
+    this.carsCompletedElement.textContent = gameStats.carsCompleted;
+    this.carsBrokenElement.textContent = gameStats.carsBroken;
+    this.totalIncomeElement.textContent = "€" + gameStats.totalIncome;
+    this.capitalElement.textContent = "€" + gameStats.capital.amount;
+  }
+  show() {
+    this.classList.remove("hidden");
+  }
+  hide() {
+    this.classList.add("hidden");
+  }
+}
+
+customElements.define("show-stats", ShowStats);
+export { ShowStats };

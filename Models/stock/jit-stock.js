@@ -1,7 +1,7 @@
 import { gameValues } from "../../game-values.js";
 import { StockState } from "./stock-state.js";
 
-class JITStock extends StockState{
+class JITStock extends StockState {
   constructor(stats) {
     super(stats); // Call base class constructor
   }
@@ -12,17 +12,16 @@ class JITStock extends StockState{
       parts = this.addPartsToStock(parts, part, 1);
     }
     parts = this.usePart(parts, part);
-    return parts
+    return parts;
   }
 
   newRound(parts) {
-    return (parts);
+    return parts;
   }
-  
+
   deductPrice(part) {
     return;
   }
-
 }
 
 export { JITStock };

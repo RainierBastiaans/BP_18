@@ -39,7 +39,7 @@ class ChooseLeanmethod extends HTMLElement {
     availableMethodsContainer.innerHTML = ""; // Clear previous options
     appliedMethodsContainer.innerHTML = "";
 
-    this.leanMethods.forEach((leanMethod) => {
+    leanMethods.forEach((leanMethod) => {
       if (!leanMethod.isEnabled) {
         const option = document.createElement("div");
         option.classList.add("option");

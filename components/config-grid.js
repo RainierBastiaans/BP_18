@@ -5,18 +5,6 @@ class ConfigGrid extends HTMLElement {
     const shadowRoot = this.shadowRoot;
     shadowRoot.innerHTML = `
         <link rel="stylesheet" href="styles.css">
-        <style>
-            .config-grid {
-                display: grid;
-                grid-template-columns: repeat(3, 1fr);
-                gap: 1rem;
-            }
-            .config-column {
-                display: flex;
-                flex-direction: column;
-                gap: 1rem;
-            }
-        </style>
             <section class="config-column" id="config-column-1">
             </section>
             <section class="config-column" id="config-column-2">

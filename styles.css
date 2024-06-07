@@ -1,4 +1,6 @@
-/** Regular visuals */
+/**=========================
+======Regular visuals=======
+==========================*/
 
 * {
   /* box-sizing: border-box; */
@@ -22,7 +24,38 @@ body {
   color: #333; */
 }
 
+.horizontal-container{
+  display: flex;
+  flex-direction: row;
+}
 
+.vertical-container{
+  display: flex;
+  flex-direction: column;
+}
+
+h2 {
+  padding: 2%;
+  margin: 2%;
+}
+
+/**=========================
+=========Header=============
+==========================*/
+.header {
+  grid-area: header;
+  text-align: center;
+  background: #4b4b4b;
+  color: #fff;
+  padding: 10px;
+  border-radius: 4px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+/**=========================
+=======CONFIGURE VIEW=======
+==========================*/
 #home-page {
   width: 95vw;
   height: 95vh;
@@ -43,15 +76,24 @@ body {
   align-items: center;
 }
 
-.header {
-  grid-area: header;
-  text-align: center;
-  background: #4b4b4b;
-  color: #fff;
-  padding: 10px;
-  border-radius: 4px;
-  text-transform: uppercase;
-  letter-spacing: 2px;
+.config-column {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+#config-column-1 {
+  margin: 5px;
+  background-color: #cbe1e7cb; 
+
+}
+
+#config-column-2 {
+  margin: 5px;
+}
+
+#config-column-3 {
+  margin: 5px;
 }
 
 img {
@@ -65,14 +107,122 @@ p {
   margin: 5px;
 }
 
+.input-container {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+#playerName {
+  border: 2px solid ;
+  transition: border-color 5s, box-shadow 5s;
+}
+
 input[type="text"] {
   display: block;
   width: 90%;
   padding: 10px;
   font-size: 16px;
   margin: 10px;
-  border: 1px solid #ccc;
-  border-radius: 3px;
+  border: 1px solid #6666;
+  border-radius: 4px;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+/*====================
+=========SHOP=========
+====================*/
+.shop-component {
+  max-width: 600px;
+  margin: 2vh auto;
+  padding: 2vh;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Shop Navigation*/
+.shop-navigation {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.shop-navigation button {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.shop-navigation button:hover {
+  background-color: #0056b3;
+}
+
+.workstation-label {
+  font-weight: bold;
+  font-size: 1.2em;
+}
+
+/* Parts list styles */
+.shop-parts-list {
+  list-style: none;
+  padding: 1%;
+  margin: 0;
+}
+
+.shop-part-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 0;
+  border-bottom: 1px solid #ddd;
+}
+
+.shop-part-item:last-child {
+  border-bottom: none;
+}
+
+.shop-part-details {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  margin-right: 10px;
+}
+
+.shop-part-details span:first-child {
+  font-weight: bold;
+}
+
+input[type="number"] {
+  width: 60px;
+  padding: 5px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+/* Buy button styles */
+.shop-buy-button {
+  width: 100%;
+  background-color: #28a745;
+  color: #fff;
+  border: none;
+  padding: 15px 0;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  font-size: 1.1em;
+  font-weight: bold;
+  margin: 1%;
+}
+
+.shop-buy-button:hover {
+  background-color: #218838;
 }
 
 .summary-text {
@@ -202,6 +352,8 @@ button:disabled {
   font-size: 18px;
   color: #555;
   padding: 20px;
+  width: 90%;
+  max-width: 500px;
 }
 
 /*! Regular visuals end */
@@ -610,98 +762,7 @@ button:disabled {
   display: flex;
 }
 
-/* Shop component styles */
-.shop-component {
-  max-width: 600px;
-  margin: 20px auto;
-  padding: 20px;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
 
-/* Navigation styles */
-.shop-navigation {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 20px;
-}
-
-.shop-navigation button {
-  background-color: #007bff;
-  color: #fff;
-  border: none;
-  padding: 10px 15px;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-.shop-navigation button:hover {
-  background-color: #0056b3;
-}
-
-.workstation-label {
-  font-weight: bold;
-  font-size: 1.2em;
-}
-
-/* Parts list styles */
-.shop-parts-list {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.shop-part-item {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 10px 0;
-  border-bottom: 1px solid #ddd;
-}
-
-.shop-part-item:last-child {
-  border-bottom: none;
-}
-
-.shop-part-details {
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
-  margin-right: 10px;
-}
-
-.shop-part-details span:first-child {
-  font-weight: bold;
-}
-
-input[type="number"] {
-  width: 60px;
-  padding: 5px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-}
-
-/* Buy button styles */
-.shop-buy-button {
-  width: 100%;
-  background-color: #28a745;
-  color: #fff;
-  border: none;
-  padding: 15px 0;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-  font-size: 1.1em;
-  font-weight: bold;
-  margin-top: 20px;
-}
-
-.shop-buy-button:hover {
-  background-color: #218838;
-}
 
 
 /*! Statisctics visuals end */
