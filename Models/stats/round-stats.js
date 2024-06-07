@@ -27,7 +27,21 @@ class RoundStats {
   updateStock(stockPrice) {
     this.capital-= stockPrice;
   }
+  startRound(){
+    this.startTime = performance.now(); // Capture the start time
+  }
 
+  endRound(){
+    this.totalTimeRound = this.getElapsedTime()
+  }
+
+  getElapsedTime() {
+    if (!this.startTime) {
+      return 0; // No start time means no elapsed time
+    }
+    const currentTime = performance.now();
+    return Math.floor((currentTime - this.startTime) / 1000); // Time in seconds
+  }
 
   newCarInProgress(car) {
     this.carsInProgress++;

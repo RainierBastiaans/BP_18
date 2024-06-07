@@ -27,6 +27,7 @@ class Car extends Subject {
         return acc;
       }, new Map())
     ); // Initialize an empty Map
+
   }
 
   set state(newState) {

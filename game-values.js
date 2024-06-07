@@ -25,8 +25,8 @@ export const gameValues = {
   partBreakageChanceTQC: 0.01,
 
   // Bot movement interval (time between moves in milliseconds)
-  botMoveIntervalNoOWMin: 1250,
-  botMoveIntervalNoOWMax: 2000,
+  botMoveIntervalNoOWMin: 500,
+  botMoveIntervalNoOWMax: 505,
   botMoveIntervalOWMin: 750,
   botMoveIntervalOWMax: 1500,
 
@@ -34,7 +34,7 @@ export const gameValues = {
   jitExtraPrice: 1.5, // Shorter name for extrapriceJit
 
   // Round duration (seconds)
-  roundDuration: 5, // Shorter name for timeOfRound
+  roundDuration: 30, // Shorter name for timeOfRound
 
   // Parts added to stock per round
   //REFACTOR

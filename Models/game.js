@@ -17,6 +17,7 @@ class Game {
     this.workstations = new Map();
     this.rounds = new Map();
     this.carId = 1;
+    this.startTime = null; // Variable to store the start time
     this.cars = new Map();
     this.parts = parts;
     this.leanMethods = new Map();
@@ -102,11 +103,11 @@ class Game {
         this.bots.push(new Bot(`bot${i}`, i, this));
       }
     }
-
     this.emitter.on("gameOverInModel", () => {
       this.endGame();
     });
   }
+  
 
   // Add a setter for selectedWorkstation
   set selectedWorkstation(value) {
@@ -126,6 +127,7 @@ class Game {
   newRound(leanMethod) {
     const roundnumber = this.rounds.size + 1;
     const newRound = new Round(roundnumber);
+    this.stats.startRound()
     this.rounds.set(roundnumber, newRound);
     this.currentRound = newRound;
     this.newLeanMethod(leanMethod);
@@ -139,7 +141,6 @@ class Game {
     this.currentRound.emitter.on("roundoverInModel", () => {
       this.endRound();
     });
-    this.newCar();
   }
 
   newLeanMethod(method) {
@@ -157,7 +158,10 @@ class Game {
     this.stock.endRound();
     if (this.currentRound.roundNumber === gameValues.numberOfRounds) {
       this.endGame();
+      return;
     }
+    this.stats.newRound(); //stats already start at the beginning
+    
   }
 
   newCar() {
@@ -238,7 +242,7 @@ class Game {
   }
 
   getStockFromWorkstation(workstationIndex) {
-    console.log(workstationIndex)
+    console.log(workstationIndex);
     return this.workstations.get(workstationIndex).getStock();
   }
 

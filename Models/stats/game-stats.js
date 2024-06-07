@@ -18,6 +18,7 @@ class GameStats extends Subject {
     this.rounds = new Map();
     this.facilityCost = gameValues.facilityCost;
     this.staffCost = gameValues.staffCost;
+    this.cars = new Map()
   }
   addObserver(observer) {
     this.observers.push(observer);
@@ -30,6 +31,27 @@ class GameStats extends Subject {
     this.capital.deduct(stockPrice);
     this.notifyObservers(this);
   }
+  startGame(){
+    this.startTime = performance.now(); // Capture the start time
+  }
+
+  getElapsedTime() {
+    if (!this.startTime) {
+      return 0; // No start time means no elapsed time
+    }
+    const currentTime = performance.now();
+    return Math.floor((currentTime - this.startTime) / 1000); // Time in seconds
+  }
+  endGame(){
+    this.totalTimeGame = this.getElapsedTime()
+  }
+
+  endRound(){
+    this.currentRound.endRound()
+  }
+  startRound(){
+    this.currentRound.startRound()
+  }
 
   updateCapital(capital) {
     this.capital = capital;
@@ -37,10 +59,11 @@ class GameStats extends Subject {
   }
 
   updateCars(car) {
+    console.log(car)
     if (car.isComplete()) {
       this.newCarCompleted(car);
     } else if (car.isBroken()) {
-      this.newCarBroken();
+      this.newCarBroken(car);
     }
     else if (car.state.workstationId===1){
       this.newCarInProgress(car)
@@ -49,8 +72,9 @@ class GameStats extends Subject {
 
   newCarInProgress(car){
     this.carsInProgress ++;
-    this.currentRound.newCarInProgress(car)
-    this.notifyObservers(this)
+    this.currentRound.newCarInProgress(car);
+    this.cars.set(car.id, {start:(((this.rounds.size-1)*gameValues.roundDuration)+this.currentRound.getElapsedTime()),end: undefined});
+    this.notifyObservers(this);
   }
   newRound() {
     this.rounds.set(
@@ -66,18 +90,32 @@ class GameStats extends Subject {
   deductRoundCosts() {
     this.capital.deduct(this.facilityCost+this.staffCost);
   }
+  calculateAverageCarCompletionTime(){
+    let totalTime = 0;
+    Array.from(this.cars.values()).forEach((times)=>{
+      console.log(times)
+      if (times.end){
+        totalTime+= (times.end-times.start)
+      }
+    })
+
+    this.averageCarCompletionTime = totalTime/this.carsCompleted;
+  }
 
   newCarCompleted(car) {
     this.carsCompleted++;
     this.totalIncome += car.fixedPrice;
     this.carsInProgress--;
+    this.cars.get(car.id).end = (((this.rounds.size-1)*gameValues.roundDuration)+this.currentRound.getElapsedTime())
     this.currentRound.newCarCompleted(car)
     this.capital.add(car.fixedPrice);
+    this.calculateAverageCarCompletionTime()
     this.notifyObservers(this);
   }
-  newCarBroken() {
+  newCarBroken(car) {
     this.carsBroken++;
     this.carsInProgress--;
+    this.cars.delete(car.id)
     this.currentRound.newCarBroken()
     this.notifyObservers(this);
   }
