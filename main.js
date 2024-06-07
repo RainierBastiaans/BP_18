@@ -20,7 +20,7 @@ import { NewRoundButton } from "./components/new-round-button.js";
 import { ConfigGrid } from "./components/config-grid.js";
 import { PlayerName } from "./components/player-name.js";
 import { ShopComponent } from "./components/shop-component.js";
-import { PartsInStock } from "./components/parts-in-stock.js";
+import { PersonalStock } from "./components/personal-stock.js";
 
 //MODELS
 import { LeanMethodService } from "./lean-methods/lean-method-service.js";
@@ -34,9 +34,13 @@ const leanGame = new LeanGame();
 const gameContainer = document.getElementById("game-container");
 gameContainer.appendChild(leanGame);
 
+//GET LIVE STOCK COMPONENT
+const liveContainer = document.getElementById("live");
+
 //INITIALIZE COMPONENTS
 let db = new HighscoresDB();
 let liveStockComponent;
+let personalStockComponent;
 const leanMethodService = new LeanMethodService();
 await leanMethodService.fetchLeanMethods();
 const configGrid = new ConfigGrid();
@@ -48,7 +52,8 @@ await fetchParts().then((fetchedParts) => {
   leanGame.game.stats.addObserver(showStats);
   leanGame.game.stats.addObserver(showIngameStats);
   liveStockComponent = new LiveStock(fetchedParts);
-  leanGame.game.stock.addObserver(liveStockComponent)
+  personalStockComponent = new PersonalStock(fetchedParts);
+  leanGame.game.stock.addObserver(liveStockComponent);
 });
 
 const gameOptions = new GameOptions();
@@ -59,7 +64,6 @@ const gameDescription = new GameDescription();
 const highscoreBoard = new HighscoreBoard(db); // Pass db instance
 const chooseLeanMethod = new ChooseLeanmethod();
 const newRoundButton = new NewRoundButton();
-const partsInStock = new PartsInStock();
 const fixedCosts = document.createElement("fixed-costs");
 const kapitaal = document.createElement("kapitaal");
 
@@ -87,7 +91,7 @@ gameOptions.addEventListener("workstationchange", (event) => {
 configGrid.appendColumn(1, playerNameInput);
 configGrid.appendColumn(1, kapitaal);
 //NEEDS TO BE FILLED WITH DATA
-configGrid.appendColumn(1, partsInStock);
+configGrid.appendColumn(1, personalStockComponent);
 configGrid.appendColumn(1, fixedCosts);
 
 //BUILD COLUMN 2
@@ -109,19 +113,23 @@ configGrid.appendColumn(3, gameOptions);
 const ingameStatsContainer = document.getElementById("ingame-stats-container");
 ingameStatsContainer.appendChild(showIngameStats);
 
-const liveStockContainer = document.getElementById("live-stock-container")
-liveStockContainer.appendChild(liveStockComponent)
+const liveStockContainer = document.getElementById("live-stock-container");
+liveStockContainer.appendChild(liveStockComponent);
 
 //STATS
 const statsContainer = document.getElementById("stats-container");
 statsContainer.appendChild(showStats);
 
+//HIDE ALL COMPONENTS
+liveContainer.classList.add("hidden");
+gameContainer.classList.add("hidden");
 chooseLeanMethod.hide();
 showStats.hide();
 leanGame.hide();
 newRoundButton.hide();
 highscoreBoard.hide();
-// showIngameStats.hide();
+showIngameStats.hide();
+liveStockComponent.hide();
 
 //EVENT LISTENERS
 chooseLeanMethod.addEventListener("leanmethodchange", (event) => {
@@ -131,6 +139,7 @@ chooseLeanMethod.addEventListener("leanmethodchange", (event) => {
 // Game start
 startButton.addEventListener("startgame", (event) => {
   const playerName = event.detail.playerName;
+  gameContainer.classList.remove("hidden");
   gameHeader.hide();
   gameDescription.hide();
   startButton.hide();

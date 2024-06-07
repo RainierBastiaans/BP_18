@@ -18,12 +18,12 @@ class ShopComponent extends HTMLElement {
     this.partsByWorkstation = new Map();
     this.allParts.forEach((part) => {
       const workstationId = part.workstationFK; // Assuming attribute name for workstation ID
-  
+
       // Check if workstation entry exists in the map
       if (!this.partsByWorkstation.has(workstationId)) {
         this.partsByWorkstation.set(workstationId, []); // Create an empty list for the workstation
       }
-  
+
       this.partsByWorkstation.get(workstationId).push(part);
     });
   }
@@ -38,7 +38,6 @@ class ShopComponent extends HTMLElement {
     heading.classList.add("horizontal-container");
     shopElement.appendChild(heading);
     const shopSourceReference = document.createElement("a");
-    //<a href="" title="warehouse icons"></a>
     shopSourceReference.href = "https://www.flaticon.com/free-icons/warehouse";
     shopSourceReference.title = "warehouse icons";
     heading.appendChild(shopSourceReference);
@@ -48,13 +47,18 @@ class ShopComponent extends HTMLElement {
       "Shop represented by: Warehouse icons created by Vectors Tank - Flaticon";
     shopIcon.classList.add("shop-icon");
     shopSourceReference.appendChild(shopIcon);
+
+    //Title
     const shopTitle = document.createElement("h2");
     shopTitle.textContent = "Shop";
-    const shopLabel = document.createElement("label");
-    shopLabel.textContent =
-      "Welcome to the shop of LEAN Enterprises! Here you can buy parts to build your cars!";
-    shopTitle.appendChild(shopLabel);
     heading.appendChild(shopTitle);
+
+    //HOVER: Add a tip to the shop
+    const shopTip = document.createElement("span");
+    shopTip.classList.add("shop-tip");
+    shopTip.textContent =
+      "Welcome to the shop of LEAN Enterprises! Here you can buy parts to build your cars!";
+    shopTitle.appendChild(shopTip);
 
     // Workstation navigation
     const navigation = document.createElement("div");
@@ -112,26 +116,29 @@ class ShopComponent extends HTMLElement {
 
   changeWorkstation(offset) {
     const workstationSize = this.partsByWorkstation.size; // Get number of workstations
-  
+
     // Calculate new index with wrapping (avoid negative values)
-    const newIndex = (this.currentWorkstationIndex + offset + workstationSize) % workstationSize;
-  
+    const newIndex =
+      (this.currentWorkstationIndex + offset + workstationSize) %
+      workstationSize;
+
     // Update current workstation index
     this.currentWorkstationIndex = newIndex;
-  
+
     // Render parts for the new workstation
     this.renderWorkstationParts();
-  
+
     // Dispatch custom event 'change-workstation'
-    document.dispatchEvent(new CustomEvent('change-workstation', {
-      detail: {
-        currentWorkstationIndex: this.currentWorkstationIndex,
-        bubbles: true,
-        composed: true,
-      },
-    }));
+    document.dispatchEvent(
+      new CustomEvent("change-workstation", {
+        detail: {
+          currentWorkstationIndex: this.currentWorkstationIndex,
+          bubbles: true,
+          composed: true,
+        },
+      })
+    );
   }
-  
 
   renderWorkstationParts() {
     const shopElement = this.shadowRoot.querySelector(".shop-component");

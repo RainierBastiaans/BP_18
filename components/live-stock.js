@@ -14,7 +14,7 @@ class LiveStock extends HTMLElement {
     const container = document.createElement("div");
     container.classList.add("livestock-container");
     this.shadowRoot.appendChild(container);
-    console.log(this.shadowRoot.innerHTML)
+    console.log(this.shadowRoot.innerHTML);
 
     this.groupPartsByWorkstation();
     this.render();
@@ -24,6 +24,10 @@ class LiveStock extends HTMLElement {
       this.render(); // Update UI with new parts
     });
     console.log(this.shadowRoot.innerHTML);
+  }
+
+  hide() {
+    this.classList.add("hidden");
   }
 
   update(stock) {
@@ -60,6 +64,7 @@ class LiveStock extends HTMLElement {
       this.partsByWorkstation.get(workstationId).push(updatedPart);
     });
   }
+
   render() {
     let container = this.shadowRoot.querySelector(".livestock-container");
     console.log(container);
@@ -76,20 +81,20 @@ class LiveStock extends HTMLElement {
       partList.classList.add("livestock-part-list");
       for (const part of currentWorkstationParts) {
         const listItem = document.createElement("li");
-    
+
         // Create separate elements for part name and quantity
         const partName = document.createElement("span");
         partName.classList.add("livestock-part-name");
         partName.textContent = part.name;
-    
+
         const partQuantity = document.createElement("span");
         partQuantity.classList.add("livestock-part-quantity");
         partQuantity.textContent = `${part.quantity}`;
-    
+
         // Append elements to the list item
         listItem.appendChild(partName);
         listItem.appendChild(partQuantity);
-    
+
         partList.appendChild(listItem);
       }
       container.appendChild(partList);
