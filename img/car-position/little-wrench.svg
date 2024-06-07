@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="93.098984mm"
+   height="104.96739mm"
+   viewBox="0 0 93.098984 104.96739"
+   version="1.1"
+   id="svg1"
+   inkscape:version="1.3.1 (9b9bdc1480, 2023-11-25, custom)"
+   sodipodi:docname="little-wrench.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#505050"
+     bordercolor="#eeeeee"
+     borderopacity="1"
+     inkscape:showpageshadow="0"
+     inkscape:pageopacity="0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#505050"
+     inkscape:document-units="mm"
+     inkscape:zoom="0.72248176"
+     inkscape:cx="396.5498"
+     inkscape:cy="561.25984"
+     inkscape:window-width="1850"
+     inkscape:window-height="1011"
+     inkscape:window-x="70"
+     inkscape:window-y="32"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1" />
+  <defs
+     id="defs1" />
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(-56.990983,-98.708661)">
+    <path
+       id="rect1"
+       style="fill:#000000;fill-opacity:0.988241;stroke-width:0.226935"
+       d="m 131.17455,99.468279 a 25,25 0 0 0 -25.42297,8.358481 25,25 0 0 0 -2.90729,27.18598 l -45.85331,55.99176 15.473328,12.67156 45.827442,-55.96017 a 25,25 0 0 0 26.14355,-8.20989 25,25 0 0 0 3.45583,-26.08753 l -19.70081,24.05679 -16.84427,-13.79428 z" />
+  </g>
+</svg>

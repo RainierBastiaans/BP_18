@@ -4,34 +4,45 @@ class CarPositionLine extends HTMLElement {
     this.attachShadow({ mode: "open" });
 
     this.shadowRoot.innerHTML = `
-        <link rel="stylesheet" href="styles.css">
-        <div class="car-position-line">
+      <link rel="stylesheet" href="styles.css">
+      <div class="car-position-line">
         <div class="car-position-box">
+          <span class="car-position-q" id="q-1">0</span>
           <span class="car-position" id="workstation-1">1</span>
           <img src="./img/car-position/loading.gif" alt="loading gif" class="loading-gif">
+          <img src="./img/car-position/little-wrench.svg" alt="wrench" class="wrench">
         </div>
         <div class="car-position-box">
+          <span class="car-position-q" id="q-2">0</span>
           <span class="car-position" id="workstation-2">2</span>
           <img src="./img/car-position/loading.gif" alt="loading gif" class="loading-gif">
+          <img src="./img/car-position/little-wrench.svg" alt="wrench" class="wrench">
         </div>
         <div class="car-position-box">
+          <span class="car-position-q" id="q-3">0</span>
           <span class="car-position" id="workstation-3">3</span>
           <img src="./img/car-position/loading.gif" alt="loading gif" class="loading-gif">
+          <img src="./img/car-position/little-wrench.svg" alt="wrench" class="wrench">
         </div>
         <div class="car-position-box">
+          <span class="car-position-q" id="q-4">0</span>
           <span class="car-position" id="workstation-4">4</span>
           <img src="./img/car-position/loading.gif" alt="loading gif" class="loading-gif">
+          <img src="./img/car-position/little-wrench.svg" alt="wrench" class="wrench">
         </div>
         <div class="car-position-box">
+          <span class="car-position-q" id="q-5">0</span>
           <span class="car-position" id="workstation-5">5</span>
           <img src="./img/car-position/loading.gif" alt="loading gif" class="loading-gif">
+          <img src="./img/car-position/little-wrench.svg" alt="wrench" class="wrench">
         </div>
-        </div>
+      </div>
       `;
 
     this.workstationElements =
       this.shadowRoot.querySelectorAll(".car-position");
     this.loadingElements = this.shadowRoot.querySelectorAll(".loading-gif");
+    this.wrenchElements = this.shadowRoot.querySelectorAll(".wrench");
   }
 
   setCarPositions(cars) {
@@ -59,8 +70,11 @@ class CarPositionLine extends HTMLElement {
 
       if (workstation && workstation.getRemainingTime()) {
         element.style.backgroundColor = "red"; // Set background color for remaining time
+        this.loadingElements[index].classList.add("hidden");
+        this.wrenchElements[index].classList.remove("hidden");
       } else {
         element.style.backgroundColor = ""; // Clear background color
+        this.wrenchElements[index].classList.add("hidden");
       }
     });
   }
