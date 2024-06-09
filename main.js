@@ -1,29 +1,29 @@
-import "./components/lean-game.js";
+import "./components/gameplay/lean-game.js";
 import "./components/game-header.js";
-import "./components/game-description-container.js";
-import "./components/start-button.js";
+import "./components/configure-game/game-description-container.js";
+import "./components/configure-game/start-button.js";
 import "./components/show-stats.js";
 import "./components/show-ingame-stats.js";
-import "./components/select-workstation.js";
+import "./components/configure-game/select-workstation.js";
 import { HighscoresDB } from "./db/highscores.js";
 //COMPONENTS
 import { HighscoreBoard } from "./components/highscore-board.js";
-import { LeanGame } from "./components/lean-game.js";
-import { SelectWorkstation } from "./components/select-workstation.js";
-import { ChooseLeanmethod } from "./components/choose-leanmethod.js";
-import { StartButton } from "./components/start-button.js";
+import { LeanGame } from "./components/gameplay/lean-game.js";
+import { SelectWorkstation } from "./components/configure-game/select-workstation.js";
+import { ChooseLeanmethod } from "./components/configure-game/choose-leanmethod.js";
+import { StartButton } from "./components/configure-game/start-button.js";
 import { GameHeader } from "./components/game-header.js";
-import { GameDescriptionContainer } from "./components/game-description-container.js";
+import { GameDescriptionContainer } from "./components/configure-game/game-description-container.js";
 import { ShowStats } from "./components/show-stats.js";
 import { ShowIngameStats } from "./components/show-ingame-stats.js";
-import { NewRoundButton } from "./components/new-round-button.js";
-import { ConfigGrid } from "./components/config-grid.js";
-import { PlayerName } from "./components/player-name.js";
-import { ShopComponent } from "./components/shop-component.js";
-import { PersonalStock } from "./components/personal-stock.js";
-import { LiveStock } from "./components/live-stock.js";
-import { FixedCosts } from "./components/fixed-costs.js";
-import { PlayersOverview } from "./components/players-overview.js";
+import { NewRoundButton } from "./components/configure-game/new-round-button.js";
+import { ConfigGrid } from "./components/configure-game/config-grid.js";
+import { PlayerName } from "./components/configure-game/player-name.js";
+import { ShopComponent } from "./components/configure-game/shop-component.js";
+import { PersonalStock } from "./components/configure-game/personal-stock.js";
+import { LiveStock } from "./components/gameplay/live-stock.js";
+import { FixedCosts } from "./components/configure-game/fixed-costs.js";
+import { PlayersOverview } from "./components/configure-game/players-overview.js";
 
 //MODELS
 import { LeanMethodService } from "./lean-methods/lean-method-service.js";
@@ -41,6 +41,13 @@ const liveContainer = document.getElementById("live");
 
 //INITIALIZE COMPONENTS
 let db = new HighscoresDB();
+//Normally this would be fetched from the database
+let otherPlayers = [
+  { name: "Bot 2", workstation: 2 },
+  { name: "Bottebot 3", workstation: 3 },
+  { name: "Boterbot 4", workstation: 4 },
+  { name: "i-robot 5", workstation: 5 },
+];
 let liveStockComponent;
 let personalStockComponent;
 const leanMethodService = new LeanMethodService();
@@ -68,7 +75,7 @@ const chooseLeanMethod = new ChooseLeanmethod();
 const newRoundButton = new NewRoundButton();
 const fixedCosts = new FixedCosts(leanGame.game.getFixedCosts());
 const kapitaal = document.createElement("kapitaal");
-const playersOverview = new PlayersOverview();
+const playersOverview = new PlayersOverview(otherPlayers);
 
 //START VIEW
 
@@ -86,7 +93,19 @@ homePage.appendChild(highscoreBoard);
 homePage.appendChild(newRoundButton);
 
 selectWorkstationComponent.addEventListener("workstationchange", (event) => {
+  const oldSelectedWorkstation = selectedWorkstation || 1;
+  console.log(oldSelectedWorkstation);
+  console.log(event.detail.workstation);
+  // Update selected workstation
   selectedWorkstation = parseInt(event.detail.workstation) || 1;
+
+  // update bots
+  otherPlayers.forEach((player) => {
+    if (player.workstation === selectedWorkstation) {
+      player.workstation = oldSelectedWorkstation;
+    }
+  });
+  playersOverview.update(otherPlayers);
 });
 
 //BUILD COLUMNS
@@ -153,7 +172,7 @@ startButton.addEventListener("startgame", (event) => {
   selectWorkstationComponent.hide();
   highscoreBoard.hide();
   shopComponent.hide();
-  leanGame.startGame(playerName, selectedWorkstation);
+  leanGame.startGame(playerName, selectedWorkstation, otherPlayers);
 });
 
 newRoundButton.addEventListener("newRound", (event) => {

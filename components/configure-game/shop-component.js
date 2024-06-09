@@ -38,16 +38,23 @@ class ShopComponent extends HTMLElement {
     heading.classList.add("shop-heading");
     heading.classList.add("horizontal-container");
     shopElement.appendChild(heading);
+
+    // Add a reference to the source of the shop icon
+    const shopSourceContainer = document.createElement("div");
+    shopSourceContainer.classList.add("hidden");
+    heading.appendChild(shopSourceContainer);
     const shopSourceReference = document.createElement("a");
     shopSourceReference.href = "https://www.flaticon.com/free-icons/warehouse";
     shopSourceReference.title = "warehouse icons";
-    heading.appendChild(shopSourceReference);
+    shopSourceContainer.appendChild(shopSourceReference);
+
+    // Shop icon
     const shopIcon = document.createElement("img");
     shopIcon.src = "./img/shop.png";
     shopIcon.alt =
       "Shop represented by: Warehouse icons created by Vectors Tank - Flaticon";
     shopIcon.classList.add("shop-icon");
-    shopSourceReference.appendChild(shopIcon);
+    heading.appendChild(shopIcon);
 
     //Title
     const shopTitle = document.createElement("h2");

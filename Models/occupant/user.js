@@ -1,3 +1,5 @@
+import { Occupant } from "./occupant.js";
+
 class User extends Occupant {
   constructor(name) {
     super(name); // Call superclass constructor

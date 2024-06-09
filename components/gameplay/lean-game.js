@@ -1,6 +1,6 @@
-import { Game } from "../Models/game.js";
+import { Game } from "../../Models/game.js";
 import { CarPositionLine } from "./car-position.js";
-import { gameValues } from "../game-values.js";
+import { gameValues } from "../../game-values.js";
 
 class LeanGame extends HTMLElement {
   constructor() {
@@ -115,12 +115,13 @@ class LeanGame extends HTMLElement {
     this.game = new Game(db, leanMethodService, parts);
     this.leanMethodService = leanMethodService;
   }
-  startGame(playerName, selectedWorkstation = 1) {
+
+  startGame(playerName, selectedWorkstation = 1, bots) {
     this.currentWorkstationIndex = selectedWorkstation;
     // Disable buttons based on selected workstation
     this.previousButton.disabled = selectedWorkstation === 1;
     this.nextButton.disabled = selectedWorkstation === 5;
-    this.game.newGame(selectedWorkstation, playerName);
+    this.game.startGame(selectedWorkstation, playerName, bots);
     this.newRound();
   }
 
@@ -491,13 +492,15 @@ class LeanGame extends HTMLElement {
     this.updateMessage();
     this.draw();
     // Dispatch custom event 'change-workstation'
-    document.dispatchEvent(new CustomEvent('change-workstation', {
-      detail: {
-        currentWorkstationIndex: this.currentWorkstationIndex-1,
-        bubbles: true,
-        composed: true,
-      },
-    }));
+    document.dispatchEvent(
+      new CustomEvent("change-workstation", {
+        detail: {
+          currentWorkstationIndex: this.currentWorkstationIndex - 1,
+          bubbles: true,
+          composed: true,
+        },
+      })
+    );
   }
 
   goToNextWorkstation() {
@@ -512,13 +515,15 @@ class LeanGame extends HTMLElement {
     this.updateMessage();
     this.draw();
     // Dispatch custom event 'change-workstation'
-    document.dispatchEvent(new CustomEvent('change-workstation', {
-      detail: {
-        currentWorkstationIndex: this.currentWorkstationIndex-1,
-        bubbles: true,
-        composed: true,
-      },
-    }));
+    document.dispatchEvent(
+      new CustomEvent("change-workstation", {
+        detail: {
+          currentWorkstationIndex: this.currentWorkstationIndex - 1,
+          bubbles: true,
+          composed: true,
+        },
+      })
+    );
   }
 
   getCurrentWorkstation() {

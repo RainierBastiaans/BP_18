@@ -91,16 +91,19 @@ class Game {
     }
   }
 
-  newGame(selectedWorkstation, playerName) {
+  startGame(selectedWorkstation, playerName, bots) {
     this.playerName = playerName;
     this.selectedWorkstation = parseInt(selectedWorkstation);
     this.bots = [];
-    // Create bots only for workstations other than selectedWorkstation
-    for (let i = 1; i <= 5; i++) {
-      if (i !== parseInt(selectedWorkstation)) {
-        this.bots.push(new Bot(`bot${i}`, i, this));
-      }
+    for (let i = 0; i < bots.length; i++) {
+      this.bots.push(new Bot(bots[i].name, bots[i].workstation, this));
     }
+    // // Create bots only for workstations other than selectedWorkstation
+    // for (let i = 1; i <= 5; i++) {
+    //   if (i !== parseInt(selectedWorkstation)) {
+    //     this.bots.push(new Bot(`bot${i}`, i, this));
+    //   }
+    // }
 
     this.emitter.on("gameOverInModel", () => {
       this.endGame();

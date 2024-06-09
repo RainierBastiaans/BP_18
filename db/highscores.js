@@ -50,6 +50,7 @@ class HighscoresDB {
       console.log("Database is empty, adding default high score.");
       this.addHighscore("Simon", 50);
       this.addHighscore("Gregory", 70);
+      this.addHighscore("Rainier", 10);
     } else {
       console.log("Database has existing scores.");
     }
