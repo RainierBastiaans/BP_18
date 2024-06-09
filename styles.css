@@ -70,11 +70,14 @@ h2, h3 {
 }
 
 .config-grid {
-  width: 100%;
+  width: 95vw;
+  height: 95vh;
   display: flex;
-  column-gap: 5%;
+  column-gap: 2%;
   align-items: stretch;
   align-self: center;
+  flex-wrap: wrap;
+  overflow-y: auto;
 }
 
 .config-column {
@@ -86,7 +89,6 @@ h2, h3 {
 
 #config-column-1 {
   margin: 5px;
-  background-color: rgba(0, 89, 255, 0.151); 
   display: flex;
   align-content: stretch;
   border-radius: 5px;
@@ -98,6 +100,15 @@ h2, h3 {
 
 #config-column-3 {
   margin: 5px;
+}
+
+.component-style {
+  background-color: rgba(0, 89, 255, 0.151);
+  border-radius: 8px;
+  border: 2px solid rgba(192, 192, 192, 00.5);
+  margin: 7.5px;
+  padding: 10px;
+  box-shadow: 0 0 10px rgba(192, 192, 192, 1);
 }
 
 img {
@@ -118,8 +129,10 @@ p {
 .input-container {
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
   padding: 10px;
   border-radius: 5px;
+  max-width: 90%;
 }
 
 .player-icon {
@@ -129,7 +142,7 @@ p {
 
 #playerName {
   border: 2px solid;
-  width: 20em;
+  width: 60%;
   transition: border-color 5s, box-shadow 5s;
 }
 
@@ -157,15 +170,24 @@ input[type="text"] {
 }
 
 /*====================
+===GAME DESCRIPTION===
+====================*/
+game-description-container {
+  max-width: 100%;
+}
+
+.game-description {
+  text-align: center;
+  font-size: 1.1em;
+  color: #555;
+  padding: 5px;
+}
+
+/*====================
 =========SHOP=========
 ====================*/
 .shop-component {
   max-width: 600px;
-  margin: 2vh auto;
-  padding: 2vh;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
 /* Shop Heading */
@@ -281,16 +303,15 @@ input[type="number"] {
 
 /* Buy button styles */
 .shop-buy-button {
-  width: 70%;
+  width: 100%;
+  max-width:inherit;
   background-color: #28a745;
-  color: #fff;
   border: none;
   padding: 15px 0;
   border-radius: 8px;
-  cursor: pointer;
   transition: background-color 0.3s ease;
-  font-size: 1.5em;
-  font-weight: bold;
+  font-size: 150%;
+  font-weight: 700;
   margin: 1%;
 }
 
@@ -351,19 +372,24 @@ label:hover .tooltip {
 =======BUTTONS========
 =====================*/
 
+start-button {
+  display: flex;
+  align-self: center;
+  align-items: center;
+  width: 80%;
+}
+
 #newRoundButton,
 #startButton {
   display: block;
   padding: 10px 20px;
-  font-size: 3em;
-  margin: 30px auto;
+  font-size: 200%;
+  margin: 5px;
   background-color: #28a745;
-  color: white;
-  border: none;
   border-radius: 15px;
-  cursor: pointer;
-  line-height: 1.5;
-  width: 50%;
+  line-height: 1.25;
+  max-width: inherit;
+  width: 100% ;
 }
 
 #newRoundButton:hover,
@@ -373,7 +399,6 @@ label:hover .tooltip {
 
 .shop-add-five-button {
   border-radius: 8px;
-  cursor: pointer;
   transition: background-color 0.3s ease;
   font-size: 1.2em;
   width: 30%;
@@ -382,7 +407,7 @@ label:hover .tooltip {
 button {
   align-items: center;
   background-color: #0a66c2;
-  border: 0;
+  border: none;
   box-sizing: border-box;
   color: #ffffff;
   cursor: pointer;
@@ -391,14 +416,12 @@ button {
   font-weight: 600;
   justify-content: center;
   line-height: 20px;
-  max-width: 480px;
+  max-width: 90%;
   min-height: 40px;
   min-width: 0px;
   overflow: hidden;
   margin: 5px;
-  padding: 0px;
-  padding-left: 20px;
-  padding-right: 20px;
+  padding: 0px 20px;
   text-align: center;
   touch-action: manipulation;
   transition: background-color 0.167s cubic-bezier(0.4, 0, 0.2, 1) 0s,
@@ -430,15 +453,6 @@ button:disabled {
   padding: 20px;
   margin-top: 0px;
   text-align: center;
-}
-
-.game-description {
-  text-align: center;
-  font-size: 18px;
-  color: #555;
-  padding: 20px;
-  width: 90%;
-  max-width: 500px;
 }
 
 /*! Regular visuals end */
@@ -477,6 +491,9 @@ button:disabled {
   justify-content: center;
   align-items: center;
   margin: 2% 0;
+  max-height: 90%;
+  max-width: 90%;
+  flex-wrap: wrap;
 }
 
 .workstation-option {

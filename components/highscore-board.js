@@ -1,39 +1,36 @@
-
 class HighscoreBoard extends HTMLElement {
   constructor(db) {
     super();
-    this.db = db; 
+    this.db = db;
 
     const shadowRoot = this.attachShadow({ mode: "open" });
-
+    this.classList.add("component-style");
     const title = document.createElement("h2");
     title.textContent = "Top 3 Highscores";
     shadowRoot.appendChild(title);
 
     const list = document.createElement("ol");
     shadowRoot.appendChild(list);
-
   }
-  hide(){
-    this.classList.add("hidden")
-  }
-
-  show(){
-    this.classList.remove("hidden")
-    this.loadScores()
+  hide() {
+    this.classList.add("hidden");
   }
 
+  show() {
+    this.classList.remove("hidden");
+    this.loadScores();
+  }
 
   connectedCallback() {
     // Wait for db to open
-    return this.db.openPromise.then(() => {
-      this.loadScores();
-    }).catch((error) => {
-      console.error("Error opening database:", error);
-    });
+    return this.db.openPromise
+      .then(() => {
+        this.loadScores();
+      })
+      .catch((error) => {
+        console.error("Error opening database:", error);
+      });
   }
-  
-  
 
   async loadScores() {
     // Use this.db instead of db
@@ -50,4 +47,4 @@ class HighscoreBoard extends HTMLElement {
 }
 
 customElements.define("highscore-board", HighscoreBoard);
-export {HighscoreBoard}
+export { HighscoreBoard };

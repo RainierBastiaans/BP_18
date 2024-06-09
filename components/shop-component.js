@@ -5,6 +5,7 @@ class ShopComponent extends HTMLElement {
     this.shadowRoot.innerHTML = `
     <link rel="stylesheet" href="styles.css">
   `;
+    this.classList.add("component-style");
     this.allParts = allParts;
     this.currentWorkstationIndex = 0; // Track current workstation
 

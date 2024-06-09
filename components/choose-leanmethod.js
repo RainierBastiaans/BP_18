@@ -14,7 +14,7 @@ class ChooseLeanmethod extends HTMLElement {
         </div>
       </div>
     `;
-
+    this.classList.add("component-style");
     this.leanMethods = leanMethods;
   }
 

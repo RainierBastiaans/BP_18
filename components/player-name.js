@@ -8,8 +8,8 @@ class PlayerName extends HTMLElement {
     shadowRoot.innerHTML = `
         <link rel="stylesheet" href="styles.css">
         <div class="input-container">
-        <a href="https://www.flaticon.com/free-icons/worker" title="worker icon" 
-        alt="Worker icons created by Smashicons - Flaticon">
+        <!-- <a href="https://www.flaticon.com/free-icons/worker" title="worker icon" 
+        alt="Worker icons created by Smashicons - Flaticon">-->
         <img src="./img/player.png" alt="player icon" class="player-icon">
         </a>
         <input type="text" id="playerName" value = "" 
@@ -18,6 +18,7 @@ class PlayerName extends HTMLElement {
       `;
 
     const playerNameInput = shadowRoot.querySelector("#playerName");
+    this.classList.add("component-style");
 
     playerNameInput.addEventListener("change", () => {
       const playerName = playerNameInput.value.trim();

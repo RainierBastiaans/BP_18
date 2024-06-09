@@ -6,13 +6,14 @@ class StartButton extends HTMLElement {
 
     const shadowRoot = this.shadowRoot;
 
+    //this.classList.add("start-button-container");
+
     shadowRoot.innerHTML = `
       <link rel="stylesheet" href="styles.css">
       <button id="startButton">Start Game!</button>
     `;
 
     const startButton = shadowRoot.querySelector("#startButton");
-    const playerNameInput = shadowRoot.querySelector("#playerName");
 
     startButton.addEventListener("click", () => {
       // const playerName = playerNameInput.value.trim();

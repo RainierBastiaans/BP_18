@@ -1,6 +1,6 @@
 import "./components/lean-game.js";
 import "./components/game-header.js";
-import "./components/game-description.js";
+import "./components/game-description-container.js";
 import "./components/start-button.js";
 import "./components/show-stats.js";
 import "./components/show-ingame-stats.js";
@@ -13,7 +13,7 @@ import { GameOptions } from "./components/game-options.js";
 import { ChooseLeanmethod } from "./components/choose-leanmethod.js";
 import { StartButton } from "./components/start-button.js";
 import { GameHeader } from "./components/game-header.js";
-import { GameDescription } from "./components/game-description.js";
+import { GameDescriptionContainer } from "./components/game-description-container.js";
 import { ShowStats } from "./components/show-stats.js";
 import { ShowIngameStats } from "./components/show-ingame-stats.js";
 import { NewRoundButton } from "./components/new-round-button.js";
@@ -60,7 +60,7 @@ const gameOptions = new GameOptions();
 const playerNameInput = new PlayerName(leanMethodService.getAllLeanMethods());
 const startButton = new StartButton(playerNameInput.playerName);
 const gameHeader = new GameHeader();
-const gameDescription = new GameDescription();
+const gameDescriptionComponent = new GameDescriptionContainer();
 const highscoreBoard = new HighscoreBoard(db); // Pass db instance
 const chooseLeanMethod = new ChooseLeanmethod();
 const newRoundButton = new NewRoundButton();
@@ -95,7 +95,7 @@ configGrid.appendColumn(1, personalStockComponent);
 configGrid.appendColumn(1, fixedCosts);
 
 //BUILD COLUMN 2
-configGrid.appendColumn(2, gameDescription);
+configGrid.appendColumn(2, gameDescriptionComponent);
 fetchParts().then((fetchedParts) => {
   shopComponent = new ShopComponent(fetchedParts);
   configGrid.appendColumn(2, shopComponent);
@@ -141,7 +141,7 @@ startButton.addEventListener("startgame", (event) => {
   const playerName = event.detail.playerName;
   gameContainer.classList.remove("hidden");
   gameHeader.hide();
-  gameDescription.hide();
+  gameDescriptionComponent.hide();
   startButton.hide();
   leanGame.show();
   showStats.hide();
@@ -191,7 +191,7 @@ document.addEventListener("gameover", (event) => {
 
   // Show statistics and reset home screen
   gameHeader.show();
-  gameDescription.show();
+  gameDescriptionComponent.show();
   startButton.show();
   leanGame.hide();
   showStats.show();
