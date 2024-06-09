@@ -11,7 +11,8 @@ class PersonalStock extends HTMLElement {
         <link rel="stylesheet" href="styles.css">
         <div class="personal-stock-container">
             <h2>Parts in stock</h2>
-            <p class="personal-stock-empty">Buy parts to build your cars!</p>
+            <div class="personal-stock-list-container">
+            </div>
         </div>
         `;
     this.classList.add("component-style");
@@ -28,12 +29,6 @@ class PersonalStock extends HTMLElement {
   }
 
   update(stock) {
-    if (stock.length !== undefined || stock.length !== null) {
-      this.shadowRoot
-        .querySelector(".personal-stock-empty")
-        .classList.add("hidden");
-      return;
-    }
     stock.forEach((value, key) => {
       const partsForWorkstation = this.partsByWorkstation.get(
         value.workstationFK
@@ -46,21 +41,13 @@ class PersonalStock extends HTMLElement {
       });
     });
     this.render(); // Update UI with updated quantities
-
-    this.personalStockElement.appendChild(stockList);
-    const partsInStockComponents = stock.map((part) => {
-      const partElement = document.createElement("li");
-      partElement.textContent = part.name;
-      return partElement;
-    });
-    stockList.append(...partsInStockComponents);
   }
 
   render() {
-    let stockContainer = this.shadowRoot.querySelector(
-      ".personal-stock-container"
+    let listContainer = this.shadowRoot.querySelector(
+      ".personal-stock-list-container"
     );
-    stockContainer.innerHTML = ""; // Clear the container
+    listContainer.innerHTML = ""; // Clear the container
 
     //Get the parts in stock of current workstation
     const currentWorkstationParts = this.partsByWorkstation.get(
@@ -76,7 +63,7 @@ class PersonalStock extends HTMLElement {
         //Create separate elements for part name and quantity
         const partName = document.createElement("span");
         partName.classList.add("personal-stock-name");
-        partName.textContent = part.name + ": ";
+        partName.textContent = part.name + " ";
 
         const partQuantity = document.createElement("span");
         partQuantity.classList.add("personal-stock-quantity");
@@ -86,7 +73,7 @@ class PersonalStock extends HTMLElement {
         listItem.appendChild(partQuantity);
         stockList.appendChild(listItem);
       }
-      stockContainer.appendChild(stockList);
+      listContainer.appendChild(stockList);
     }
   }
 

@@ -166,8 +166,43 @@ input[type="text"] {
   align-items: left;
   padding: 1%;
   margin: 1%;
-  border-radius: 5px;
 }
+
+.personal-stock-list {
+  list-style: none;
+  padding: 0;
+}
+
+.personal-stock-list li {
+  background-color: #ffffff;
+  border-radius: 8px;
+  margin-bottom: 10px;
+  padding: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s;
+}
+
+.personal-stock-list li:hover {
+  transform: translateY(-5px);
+}
+
+.personal-stock-name {
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.personal-stock-quantity {
+  font-size: 16px;
+}
+
+.personal-stock-empty {
+  color: #666666;
+}
+
+
 
 /*====================
 ===GAME DESCRIPTION===
