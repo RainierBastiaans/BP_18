@@ -96,6 +96,14 @@ class PersonalStock extends HTMLElement {
       this.partsByWorkstation.get(workstationId).push(updatedPart);
     });
   }
+
+  show() {
+    this.classList.remove("hidden");
+  }
+
+  hide() {
+    this.classList.add("hidden");
+  }
 }
 
 customElements.define("personal-stock", PersonalStock);

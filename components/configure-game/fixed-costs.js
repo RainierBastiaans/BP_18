@@ -54,6 +54,14 @@ class FixedCosts extends HTMLElement {
         </li>
     `;
   }
+
+  show() {
+    this.classList.remove("hidden");
+  }
+
+  hide() {
+    this.classList.add("hidden");
+  }
 }
 
 customElements.define("fixed-costs", FixedCosts);

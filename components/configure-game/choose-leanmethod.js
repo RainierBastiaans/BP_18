@@ -6,7 +6,6 @@ class ChooseLeanmethod extends HTMLElement {
     this.shadowRoot.innerHTML = `
       <link rel="stylesheet" href="styles.css">
       <div id="options-container" class="options-container">
-        <h2>Round Summary</h2>
         <h2>Select Lean Method</h2>
         <div id="available-methods" class="options">
         </div>

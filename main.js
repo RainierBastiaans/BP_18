@@ -111,8 +111,7 @@ selectWorkstationComponent.addEventListener("workstationchange", (event) => {
 //BUILD COLUMNS
 //BUILD COLUMN 1
 configGrid.appendColumn(1, playerNameInput);
-configGrid.appendColumn(1, kapitaal);
-//NEEDS TO BE FILLED WITH DATA
+//configGrid.appendColumn(1, kapitaal);
 configGrid.appendColumn(1, personalStockComponent);
 configGrid.appendColumn(1, fixedCosts);
 
@@ -126,9 +125,11 @@ fetchParts().then((fetchedParts) => {
     leanGame.game.buyStock(boughtParts);
   });
   configGrid.appendColumn(2, startButton);
+  configGrid.appendColumn(2, newRoundButton);
 });
 
 //BUILD COLUMN 3
+configGrid.appendColumn(3, chooseLeanMethod);
 configGrid.appendColumn(3, selectWorkstationComponent);
 configGrid.appendColumn(3, playersOverview);
 
@@ -172,6 +173,11 @@ startButton.addEventListener("startgame", (event) => {
   selectWorkstationComponent.hide();
   highscoreBoard.hide();
   shopComponent.hide();
+  playerNameInput.hide();
+  personalStockComponent.hide();
+  fixedCosts.hide();
+  shopComponent.hide();
+  playersOverview.hide();
   leanGame.startGame(playerName, selectedWorkstation, otherPlayers);
 });
 
@@ -191,18 +197,20 @@ newRoundButton.addEventListener("newRound", (event) => {
 document.addEventListener("roundover", (event) => {
   const { gameStats, leanMethods } = event.detail;
 
+  //HIDE
+  leanGame.hide();
+  showIngameStats.hide();
+  //SHOW
   //update statistics
   showStats.update(gameStats);
-
-  // Show statistics and reset home screen
   gameHeader.show();
-  leanGame.hide();
   showStats.show();
-  showIngameStats.hide();
   chooseLeanMethod.showLeanMethods(leanMethods);
   chooseLeanMethod.show();
   newRoundButton.show();
   shopComponent.show();
+  playerNameInput.show();
+  personalStockComponent.show();
 });
 
 //Game end

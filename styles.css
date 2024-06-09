@@ -124,7 +124,7 @@ p {
 }
 
 /*=========================
-=========PROFILE===========
+=========PLAYER===========
 ==========================*/
 .input-container {
   display: flex;
@@ -290,6 +290,145 @@ game-description-container {
   font-size: 1.1em;
   color: #555;
   padding: 5px;
+}
+
+/*==========================
+=====SELECT WORKSTATION=====
+==========================*/
+
+.workstation-icon{
+  width: 3em;
+  height: 3em;
+  padding: 0 5px;
+  margin: 0 5px;
+}
+
+.workstation-options-container {
+  text-align: center;
+  margin: 20px;
+  align-items: center;
+}
+
+.option-display {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.option {
+  margin: 5px 0;
+}
+
+.workstation-options {
+  justify-content: center;
+  align-items: center;
+  margin: 2% 0;
+  max-height: 90%;
+  max-width: 90%;
+  flex-wrap: wrap;
+}
+
+.workstation-option {
+  align-items: center;
+  margin: 10px 0;
+}
+
+.workstation-option input[type="radio"] {
+  display: none;
+}
+
+.workstation-option label {
+  width: 2.2em; 
+  height: 1.5em;
+  font-size: 2em;
+  border-radius: 15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  text-align: center;
+}
+
+.workstation-option button:hover {
+  background-color: #0056b3;
+}
+
+.workstation-option input[type="radio"]:checked+label {
+  background-color: #28a745;
+}
+
+/*====================
+===PLAYERS OVERVIEW====
+====================*/
+.players-overview-container {
+  padding: 20px;
+  background-color: #ADD8E6;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(182, 174, 174, 0.795);
+  max-width: 800px;
+  margin: auto;
+}
+
+.players-overview-container h2 {
+  text-align: center;
+  color: #343a40;
+  margin-bottom: 20px;
+}
+
+.players-overview-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+  padding: 0;
+}
+
+.other-player-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(187, 179, 236, 0.658);
+  transition: transform 0.2s, box-shadow 0.2s;
+  width: 150px;
+  text-align: center;
+}
+
+.other-player-container:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 8px rgba(155, 93, 255, 0.555);
+}
+
+.player-icon {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  margin-bottom: 10px;
+}
+
+.other-player-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.other-player-name {
+  font-size: 1.2em;
+  color: rgba(155, 93, 255, 0.863);
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+.other-player-workstation {
+  font-size: 0.9em;
+  color: #6c757d;
+  font-weight: bold;
 }
 
 /*====================
@@ -571,79 +710,6 @@ button:disabled {
 }
 
 /*! Regular visuals end */
-/** Game options visuals */
-
-.workstation-icon{
-  width: 3em;
-  height: 3em;
-  padding: 0 5px;
-  margin: 0 5px;
-}
-
-.workstation-options-container {
-  text-align: center;
-  margin: 20px;
-  align-items: center;
-}
-
-.option-display {
-  align-items: center;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-
-.option {
-  margin: 5px 0;
-}
-
-.workstation-options {
-  justify-content: center;
-  align-items: center;
-  margin: 2% 0;
-  max-height: 90%;
-  max-width: 90%;
-  flex-wrap: wrap;
-}
-
-.workstation-option {
-  align-items: center;
-  margin: 10px 0;
-}
-
-.workstation-option input[type="radio"] {
-  display: none;
-}
-
-.workstation-option label {
-  width: 2.2em; 
-  height: 1.5em;
-  font-size: 2em;
-  border-radius: 15px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: #007bff;
-  color: #fff;
-  border: none;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-  text-align: center;
-}
-
-.workstation-option button:hover {
-  background-color: #0056b3;
-}
-
-.workstation-option input[type="radio"]:checked+label {
-  background-color: #28a745;
-}
-
-
-
-/*==========================
-==GAME OPTIONS VISUALS END==
-==========================*/
 
 /*==========================
 =======GAME VISUALS========= 

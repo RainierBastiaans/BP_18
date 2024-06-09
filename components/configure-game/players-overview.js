@@ -81,7 +81,8 @@ class PlayersOverview extends HTMLElement {
       // Create a span element for the player workstation
       const otherPlayerWorkstation = document.createElement("span");
       otherPlayerWorkstation.classList.add("other-player-workstation");
-      otherPlayerWorkstation.textContent = player.workstation;
+      otherPlayerWorkstation.textContent =
+        "Stationed on workstation " + player.workstation;
       otherPlayerInfo.appendChild(otherPlayerWorkstation);
 
       otherPlayersList.appendChild(otherPlayerElement);
