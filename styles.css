@@ -198,10 +198,84 @@ input[type="text"] {
   font-size: 16px;
 }
 
-.personal-stock-empty {
-  color: #666666;
+/*====================
+=====FIXED COSTS======
+====================*/
+
+/* Container styling */
+.fixed-costs-container {
+  border: 2px solid #007bff;
+  border-radius: 10px;
+  background-color: #f8f9fa;
+  padding: 20px;
+  max-width: 500px;
+  margin: auto;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
+/* Header styling */
+.fixed-costs-container h2 {
+  text-align: center;
+  color: #007bff;
+  margin-bottom: 20px;
+  font-size: 24px;
+}
+
+/* List container styling */
+.fixed-costs-list-container {
+  background-color: #ffffff;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* List styling */
+.fixed-costs-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+/* List item styling */
+.fixed-costs-list li {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+}
+
+/* Last item has no border */
+.fixed-costs-list li:last-child {
+  border-bottom: none;
+}
+
+/* Icon styling */
+.fixed-cost-icon {
+  width: 40px;
+  height: 40px;
+  margin-right: 15px;
+}
+
+/* Name styling */
+.fixed-cost-name {
+  flex: 1;
+  font-weight: bold;
+  font-size: 18px;
+  color: #333;
+}
+
+/* Price styling */
+.fixed-cost-price {
+  font-size: 18px;
+  color: #28a745;
+  font-weight: bold;
+}
+
+/* Hover effect for list items */
+.fixed-costs-list li:hover {
+  background-color: #e9ecef;
+  transition: background-color 0.3s ease;
+}
 
 
 /*====================

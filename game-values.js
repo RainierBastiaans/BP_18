@@ -41,7 +41,6 @@ export const gameValues = {
   partsPerRound: 20,
 
   //Price you have to pay each round for a part that is not used
-  //REFACTOR
   pricePerPart: 100,
 
   //Number of rounds

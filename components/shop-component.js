@@ -194,7 +194,7 @@ class ShopComponent extends HTMLElement {
       partDetails.appendChild(partNameElement);
 
       const priceElement = document.createElement("span");
-      priceElement.textContent = `$${part.price.toFixed(2)}`; // Format price with 2 decimals
+      priceElement.textContent = `€ ${part.price.toFixed(2)}`; // Format price with 2 decimals
       partDetails.appendChild(priceElement);
 
       listItem.appendChild(partDetails);

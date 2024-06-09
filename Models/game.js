@@ -239,7 +239,7 @@ class Game {
   }
 
   getStockFromWorkstation(workstationIndex) {
-    console.log(workstationIndex)
+    console.log(workstationIndex);
     return this.workstations.get(workstationIndex).getStock();
   }
 
@@ -249,6 +249,15 @@ class Game {
 
   buyStock(parts) {
     this.stock.addPartsToStock(parts);
+  }
+
+  getFixedCosts() {
+    let fixedCosts = {};
+    fixedCosts.startCapital = gameValues.startCapital;
+    fixedCosts.staff = gameValues.staffCost;
+    fixedCosts.facility = gameValues.facilityCost;
+    fixedCosts.pricePerPart = gameValues.pricePerPart;
+    return fixedCosts;
   }
 }
 

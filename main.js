@@ -21,10 +21,12 @@ import { ConfigGrid } from "./components/config-grid.js";
 import { PlayerName } from "./components/player-name.js";
 import { ShopComponent } from "./components/shop-component.js";
 import { PersonalStock } from "./components/personal-stock.js";
+import { LiveStock } from "./components/live-stock.js";
+import { FixedCosts } from "./components/fixed-costs.js";
+import { PlayersOverview } from "./components/players-overview.js";
 
 //MODELS
 import { LeanMethodService } from "./lean-methods/lean-method-service.js";
-import { LiveStock } from "./components/live-stock.js";
 
 /*======================
 ========GAME LOGIC======
@@ -64,8 +66,9 @@ const gameDescriptionComponent = new GameDescriptionContainer();
 const highscoreBoard = new HighscoreBoard(db); // Pass db instance
 const chooseLeanMethod = new ChooseLeanmethod();
 const newRoundButton = new NewRoundButton();
-const fixedCosts = document.createElement("fixed-costs");
+const fixedCosts = new FixedCosts(leanGame.game.getFixedCosts());
 const kapitaal = document.createElement("kapitaal");
+const playersOverview = new PlayersOverview();
 
 //START VIEW
 
@@ -108,6 +111,7 @@ fetchParts().then((fetchedParts) => {
 
 //BUILD COLUMN 3
 configGrid.appendColumn(3, selectWorkstationComponent);
+configGrid.appendColumn(3, playersOverview);
 
 //IN-GAME STATS
 const ingameStatsContainer = document.getElementById("ingame-stats-container");

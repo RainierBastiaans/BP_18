@@ -7,22 +7,21 @@ class ShowIngameStats extends HTMLElement {
     <div class="ingame-statistics-container">
       <div class="ingame-statistics-item" title="Number of completed cars">
           <img src="img/completed.svg" alt="completed cars" >
-          <p id="carsCompleted">0</p>
+          <p id="carsCompleted">€ 0</p>
       </div>
       <div class="ingame-statistics-item" title="Number of broken cars">
           <img src="img/broken.svg" alt="broken cars" >
-          <p id="carsBroken">0</p>
+          <p id="carsBroken">€ 0</p>
       </div>
       <div class="ingame-statistics-item" title="Total profit">
           <img src="img/profit.svg" alt="profit" >
-          <p id="totalIncome">0€</p>
+          <p id="totalIncome">€ 0</p>
       </div>
       <div class="ingame-statistics-item" title="Total capital">
           <img src="img/capital.svg" alt="capital" >
-          <p id="capital">0€</p>
+          <p id="capital">€ 0</p>
       </div>
     </div>
-          
       `;
     this.carsCompletedElement = this.shadowRoot.querySelector("#carsCompleted");
     this.carsBrokenElement = this.shadowRoot.querySelector("#carsBroken");
