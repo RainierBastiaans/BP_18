@@ -4,12 +4,12 @@ import "./components/game-description-container.js";
 import "./components/start-button.js";
 import "./components/show-stats.js";
 import "./components/show-ingame-stats.js";
-import "./components/game-options.js";
+import "./components/select-workstation.js";
 import { HighscoresDB } from "./db/highscores.js";
 //COMPONENTS
 import { HighscoreBoard } from "./components/highscore-board.js";
 import { LeanGame } from "./components/lean-game.js";
-import { GameOptions } from "./components/game-options.js";
+import { SelectWorkstation } from "./components/select-workstation.js";
 import { ChooseLeanmethod } from "./components/choose-leanmethod.js";
 import { StartButton } from "./components/start-button.js";
 import { GameHeader } from "./components/game-header.js";
@@ -56,7 +56,7 @@ await fetchParts().then((fetchedParts) => {
   leanGame.game.stock.addObserver(liveStockComponent);
 });
 
-const gameOptions = new GameOptions();
+const selectWorkstationComponent = new SelectWorkstation();
 const playerNameInput = new PlayerName(leanMethodService.getAllLeanMethods());
 const startButton = new StartButton(playerNameInput.playerName);
 const gameHeader = new GameHeader();
@@ -82,7 +82,7 @@ homePage.appendChild(chooseLeanMethod);
 homePage.appendChild(highscoreBoard);
 homePage.appendChild(newRoundButton);
 
-gameOptions.addEventListener("workstationchange", (event) => {
+selectWorkstationComponent.addEventListener("workstationchange", (event) => {
   selectedWorkstation = parseInt(event.detail.workstation) || 1;
 });
 
@@ -107,7 +107,7 @@ fetchParts().then((fetchedParts) => {
 });
 
 //BUILD COLUMN 3
-configGrid.appendColumn(3, gameOptions);
+configGrid.appendColumn(3, selectWorkstationComponent);
 
 //IN-GAME STATS
 const ingameStatsContainer = document.getElementById("ingame-stats-container");
@@ -146,7 +146,7 @@ startButton.addEventListener("startgame", (event) => {
   leanGame.show();
   showStats.hide();
   showIngameStats.show();
-  gameOptions.hide();
+  selectWorkstationComponent.hide();
   highscoreBoard.hide();
   shopComponent.hide();
   leanGame.startGame(playerName, selectedWorkstation);
@@ -196,7 +196,7 @@ document.addEventListener("gameover", (event) => {
   leanGame.hide();
   showStats.show();
   showIngameStats.hide();
-  gameOptions.show();
+  selectWorkstationComponent.show();
   highscoreBoard.show();
 });
 

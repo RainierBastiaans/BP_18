@@ -95,22 +95,46 @@ class ShopComponent extends HTMLElement {
     this.shadowRoot.appendChild(shopElement);
     this.renderWorkstationParts();
 
+    const addAmountButtons = document.createElement("div");
+    addAmountButtons.classList.add("shop-add-amount-buttons");
+    shopElement.appendChild(addAmountButtons);
+
+    // Button to add 1 to all quantities
+    const addOneButton = document.createElement("button");
+    addOneButton.classList.add("shop-add-amount-button"); // Add a class for styling
+    addOneButton.textContent = "Add 1 to All";
+    addOneButton.addEventListener("click", () =>
+      this.addAmountToAllQuantities(1)
+    );
+    addAmountButtons.appendChild(addOneButton);
+
     // Button to add 5 to all quantities
     const addFiveButton = document.createElement("button");
-    addFiveButton.classList.add("shop-add-five-button"); // Add a class for styling
+    addFiveButton.classList.add("shop-add-amount-button"); // Add a class for styling
     addFiveButton.textContent = "Add 5 to All";
-    addFiveButton.addEventListener("click", () => this.addFiveToQuantities());
-    shopElement.appendChild(addFiveButton);
+    addFiveButton.addEventListener("click", () =>
+      this.addAmountToAllQuantities(5)
+    );
+    addAmountButtons.appendChild(addFiveButton);
+
+    // Button to add 10 to all quantities
+    const addTenButton = document.createElement("button");
+    addTenButton.classList.add("shop-add-amount-button"); // Add a class for styling
+    addTenButton.textContent = "Add 10 to All";
+    addTenButton.addEventListener("click", () =>
+      this.addAmountToAllQuantities(10)
+    );
+    addAmountButtons.appendChild(addTenButton);
   }
 
   // Function to increment all quantities by 5
-  addFiveToQuantities() {
+  addAmountToAllQuantities(amount) {
     const partsList = this.shadowRoot.querySelector(".shop-parts-list");
     const quantityInputs = partsList.querySelectorAll("input[type='number']");
 
     for (const input of quantityInputs) {
-      const currentValue = parseInt(input.value, 10); // Parse string value to integer
-      const newValue = currentValue + 5;
+      const currentValue = parseInt(input.value, 10); // Parse string value to integer with base 10 (=decimal)
+      const newValue = currentValue + amount;
       input.value = Math.max(newValue, 0); // Ensure value doesn't go below 0
     }
   }
