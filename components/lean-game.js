@@ -15,8 +15,8 @@ class LeanGame extends HTMLElement {
 <p></p>
 <button id="move-car-button">Move Car to Next Station</button>
 <p></p>
-<button id = "quality-control">Quality Control</button> 
-<button id = "remove-button">Remove Car</button>
+<button id="quality-control" class"circle-button" title="Quality Control" ></button> 
+<button id="remove-button" class"circle-button" title="Remove Car" ></button>
 <div class="car-container" id="car-container"></div>
 <div id="current-workstation"></div>
 <div class="game-timer">
