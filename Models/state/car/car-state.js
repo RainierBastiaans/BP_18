@@ -1,6 +1,5 @@
 class CarState {
   constructor() {
-    this.qualityControlValue;
   }
 
   isComplete() {
