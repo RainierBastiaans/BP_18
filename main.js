@@ -149,6 +149,8 @@ liveContainer.classList.add("hidden");
 gameContainer.classList.add("hidden");
 chooseLeanMethod.hide();
 showStats.hide();
+showIngameStats.hide();
+gameContainer.classList.add("hidden");
 leanGame.hide();
 newRoundButton.hide();
 highscoreBoard.hide();
@@ -167,6 +169,7 @@ startButton.addEventListener("startgame", (event) => {
   gameHeader.hide();
   gameDescriptionComponent.hide();
   startButton.hide();
+  gameContainer.classList.remove("hidden");
   leanGame.show();
   showStats.hide();
   showIngameStats.show();
@@ -188,6 +191,7 @@ newRoundButton.addEventListener("newRound", (event) => {
   chooseLeanMethod.hide();
   showStats.hide();
   showIngameStats.show();
+  gameContainer.classList.remove("hidden");
   leanGame.show();
   shopComponent.hide();
   leanGame.newRound(selectedLeanMethod);
@@ -204,6 +208,8 @@ document.addEventListener("roundover", (event) => {
   //update statistics
   showStats.update(gameStats);
   gameHeader.show();
+  gameContainer.classList.add("hidden");
+  leanGame.hide();
   showStats.show();
   chooseLeanMethod.showLeanMethods(leanMethods);
   chooseLeanMethod.show();
@@ -224,6 +230,7 @@ document.addEventListener("gameover", (event) => {
   gameHeader.show();
   gameDescriptionComponent.show();
   startButton.show();
+  gameContainer.classList.add("hidden");
   leanGame.hide();
   showStats.show();
   showIngameStats.hide();

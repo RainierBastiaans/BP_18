@@ -48,18 +48,18 @@ class Bot extends Occupant {
         );
         break;
       case "performQualityControl":
-        console.log('qc')
+        //console.log('qc')
         car.qualityControl(car.parts);
         break;
       case "removeCar":
-        console.log('rm')
+        //console.log('rm')
         car.remove();
         break;
       case "move":
         this.game.manualMove(car); // Move completed car
         break;
       default:
-        console.error(`Unexpected action: ${action}`);
+        //console.error(`Unexpected action: ${action}`);
     }
   }
 

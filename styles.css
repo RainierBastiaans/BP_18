@@ -586,8 +586,8 @@ input[type="number"] {
 
 #roundMessage {
   position: absolute;
-  top: 50px;
-  left: 150px;
+  top: 18vh;
+  left: 48vw;
 }
 
 label {
@@ -716,7 +716,10 @@ button:disabled {
 ==========================*/
 #game-container {
   text-align: center;
-  position: relative;
+  background: url("./img/background/game-station.svg") center center;
+  background-size: cover;
+  overflow: hidden;
+  height: 100vh;
 }
 
 /*========================= 
@@ -726,13 +729,13 @@ button:disabled {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 2px auto;
-  border: 2px solid black;
+  border: 5px solid black;
+  background-color: rgb(190, 184, 122);
   width: auto;
-  height: 40vh;
-  max-width: 400px;
-  max-width: 470px;
-  position: relative;
+  height: 50vh;
+  position: absolute;
+  top: 30vh;
+  left: 40vw;
   aspect-ratio: 8 / 10;
 }
 
@@ -744,31 +747,44 @@ button:disabled {
 
 .part-buttons {
   display: grid;
-  grid-template-columns: repeat(10, 9%);
-  grid-template-rows: repeat(3, 10vh);
-  width: 100%;
-  margin-top: 5px;
+  align-items: center;
+  justify-content: center;
+  grid-template-columns: repeat(3, 8vw);
+  grid-template-rows: repeat(10, 6.5vh);
+  width: 25vw;
+  height: 65vh;
+  background-color: rgb(180, 184, 241);
+  border: 5px solid black;
+  position: absolute;
+  left: 6vw;
+  top: 20.5vh;
+
 }
 
 .part-buttons-oderly {
   display: grid;
-  grid-template-columns: repeat(4, 0.5fr);
-  max-width: 1100px;
-  margin-left: 10%;
+  grid-template-rows: repeat(4, 0.5fr);
+  background-color: rgb(180, 184, 241);
+  border: 5px solid black;
+  position: absolute;
+  left: 6vw;
+  top: 20.5vh;
+  width: 30vw;
+  height: 65vh;
 }
 
 .part-container {
-  justify-content: center;
   align-content: center;
   justify-items: center;
-  align-items: center;
+  background-color: rgb(226 228 247);
+  border: 5px solid black;
+  margin: 10px auto;
+  width: 260px;
 }
 
 .part-button {
-  min-width: 35px;
-  max-width: 100px;
-  min-height: 35px;
-  max-height: 90px;
+  max-width: 70px;
+  max-height: 56px;
   padding: 10px;
 }
 
@@ -779,6 +795,26 @@ button:disabled {
 .part-button:hover:disabled {
   background-color: rgba(245, 123, 123, 0.445);
 }
+
+#move-car-button {
+  position: absolute;
+  top: 24vh;
+  left: 44vw;
+}
+
+#quality-control {
+  position: absolute;
+  top: 30vh;
+  left: 63vw;
+}
+
+#remove-button {
+  position: absolute;
+  top: 35vh;
+  left: 63vw;
+}
+
+
 
 /*==============================
 ===WORKSTATIONS PARTS VISUALS===
@@ -981,8 +1017,8 @@ button:disabled {
 .timer {
   margin-top: 10px;
   position: absolute;
-  top: 50%;
-  left: 10%;
+  top: 40vh;
+  right: 8vw;
 }
 
 .timer>svg {
@@ -1025,6 +1061,14 @@ button:disabled {
   align-items: center;
   width: 100%;
   margin: 10px 0;
+}
+
+.car-position-box {
+  display: flex;
+  align-items: center;
+  align-content: center;
+  justify-content: center;
+  justify-items: center;
 }
 
 .car-position {
@@ -1083,7 +1127,7 @@ button:disabled {
 }
 
 .ingame-statistics-item {
-  margin: 10px;
+  margin: 5px;
   display: flex;
 }
 
@@ -1118,13 +1162,32 @@ button:disabled {
   margin-top: 5px;
   font-weight: bold;
 }
-#live {
-  display: flex; /* Enable flexbox layout for #live children */
-  flex: 1; /* Make #live take up remaining space after #content-container */
-  height: 75px; /* Set full viewport height for #live */
+
+input[type="number"] {
+  width: 60px;
+  padding: 5px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
 }
 
+/* Buy button styles */
+.shop-buy-button {
+  width: 100%;
+  background-color: #28a745;
+  color: #fff;
+  border: none;
+  padding: 15px 0;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  font-size: 1.1em;
+  font-weight: bold;
+  margin-top: 20px;
+}
 
+.shop-buy-button:hover {
+  background-color: #218838;
+} 
 
 
 /*! Statisctics visuals end */

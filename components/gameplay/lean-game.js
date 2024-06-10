@@ -8,15 +8,16 @@ class LeanGame extends HTMLElement {
     const gameTemplate = document.createElement("template");
     gameTemplate.innerHTML = `
 <link rel="stylesheet" href="styles.css">
-<h4 id="roundMessage">Round </h4>
+<h2 id="roundMessage">Round </h2>
 <p id="message">Work On Workstation</p>
-<div class="car-container" id="car-container"></div>
 <button id="previous-station-button">Previous Station</button>
 <button id="next-station-button">Next Station</button>
 <p></p>
 <button id="move-car-button">Move Car to Next Station</button>
+<p></p>
 <button id = "quality-control">Quality Control</button> 
 <button id = "remove-button">Remove Car</button>
+<div class="car-container" id="car-container"></div>
 <div id="current-workstation"></div>
 <div class="game-timer">
   <svg>
@@ -264,15 +265,20 @@ class LeanGame extends HTMLElement {
     button.setAttribute("id", `${part}${index}`);
     button.setAttribute("part", part);
     button.setAttribute("type", "image");
-    button.setAttribute("src", `./img/${part}.png`);
+    button.setAttribute("src", `./img/parts/${part}.png`);
     button.setAttribute("alt", `Image of ${part}`);
     button.classList.add("part-button");
     button.dataset.partName = part;
 
     button.addEventListener("click", this.handleClick.bind(this));
-    button.disabled = this.game
-      .getCarFromWorkstation(this.getCurrentWorkstation().id)
-      .isAdded(part);
+
+    if (this.getCurrentWorkstation().getRemainingTime()) {
+      button.disabled = true;
+    } else {
+      button.disabled = this.game
+        .getCarFromWorkstation(this.getCurrentWorkstation().id)
+        .isAdded(part);
+    }
 
     return button;
   }
@@ -327,7 +333,9 @@ class LeanGame extends HTMLElement {
             "just-in-time"
           ).isEnabled
             ? `Just enough stock (JIT)`
-            : `${Number(this.game.getAmountOfPart(part)).toString()} in stock.`;
+            : `${part} in stock: ${Number(
+                this.game.getAmountOfPart(part)
+              ).toString()}`;
           partContainer.appendChild(stockCount);
           buttonContainer.appendChild(partContainer);
         });
@@ -370,9 +378,13 @@ class LeanGame extends HTMLElement {
           const gridItems = buttonContainer.getElementsByClassName("grid-item");
           this.partPosition.forEach((position) => {
             let button = position.button;
-            button.disabled = this.game
-              .getCarFromWorkstation(this.getCurrentWorkstation().id)
-              .isAdded(button.getAttribute("part"));
+            if (this.getCurrentWorkstation().getRemainingTime()) {
+              button.disabled = true;
+            } else {
+              button.disabled = this.game
+                .getCarFromWorkstation(this.getCurrentWorkstation().id)
+                .isAdded(button.getAttribute("part"));
+            }
             gridItems[position.index].appendChild(button);
           });
         }
@@ -436,7 +448,7 @@ class LeanGame extends HTMLElement {
           const carPart = document.createElement("img");
           carPart.className = "car-part";
           carPart.id = part;
-          carPart.src = `./img/${part}.png`;
+          carPart.src = `./img/parts/${part}.png`;
           carPart.alt = `image of ${part}`;
           carContainer.append(carPart);
         }
@@ -444,6 +456,11 @@ class LeanGame extends HTMLElement {
       this.shadowRoot.appendChild(carContainer);
     } catch (error) {
       //console.error(error);
+    }
+    if (workstation.getRemainingTime()) {
+      carContainer.style.backgroundColor = "#ed4f4f";
+    } else {
+      carContainer.style.backgroundColor = "";
     }
   }
 
