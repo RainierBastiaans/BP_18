@@ -18,15 +18,6 @@ class ChooseLeanmethod extends HTMLElement {
   }
 
   connectedCallback() {
-    // this.leanMethodRadioButtons = this.shadowRoot.querySelectorAll(
-    //   'input[type="radio"][name="game-option"]'
-    // );
-    // this.leanMethodRadioButtons.forEach((radioButton) => {
-    //   radioButton.addEventListener(
-    //     "change",
-    //     this.handleLeanMethodChange.bind(this)
-    //   );
-    // });
     this.showLeanMethods(this.leanMethods);
   }
 
@@ -41,9 +32,6 @@ class ChooseLeanmethod extends HTMLElement {
 
     leanMethods.forEach((leanMethod) => {
       if (!leanMethod.isEnabled) {
-        // const option = document.createElement("div");
-        // option.classList.add("option");
-
         availableMethodsContainer.insertAdjacentHTML(
           "beforeend",
           this.createLeanMethodOption(leanMethod)
@@ -60,20 +48,6 @@ class ChooseLeanmethod extends HTMLElement {
             this.handleLeanMethodChange.bind(this)
           );
         }
-
-        // const label = document.createElement("label");
-        // label.textContent = leanMethod.name;
-        // label.htmlFor = leanMethod.id;
-
-        // Create tooltip element
-        // const tooltip = document.createElement("span");
-        // tooltip.classList.add("tooltip");
-        // tooltip.textContent = leanMethod.description;
-
-        // // option.appendChild(label);
-        // option.appendChild(tooltip);
-
-        // availableMethodsContainer.appendChild(option);
       } else {
         appliedMethodsContainer.insertAdjacentHTML(
           "beforeend",
