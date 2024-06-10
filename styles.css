@@ -862,6 +862,13 @@ button:disabled {
   background-repeat: no-repeat;
   background-position: center center;
   background-size: 50%;
+  background-color: rgb(180, 184, 241);
+}
+
+#previous-station-button:disabled {
+  cursor: not-allowed;
+  background: rgba(0, 0, 0, 0.08);
+  color: rgba(0, 0, 0, 0.3);
 }
 
 #next-station-button {
@@ -874,6 +881,13 @@ button:disabled {
   background-repeat: no-repeat;
   background-position: center center;
   background-size: 50%;
+  background-color: rgb(180, 184, 241);
+}
+
+#next-station-button:disabled {
+  cursor: not-allowed;
+  background: rgba(0, 0, 0, 0.08);
+  color: rgba(0, 0, 0, 0.3);
 }
 
 .no-P-M {
