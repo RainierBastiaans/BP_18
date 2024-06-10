@@ -10,8 +10,8 @@ class LeanGame extends HTMLElement {
 <link rel="stylesheet" href="styles.css">
 <h2 id="roundMessage">Round </h2>
 <p id="message">Work On Workstation</p>
-<button id="previous-station-button">Previous Station</button>
-<button id="next-station-button">Next Station</button>
+<button id="previous-station-button" title="Previous Station"></button>
+<button id="next-station-button" title="Next Station"></button>
 <p></p>
 <button id="move-car-button">Move Car to Next Station</button>
 <p></p>
