@@ -104,7 +104,6 @@ class Game {
       this.endGame();
     });
   }
-  
 
   // Add a setter for selectedWorkstation
   set selectedWorkstation(value) {
@@ -124,7 +123,7 @@ class Game {
   newRound(leanMethod) {
     const roundnumber = this.rounds.size + 1;
     const newRound = new Round(roundnumber);
-    this.stats.startRound()
+    this.stats.startRound();
     this.rounds.set(roundnumber, newRound);
     this.currentRound = newRound;
     this.newLeanMethod(leanMethod);
@@ -162,7 +161,6 @@ class Game {
       return;
     }
     this.stats.newRound(); //stats already start at the beginning
-    
   }
 
   newCar() {
@@ -232,7 +230,6 @@ class Game {
 
   endGame() {
     this.isOver = true;
-    this.updateHighscores();
     this.updateHighscores();
   }
 
