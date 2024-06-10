@@ -153,7 +153,6 @@ showIngameStats.hide();
 gameContainer.classList.add("hidden");
 leanGame.hide();
 newRoundButton.hide();
-highscoreBoard.hide();
 showIngameStats.hide();
 liveStockComponent.hide();
 
@@ -165,35 +164,45 @@ chooseLeanMethod.addEventListener("leanmethodchange", (event) => {
 // Game start
 startButton.addEventListener("startgame", (event) => {
   const playerName = event.detail.playerName;
-  gameContainer.classList.remove("hidden");
+
+  //HIDE
+  configGrid.hide();
   gameHeader.hide();
   gameDescriptionComponent.hide();
   startButton.hide();
-  gameContainer.classList.remove("hidden");
-  leanGame.show();
   showStats.hide();
-  showIngameStats.show();
   selectWorkstationComponent.hide();
   highscoreBoard.hide();
   shopComponent.hide();
   playerNameInput.hide();
   personalStockComponent.hide();
   fixedCosts.hide();
-  shopComponent.hide();
   playersOverview.hide();
+
+  //SHOW
+  gameContainer.classList.remove("hidden");
+  leanGame.show();
+  showIngameStats.show();
+
+  // Start the game
   leanGame.startGame(playerName, selectedWorkstation, otherPlayers);
 });
 
 newRoundButton.addEventListener("newRound", (event) => {
-  // Access the selected lean method from the event detail
+  //HIDE
+  configGrid.hide();
   gameHeader.hide();
   newRoundButton.hide();
   chooseLeanMethod.hide();
   showStats.hide();
+  shopComponent.hide();
+
+  //SHOW
   showIngameStats.show();
   gameContainer.classList.remove("hidden");
   leanGame.show();
-  shopComponent.hide();
+
+  // Start new round
   leanGame.newRound(selectedLeanMethod);
 });
 
@@ -202,14 +211,14 @@ document.addEventListener("roundover", (event) => {
   const { gameStats, leanMethods } = event.detail;
 
   //HIDE
-  leanGame.hide();
-  showIngameStats.hide();
-  //SHOW
-  //update statistics
-  showStats.update(gameStats);
-  gameHeader.show();
   gameContainer.classList.add("hidden");
   leanGame.hide();
+  showIngameStats.hide();
+  leanGame.hide();
+
+  //SHOW
+  configGrid.show();
+  gameHeader.show();
   showStats.show();
   chooseLeanMethod.showLeanMethods(leanMethods);
   chooseLeanMethod.show();
@@ -217,23 +226,31 @@ document.addEventListener("roundover", (event) => {
   shopComponent.show();
   playerNameInput.show();
   personalStockComponent.show();
+  fixedCosts.show();
+  playersOverview.show();
+
+  //update statistics
+  showStats.update(gameStats);
 });
 
 //Game end
 document.addEventListener("gameover", (event) => {
   const { gameStats } = event.detail;
 
-  //update statistics
-  showStats.update(gameStats);
-
-  // Show statistics and reset home screen
-  gameHeader.show();
-  gameDescriptionComponent.show();
-  startButton.show();
+  //HIDE
   gameContainer.classList.add("hidden");
   leanGame.hide();
   showStats.show();
   showIngameStats.hide();
+
+  //update statistics
+  showStats.update(gameStats);
+
+  //SHOW
+  configGrid.show();
+  gameHeader.show();
+  gameDescriptionComponent.show();
+  startButton.show();
   selectWorkstationComponent.show();
   highscoreBoard.show();
 });

@@ -27,12 +27,10 @@ class Game {
   }
 
   partExists(partName) {
-    const matchingPart = this.parts.find(((part)) => part.id === partName);
+    const matchingPart = this.parts.find((part) => part.id === partName);
     if (!matchingPart) {
       throw new Error(
-        
         `Part not found: '${partName}' does not exist in available parts`
-      
       );
     }
     return true;
@@ -41,16 +39,12 @@ class Game {
   set db(db) {
     if (!(db instanceof HighscoresDB)) {
       throw new Error("Invalid db: must be of type HighscoreDB");
-      throw new Error("Invalid db: must be of type HighscoreDB");
     }
     this._db = db; // Use a private property to prevent further modification
   }
 
   set leanMethodService(leanMethodService) {
     if (!(leanMethodService instanceof LeanMethodService)) {
-      throw new Error(
-        "Invalid leanMethodService: must be of type LeanMethodService"
-      );
       throw new Error(
         "Invalid leanMethodService: must be of type LeanMethodService"
       );
@@ -117,20 +111,15 @@ class Game {
     this.newCar();
   }
 
-
   // Add a setter for selectedWorkstation
   set selectedWorkstation(value) {
     if (!Number.isInteger(value) || value < 1 || value > 5) {
       throw new Error(
         "Invalid selectedWorkstation: must be an integer between 1 and 5"
       );
-      throw new Error(
-        "Invalid selectedWorkstation: must be an integer between 1 and 5"
-      );
     }
     this._selectedWorkstation = value;
   }
-
 
   // Add a getter for selectedWorkstation (optional)
   get selectedWorkstation() {
@@ -156,13 +145,13 @@ class Game {
     this.bots.forEach((bot) => bot.startWorking());
     this.createOrRefreshWorkstations();
     this.currentRound.emitter.on("roundoverInModel", () => {
-      this.endRound();;
+      this.endRound();
     });
   }
 
   newLeanMethod(method) {
-    if  (method)  {
-      this.leanMethodService.enableLeanMethod(method);;
+    if (method) {
+      this.leanMethodService.enableLeanMethod(method);
     }
   }
 
@@ -173,7 +162,7 @@ class Game {
   endRound() {
     this.bots.forEach((bot) => bot.stopWorking());
     this.stock.endRound();
-    if (this.currentRound.roundNumber === gameValues.numberOfRounds)  {
+    if (this.currentRound.roundNumber === gameValues.numberOfRounds) {
       this.endGame();
     }
   }
@@ -193,23 +182,12 @@ class Game {
       throw new Error(
         "Invalid workstationId: must be an integer between 1 and 5"
       );
-    if (
-      !Number.isInteger(workstationId) ||
-      workstationId < 1 ||
-      workstationId > 5
-    ) {
-      throw new Error(
-        "Invalid workstationId: must be an integer between 1 and 5"
-      );
     }
-
 
     // Find the car with matching state
     const matchingCar = Array.from(this.cars.values()).find(
       (car) =>
-       
         car.state instanceof CarAtWorkstation &&
-       
         car.state.workstationId === workstationId
     );
     return matchingCar; // Might return undefined if no car is found
@@ -229,18 +207,16 @@ class Game {
   }
 
   addPart(part, workstationId) {
-    if  (this.partExists(part))  {
+    if (this.partExists(part)) {
       this.moveWaitingCars();
       const currentWorkstation = this.workstations.get(workstationId);
       const car = this.getCarFromWorkstation(workstationId);
 
       try {
         currentWorkstation.addPartToCar(
-          
           this.workstations,
-         
+
           this.leanMethodService
-        
         );
         this.stock.requestPart(part);
         this.cars.get(car.id).addPart(part, this.leanMethodService);
@@ -250,15 +226,12 @@ class Game {
     }
   }
 
-
   manualMove(car) {
     if (!(car instanceof Car)) {
-      throw new Error("Invalid car: must be of type Car");
       throw new Error("Invalid car: must be of type Car");
     }
     car.manualMove(this.cars, this.workstations);
   }
-
 
   endGame() {
     this.isOver = true;
@@ -271,9 +244,6 @@ class Game {
   }
 
   getAmountOfPart(part) {
-  }
-
-  getAmountOfPart(part) {
     return this.stock.getAmountOfPart(part);
   }
 
@@ -282,12 +252,12 @@ class Game {
     return this.workstations.get(workstationIndex).getStock();
   }
 
-  getRemainingTime()  {
-    return this.currentRound.getRemainingTime();;
+  getRemainingTime() {
+    return this.currentRound.getRemainingTime();
   }
 
-  buyStock(parts)  {
-    this.stock.addPartsToStock(parts);;
+  buyStock(parts) {
+    this.stock.addPartsToStock(parts);
   }
 
   getFixedCosts() {
