@@ -831,10 +831,17 @@ button:disabled {
   border: 3px solid black;
   border-radius: 50%;
   text-align: center;
+  background-color: rgb(180, 184, 241);
   background-image: url(./img/quality-control/checkmark.svg);
   background-repeat: no-repeat;
   background-position: center center;
   background-size: 60%;
+}
+
+#quality-control:disabled {
+  cursor: not-allowed;
+  background-color: rgba(0, 0, 0, 0.08);
+  color: rgba(0, 0, 0, 0.3);
 }
 
 #remove-button {
