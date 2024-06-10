@@ -43,10 +43,10 @@ const liveContainer = document.getElementById("live");
 let db = new HighscoresDB();
 //Normally this would be fetched from the database
 let otherPlayers = [
-  { name: "Bot 2", workstation: 2 },
-  { name: "Bottebot 3", workstation: 3 },
-  { name: "Boterbot 4", workstation: 4 },
-  { name: "i-robot 5", workstation: 5 },
+  { name: "OG Bot 2", workstation: 2 },
+  { name: "Bender bot 3", workstation: 3 },
+  { name: "Butter bot 4", workstation: 4 },
+  { name: "i-Robot 5", workstation: 5 },
 ];
 let liveStockComponent;
 let personalStockComponent;
