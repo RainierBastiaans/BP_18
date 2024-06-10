@@ -12,9 +12,9 @@ class LeanGame extends HTMLElement {
 <p id="message">Work On Workstation</p>
 <button id="previous-station-button" title="Previous Station"></button>
 <button id="next-station-button" title="Next Station"></button>
-<p></p>
+<p class="no-P-M"></p>
 <button id="move-car-button">Move Car to Next Station</button>
-<p></p>
+<p class="no-P-M"></p>
 <button id="quality-control" class"circle-button" title="Quality Control" ></button> 
 <button id="remove-button" class"circle-button" title="Remove Car" ></button>
 <div class="car-container" id="car-container"></div>
