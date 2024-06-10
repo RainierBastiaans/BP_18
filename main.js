@@ -28,6 +28,19 @@ import { PlayersOverview } from "./components/configure-game/players-overview.js
 //MODELS
 import { LeanMethodService } from "./lean-methods/lean-method-service.js";
 
+
+
+//GLOBAL ERROR HANDLER
+window.onerror = function(message, source, lineno, colno, error) {
+  // Log the error to the console or send it to a logging service
+  console.error('Global error occurred:', message, 'at', source, 'line', lineno, 'column', colno, error);
+  
+  // You can also display a user-friendly error message to the user
+  alert('An error occurred. Please try again later.');
+  return true; // Prevent the default browser error handling
+};
+
+
 /*======================
 ========GAME LOGIC======
 ======================*/
