@@ -19,7 +19,7 @@ class GameStats extends Subject {
     this.facilityCost = gameValues.facilityCost;
     this.staffCost = gameValues.staffCost;
     this.cars = new Map()
-    this.averageCarCompletionTime = undefined;
+    this.averageCarCompletionTime = 0;
   }
   addObserver(observer) {
     this.observers.push(observer);
