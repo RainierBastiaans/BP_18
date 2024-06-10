@@ -22,6 +22,10 @@ class CarAtWorkstation extends CarState {
     return parts;
   }
 
+  inProgress(){
+    return true;
+  }
+
   //returns true if car is broken
   qualityControl(parts) {
     // Check if all parts marked as added (partAdded === true) are not broken (broken === false)
