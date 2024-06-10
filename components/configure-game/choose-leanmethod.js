@@ -14,19 +14,20 @@ class ChooseLeanmethod extends HTMLElement {
       </div>
     `;
     this.classList.add("component-style");
-    this.leanMethods = leanMethods;
+    this.leanMethods = leanMethods || [];
   }
 
   connectedCallback() {
-    this.leanMethodRadioButtons = this.shadowRoot.querySelectorAll(
-      'input[type="radio"][name="game-option"]'
-    );
-    this.leanMethodRadioButtons.forEach((radioButton) => {
-      radioButton.addEventListener(
-        "change",
-        this.handleLeanMethodChange.bind(this)
-      );
-    });
+    // this.leanMethodRadioButtons = this.shadowRoot.querySelectorAll(
+    //   'input[type="radio"][name="game-option"]'
+    // );
+    // this.leanMethodRadioButtons.forEach((radioButton) => {
+    //   radioButton.addEventListener(
+    //     "change",
+    //     this.handleLeanMethodChange.bind(this)
+    //   );
+    // });
+    this.showLeanMethods(this.leanMethods);
   }
 
   showLeanMethods(leanMethods) {
@@ -40,45 +41,67 @@ class ChooseLeanmethod extends HTMLElement {
 
     leanMethods.forEach((leanMethod) => {
       if (!leanMethod.isEnabled) {
-        const option = document.createElement("div");
-        option.classList.add("option");
+        // const option = document.createElement("div");
+        // option.classList.add("option");
 
-        const radioButton = document.createElement("input");
-        radioButton.type = "radio";
-        radioButton.id = leanMethod.id; // Use leanMethod as ID
-        radioButton.name = "game-option";
-        radioButton.value = leanMethod.id;
-        radioButton.addEventListener(
-          "change",
-          this.handleLeanMethodChange.bind(this)
+        availableMethodsContainer.insertAdjacentHTML(
+          "beforeend",
+          this.createLeanMethodOption(leanMethod)
         );
 
-        const label = document.createElement("label");
-        label.textContent = leanMethod.name;
-        label.htmlFor = leanMethod.id;
+        const radioButton = this.shadowRoot.getElementById(
+          `leanmethod-${leanMethod.id}`
+        );
+        console.log(radioButton);
+
+        if (radioButton) {
+          radioButton.addEventListener(
+            "change",
+            this.handleLeanMethodChange.bind(this)
+          );
+        }
+
+        // const label = document.createElement("label");
+        // label.textContent = leanMethod.name;
+        // label.htmlFor = leanMethod.id;
 
         // Create tooltip element
-        const tooltip = document.createElement("span");
-        tooltip.classList.add("tooltip");
-        tooltip.textContent = leanMethod.description;
+        // const tooltip = document.createElement("span");
+        // tooltip.classList.add("tooltip");
+        // tooltip.textContent = leanMethod.description;
 
-        option.appendChild(radioButton);
-        option.appendChild(label);
-        label.appendChild(tooltip);
+        // // option.appendChild(label);
+        // option.appendChild(tooltip);
 
-        availableMethodsContainer.appendChild(option);
+        // availableMethodsContainer.appendChild(option);
       } else {
-        // Create display for already applied methods (unchanged)
-        const appliedMethod = document.createElement("div");
-        appliedMethod.classList.add("applied-method");
-
-        const message = document.createElement("span");
-        message.textContent = `- ${leanMethod.name} (Already Applied)`;
-
-        appliedMethod.appendChild(message);
-        appliedMethodsContainer.appendChild(appliedMethod);
+        appliedMethodsContainer.insertAdjacentHTML(
+          "beforeend",
+          this.createAppliedLeanMethod(leanMethod)
+        );
       }
     });
+  }
+
+  createLeanMethodOption(leanMethod) {
+    //TODO add images to lean methods
+    //images must match lean method id
+    return `
+      <div class="option">
+        <input type="radio" id="leanmethod-${leanMethod.id}" name="game-option" value="${leanMethod.id}">
+        <label for="leanmethod-${leanMethod.id}">${leanMethod.name}
+          <span class="tooltip">${leanMethod.description}</span>
+        </label>
+      </div>
+    `;
+  }
+
+  createAppliedLeanMethod(leanMethod) {
+    return `
+      <div class="applied-method">
+        <span>- ${leanMethod.name} (Already Applied)</span>
+      </div>
+    `;
   }
 
   handleLeanMethodChange(event) {
@@ -93,6 +116,7 @@ class ChooseLeanmethod extends HTMLElement {
       })
     );
   }
+
   show() {
     this.classList.remove("hidden");
   }
