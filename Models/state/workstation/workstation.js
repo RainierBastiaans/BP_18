@@ -4,7 +4,6 @@ class Workstation {
   constructor(id, partsList, leanMethodService) {
     this.id = id;
     this.partnames = partsList; // Create a list of part names
-    this.occupant = null; // Reference to the current occupant (User or Bot)
     this.leanMethodService = leanMethodService;
     this.maintenanceChance = leanMethodService
       .getLeanMethod("total-productive-maintenance")

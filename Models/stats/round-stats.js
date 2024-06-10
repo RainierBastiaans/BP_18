@@ -15,7 +15,7 @@ class RoundStats {
     this.cars = new Map()
     this.deductFacilityCost();
     this.deductStaffCost();
-    this.averageCarCompletionTime;
+    this.averageCarCompletionTime = 0;
   }
 
   deductFacilityCost() {
