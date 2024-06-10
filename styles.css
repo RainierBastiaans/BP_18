@@ -1158,14 +1158,6 @@ button:disabled {
 
 /*! Statisctics visuals end */
 
-/* Shop component styles */
-.shop-component {
-  max-width: 600px;
-  margin: 20px auto;
-  padding: 20px;
-  box-sizing: border-box;
-}
-
 
 .livestock-part-list {
   display: flex;
