@@ -35,7 +35,6 @@ class StockState extends Subject {
     Array.from(parts.values()).forEach((part)=>{
       amountOfStock+= part.quantity
     })
-    console.log(this)
     this.notifyObservers({price:amountOfStock * gameValues.pricePerPart}, "stock")
   }
 }

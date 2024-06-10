@@ -27,7 +27,6 @@ class LeanMethodService {
     for (const leanMethod of leanMethodData) {
       await this.registerLeanMethod(leanMethod);
     }
-    console.log(this.leanMethods);
   }
 
   async registerLeanMethod(leanMethod) {

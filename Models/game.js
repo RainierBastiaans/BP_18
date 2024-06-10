@@ -17,6 +17,7 @@ class Game {
     this.workstations = new Map();
     this.rounds = new Map();
     this.carId = 1;
+    this.startTime = null; // Variable to store the start time
     this.cars = new Map();
     this.parts = parts;
     this.leanMethods = new Map();
@@ -24,6 +25,7 @@ class Game {
     this.isOver = false;
     this.stats = new GameStats(this);
     this.stock = new Stock(this.parts, this.stats, this.leanMethodService);
+    this.stats.newRound(); //stats already start at the beginning
   }
 
   partExists(partName) {
@@ -98,18 +100,11 @@ class Game {
     for (let i = 0; i < bots.length; i++) {
       this.bots.push(new Bot(bots[i].name, bots[i].workstation, this));
     }
-    // // Create bots only for workstations other than selectedWorkstation
-    // for (let i = 1; i <= 5; i++) {
-    //   if (i !== parseInt(selectedWorkstation)) {
-    //     this.bots.push(new Bot(`bot${i}`, i, this));
-    //   }
-    // }
-
     this.emitter.on("gameOverInModel", () => {
       this.endGame();
     });
-    this.newCar();
   }
+  
 
   // Add a setter for selectedWorkstation
   set selectedWorkstation(value) {
@@ -129,7 +124,7 @@ class Game {
   newRound(leanMethod) {
     const roundnumber = this.rounds.size + 1;
     const newRound = new Round(roundnumber);
-    this.stats.newRound();
+    this.stats.startRound()
     this.rounds.set(roundnumber, newRound);
     this.currentRound = newRound;
     this.newLeanMethod(leanMethod);
@@ -164,12 +159,14 @@ class Game {
     this.stock.endRound();
     if (this.currentRound.roundNumber === gameValues.numberOfRounds) {
       this.endGame();
+      return;
     }
+    this.stats.newRound(); //stats already start at the beginning
+    
   }
 
   newCar() {
-    const newCar = new Car(this.cars.size, this.parts);
-    newCar.addObserver(this.stats);
+    const newCar = new Car(this.cars.size, this.parts, this.stats);
     this.cars.set(this.cars.size, newCar);
   }
 

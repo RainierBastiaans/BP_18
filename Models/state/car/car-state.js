@@ -10,6 +10,9 @@ class CarState {
   isBroken() {
     throw new Error("SuperClass");
   }
+  inProgress(){
+    throw new Error("SuperClass");
+  }
 
   move() {
     throw new Error("SuperClass");
