@@ -874,7 +874,7 @@ button:disabled {
 
 #previous-station-button:disabled {
   cursor: not-allowed;
-  background-color: rgba(0, 0, 0, 0.08);
+  background: rgba(0, 0, 0, 0.08);
   color: rgba(0, 0, 0, 0.3);
 }
 
@@ -893,7 +893,7 @@ button:disabled {
 
 #next-station-button:disabled {
   cursor: not-allowed;
-  background-color: rgba(0, 0, 0, 0.08);
+  background: rgba(0, 0, 0, 0.08);
   color: rgba(0, 0, 0, 0.3);
 }
 
