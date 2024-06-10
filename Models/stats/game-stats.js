@@ -19,6 +19,7 @@ class GameStats extends Subject {
     this.facilityCost = gameValues.facilityCost;
     this.staffCost = gameValues.staffCost;
     this.cars = new Map()
+    this.averageCarCompletionTime = undefined;
   }
   addObserver(observer) {
     this.observers.push(observer);
@@ -50,7 +51,17 @@ class GameStats extends Subject {
     this.currentRound.endRound()
   }
   startRound(){
-    this.currentRound.startRound()
+    this.currentRound.startRound(this.cars)
+  }
+  newRound() {
+    this.rounds.set(
+      this.rounds.size + 1,
+      new RoundStats(this.rounds.size + 1, this.game)
+    )
+    this.currentRound = this.rounds.get(this.rounds.size)
+    console.log(this.currentRound)
+    this.deductRoundCosts();
+    this.notifyObservers(this)
   }
 
   updateCapital(capital) {
@@ -76,16 +87,7 @@ class GameStats extends Subject {
     this.cars.set(car.id, {start:(((this.rounds.size-1)*gameValues.roundDuration)+this.currentRound.getElapsedTime()),end: undefined});
     this.notifyObservers(this);
   }
-  newRound() {
-    this.rounds.set(
-      this.rounds.size + 1,
-      new RoundStats(this.rounds.size + 1, this.game)
-    )
-    this.currentRound = this.rounds.get(this.rounds.size)
-    console.log(this.currentRound)
-    this.deductRoundCosts();
-    this.notifyObservers(this)
-  }
+
 
   deductRoundCosts() {
     this.capital.deduct(this.facilityCost+this.staffCost);
@@ -98,8 +100,8 @@ class GameStats extends Subject {
         totalTime+= (times.end-times.start)
       }
     })
-
     this.averageCarCompletionTime = totalTime/this.carsCompleted;
+    console.log(this.averageCarCompletionTime)
   }
 
   newCarCompleted(car) {

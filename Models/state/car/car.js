@@ -29,6 +29,9 @@ class Car extends Subject {
     ); // Initialize an empty Map
 
   }
+  inProgress(){
+    return this.state.inProgress()
+  }
 
   set state(newState) {
     if (this._state !== newState) {

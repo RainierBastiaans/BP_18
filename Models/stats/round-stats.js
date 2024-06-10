@@ -12,8 +12,10 @@ class RoundStats {
     this.partUsage = {}; // Object to track parts used in this round (partName: count)
     this.totalStockCost = 0;
     this.totalIncome = 0;
+    this.cars = new Map()
     this.deductFacilityCost();
     this.deductStaffCost();
+    this.averageCarCompletionTime;
   }
 
   deductFacilityCost() {
@@ -27,12 +29,32 @@ class RoundStats {
   updateStock(stockPrice) {
     this.capital-= stockPrice;
   }
-  startRound(){
+  startRound(cars){
+    this.configureCars(cars)
     this.startTime = performance.now(); // Capture the start time
+  }
+
+  configureCars(cars){
+    Array.from(cars.values()).forEach((car)=>{
+      if (!car.end){
+        this.cars.set(car.id, {start:(((this.roundNumber-1)*gameValues.roundDuration)+this.getElapsedTime()),end: undefined})
+      }
+    })
   }
 
   endRound(){
     this.totalTimeRound = this.getElapsedTime()
+  }
+  calculateAverageCarCompletionTime(){
+    let totalTime = 0;
+    Array.from(this.cars.values()).forEach((times)=>{
+      console.log(times)
+      if (times.end){
+        totalTime+= (times.end-times.start)
+      }
+    })
+
+    this.averageCarCompletionTime = totalTime/this.carsCompleted;
   }
 
   getElapsedTime() {
@@ -44,6 +66,7 @@ class RoundStats {
   }
 
   newCarInProgress(car) {
+    this.cars.set(car.id, {start:(((this.roundNumber-1)*gameValues.roundDuration)+this.getElapsedTime()),end: undefined});
     this.carsInProgress++;
   }
 
@@ -52,6 +75,7 @@ class RoundStats {
     this.totalIncome += car.fixedPrice;
     this.carsInProgress--;
     this.capital += car.fixedPrice;
+    this.calculateAverageCarCompletionTime()
   }
   newCarBroken() {
     this.carsBroken++;
