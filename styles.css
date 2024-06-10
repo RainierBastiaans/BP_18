@@ -701,6 +701,7 @@ button:disabled {
   color: rgba(0, 0, 0, 0.3);
 }
 
+/** Home screen*/
 .game-header {
   color: #fff;
   background-color: #333;
@@ -806,12 +807,30 @@ button:disabled {
   position: absolute;
   top: 30vh;
   left: 63vw;
+  width: 100px;
+  height: 100px;
+  border: 3px solid black;
+  border-radius: 50%;
+  text-align: center;
+  background-image: url(./img/quality-control/checkmark.svg);
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: 60%;
 }
 
 #remove-button {
   position: absolute;
-  top: 35vh;
+  top: 45vh;
   left: 63vw;
+  width: 100px;
+  height: 100px;
+  border: 3px solid black;
+  border-radius: 50%;
+  text-align: center;
+  background-image: url(./img/quality-control/trashcan.svg);
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: 50%;
 }
 
 
@@ -1136,6 +1155,13 @@ button:disabled {
   max-width: 33%;
   right: 0;
   position: absolute;
+
+/*! Statisctics visuals end */
+
+/* Shop component styles */
+.shop-component {
+  max-width: 600px;
+  margin: 20px auto;
   padding: 20px;
   box-sizing: border-box;
 }
@@ -1191,3 +1217,4 @@ input[type="number"] {
 
 
 /*! Statisctics visuals end */
+}
