@@ -1,3 +1,4 @@
+import { gameValues } from "../../../game-values.js";
 import { Subject } from "../../../subject.js";
 import { CarAtWorkstation } from "./car-at-workstation.js";
 
@@ -5,7 +6,7 @@ class Car extends Subject {
   constructor(id, parts,stats) {
     super();
     this.id = id;
-    this.fixedPrice = 20000;
+    this.fixedPrice = gameValues.carPrice;
     this.addObserver(stats)
     this.state = new CarAtWorkstation(1);
     // Create the parts map with key as part name and value as object with properties
