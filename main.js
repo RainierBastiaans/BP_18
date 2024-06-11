@@ -164,7 +164,6 @@ startButton.addEventListener("startgame", (event) => {
   const playerName = event.detail.playerName;
 
   //HIDE
-  homePage.classList.add("hidden");
   configGrid.hide();
   gameHeader.hide();
   gameDescriptionComponent.hide();
@@ -189,7 +188,6 @@ startButton.addEventListener("startgame", (event) => {
 
 newRoundButton.addEventListener("newRound", (event) => {
   //HIDE
-  homePage.classList.add("hidden");
   configGrid.hide();
   gameHeader.hide();
   newRoundButton.hide();
@@ -217,7 +215,6 @@ document.addEventListener("roundover", (event) => {
   leanGame.hide();
 
   //SHOW
-  homePage.classList.remove("hidden");
   configGrid.show();
   gameHeader.show();
   showStats.show();
@@ -248,7 +245,6 @@ document.addEventListener("gameover", (event) => {
   showStats.update(gameStats);
 
   //SHOW
-  homePage.classList.remove("hidden");
   configGrid.show();
   gameHeader.show();
   gameDescriptionComponent.show();
