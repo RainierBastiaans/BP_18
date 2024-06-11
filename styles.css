@@ -24,17 +24,18 @@ body {
   color: #333; */
 }
 
-.horizontal-container{
+.horizontal-container {
   display: flex;
   flex-direction: row;
 }
 
-.vertical-container{
+.vertical-container {
   display: flex;
   flex-direction: column;
 }
 
-h2, h3 {
+h2,
+h3 {
   padding: 1%;
   margin: 1%;
 }
@@ -66,7 +67,7 @@ h2, h3 {
   display: flex;
   flex-direction: column;
   align-items: stretch;
-  
+
 }
 
 .config-grid {
@@ -162,7 +163,8 @@ input[type="text"] {
 ==========================*/
 .personal-stock-list {
   display: flex;
-  justify-content: space-around; /* Optional: Distributes space evenly around the items */
+  justify-content: space-around;
+  /* Optional: Distributes space evenly around the items */
   list-style-type: none;
   padding: 0;
   margin: 0;
@@ -171,23 +173,29 @@ input[type="text"] {
 .personal-stock-list li {
   display: flex;
   flex-direction: column;
-  text-align: center; /* Centers the stock name and quantity */
+  text-align: center;
+  /* Centers the stock name and quantity */
   background-color: #ffffff;
   border-radius: 8px;
   margin-bottom: 10px;
   padding: 5px;
-  width: 100px; /* Set a fixed width for each list item */
+  width: 100px;
+  /* Set a fixed width for each list item */
   height: 65px;
-  box-sizing: border-box; /* Ensures padding and border are included in the width */
+  box-sizing: border-box;
+  /* Ensures padding and border are included in the width */
 }
 
 .personal-stock-name {
-  font-weight: bold; /* Optional: Makes the stock name bold */
+  font-weight: bold;
+  /* Optional: Makes the stock name bold */
 }
 
 .personal-stock-quantity {
-  margin-top: auto; /* Adds some space between the stock name and quantity */
+  margin-top: auto;
+  /* Adds some space between the stock name and quantity */
 }
+
 .personal-stock-list li:hover {
   transform: translateY(-5px);
 }
@@ -290,7 +298,7 @@ game-description-container {
 =====SELECT WORKSTATION=====
 ==========================*/
 
-.workstation-icon{
+.workstation-icon {
   width: 3em;
   height: 3em;
   padding: 0 5px;
@@ -333,7 +341,7 @@ game-description-container {
 }
 
 .workstation-option label {
-  width: 2.2em; 
+  width: 2.2em;
   height: 1.5em;
   font-size: 2em;
   border-radius: 15px;
@@ -439,7 +447,7 @@ game-description-container {
   position: relative;
 }
 
-.shop-heading .shop-tip{
+.shop-heading .shop-tip {
   visibility: hidden;
   width: 300px;
   background-color: #555;
@@ -546,7 +554,7 @@ input[type="number"] {
 /* Shop Buy button styles */
 .shop-buy-button {
   width: 100%;
-  max-width:inherit;
+  max-width: inherit;
   background-color: #28a745;
   border: none;
   padding: 15px 0;
@@ -638,7 +646,7 @@ start-button {
   border-radius: 15px;
   line-height: 1.25;
   max-width: inherit;
-  width: 100% ;
+  width: 100%;
 }
 
 #newRoundButton:hover,
@@ -829,11 +837,17 @@ button:disabled {
   border: 3px solid black;
   border-radius: 50%;
   text-align: center;
-  background-color: rgb(118, 126, 236);
+  background-color: rgb(87, 146, 255);
   background-image: url(./img/quality-control/checkmark.svg);
   background-repeat: no-repeat;
   background-position: center center;
   background-size: 60%;
+}
+
+#quality-control:disabled {
+  cursor: not-allowed;
+  background-color: rgba(0, 0, 0, 0.08);
+  color: rgba(0, 0, 0, 0.3);
 }
 
 #remove-button {
@@ -1217,13 +1231,22 @@ button:disabled {
 /* In game statistics*/
 .ingame-statistics-container {
   display: flex;
-
-  top: 10px;
+  align-items: center;
+  position: absolute;
+  top: 115px;
+  right: 20px;
 }
 
 .ingame-statistics-item {
-  margin: 5px;
   display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin: 5px;
+}
+
+.ingame-statistics-item p {
+  margin: 0;
+  padding: 0;
 }
 
 .livestock-container {
@@ -1232,57 +1255,57 @@ button:disabled {
   right: 0;
   position: absolute;
 
-/*! Statisctics visuals end */
+  /*! Statisctics visuals end */
 
 
-.livestock-part-list {
-  display: flex;
-  justify-content: space-around;
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
+  .livestock-part-list {
+    display: flex;
+    justify-content: space-around;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
 
-.livestock-part-list li {
-  text-align: center;
-}
+  .livestock-part-list li {
+    text-align: center;
+  }
 
-.livestock-part-name {
-  display: block;
-}
+  .livestock-part-name {
+    display: block;
+  }
 
-.livestock-part-quantity {
-  display: block;
-  margin-top: 5px;
-  font-weight: bold;
-}
+  .livestock-part-quantity {
+    display: block;
+    margin-top: 5px;
+    font-weight: bold;
+  }
 
-input[type="number"] {
-  width: 60px;
-  padding: 5px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-}
+  input[type="number"] {
+    width: 60px;
+    padding: 5px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+  }
 
-/* Buy button styles */
-.shop-buy-button {
-  width: 100%;
-  background-color: #28a745;
-  color: #fff;
-  border: none;
-  padding: 15px 0;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-  font-size: 1.1em;
-  font-weight: bold;
-  margin-top: 20px;
-}
+  /* Buy button styles */
+  .shop-buy-button {
+    width: 100%;
+    background-color: #28a745;
+    color: #fff;
+    border: none;
+    padding: 15px 0;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-size: 1.1em;
+    font-weight: bold;
+    margin-top: 20px;
+  }
 
-.shop-buy-button:hover {
-  background-color: #218838;
-} 
+  .shop-buy-button:hover {
+    background-color: #218838;
+  }
 
 
-/*! Statisctics visuals end */
+  /*! Statisctics visuals end */
 }
