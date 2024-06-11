@@ -5,35 +5,33 @@ class StartGrid extends HTMLElement {
     #elements {
         display: flex;
         flex-direction: column;
-        height: 100vh;
+    }
+
+    #element1, #element2, #element3 {
+        margin: 5px; /* Add margin for spacing */
+        padding: 10px; /* Add padding for spacing */
+        text-align: center; /* Center align text */
     }
 
     #element1 {
-        flex: 8;
-        display: flex;
-        justify-content: center;
-        align-items: center;
+        flex: 80;
+        font-size: 0.8em;
     }
 
     #element2 {
-        flex: 2;
-        display: flex;
-        justify-content: center;
-        align-items: center;
+        flex: 20;
     }
 
     #element3 {
-        flex: 1;
-        display: flex;
-        justify-content: center;
-        align-items: center;
+        flex: 100;
+        height: 1vh
     }
-
     /* New CSS for the wrapper container */
     #element-container {
         display: flex;
         flex-direction: row; /* Elements 1 and 2 will be displayed next to each other */
         flex: 1; /* Take up remaining vertical space */
+        height: 80vh
     }
 </style>
 

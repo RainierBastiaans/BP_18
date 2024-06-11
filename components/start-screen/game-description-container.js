@@ -20,7 +20,6 @@ class GameDescriptionContainer extends HTMLElement {
             <p>At the start of each round, there will be the possibility to buy parts. Buy enough parts because whenever you run out, you will have to wait until the start of the next round.</p>
         </div>
         `;
-    console.log(this.shadowRoot.innerHTML);
   }
 
   show() {
