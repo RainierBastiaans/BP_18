@@ -72,6 +72,7 @@ const highscoreBoard = new HighscoreBoard(db); // Pass db instance
 const chooseLeanMethod = new ChooseLeanmethod();
 const newRoundButton = new NewRoundButton();
 const fixedCosts = new FixedCosts(leanGame.game.getFixedCosts());
+//const capital = new Capital(leanGame.game.stats.capital);
 const kapitaal = document.createElement("kapitaal");
 const playersOverview = new PlayersOverview(otherPlayers);
 
@@ -115,8 +116,8 @@ configGrid.appendColumn(1, fixedCosts);
 //BUILD COLUMN 2
 configGrid.appendColumn(2, gameDescriptionComponent);
 await fetchParts().then((fetchedParts) => {
-  let personalStockComponent = new PersonalStock(fetchedParts)
-  leanGame.game.stock.addObserver(personalStockComponent)
+  let personalStockComponent = new PersonalStock(fetchedParts);
+  leanGame.game.stock.addObserver(personalStockComponent);
   shopComponent = new ShopComponent(fetchedParts, personalStockComponent);
   configGrid.appendColumn(2, shopComponent);
   shopComponent.addEventListener("buy-parts", (event) => {
@@ -158,12 +159,6 @@ liveStockComponent.hide();
 chooseLeanMethod.addEventListener("leanmethodchange", (event) => {
   selectedLeanMethod = event.detail.selectedLeanMethod;
 });
-
-// playerNameInput.addEventListener("playernamechange", (event) => {
-//   console.log("Player name changed to: ", event.detail.playerName);
-//   const playerName = event.detail.playerName.value || "";
-//   startButton.update(playerName);
-// });
 
 // Game start
 startButton.addEventListener("startgame", (event) => {
