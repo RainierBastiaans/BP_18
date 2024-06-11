@@ -15,7 +15,6 @@ class PersonalStock extends HTMLElement {
             </div>
         </div>
         `;
-    this.classList.add("component-style");
     this.personalStockElement = shadowRoot.querySelector(
       ".personal-stock-container"
     );
@@ -29,7 +28,7 @@ class PersonalStock extends HTMLElement {
   }
 
   update(stock) {
-    console.log(stock)
+    console.log(stock);
     stock.forEach((value, key) => {
       const partsForWorkstation = this.partsByWorkstation.get(
         value.workstationFK
