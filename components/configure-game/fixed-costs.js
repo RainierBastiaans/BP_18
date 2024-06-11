@@ -42,7 +42,7 @@ class FixedCosts extends HTMLElement {
   createFixedCostElement(name, imgName, fixedCost) {
     return `
         <li>
-            <img src="./img/fixedCosts/${imgName}.png" alt="fixed cost icon: ${name}" class="fixed-cost-icon">
+            <img src="./img/fixedCosts/${imgName}.png" alt="fixed cost icon: ${name}" class="icon">
             <span class="fixed-cost-name">${name}</span>
             <span class="fixed-cost-price">${fixedCost}</span>
         </li>

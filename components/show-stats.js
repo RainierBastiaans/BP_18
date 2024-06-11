@@ -2,13 +2,20 @@ class ShowStats extends HTMLElement {
   constructor() {
     super();
     this.attachShadow({ mode: "open" });
-
-    //style and header
-    // this.shadowRoot.innerHTML = `
-    // <link rel="stylesheet" href="styles.css">
-    // `;
+    this.shadowRoot.innerHTML = `
+    <link rel="stylesheet" href="styles.css">
+    <div class="hidden" alt="References for icons of this component">
+      <a href="https://www.flaticon.com/free-icons/capital-venture" title="capital venture icons">Capital venture icons created by Nhor Phai - Flaticon</a>
+      <a href="https://www.flaticon.com/free-icons/work-in-progress" title="work in progress icons">Work in progress icons created by Aranagraphics - Flaticon</a>
+      <a href="https://www.flaticon.com/free-icons/money" title="money icons">Money icons created by Freepik - Flaticon</a>
+      <a href="https://www.flaticon.com/free-icons/fleet-management" title="fleet management icons">Fleet management icons created by prinda895 - Flaticon</a>
+      <a href="https://www.flaticon.com/free-icons/car-accident" title="car accident icons">Car accident icons created by Prashanth Rapolu 15 - Flaticon</a>
+    </div>
+    `;
     this.classList.add("component-style");
-    this.classList.add("stats-component");
+    const statsComponent = document.createElement("div");
+    statsComponent.classList.add("stats-component");
+    this.shadowRoot.appendChild(statsComponent);
     this.currentRound = 0; // Track current round
   }
 
@@ -17,16 +24,15 @@ class ShowStats extends HTMLElement {
   }
 
   render(gameStats) {
-    this.shadowRoot.innerHTML = `
-    <link rel="stylesheet" href="styles.css">
-    `;
+    const statsComponent = this.shadowRoot.querySelector(".stats-component");
+    statsComponent.innerHTML = ""; // Clear existing stats
     console.log(gameStats);
     //Heading
     const heading = document.createElement("div");
     //refactor
     heading.classList.add("shop-heading");
     heading.classList.add("horizontal-container");
-    this.shadowRoot.appendChild(heading);
+    statsComponent.appendChild(heading);
 
     // Add a reference to the source of the stats icon
     const statsSourceContainer = document.createElement("div");
@@ -34,17 +40,17 @@ class ShowStats extends HTMLElement {
     heading.appendChild(statsSourceContainer);
 
     const statsSourceReference = document.createElement("a");
-    statsSourceReference.href = "https://www.flaticon.com/free-icons/warehouse";
-    statsSourceReference.title = "warehouse icons";
-    statsSourceReference.alt =
-      "represented by: Warehouse icons created by Vectors Tank - Flaticon";
+    statsSourceReference.href =
+      "https://www.flaticon.com/free-icons/statistics";
+    statsSourceReference.title = "statistics icon";
+    statsSourceReference.alt = "Statistics icons created by Freepik - Flaticon";
     statsSourceContainer.appendChild(statsSourceReference);
 
     // Stats icon
     const statsIcon = document.createElement("img");
-    statsIcon.src = "./img/warehouseIcon.png";
-    statsIcon.alt = "warehouse icon";
-    statsIcon.classList.add("warehouse-icon");
+    statsIcon.src = "./img/show-stats/statistics.png";
+    statsIcon.alt = "statistics icon";
+    statsIcon.classList.add("header-icon");
     heading.appendChild(statsIcon);
 
     // Title
@@ -57,7 +63,7 @@ class ShowStats extends HTMLElement {
 
     //refactor
     navigation.classList.add("shop-navigation");
-    this.shadowRoot.appendChild(navigation);
+    statsComponent.appendChild(navigation);
 
     //previous button
     const prevButton = document.createElement("button");
@@ -71,7 +77,7 @@ class ShowStats extends HTMLElement {
     const roundNumber = document.createElement("span");
     roundNumber.classList.add("h2");
     roundNumber.classList.add("round-label");
-    roundNumber.textContent = `Round ${this.currentRound}`;
+    roundNumber.textContent = `Round ${this.currentRound + 1}`;
     navigation.appendChild(roundNumber);
 
     //next button
@@ -87,10 +93,12 @@ class ShowStats extends HTMLElement {
   }
 
   renderRoundStats(gameStats) {
+    const statsComponent = this.shadowRoot.querySelector(".stats-component");
+
     //Table / list of stats
     const statsList = document.createElement("ul");
     statsList.classList.add("stats-list");
-    this.shadowRoot.appendChild(statsList);
+    statsComponent.appendChild(statsList);
 
     const roundNumber = this.shadowRoot.querySelector(".round-label");
     roundNumber.innerHTML = "";
@@ -161,7 +169,7 @@ class ShowStats extends HTMLElement {
       averageCarCompletionTimeTitle,
       averageCarCompletionTime
     );
-    averageCarCompletionTimeItem.classList.add("average-car-time");
+    statsList.appendChild(averageCarCompletionTimeItem);
   }
 
   buildStatItem(itemName, statName, statNumber) {
@@ -173,7 +181,7 @@ class ShowStats extends HTMLElement {
     statItem.appendChild(statTitleContainer);
 
     const statImage = document.createElement("img");
-    statImage.classList.add("stat-image");
+    statImage.classList.add("icon");
     statImage.src = `./img/show-stats/${itemName}.png`;
     statImage.alt = `${statName} icon`;
     statTitleContainer.appendChild(statImage);

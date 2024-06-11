@@ -74,7 +74,7 @@ class ChooseLeanmethod extends HTMLElement {
       <li class="available-method-container">
         <input type="radio" id="leanmethod-${leanMethod.id}" name="game-option" value="${leanMethod.id}" class="hidden">
         <div class="available-method">
-          <img src="img/choose-leanmethods/${leanMethod.id}.png" alt="${leanMethod.name}" class="lean-method-image">
+          <img src="img/choose-leanmethods/${leanMethod.id}.png" alt="${leanMethod.name}" class="icon">
           <label for="leanmethod-${leanMethod.id}" class="leanmethod-name">${leanMethod.name}
             <span class="tooltip">${leanMethod.description}</span>
           </label>

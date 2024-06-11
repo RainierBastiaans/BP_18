@@ -5,6 +5,10 @@
 * {
   /* box-sizing: border-box; */
   font-family: "Roboto", sans-serif;
+  /*===SETTING GENERAL FONT-SIZE====
+  IMPORTANT: ALL OTHER FONTS AND ICONS ARE RELATIVE TO THIS FONT-SIZE USING "REM" expressed in "em"
+  ===============================*/
+  font-size: 11px;
   /* margin: 0;
   padding: 0; */
 }
@@ -48,6 +52,27 @@ ul {
 li {
   padding: 0;
   margin: 0;
+}
+
+/*========General icons========
+excludes: player-icon
+=============================*/
+.icon {
+  width: auto;
+  height: auto;
+  margin-right: 10px;
+  vertical-align: middle;
+  max-width: 2.5em;
+  max-height: 2.5em;
+}
+
+.header-icon {
+  width: auto;
+  height: auto;
+  margin-right: 10px;
+  vertical-align: middle;
+  max-width: 3.5em;
+  max-height: 3.5em;
 }
 
 /**=========================
@@ -146,11 +171,6 @@ p {
   max-width: 90%;
 }
 
-.player-icon {
-  width: 3em;
-  height: 3em;
-}
-
 #playerName {
   border: 2px solid;
   width: 60%;
@@ -161,7 +181,7 @@ input[type="text"] {
   display: block;
   width: 90%;
   padding: 10px;
-  font-size: 16px;
+  font-size: 1.5em;
   margin: 10px;
   border: 1px solid #6666;
   border-radius: 4px;
@@ -174,9 +194,8 @@ input[type="text"] {
 .personal-stock-list {
   display: flex;
   justify-content: space-around; /* Optional: Distributes space evenly around the items */
-  list-style-type: none;
   padding: 0;
-  margin: 0;
+  margin: 0 0 3% 0;
 }
 
 .personal-stock-list li {
@@ -185,10 +204,10 @@ input[type="text"] {
   text-align: center; /* Centers the stock name and quantity */
   background-color: #ffffff;
   border-radius: 8px;
-  margin-bottom: 10px;
   padding: 5px;
-  width: 100px; /* Set a fixed width for each list item */
-  height: 65px;
+  min-width: 15%;
+  max-width: 24%; 
+  min-height: 2em;
   box-sizing: border-box; /* Ensures padding and border are included in the width */
 }
 
@@ -213,7 +232,7 @@ input[type="text"] {
   border-radius: 10px;
   background-color: #f8f9fa;
   padding: 20px;
-  max-width: 500px;
+  max-width: 100%;
   margin: auto;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
@@ -229,7 +248,7 @@ input[type="text"] {
 /* List container styling */
 .fixed-costs-list-container {
   background-color: #ffffff;
-  padding: 15px;
+  padding: 0.1%;
   border-radius: 8px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
@@ -245,7 +264,7 @@ input[type="text"] {
 .fixed-costs-list li {
   display: flex;
   align-items: center;
-  padding: 10px;
+  padding: 7.5px;
   border-bottom: 1px solid #ddd;
 }
 
@@ -254,24 +273,17 @@ input[type="text"] {
   border-bottom: none;
 }
 
-/* Icon styling */
-.fixed-cost-icon {
-  width: 40px;
-  height: 40px;
-  margin-right: 15px;
-}
-
 /* Name styling */
 .fixed-cost-name {
   flex: 1;
   font-weight: bold;
-  font-size: 18px;
+  font-size: 1.5em;
   color: #333;
 }
 
 /* Price styling */
 .fixed-cost-price {
-  font-size: 18px;
+  font-size: 1.5em;
   color: #28a745;
   font-weight: bold;
 }
@@ -310,7 +322,7 @@ game-description-container {
 
 .workstation-options-container {
   text-align: center;
-  margin: 20px;
+  margin: 1%;
   align-items: center;
 }
 
@@ -319,10 +331,6 @@ game-description-container {
   display: flex;
   flex-direction: column;
   justify-content: center;
-}
-
-.option {
-  margin: 5px 0;
 }
 
 .workstation-options {
@@ -375,17 +383,17 @@ game-description-container {
   align-items: center;
 }
 
-.lean-methods-list-container {
+.leanmethods-list-container {
   display: flex;
   align-items: left;
+  flex-direction: column;
   width: 85%
 }
 
 .leanmethods-list {
   justify-content: space-around;
-  max-width: 500px;
-  margin-bottom: 20px;
-  gap: 15px;
+  max-width: 100%;
+  margin-bottom: 1em;
 }
 
 #available-methods,
@@ -393,7 +401,8 @@ game-description-container {
   display: flex;
   flex-direction: column;
   align-items: stretch;
-  gap: 10px;
+  justify-items: space-between;
+  gap: 0.8em;
   width: 100%;
   padding: 1%;
 }
@@ -404,7 +413,6 @@ game-description-container {
 }
 
 .available-method-container input[type="radio"] {
-  display: none;
   width: 100%;
 }
 
@@ -415,10 +423,10 @@ game-description-container {
 
 .available-method,
 .applied-method {
+  display: flex;
   padding: 10px;
   border-radius: 5px;
   background-color: #fff;
-  margin-bottom: 10px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
@@ -458,15 +466,8 @@ game-description-container {
   opacity: 1;
 }
 
-.lean-method-image {
-  width: 40px;
-  height: 40px;
-  margin-right: 10px;
-  vertical-align: middle;
-}
-
 .leanmethod-name {
-  font-size: 1em;
+  font-size: 1.2em;
   font-weight: bold;
 }
 
@@ -474,13 +475,16 @@ game-description-container {
   font-size: 1.2em;
   font-weight: 600;
   text-align: left;
+  margin: 0;
 }
 
 .leanmethod-list-description {
   font-size: 0.8em;
   text-align: left;
+  margin: 0;
 }
 
+/*TODO VANAF HIER */
 /*====================
 ===PLAYERS OVERVIEW====
 ====================*/
@@ -1305,38 +1309,7 @@ button:disabled {
 
 /*! Game visuals end */
 /** Statisctics visuals */
-/* After game statistics */
-.statistics-container {
-  text-align: center;
-  margin: 20px;
-}
-
-.statistics-heading {
-  font-size: 1.5em;
-  margin-bottom: 10px;
-}
-
-.statistics-table {
-  width: 100%;
-  margin: 0 auto;
-  border-collapse: collapse;
-}
-
-.statistics-table th,
-.statistics-table td {
-  border: 1px solid #ddd;
-  padding: 8px;
-}
-
-.statistics-table th {
-  background-color: #f2f2f2;
-  text-align: left;
-}
-
-.statistics-table td.round-number {
-  text-align: center;
-  font-weight: bold;
-}
+/* REFACTOR */
 
 /* In game statistics*/
 .ingame-statistics-container {
@@ -1355,9 +1328,7 @@ button:disabled {
   max-width: 33%;
   right: 0;
   position: absolute;
-
-/*! Statisctics visuals end */
-
+}
 
 .livestock-part-list {
   display: flex;
@@ -1388,25 +1359,45 @@ input[type="number"] {
   border-radius: 4px;
 }
 
-/* Buy button styles */
-.shop-buy-button {
-  width: 100%;
-  background-color: #28a745;
-  color: #fff;
-  border: none;
-  padding: 15px 0;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-  font-size: 1.1em;
-  font-weight: bold;
-  margin-top: 20px;
+
+/*==========================
+=========SHOW STATS=========
+==========================*/
+.stats-component {
+  max-width: 600px;
 }
 
-.shop-buy-button:hover {
-  background-color: #218838;
-} 
+.stats-component .round-label {
+  font-size: 1.5em;
+  font-weight: bold;
+}
 
+.stats-list {
+  padding: 1%;
+}
 
-/*! Statisctics visuals end */
+.stat-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1%;
+  border-bottom: 1px solid #ddd;
+}
+
+.stat-item:last-child {
+  border-bottom: none;
+}
+
+.stat-title-container {
+  display: flex;
+  align-items: center;
+}
+
+.stat-title {
+  font-size: larger;
+}
+
+.stat-value {
+  font-weight: bold;
+  margin: 1%;
 }
