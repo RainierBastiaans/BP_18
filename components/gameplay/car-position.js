@@ -5,7 +5,7 @@ class CarPositionLine extends HTMLElement {
 
     this.shadowRoot.innerHTML = `
       <link rel="stylesheet" href="styles.css">
-      <div class="car-position-line">
+      <div class="car-position-line component-style">
         <div class="car-position-box">
           <span class="car-position-q hidden" id="q-1">0</span>
           <span class="car-position" id="workstation-1">1</span>
@@ -100,7 +100,6 @@ class CarPositionLine extends HTMLElement {
     });
   }
 
-  //TODO toon auto voor auto in wacht rij
   setCurrentWorkstation(workstations) {
     this.workstationElements.forEach((element, index) => {
       const workstationId = index + 1; // Adjust for 1-based indexing

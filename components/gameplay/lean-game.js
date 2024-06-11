@@ -8,34 +8,55 @@ class LeanGame extends HTMLElement {
     const gameTemplate = document.createElement("template");
     gameTemplate.innerHTML = `
 <link rel="stylesheet" href="styles.css">
-<h2 id="roundMessage">Round </h2>
-<p id="message">Workstation</p>
-<button id="previous-station-button" title="Previous Station"></button>
-<button id="next-station-button" title="Next Station"></button>
-<p class="no-P-M"></p>
-<button id="move-car-button">Move Car to Next Station</button>
-<p class="no-P-M"></p>
-<button id="quality-control" class"circle-button" title="Quality Control" ></button> 
-<button id="remove-button" class"circle-button" title="Remove Car" ></button>
-<div class="car-container" id="car-container"></div>
-<div id="current-workstation"></div>
-<div class="game-timer">
-  <svg>
-    <circle cx="50%" cy="50%" r="45"/>
-    <circle cx="50%" cy="50%" r="45" pathLength="1" />
-    <text x="50" y="50" text-anchor="middle"><tspan id="game-timeLeft"></tspan></text>
-    <text x="50" y="65" text-anchor="middle">seconds</text>
-  </svg>
-</div>
-<div class="timer">
-  <svg>
-    <circle cx="50%" cy="50%" r="90"/>
-    <circle cx="50%" cy="50%" r="90" pathLength="1" />
-    <text x="100" y="100" text-anchor="middle"><tspan id="timeLeft"></tspan></text>
-    <text x="100" y="120" text-anchor="middle">seconds till fixed</text>
-  </svg>
+<div id="game-info" class="component-style">
+  <div class="game-timer">
+    <svg>
+      <circle cx="50%" cy="50%" r="45"/>
+      <circle cx="50%" cy="50%" r="45" pathLength="1" />
+      <text x="50" y="50" text-anchor="middle"><tspan id="game-timeLeft"></tspan></text>
+      <text x="50" y="65" text-anchor="middle">seconds</text>
+    </svg>
+  </div>
+
+  <div>
+    <h2 id="roundMessage">Round</h2>
+    <div class="flex-row">
+      <button id="previous-station-button" title="Previous Station"></button>
+      <p id="message">Workstation</p>
+      <button id="next-station-button" title="Next Station"></button>
+    </div>
+  </div>
+
+  <p id="current-workstation"> </p>
 </div>
 
+<div id="visuals-container" class="component-style" >
+  <div id="stock-container">
+    <p id="stockTitle">Available stock</p>
+    <div id="part-buttons"></div>
+  </div>
+
+  <div id="car-game-container">
+    <p id="workstationTitle">Workstation</p>
+    <button id="move-car-button">Move Car to Next Station</button>
+    <div id="car-container" class="car-container"></div>
+  </div>
+
+  <div id="extra-container">
+    <button id="quality-control" class="circle-button" title="Quality Control"></button> 
+    <button id="remove-button" class="circle-button" title="Remove Car"></button>
+
+    <div class="timer">
+      <svg>
+        <circle cx="50%" cy="50%" r="90"/>
+        <circle cx="50%" cy="50%" r="90" pathLength="1" />
+        <text x="100" y="100" text-anchor="middle"><tspan id="timeLeft"></tspan></text>
+        <text x="100" y="120" text-anchor="middle">seconds till fixed</text>
+      </svg>
+    </div>
+  </div>
+</div>
+  
 `;
 
     const shadowRoot = this.attachShadow({ mode: "open" });
@@ -49,6 +70,11 @@ class LeanGame extends HTMLElement {
     this.moveCarButton = shadowRoot.getElementById("move-car-button");
     this.qualityControlButton = shadowRoot.getElementById("quality-control");
     this.removeButton = shadowRoot.getElementById("remove-button");
+    this.carContainer = shadowRoot.getElementById("car-container");
+    this.carGameContainer = shadowRoot.getElementById("car-game-container");
+    this.buttonContainer = shadowRoot.getElementById("part-buttons");
+    this.workstationTitle = this.shadowRoot.getElementById("workstationTitle");
+    this.stockTitle = this.shadowRoot.getElementById("stockTitle");
     this.qualityControlButton.style.display = "none";
     this.removeButton.style.display = "none";
     this.removeButton.disabled = true;
@@ -65,7 +91,7 @@ class LeanGame extends HTMLElement {
     );
     this.removeButton.addEventListener("click", this.handleClick.bind(this));
     this.carPositionLine = new CarPositionLine();
-    this.shadowRoot.appendChild(this.carPositionLine);
+    this.shadowRoot.prepend(this.carPositionLine);
   }
 
   draw() {
@@ -241,7 +267,7 @@ class LeanGame extends HTMLElement {
       const noCarContainer = document.createElement("div");
       noCarContainer.classList.add("no-car");
       noCarContainer.textContent = "No Car at the moment";
-      this.shadowRoot.appendChild(noCarContainer);
+      this.carGameContainer.prepend(noCarContainer);
       this.moveCarButton.style.visibility = "hidden";
       this.qualityControlButton.style.display = "none";
       this.removeButton.style.display = "none";
@@ -249,14 +275,16 @@ class LeanGame extends HTMLElement {
   }
 
   clearButtons() {
-    const buttonContainer = this.shadowRoot.querySelector("#part-buttons");
     const noCarContainer = this.shadowRoot.querySelector(".no-car");
-    const carContainer = this.shadowRoot.querySelector(".car-container");
 
     // Remove elements in a single line using optional chaining
-    buttonContainer?.remove();
+    this.stockTitle.classList.add("hidden");
+    this.buttonContainer.classList.add("hidden");
+    this.buttonContainer.innerHTML = "";
+    this.workstationTitle.classList.add("hidden");
+    this.carContainer.classList.add("hidden");
+    this.carContainer.innerHTML = "";
     noCarContainer?.remove();
-    carContainer?.remove();
   }
 
   createPartButton(part, index) {
@@ -297,6 +325,8 @@ class LeanGame extends HTMLElement {
 
   createButtons() {
     if (this.game.selectedWorkstation === this.getCurrentWorkstation().id) {
+      this.stockTitle.classList.remove("hidden");
+      this.buttonContainer.classList.remove("hidden");
       this.moveCarButton.style.visibility = "visible";
       const currentWorkstation = this.getCurrentWorkstation();
       const car = this.game.getCarFromWorkstation(currentWorkstation.id);
@@ -312,11 +342,9 @@ class LeanGame extends HTMLElement {
         this.removeButton.style.display = "";
       }
 
-      const buttonContainer = document.createElement("div");
-      buttonContainer.id = "part-buttons";
-
       if (this.leanMethodService.getLeanMethod("orderly-workplace").isEnabled) {
-        buttonContainer.classList.add("part-buttons-oderly");
+        this.buttonContainer.classList.remove("part-buttons");
+        this.buttonContainer.classList.add("part-buttons-oderly");
 
         this.getCurrentWorkstation().partnames.forEach((part) => {
           const partContainer = document.createElement("div");
@@ -332,24 +360,25 @@ class LeanGame extends HTMLElement {
           stockCount.innerText = this.leanMethodService.getLeanMethod(
             "just-in-time"
           ).isEnabled
-            ? `Just enough stock (JIT)`
+            ? `Enough stock (JIT)`
             : `${part} in stock: ${Number(
                 this.game.getAmountOfPart(part)
               ).toString()}`;
           partContainer.appendChild(stockCount);
-          buttonContainer.appendChild(partContainer);
+          this.buttonContainer.appendChild(partContainer);
         });
       } else {
-        buttonContainer.classList.add("part-buttons");
+        this.buttonContainer.classList.add("part-buttons");
         for (let i = 0; i < 30; i++) {
           const gritItem = document.createElement("div");
           gritItem.id = i;
           gritItem.classList.add("grid-item");
-          buttonContainer.append(gritItem);
+          this.buttonContainer.append(gritItem);
         }
 
         if (this.partPosition.length == 0) {
-          const gridItems = buttonContainer.getElementsByClassName("grid-item");
+          const gridItems =
+            this.buttonContainer.getElementsByClassName("grid-item");
           this.getCurrentWorkstation().partnames.forEach((part) => {
             const count = this.getPartCount(part);
             for (let i = 0; i < count; i++) {
@@ -375,7 +404,8 @@ class LeanGame extends HTMLElement {
             }
           });
         } else {
-          const gridItems = buttonContainer.getElementsByClassName("grid-item");
+          const gridItems =
+            this.buttonContainer.getElementsByClassName("grid-item");
           this.partPosition.forEach((position) => {
             let button = position.button;
             if (this.getCurrentWorkstation().getRemainingTime()) {
@@ -389,15 +419,11 @@ class LeanGame extends HTMLElement {
           });
         }
       }
-
-      //end
-      this.shadowRoot.appendChild(buttonContainer);
     }
   }
 
   generateNewButton(part) {
-    const buttonContainer = this.shadowRoot.getElementById("part-buttons");
-    const gridItems = buttonContainer.getElementsByClassName("grid-item");
+    const gridItems = this.buttonContainer.getElementsByClassName("grid-item");
 
     let randomIndex;
     let cellIsEmpty = false;
@@ -422,9 +448,8 @@ class LeanGame extends HTMLElement {
 
   // Draws the car parts on the screen
   carVisuals() {
-    const carContainer = document.createElement("div");
-    carContainer.classList.add("car-container");
-    carContainer.id = "car-container";
+    this.workstationTitle.classList.remove("hidden");
+    this.carContainer.classList.remove("hidden");
     const workstation = this.getCurrentWorkstation();
     const car = this.game.getCarFromWorkstation(workstation.id);
 
@@ -436,7 +461,7 @@ class LeanGame extends HTMLElement {
       placeholder.id = `placeholder${workstation.id}`;
       placeholder.src = `./img/placeholders/${workstation.id}.png`;
       placeholder.alt = `image of ${workstation.id}`;
-      carContainer.append(placeholder);
+      this.carContainer.append(placeholder);
     }
 
     try {
@@ -450,17 +475,16 @@ class LeanGame extends HTMLElement {
           carPart.id = part;
           carPart.src = `./img/parts/${part}.png`;
           carPart.alt = `image of ${part}`;
-          carContainer.append(carPart);
+          this.carContainer.append(carPart);
         }
       });
-      this.shadowRoot.appendChild(carContainer);
     } catch (error) {
       //console.error(error);
     }
     if (workstation.getRemainingTime()) {
-      carContainer.style.backgroundColor = "#ed4f4f";
+      this.carContainer.style.backgroundColor = "#ed4f4f";
     } else {
-      carContainer.style.backgroundColor = "";
+      this.carContainer.style.backgroundColor = "";
     }
   }
 

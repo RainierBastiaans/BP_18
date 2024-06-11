@@ -585,13 +585,6 @@ input[type="number"] {
   margin-bottom: 20px;
 }
 
-#roundMessage {
-  position: absolute;
-  top: 18vh;
-  left: 47vw;
-  padding: 0;
-}
-
 label {
   position: relative;
   display: inline-block;
@@ -719,49 +712,79 @@ button:disabled {
 ==========================*/
 #game-container {
   text-align: center;
-  background: url("./img/background/game-station.svg") center center;
-  background-size: cover;
-  overflow: hidden;
-  height: 95.5vh;
+}
+
+.flex-row {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+#game-info {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#current-workstation {
+  size: 90px;
+}
+
+#visuals-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+}
+
+#stock-container {
+  min-width: 12.5rem;
+}
+
+#car-game-container {
+  justify-content: center;
+  align-items: center;
+}
+
+#extra-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-width: 12.5rem;
 }
 
 /*========================= 
 ========CAR VISUALS======== 
 =========================*/
 .car-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  position: relative;
+  justify-items: center;
+  align-content: center;
   border: 5px solid black;
   background-color: rgb(190, 184, 122);
-  width: auto;
   height: 50vh;
-  position: absolute;
-  top: 30vh;
-  left: 40vw;
+  width: auto;
   aspect-ratio: 8 / 10;
 }
 
 .car-part {
   max-width: 125px;
   margin: 5px 0;
-  position: absolute;
+
 }
 
 .part-buttons {
   display: grid;
   align-items: center;
   justify-content: center;
-  grid-template-columns: repeat(3, 8vw);
-  grid-template-rows: repeat(10, 6.5vh);
-  width: 25vw;
-  height: 65vh;
+  grid-template-columns: repeat(3, 5.5rem);
+  grid-template-rows: repeat(10, 6vh);
+  width: auto;
+  height: auto;
   background-color: rgb(180, 184, 241);
   border: 5px solid black;
-  position: absolute;
-  left: 6vw;
-  top: 20.5vh;
-
 }
 
 .part-buttons-oderly {
@@ -769,11 +792,9 @@ button:disabled {
   grid-template-rows: repeat(4, 0.5fr);
   background-color: rgb(180, 184, 241);
   border: 5px solid black;
-  position: absolute;
-  left: 6vw;
-  top: 20.5vh;
-  width: 30vw;
-  height: 65vh;
+  width: auto;
+  height: auto;
+  padding: 7.5px;
 }
 
 .part-container {
@@ -800,20 +821,7 @@ button:disabled {
 }
 
 #move-car-button {
-  position: absolute;
-  top: 24vh;
-  left: 44vw;
   background-color: rgb(87, 146, 255);
-}
-
-#move-car-button:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
-}
-
-#move-car-button:active {
-  transform: translateY(2px);
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
 }
 
 #move-car-button:disabled {
@@ -823,15 +831,12 @@ button:disabled {
 }
 
 #quality-control {
-  position: absolute;
-  top: 30vh;
-  left: 63vw;
   width: 100px;
   height: 100px;
   border: 3px solid black;
   border-radius: 50%;
   text-align: center;
-  background-color: rgb(180, 184, 241);
+  background-color: rgb(118, 126, 236);
   background-image: url(./img/quality-control/checkmark.svg);
   background-repeat: no-repeat;
   background-position: center center;
@@ -845,9 +850,6 @@ button:disabled {
 }
 
 #remove-button {
-  position: absolute;
-  top: 45vh;
-  left: 63vw;
   width: 100px;
   height: 100px;
   border: 3px solid black;
@@ -860,8 +862,8 @@ button:disabled {
 }
 
 #previous-station-button {
-  width: 50px;
-  height: 50px;
+  width: 40px;
+  height: 40px;
   border: 1px solid black;
   border-radius: 50%;
   text-align: center;
@@ -869,7 +871,7 @@ button:disabled {
   background-repeat: no-repeat;
   background-position: center center;
   background-size: 50%;
-  background-color: rgb(180, 184, 241);
+  background-color: rgb(87, 146, 255);
 }
 
 #previous-station-button:disabled {
@@ -879,8 +881,8 @@ button:disabled {
 }
 
 #next-station-button {
-  width: 50px;
-  height: 50px;
+  width: 40px;
+  height: 40px;
   border: 1px solid black;
   border-radius: 50%;
   text-align: center;
@@ -888,18 +890,13 @@ button:disabled {
   background-repeat: no-repeat;
   background-position: center center;
   background-size: 50%;
-  background-color: rgb(180, 184, 241);
+  background-color: rgb(87, 146, 255);
 }
 
 #next-station-button:disabled {
   cursor: not-allowed;
   background-color: rgba(0, 0, 0, 0.08);
   color: rgba(0, 0, 0, 0.3);
-}
-
-.no-P-M {
-  margin: 0;
-  padding: 0;
 }
 
 #message {
@@ -913,27 +910,36 @@ button:disabled {
 ==============================*/
 /*=======WORKSTATION 1=========*/
 #chassis {
-  top: 22%;
+  position: absolute;
+  top: 10%;
   height: 12%;
+  left: 35%;
 }
 
 #hood {
-  top: 33%;
+  position: absolute;
+  top: 21%;
   height: 14%;
+  left: 49%;
 }
 
 #trunk {
-  top: 47%;
-  height: 13%;
+  position: absolute;
+  top: 35%;
+  height: 14%;
+  left: 51%;
 }
 
 #door {
-  top: 60%;
-  height: 12%;
+  position: absolute;
+  top: 48%;
+  height: 11%;
+  left: 35%;
 }
 
 /*=======WORKSTATION 2=========*/
 #engineBlock {
+  position: absolute;
   top: 51%;
   left: 81%;
   height: 5%;
@@ -941,6 +947,7 @@ button:disabled {
 }
 
 #cylinderHead {
+  position: absolute;
   top: 47%;
   left: 81%;
   height: 5%;
@@ -948,6 +955,7 @@ button:disabled {
 }
 
 #piston {
+  position: absolute;
   top: 48%;
   left: 82%;
   height: 2%;
@@ -955,6 +963,7 @@ button:disabled {
 }
 
 #sparkPlugs {
+  position: absolute;
   top: 44%;
   left: 82%;
   height: 3%;
@@ -963,24 +972,29 @@ button:disabled {
 
 /*=======WORKSTATION 3=========*/
 #dashboard {
+  position: absolute;
   top: 20%;
+  left: 32%;
   height: 14%;
   width: auto;
 }
 
 #steeringWheel {
+  position: absolute;
   top: 21%;
   left: 32%;
   height: 13%;
 }
 
 #seat {
+  position: absolute;
   top: 53%;
   left: 23%;
   height: 20%;
 }
 
 #carpet {
+  position: absolute;
   top: 37%;
   left: 29%;
   height: 14%;
@@ -988,6 +1002,7 @@ button:disabled {
 
 /*=======WORKSTATION 4=========*/
 #battery {
+  position: absolute;
   top: 47%;
   left: 28%;
   height: 6%;
@@ -995,18 +1010,21 @@ button:disabled {
 
 
 #alternator {
+  position: absolute;
   top: 50%;
   left: 10%;
   height: 4%;
 }
 
 #wiringHarness {
+  position: absolute;
   top: 49%;
   left: 19%;
   height: 3%;
 }
 
 #headlights {
+  position: absolute;
   top: 50%;
   left: 89%;
   height: 4%;
@@ -1014,24 +1032,28 @@ button:disabled {
 
 /*=======WORKSTATION 5=========*/
 #brakePads {
+  position: absolute;
   top: 55%;
   left: 62%;
   height: 7%;
 }
 
 #wheel {
+  position: absolute;
   top: 54%;
   left: 60%;
   height: 10%;
 }
 
 #tire {
+  position: absolute;
   top: 53%;
   left: 59%;
   height: 12%;
 }
 
 #hubcap {
+  position: absolute;
   top: 56%;
   left: 62%;
   height: 7%;
@@ -1039,25 +1061,21 @@ button:disabled {
 
 /* Background/Placeholder for workstations */
 #placeholder2 {
-  position: absolute;
   height: auto;
   width: 95%;
 }
 
 #placeholder3 {
-  position: absolute;
   height: 80%;
   width: auto;
 }
 
 #placeholder4 {
-  position: absolute;
   height: auto;
   width: 85%;
 }
 
 #placeholder5 {
-  position: absolute;
   height: auto;
   width: 95%;
 }
@@ -1066,7 +1084,7 @@ button:disabled {
 
 /* Game Timer */
 .game-timer {
-  position: absolute;
+
   top: 50px;
   left: 20px;
 }
@@ -1108,7 +1126,7 @@ button:disabled {
 /* maintenance Timer */
 .timer {
   margin-top: 10px;
-  position: absolute;
+
   top: 40vh;
   right: 8vw;
 }
@@ -1151,8 +1169,6 @@ button:disabled {
   display: flex;
   justify-content: space-evenly;
   align-items: center;
-  width: 100%;
-  margin: 10px 0;
 }
 
 .car-position-box {
@@ -1166,7 +1182,7 @@ button:disabled {
 .car-position {
   align-content: center;
   font-weight: bold;
-  border: 1px solid #ccc;
+  border: 1px solid black;
   padding: 5px;
   height: 20px;
   width: 20px;
@@ -1214,7 +1230,7 @@ button:disabled {
 /* In game statistics*/
 .ingame-statistics-container {
   display: flex;
-  position: absolute;
+
   top: 10px;
 }
 
