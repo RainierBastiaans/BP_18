@@ -87,7 +87,7 @@ class ChooseLeanmethod extends HTMLElement {
     return `
       <li class="applied-method">
         <img src="img/choose-leanmethods/${leanMethod.id}.png" alt="${leanMethod.name}" class="lean-method-image">
-        <span class="leanmethod-name">${leanMethod.name} (Already Applied)</span>
+        <span class="leanmethod-name">${leanMethod.name}</span>
       </li>
     `;
   }

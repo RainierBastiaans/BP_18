@@ -4,9 +4,9 @@ class ShowStats extends HTMLElement {
     this.attachShadow({ mode: "open" });
 
     //style and header
-    this.shadowRoot.innerHTML = `
-    <link rel="stylesheet" href="styles.css">
-    `;
+    // this.shadowRoot.innerHTML = `
+    // <link rel="stylesheet" href="styles.css">
+    // `;
     this.classList.add("component-style");
     this.classList.add("stats-component");
     this.currentRound = 0; // Track current round
@@ -17,6 +17,9 @@ class ShowStats extends HTMLElement {
   }
 
   render(gameStats) {
+    this.shadowRoot.innerHTML = `
+    <link rel="stylesheet" href="styles.css">
+    `;
     console.log(gameStats);
     //Heading
     const heading = document.createElement("div");

@@ -110,6 +110,7 @@ selectWorkstationComponent.addEventListener("workstationchange", (event) => {
 //BUILD COLUMNS
 //BUILD COLUMN 1
 configGrid.appendColumn(1, playerNameInput);
+configGrid.appendColumn(1, showStats);
 //configGrid.appendColumn(1, kapitaal);
 configGrid.appendColumn(1, fixedCosts);
 
@@ -141,8 +142,8 @@ const liveStockContainer = document.getElementById("live-stock-container");
 liveStockContainer.appendChild(liveStockComponent);
 
 //STATS
-const statsContainer = document.getElementById("stats-container");
-statsContainer.appendChild(showStats);
+// const statsContainer = document.getElementById("stats-container");
+// statsContainer.appendChild(showStats);
 
 //HIDE ALL COMPONENTS
 liveContainer.classList.add("hidden");
