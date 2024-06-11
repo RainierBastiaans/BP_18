@@ -231,7 +231,6 @@ class Game {
   endGame() {
     this.isOver = true;
     this.updateHighscores();
-    this.updateHighscores();
   }
 
   async updateHighscores() {

@@ -226,7 +226,12 @@ function showRoundScreen() {
 }
 
 function showEndGameScreen() {
-  alert("no ending screen yet");
+  showStats.show();
+  highscoreBoard.show()
+  letsgetstartButton.show()
+  gameContainer.classList.add("hidden")
+  liveContainer.classList.add("hidden")
+  startGrid.classList.remove("hidden")
 }
 
 function showStartScreen() {

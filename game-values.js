@@ -44,5 +44,5 @@ export const gameValues = {
   pricePerPart: 100,
 
   //Number of rounds
-  numberOfRounds: 5,
+  numberOfRounds: 1,
 };
