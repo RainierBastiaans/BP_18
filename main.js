@@ -66,7 +66,7 @@ await fetchParts().then((fetchedParts) => {
 });
 
 const selectWorkstationComponent = new SelectWorkstation();
-const playerNameInput = new PlayerName(leanMethodService.getAllLeanMethods());
+const playerNameInput = new PlayerName();
 const startButton = new StartButton(playerNameInput.playerName);
 const gameHeader = new GameHeader();
 const gameDescriptionComponent = new GameDescriptionContainer();
@@ -94,8 +94,6 @@ homePage.appendChild(newRoundButton);
 
 selectWorkstationComponent.addEventListener("workstationchange", (event) => {
   const oldSelectedWorkstation = selectedWorkstation || 1;
-  console.log(oldSelectedWorkstation);
-  console.log(event.detail.workstation);
   // Update selected workstation
   selectedWorkstation = parseInt(event.detail.workstation) || 1;
 
