@@ -4,7 +4,6 @@ class HighscoreBoard extends HTMLElement {
     this.db = db;
 
     const shadowRoot = this.attachShadow({ mode: "open" });
-    this.classList.add("component-style");
     const title = document.createElement("h2");
     title.textContent = "Top 3 Highscores";
     shadowRoot.appendChild(title);

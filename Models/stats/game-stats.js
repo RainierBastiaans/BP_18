@@ -59,7 +59,6 @@ class GameStats extends Subject {
       new RoundStats(this.rounds.size + 1, this.game)
     )
     this.currentRound = this.rounds.get(this.rounds.size)
-    console.log(this.currentRound)
     this.deductRoundCosts();
     this.notifyObservers(this)
   }

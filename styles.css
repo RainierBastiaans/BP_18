@@ -24,17 +24,18 @@ body {
   color: #333; */
 }
 
-.horizontal-container{
+.horizontal-container {
   display: flex;
   flex-direction: row;
 }
 
-.vertical-container{
+.vertical-container {
   display: flex;
   flex-direction: column;
 }
 
-h2, h3 {
+h2,
+h3 {
   padding: 1%;
   margin: 1%;
 }
@@ -66,7 +67,6 @@ h2, h3 {
   display: flex;
   flex-direction: column;
   align-items: stretch;
-  
 }
 
 .config-grid {
@@ -271,7 +271,6 @@ input[type="text"] {
   transition: background-color 0.3s ease;
 }
 
-
 /*====================
 ===GAME DESCRIPTION===
 ====================*/
@@ -290,7 +289,7 @@ game-description-container {
 =====SELECT WORKSTATION=====
 ==========================*/
 
-.workstation-icon{
+.workstation-icon {
   width: 3em;
   height: 3em;
   padding: 0 5px;
@@ -333,7 +332,7 @@ game-description-container {
 }
 
 .workstation-option label {
-  width: 2.2em; 
+  width: 2.2em;
   height: 1.5em;
   font-size: 2em;
   border-radius: 15px;
@@ -352,7 +351,7 @@ game-description-container {
   background-color: #0056b3;
 }
 
-.workstation-option input[type="radio"]:checked+label {
+.workstation-option input[type="radio"]:checked + label {
   background-color: #28a745;
 }
 
@@ -361,7 +360,7 @@ game-description-container {
 ====================*/
 .players-overview-container {
   padding: 20px;
-  background-color: #ADD8E6;
+  background-color: #add8e6;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(182, 174, 174, 0.795);
   max-width: 800px;
@@ -439,7 +438,7 @@ game-description-container {
   position: relative;
 }
 
-.shop-heading .shop-tip{
+.shop-heading .shop-tip {
   visibility: hidden;
   width: 300px;
   background-color: #555;
@@ -546,7 +545,7 @@ input[type="number"] {
 /* Shop Buy button styles */
 .shop-buy-button {
   width: 100%;
-  max-width:inherit;
+  max-width: inherit;
   background-color: #28a745;
   border: none;
   padding: 15px 0;
@@ -644,7 +643,7 @@ start-button {
   border-radius: 15px;
   line-height: 1.25;
   max-width: inherit;
-  width: 100% ;
+  width: 100%;
 }
 
 #newRoundButton:hover,
@@ -753,7 +752,6 @@ button:disabled {
   position: absolute;
   left: 6vw;
   top: 20.5vh;
-
 }
 
 .part-buttons-oderly {
@@ -826,8 +824,6 @@ button:disabled {
   background-position: center center;
   background-size: 50%;
 }
-
-
 
 /*==============================
 ===WORKSTATIONS PARTS VISUALS===
@@ -914,7 +910,6 @@ button:disabled {
   height: 6%;
 }
 
-
 #alternator {
   top: 50%;
   left: 10%;
@@ -992,12 +987,12 @@ button:disabled {
   left: 20px;
 }
 
-.game-timer>svg {
+.game-timer > svg {
   width: 100px;
   height: 100px;
 }
 
-.game-timer>svg>circle {
+.game-timer > svg > circle {
   fill: none;
   stroke-opacity: 0.3;
   stroke: #0400fa;
@@ -1006,25 +1001,24 @@ button:disabled {
   transform: rotate(-90deg);
 }
 
-.game-timer>svg>circle+circle {
+.game-timer > svg > circle + circle {
   stroke-dasharray: 1;
   stroke-dashoffset: 1;
   stroke-linecap: round;
   stroke-opacity: 1;
 }
 
-.game-timer.animatable>svg>circle+circle {
+.game-timer.animatable > svg > circle + circle {
   transition: stroke-dashoffset 0.3s ease;
 }
 
-.game-timer>svg>text {
+.game-timer > svg > text {
   font-size: 1rem;
 }
 
-.game-timer>svg>text+text {
+.game-timer > svg > text + text {
   font-size: 1rem;
 }
-
 
 /* maintenance Timer */
 .timer {
@@ -1034,12 +1028,12 @@ button:disabled {
   right: 8vw;
 }
 
-.timer>svg {
+.timer > svg {
   width: 200px;
   height: 200px;
 }
 
-.timer>svg>circle {
+.timer > svg > circle {
   fill: none;
   stroke-opacity: 0.3;
   stroke: #fd0d0d;
@@ -1048,22 +1042,22 @@ button:disabled {
   transform: rotate(-90deg);
 }
 
-.timer>svg>circle+circle {
+.timer > svg > circle + circle {
   stroke-dasharray: 1;
   stroke-dashoffset: 1;
   stroke-linecap: round;
   stroke-opacity: 1;
 }
 
-.timer.animatable>svg>circle+circle {
+.timer.animatable > svg > circle + circle {
   transition: stroke-dashoffset 0.3s ease;
 }
 
-.timer>svg>text {
+.timer > svg > text {
   font-size: 2rem;
 }
 
-.timer>svg>text+text {
+.timer > svg > text + text {
   font-size: 1rem;
 }
 
@@ -1150,57 +1144,91 @@ button:disabled {
   right: 0;
   position: absolute;
 
-/*! Statisctics visuals end */
+  /*! Statisctics visuals end */
 
+  .livestock-part-list {
+    display: flex;
+    justify-content: space-around;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
 
-.livestock-part-list {
+  .livestock-part-list li {
+    text-align: center;
+  }
+
+  .livestock-part-name {
+    display: block;
+  }
+
+  .livestock-part-quantity {
+    display: block;
+    margin-top: 5px;
+    font-weight: bold;
+  }
+
+  input[type="number"] {
+    width: 60px;
+    padding: 5px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+  }
+
+  /* Buy button styles */
+  .shop-buy-button {
+    width: 100%;
+    background-color: #28a745;
+    color: #fff;
+    border: none;
+    padding: 15px 0;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-size: 1.1em;
+    font-weight: bold;
+    margin-top: 20px;
+  }
+
+  .shop-buy-button:hover {
+    background-color: #218838;
+  }
+
+  /* startScreen */
+start-grid {
+  color: #0056b3;
   display: flex;
-  justify-content: space-around;
-  list-style: none;
-  padding: 0;
-  margin: 0;
+  flex-direction: column;
+  height: 100vh;
 }
 
-.livestock-part-list li {
-  text-align: center;
+.config-column {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-.livestock-part-name {
-  display: block;
+#start-column-1 {
+  flex: 0 0 80%;
+  height: 80%;
+  background-color: #d1e7dd;
+  box-sizing: border-box;
+  border-right: 2px solid #ccc;
 }
 
-.livestock-part-quantity {
-  display: block;
-  margin-top: 5px;
-  font-weight: bold;
+#start-column-2 {
+  flex: 0 0 20%;
+  height: 100%;
+  background-color: #f8d7da;
+  box-sizing: border-box;
 }
 
-input[type="number"] {
-  width: 60px;
-  padding: 5px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-}
-
-/* Buy button styles */
-.shop-buy-button {
+#start-column-3 {
   width: 100%;
-  background-color: #28a745;
-  color: #fff;
-  border: none;
-  padding: 15px 0;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-  font-size: 1.1em;
-  font-weight: bold;
-  margin-top: 20px;
+  height: 20%;
+  background-color: #cfe2ff;
+  box-sizing: border-box;
 }
 
-.shop-buy-button:hover {
-  background-color: #218838;
-} 
-
-
-/*! Statisctics visuals end */
+  /*! Statisctics visuals end */
 }

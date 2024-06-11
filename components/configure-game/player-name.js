@@ -12,7 +12,7 @@ class PlayerName extends HTMLElement {
         alt="Worker icons created by Smashicons - Flaticon">-->
         <img src="./img/player.png" alt="player icon" class="player-icon">
         </a>
-        <input type="text" id="playerName" value = "" 
+        <input type="text" id="playerName" value = "Simon" 
         placeholder="Enter your player name" minLength="3" maxLength="15"/>
         <span id="playerNameError" class="error-message"></span>
         </div>
