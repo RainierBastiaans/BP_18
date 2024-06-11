@@ -51,10 +51,10 @@ const letsgetstartButton = new LetsGetStartButton()
 const homePage = document.getElementById("home-page");
 const startPage = document.getElementById("start-page")
 const gameContainer = document.getElementById("game-container");
-const ingameStatsContainer = document.getElementById("ingame-stats-container");
-const liveStockContainer = document.getElementById("live-stock-container");
 const liveContainer = document.getElementById("live");
-const statsContainer = document.getElementById("stats-container");
+const ingameStatsContainer = document.getElementById("ingame-stats-container")
+const liveStockContainer = document.getElementById("live-stock-container")
+const statsContainer = document.getElementById("stats-container")
 
 let selectedLeanMethod;
 let selectedWorkstation;
@@ -186,6 +186,7 @@ function showConfigScreen() {
 
 function showGameScreen() {
   gameContainer.classList.remove("hidden");
+  homePage.classList.add("hidden")
   leanGame.show();
   showIngameStats.show();
   playerNameInput.hide();
@@ -205,6 +206,7 @@ function showGameScreen() {
 }
 
 function showRoundScreen() {
+  homePage.classList.remove("hidden")
   leanGame.hide();
   showIngameStats.hide();
   playerNameInput.hide();
@@ -279,163 +281,19 @@ function updatePlayerWorkstations(oldSelectedWorkstation, selectedWorkstation) {
     }
   });
   playersOverview.update(otherPlayers);
-});
-
-//BUILD COLUMNS
-//BUILD COLUMN 1
-configGrid.appendColumn(1, playerNameInput);
-//configGrid.appendColumn(1, kapitaal);
-configGrid.appendColumn(1, fixedCosts);
-
-//BUILD COLUMN 2
-configGrid.appendColumn(2, gameDescriptionComponent);
-await fetchParts().then((fetchedParts) => {
-  let personalStockComponent = new PersonalStock(fetchedParts)
-  leanGame.game.stock.addObserver(personalStockComponent)
-  shopComponent = new ShopComponent(fetchedParts, personalStockComponent);
-  configGrid.appendColumn(2, shopComponent);
-  shopComponent.addEventListener("buy-parts", (event) => {
-    const boughtParts = event.detail.parts;
-    leanGame.game.buyStock(boughtParts);
-  });
-  configGrid.appendColumn(2, startButton);
-  configGrid.appendColumn(2, newRoundButton);
-});
-
-//BUILD COLUMN 3
-configGrid.appendColumn(3, chooseLeanMethod);
-configGrid.appendColumn(3, selectWorkstationComponent);
-configGrid.appendColumn(3, playersOverview);
-
-//IN-GAME STATS
-const ingameStatsContainer = document.getElementById("ingame-stats-container");
-ingameStatsContainer.appendChild(showIngameStats);
-
-const liveStockContainer = document.getElementById("live-stock-container");
-liveStockContainer.appendChild(liveStockComponent);
-
-//STATS
-const statsContainer = document.getElementById("stats-container");
-statsContainer.appendChild(showStats);
-
-//HIDE ALL COMPONENTS
-liveContainer.classList.add("hidden");
-gameContainer.classList.add("hidden");
-chooseLeanMethod.hide();
-showStats.hide();
-showIngameStats.hide();
-gameContainer.classList.add("hidden");
-leanGame.hide();
-newRoundButton.hide();
-liveStockComponent.hide();
+};
 
 //EVENT LISTENERS
 chooseLeanMethod.addEventListener("leanmethodchange", (event) => {
   selectedLeanMethod = event.detail.selectedLeanMethod;
 });
 
-// playerNameInput.addEventListener("playernamechange", (event) => {
-//   console.log("Player name changed to: ", event.detail.playerName);
-//   const playerName = event.detail.playerName.value || "";
-//   startButton.update(playerName);
-// });
 
-// Game start
-startButton.addEventListener("startgame", (event) => {
-  console.log("Game started with player name:", event.detail.playerName);
-  const playerName = event.detail.playerName.value;
 
-  //HIDE
-  homePage.classList.add("hidden");
-  configGrid.hide();
-  gameHeader.hide();
-  gameDescriptionComponent.hide();
-  startButton.hide();
-  showStats.hide();
-  selectWorkstationComponent.hide();
-  highscoreBoard.hide();
-  shopComponent.hide();
-  playerNameInput.hide();
-  fixedCosts.hide();
-  playersOverview.hide();
 
-  //SHOW
-  gameContainer.classList.remove("hidden");
-  leanGame.show();
-  showIngameStats.show();
 
-  // Start the game
-  leanGame.startGame(playerName, selectedWorkstation, otherPlayers);
-});
 
-newRoundButton.addEventListener("newRound", (event) => {
-  //HIDE
-  homePage.classList.add("hidden");
-  configGrid.hide();
-  gameHeader.hide();
-  newRoundButton.hide();
-  chooseLeanMethod.hide();
-  showStats.hide();
-  shopComponent.hide();
 
-  //SHOW
-  showIngameStats.show();
-  gameContainer.classList.remove("hidden");
-  leanGame.show();
-
-  // Start new round
-  leanGame.newRound(selectedLeanMethod);
-});
-
-//Round end
-document.addEventListener("roundover", (event) => {
-  const { gameStats, leanMethods } = event.detail;
-
-  //HIDE
-  gameContainer.classList.add("hidden");
-  leanGame.hide();
-  showIngameStats.hide();
-  leanGame.hide();
-
-  //SHOW
-  homePage.classList.remove("hidden");
-  configGrid.show();
-  gameHeader.show();
-  showStats.show();
-  chooseLeanMethod.showLeanMethods(leanMethods);
-  chooseLeanMethod.show();
-  newRoundButton.show();
-  shopComponent.show();
-  playerNameInput.show();
-  fixedCosts.show();
-  playersOverview.show();
-
-  //update statistics
-  showStats.update(gameStats);
-});
-
-//Game end
-document.addEventListener("gameover", (event) => {
-  const { gameStats } = event.detail;
-
-  //HIDE
-  gameContainer.classList.add("hidden");
-  leanGame.hide();
-  showStats.show();
-  showIngameStats.hide();
-
-  //update statistics
-  showStats.update(gameStats);
-
-  //SHOW
-  homePage.classList.remove("hidden");
-  configGrid.show();
-  gameHeader.show();
-  gameDescriptionComponent.show();
-  startButton.show();
-  selectWorkstationComponent.show();
-  highscoreBoard.show();
-});
 
 async function fetchParts() {
   try {

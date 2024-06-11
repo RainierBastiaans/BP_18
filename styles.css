@@ -784,9 +784,6 @@ button:disabled {
   height: auto;
   background-color: rgb(180, 184, 241);
   border: 5px solid black;
-  position: absolute;
-  left: 6vw;
-  top: 20.5vh;
 }
 
 .part-buttons-oderly {
