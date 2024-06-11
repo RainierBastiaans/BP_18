@@ -39,6 +39,17 @@ h2, h3 {
   margin: 1%;
 }
 
+ul {
+  list-style-type: none; /* Removes bullet points or numbers */
+  padding: 0; /* Removes padding */
+  margin: 0; /* Removes margin */
+}
+
+li {
+  padding: 0;
+  margin: 0;
+}
+
 /**=========================
 =========Header=============
 ==========================*/
@@ -392,6 +403,16 @@ game-description-container {
   display: flex;
 }
 
+.available-method-container input[type="radio"] {
+  display: none;
+  width: 100%;
+}
+
+.available-method-container input[type="radio"]:checked + .available-method {
+  background-color: #e850ff;
+  color: #fff;
+}
+
 .available-method,
 .applied-method {
   padding: 10px;
@@ -410,20 +431,10 @@ game-description-container {
   background-color: #f1f1f1;
 }
 
-.available-method input[type="radio"] {
-  display: none;
-  width: 100%;
-}
-
 .available-method label {
   padding: 10px;
   cursor: pointer;
   transition: background-color 0.3s ease, color 0.3s ease;
-}
-
-.available-method input[type="radio"]:checked + available-leanmethod-container {
-  background-color: #007bff;
-  color: #fff;
 }
 
 .available-method label .tooltip {
@@ -455,7 +466,7 @@ game-description-container {
 }
 
 .leanmethod-name {
-  font-size: 1.2em;
+  font-size: 1em;
   font-weight: bold;
 }
 

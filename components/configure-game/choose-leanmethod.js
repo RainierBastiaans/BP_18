@@ -8,8 +8,10 @@ class ChooseLeanmethod extends HTMLElement {
       <div id="leanmethods-container" class="leanmethods-container vertical-container">
         <h2>Select Lean Method</h2>
         <ul id="available-methods" class="leanmethods">
+          <h3>Available Lean Methods</h3>
         </ul>
         <ul id="applied-methods" class="leanmethods">
+          <h3>Applied Lean Methods</h3>
         </ul>
         <div class="hidden" alt="References for icons of LEAN methods">
           <a href="https://www.flaticon.com/free-icons/just-in-time" title="just in time icons">Just in time icons created by Iconjam - Flaticon</a>
@@ -65,14 +67,14 @@ class ChooseLeanmethod extends HTMLElement {
 
   createLeanMethodOption(leanMethod) {
     return `
-      <li class="available-method">
-        <input type="radio" id="leanmethod-${leanMethod.id}" name="game-option" value="${leanMethod.id}"/>
-          <div class="available-leanmethod-container">
-            <img src="img/choose-leanmethods/${leanMethod.id}.png" alt="${leanMethod.name}" class="lean-method-image">
-            <label for="leanmethod-${leanMethod.id}" class="leanmethod-name">${leanMethod.name}
-              <span class="tooltip">${leanMethod.description}</span>
-            </label>
-          </div>
+      <li class="available-method-container">
+        <input type="radio" id="leanmethod-${leanMethod.id}" name="game-option" value="${leanMethod.id}" class="hidden">
+        <div class="available-method">
+          <img src="img/choose-leanmethods/${leanMethod.id}.png" alt="${leanMethod.name}" class="lean-method-image">
+          <label for="leanmethod-${leanMethod.id}" class="leanmethod-name">${leanMethod.name}
+            <span class="tooltip">${leanMethod.description}</span>
+          </label>
+        </div>
       </li>
     `;
   }

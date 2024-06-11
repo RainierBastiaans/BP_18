@@ -153,7 +153,6 @@ showIngameStats.hide();
 gameContainer.classList.add("hidden");
 leanGame.hide();
 newRoundButton.hide();
-showIngameStats.hide();
 liveStockComponent.hide();
 
 //EVENT LISTENERS
