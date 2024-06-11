@@ -174,7 +174,6 @@ input[type="text"] {
 .personal-stock-container {
   display: flex;
   flex-direction: column;
-  align-items: left;
   padding: 1%;
   margin: 1%;
 }
@@ -379,12 +378,16 @@ game-description-container {
 ====================*/
 .leanmethods-container {
   align-items: center;
-  gap: 25px;
 }
 
-.leanmethods {
+.lean-methods-list-container {
   display: flex;
-  flex-direction: column;
+  align-items: left;
+  width: 85%
+}
+
+.leanmethods-list {
+  justify-content: space-around;
   max-width: 500px;
   margin-bottom: 20px;
   gap: 15px;
@@ -394,13 +397,15 @@ game-description-container {
 #applied-methods {
   display: flex;
   flex-direction: column;
+  align-items: stretch;
   gap: 10px;
-  width: 85%;
-  padding: 0;
+  width: 100%;
+  padding: 1%;
 }
 
 .leanmethods li {
   display: flex;
+  width: inherit;
 }
 
 .available-method-container input[type="radio"] {
@@ -468,6 +473,17 @@ game-description-container {
 .leanmethod-name {
   font-size: 1em;
   font-weight: bold;
+}
+
+.leanmethod-list-title {
+  font-size: 1.2em;
+  font-weight: 600;
+  text-align: left;
+}
+
+.leanmethod-list-description {
+  font-size: 0.8em;
+  text-align: left;
 }
 
 /*====================

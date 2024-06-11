@@ -7,17 +7,21 @@ class ChooseLeanmethod extends HTMLElement {
       <link rel="stylesheet" href="styles.css">
       <div id="leanmethods-container" class="leanmethods-container vertical-container">
         <h2>Select Lean Method</h2>
-        <ul id="available-methods" class="leanmethods">
-          <h3>Available Lean Methods</h3>
-        </ul>
-        <ul id="applied-methods" class="leanmethods">
-          <h3>Applied Lean Methods</h3>
-        </ul>
-        <div class="hidden" alt="References for icons of LEAN methods">
-          <a href="https://www.flaticon.com/free-icons/just-in-time" title="just in time icons">Just in time icons created by Iconjam - Flaticon</a>
-          <a href="https://www.flaticon.com/free-icons/excellence" title="Excellence icons">Excellence icons created by Uniconlabs - Flaticon</a>
-          <a href="https://www.flaticon.com/free-icons/maintenance" title="maintenance icons">Maintenance icons created by Freepik - Flaticon</a>
-          <a href="https://www.flaticon.com/free-icons/sort" title="sort icons">Sort icons created by Parzival 1997 - Flaticon</a>
+        <div class="leanmethods-list-container">
+          <h3 class="leanmethod-list-title">Available Lean Methods</h3>
+          <p class="leanmethod-list-description">Choose a Lean Method to apply to your workstation</p>
+          <ul id="available-methods" class="leanmethods-list">
+          </ul>
+          <h3 class="leanmethod-list-title">Applied Lean Methods</h3>
+          <p class="leanmethod-list-description">You have already applied the lean methods listed below to your assembly process.</p>
+          <ul id="applied-methods" class="leanmethods-list">
+          </ul>
+          <div class="hidden" alt="References for icons of LEAN methods">
+            <a href="https://www.flaticon.com/free-icons/just-in-time" title="just in time icons">Just in time icons created by Iconjam - Flaticon</a>
+            <a href="https://www.flaticon.com/free-icons/excellence" title="Excellence icons">Excellence icons created by Uniconlabs - Flaticon</a>
+            <a href="https://www.flaticon.com/free-icons/maintenance" title="maintenance icons">Maintenance icons created by Freepik - Flaticon</a>
+            <a href="https://www.flaticon.com/free-icons/sort" title="sort icons">Sort icons created by Parzival 1997 - Flaticon</a>
+          </div>
         </div>
       </div>
     `;
