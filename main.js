@@ -30,6 +30,16 @@ import { LeanMethodService } from "./lean-methods/lean-method-service.js";
 import { LetsGetStartButton } from "./components/start-screen/lets-get-started-button.js";
 import { StartGrid } from "./components/start-screen/start-grid.js";
 
+
+// Global error handler
+window.onerror = function(message, source, lineno, colno, error) {
+  alert('x')
+  console.error(`Error occurred: ${message}\nAt ${source}:${lineno}:${colno}`);
+  if (error) {
+    console.error(`Error object: ${error}`);
+  }
+}
+
 // INITIALIZE COMPONENTS
 const leanGame = new LeanGame();
 const db = new HighscoresDB();

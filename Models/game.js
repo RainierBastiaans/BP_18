@@ -29,29 +29,45 @@ class Game {
   }
 
   partExists(partName) {
-    const matchingPart = this.parts.find((part) => part.id === partName);
-    if (!matchingPart) {
-      throw new Error(
-        `Part not found: '${partName}' does not exist in available parts`
-      );
+    try{
+      const matchingPart = this.parts.find((part) => part.id === partName);
+      if (!matchingPart) {
+        throw new Error(
+          `Part not found: '${partName}' does not exist in available parts`
+        );
+      }
+      return true;
     }
-    return true;
+    catch (error){
+      window.reportError(error)
+    }
+    
   }
 
   set db(db) {
-    if (!(db instanceof HighscoresDB)) {
-      throw new Error("Invalid db: must be of type HighscoreDB");
+    try{
+      if (!(db instanceof HighscoresDB)) {
+        throw new Error("Invalid db: must be of type HighscoreDB");
+      }
+      this._db = db; // Use a private property to prevent further modification
     }
-    this._db = db; // Use a private property to prevent further modification
+    catch(error){
+      window.reportError(error)
+    }
   }
 
   set leanMethodService(leanMethodService) {
-    if (!(leanMethodService instanceof LeanMethodService)) {
-      throw new Error(
-        "Invalid leanMethodService: must be of type LeanMethodService"
-      );
+    try{
+      if (!(leanMethodService instanceof LeanMethodService)) {
+        throw new Error(
+          "Invalid leanMethodService: must be of type LeanMethodService"
+        );
+      }
+      this._leanMethodService = leanMethodService; // Use a private property
     }
-    this._leanMethodService = leanMethodService; // Use a private property
+    catch(error){
+      window.reportError(error)
+    }
   }
 
   get db() {
@@ -63,34 +79,39 @@ class Game {
   }
 
   createOrRefreshWorkstations() {
-    if (this.parts === undefined || this.parts.length === 0) {
-      throw new Error(
-        "Parts are not defined or empty. Cannot create workstations without parts."
-      );
-    }
-
-    const partsByWorkstation = new Map();
-    for (const part of this.parts) {
-      if (part.workstationFK === undefined || part.workstationFK === null) {
-        throw new Error("WorkstationFK is not defined for part: " + part.id);
+    try{
+      if (this.parts === undefined || this.parts.length === 0) {
+        throw new Error(
+          "Parts are not defined or empty. Cannot create workstations without parts."
+        );
       }
-      if (!partsByWorkstation.has(part.workstationFK)) {
-        partsByWorkstation.set(part.workstationFK, []);
+  
+      const partsByWorkstation = new Map();
+      for (const part of this.parts) {
+        if (part.workstationFK === undefined || part.workstationFK === null) {
+          throw new Error("WorkstationFK is not defined for part: " + part.id);
+        }
+        if (!partsByWorkstation.has(part.workstationFK)) {
+          partsByWorkstation.set(part.workstationFK, []);
+        }
+        partsByWorkstation.get(part.workstationFK).push(part);
       }
-      partsByWorkstation.get(part.workstationFK).push(part);
-    }
-
-    for (let i = 1; i <= 5; i++) {
-      const partsList = partsByWorkstation.get(i) || [];
-      this.workstations.set(
-        i,
-        new WorkingWorkstation(
+  
+      for (let i = 1; i <= 5; i++) {
+        const partsList = partsByWorkstation.get(i) || [];
+        this.workstations.set(
           i,
-          partsList.map((partData) => partData.id),
-          this.leanMethodService
-        )
-      );
+          new WorkingWorkstation(
+            i,
+            partsList.map((partData) => partData.id),
+            this.leanMethodService
+          )
+        );
+      }
     }
+    catch(error){
+      window.reportError(error)
+    }    
   }
 
   startGame(selectedWorkstation, playerName, bots) {
@@ -169,23 +190,28 @@ class Game {
   }
 
   getCarFromWorkstation(workstationId) {
-    if (
-      !Number.isInteger(workstationId) ||
-      workstationId < 1 ||
-      workstationId > 5
-    ) {
-      throw new Error(
-        "Invalid workstationId: must be an integer between 1 and 5"
+    try{
+      if (
+        !Number.isInteger(workstationId) ||
+        workstationId < 1 ||
+        workstationId > 5
+      ) {
+        throw new Error(
+          "Invalid workstationId: must be an integer between 1 and 5"
+        );
+      }
+  
+      // Find the car with matching state
+      const matchingCar = Array.from(this.cars.values()).find(
+        (car) =>
+          car.state instanceof CarAtWorkstation &&
+          car.state.workstationId === workstationId
       );
+      return matchingCar; // Might return undefined if no car is found
     }
-
-    // Find the car with matching state
-    const matchingCar = Array.from(this.cars.values()).find(
-      (car) =>
-        car.state instanceof CarAtWorkstation &&
-        car.state.workstationId === workstationId
-    );
-    return matchingCar; // Might return undefined if no car is found
+    catch(error){
+      window.reportError(error)
+    }
   }
 
   moveWaitingCars() {
@@ -216,16 +242,21 @@ class Game {
         this.stock.requestPart(part);
         this.cars.get(car.id).addPart(part, this.leanMethodService);
       } catch (error) {
-        //console.error(error);
+        return; //part isn't in stock or workstation is under maintenance
       }
     }
   }
 
   manualMove(car) {
-    if (!(car instanceof Car)) {
-      throw new Error("Invalid car: must be of type Car");
+    try{
+      if (!(car instanceof Car)) {
+        throw new Error("Invalid car: must be of type Car");
+      }
+      car.manualMove(this.cars, this.workstations);
     }
-    car.manualMove(this.cars, this.workstations);
+    catch(error){
+      window.reportError(error)
+    }
   }
 
   endGame() {
