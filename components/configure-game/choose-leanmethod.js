@@ -7,10 +7,10 @@ class ChooseLeanmethod extends HTMLElement {
       <link rel="stylesheet" href="styles.css">
       <div id="leanmethods-container" class="leanmethods-container vertical-container">
         <h2>Select Lean Method</h2>
-        <div id="available-methods" class="leanmethods">
-        </div>
-        <div id="applied-methods" class="leanmethods">
-        </div>
+        <ul id="available-methods" class="leanmethods">
+        </ul>
+        <ul id="applied-methods" class="leanmethods">
+        </ul>
         <div class="hidden" alt="References for icons of LEAN methods">
           <a href="https://www.flaticon.com/free-icons/just-in-time" title="just in time icons">Just in time icons created by Iconjam - Flaticon</a>
           <a href="https://www.flaticon.com/free-icons/excellence" title="Excellence icons">Excellence icons created by Uniconlabs - Flaticon</a>
@@ -64,25 +64,25 @@ class ChooseLeanmethod extends HTMLElement {
   }
 
   createLeanMethodOption(leanMethod) {
-    //TODO add images to lean methods
-    //images must match lean method id
     return `
-      <div class="available-method">
-        <img src="img/choose-leanmethods/${leanMethod.id}.png" alt="${leanMethod.name}" class="lean-method-image">
-        <input type="radio" id="leanmethod-${leanMethod.id}" name="game-option" value="${leanMethod.id}">
-        <label for="leanmethod-${leanMethod.id}">${leanMethod.name}
-          <span class="tooltip">${leanMethod.description}</span>
-        </label>
-      </div>
+      <li class="available-method">
+        <input type="radio" id="leanmethod-${leanMethod.id}" name="game-option" value="${leanMethod.id}"/>
+          <div class="available-leanmethod-container">
+            <img src="img/choose-leanmethods/${leanMethod.id}.png" alt="${leanMethod.name}" class="lean-method-image">
+            <label for="leanmethod-${leanMethod.id}" class="leanmethod-name">${leanMethod.name}
+              <span class="tooltip">${leanMethod.description}</span>
+            </label>
+          </div>
+      </li>
     `;
   }
 
   createAppliedLeanMethod(leanMethod) {
     return `
-      <div class="applied-method">
-        <img src="images/${leanMethod.id}.png" alt="${leanMethod.name}" class="lean-method-image">
-        <span>- ${leanMethod.name} (Already Applied)</span>
-      </div>
+      <li class="applied-method">
+        <img src="img/choose-leanmethods/${leanMethod.id}.png" alt="${leanMethod.name}" class="lean-method-image">
+        <span class="leanmethod-name">${leanMethod.name} (Already Applied)</span>
+      </li>
     `;
   }
 

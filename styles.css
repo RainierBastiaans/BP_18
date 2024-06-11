@@ -354,7 +354,7 @@ game-description-container {
   text-align: center;
 }
 
-.workstation-option button:hover {
+.workstation-option input[type="radio"]:hover + label{
   background-color: #0056b3;
 }
 
@@ -364,7 +364,7 @@ game-description-container {
 
 
 /*====================
-===CHOOSE LEAN METHD==
+===CHOOSE LEAN METHOD==
 ====================*/
 .leanmethods-container {
   align-items: center;
@@ -374,71 +374,56 @@ game-description-container {
 .leanmethods {
   display: flex;
   flex-direction: column;
-  width: 100%;
-  max-width: 600px;
+  max-width: 500px;
   margin-bottom: 20px;
   gap: 15px;
 }
 
+#available-methods,
+#applied-methods {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 85%;
+  padding: 0;
+}
+
+.leanmethods li {
+  display: flex;
+}
+
 .available-method,
 .applied-method {
-  display: flex;
-  align-items: center;
-  background-color: white;
-  gap: 15px;
   padding: 10px;
+  border-radius: 5px;
+  background-color: #fff;
   margin-bottom: 10px;
-  border: 1px solid rgba(0, 0, 0, 0.1);
-  border-radius: 8px;
-  transition: background-color 0.3s ease, border-color 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.applied-method {
+  background-color: #e9f5ff;
+  color: #28a745;;
 }
 
 .available-method:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+  background-color: #f1f1f1;
 }
 
 .available-method input[type="radio"] {
   display: none;
+  width: 100%;
 }
 
-.available-method input[type="radio"] + label {
-  position: relative;
-  padding-left: 30px;
+.available-method label {
+  padding: 10px;
   cursor: pointer;
-  color: var(--text-color);
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-.available-method input[type="radio"] + label::before {
-  content: "";
-  position: absolute;
-  top: 50%;
-  left: 0;
-  width: 20px;
-  height: 20px;
-  border: 2px solid var(--primary-color);
-  border-radius: 50%;
-  transform: translateY(-50%);
-  background-color: white;
-  transition: var(--transition);
-}
-
-.available-method input[type="radio"]:checked + label::before {
-  background-color: var(--primary-color);
-  border-color: var(--primary-color);
-}
-
-.available-method input[type="radio"]:checked + label::after {
-  content: "";
-  position: absolute;
-  top: 50%;
-  left: 6px;
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background-color: white;
-  transform: translateY(-50%);
-  transition: var(--transition);
+.available-method input[type="radio"]:checked + available-leanmethod-container {
+  background-color: #007bff;
+  color: #fff;
 }
 
 .available-method label .tooltip {
@@ -462,16 +447,16 @@ game-description-container {
   opacity: 1;
 }
 
-.applied-method {
-  background-color: #e0e0e0;
-  color: var(--text-color);
-}
-
 .lean-method-image {
   width: 40px;
   height: 40px;
   margin-right: 10px;
   vertical-align: middle;
+}
+
+.leanmethod-name {
+  font-size: 1.2em;
+  font-weight: bold;
 }
 
 /*====================
@@ -705,7 +690,6 @@ input[type="number"] {
 label {
   position: relative;
   display: inline-block;
-  border-bottom: 1px dotted black;
 }
 
 label .tooltip {
