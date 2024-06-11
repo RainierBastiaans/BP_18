@@ -1,6 +1,5 @@
 class CarState {
   constructor() {
-    this.qualityControlValue;
   }
 
   isComplete() {
@@ -10,10 +9,10 @@ class CarState {
   isBroken() {
     throw new Error("SuperClass");
   }
-
-  move() {
+  inProgress(){
     throw new Error("SuperClass");
   }
+
 
   addPart(parts, partToAdd) {
     throw new Error("SuperClass");

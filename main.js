@@ -43,10 +43,10 @@ const liveContainer = document.getElementById("live");
 let db = new HighscoresDB();
 //Normally this would be fetched from the database
 let otherPlayers = [
-  { name: "Bot 2", workstation: 2 },
-  { name: "Bottebot 3", workstation: 3 },
-  { name: "Butterbot 4", workstation: 4 },
-  { name: "i-robot 5", workstation: 5 },
+  { name: "OG Bot 2", workstation: 2 },
+  { name: "Bender bot 3", workstation: 3 },
+  { name: "Butter bot 4", workstation: 4 },
+  { name: "i-Robot 5", workstation: 5 },
 ];
 let liveStockComponent;
 let personalStockComponent;
@@ -66,8 +66,8 @@ await fetchParts().then((fetchedParts) => {
 });
 
 const selectWorkstationComponent = new SelectWorkstation();
-const playerNameInput = new PlayerName(leanMethodService.getAllLeanMethods());
-const startButton = new StartButton(playerNameInput.playerName);
+const playerNameInput = new PlayerName();
+const startButton = new StartButton();
 const gameHeader = new GameHeader();
 const gameDescriptionComponent = new GameDescriptionContainer();
 const highscoreBoard = new HighscoreBoard(db); // Pass db instance
@@ -161,11 +161,19 @@ chooseLeanMethod.addEventListener("leanmethodchange", (event) => {
   selectedLeanMethod = event.detail.selectedLeanMethod;
 });
 
+// playerNameInput.addEventListener("playernamechange", (event) => {
+//   console.log("Player name changed to: ", event.detail.playerName);
+//   const playerName = event.detail.playerName.value || "";
+//   startButton.update(playerName);
+// });
+
 // Game start
 startButton.addEventListener("startgame", (event) => {
-  const playerName = event.detail.playerName;
+  console.log("Game started with player name:", event.detail.playerName);
+  const playerName = event.detail.playerName.value;
 
   //HIDE
+  homePage.classList.add("hidden");
   homePage.classList.add("hidden");
   configGrid.hide();
   gameHeader.hide();
@@ -191,6 +199,7 @@ startButton.addEventListener("startgame", (event) => {
 
 newRoundButton.addEventListener("newRound", (event) => {
   //HIDE
+  homePage.classList.add("hidden");
   homePage.classList.add("hidden");
   configGrid.hide();
   gameHeader.hide();
@@ -219,6 +228,7 @@ document.addEventListener("roundover", (event) => {
   leanGame.hide();
 
   //SHOW
+  homePage.classList.remove("hidden");
   homePage.classList.remove("hidden");
   configGrid.show();
   gameHeader.show();
@@ -250,6 +260,7 @@ document.addEventListener("gameover", (event) => {
   showStats.update(gameStats);
 
   //SHOW
+  homePage.classList.remove("hidden");
   homePage.classList.remove("hidden");
   configGrid.show();
   gameHeader.show();

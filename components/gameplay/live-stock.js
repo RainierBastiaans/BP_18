@@ -14,7 +14,6 @@ class LiveStock extends HTMLElement {
     const container = document.createElement("div");
     container.classList.add("livestock-container");
     this.shadowRoot.appendChild(container);
-    console.log(this.shadowRoot.innerHTML);
 
     this.groupPartsByWorkstation();
     this.render();
@@ -23,7 +22,6 @@ class LiveStock extends HTMLElement {
       this.currentWorkstationIndex = newWorkstationIndex;
       this.render(); // Update UI with new parts
     });
-    console.log(this.shadowRoot.innerHTML);
   }
 
   hide() {
@@ -67,7 +65,6 @@ class LiveStock extends HTMLElement {
 
   render() {
     let container = this.shadowRoot.querySelector(".livestock-container");
-    console.log(container);
     container.innerHTML = "";
 
     // Get parts for the current workstation

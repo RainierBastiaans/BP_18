@@ -15,7 +15,6 @@ class FixedCosts extends HTMLElement {
                     <a href="https://www.flaticon.com/free-icons/gold-bars" title="gold-bars icons">Gold-bars icons created by surang - Flaticon</a>
                     <a href="https://www.flaticon.com/free-icons/personnel" title="personnel icons">Personnel icons created by Eucalyp - Flaticon</a>
                     <a href="https://www.flaticon.com/free-icons/facility-management" title="facility-management icons">Facility-management icons created by Eucalyp - Flaticon</a>
-                    <a href="https://www.flaticon.com/free-icons/price" title="price icons">Price icons created by Freepik - Flaticon</a>
                 </div>
                     ${this.createFixedCostElement(
                       "Start capital",
@@ -31,11 +30,6 @@ class FixedCosts extends HTMLElement {
                       "Personnel costs",
                       "personnelCosts",
                       fixedCosts.staff
-                    )}
-                    ${this.createFixedCostElement(
-                      "Price per part",
-                      "pricePerPart",
-                      fixedCosts.pricePerPart
                     )}
                 </ul>
             </div>

@@ -17,6 +17,10 @@ class CarInLine extends CarState {
     throw new Error("Quality control is not applicable to cars in line");
   }
 
+  inProgress(){
+    return true;
+  }
+
   move(cars) {
     // Check if a car with the same workstation ID and CarAtWorkstation type already exists
     const existingCar = Array.from(cars.values()).find((car) => {
