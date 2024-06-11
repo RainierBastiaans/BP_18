@@ -49,7 +49,6 @@ let otherPlayers = [
   { name: "i-Robot 5", workstation: 5 },
 ];
 let liveStockComponent;
-let personalStockComponent;
 const leanMethodService = new LeanMethodService();
 await leanMethodService.fetchLeanMethods();
 const configGrid = new ConfigGrid();
@@ -61,13 +60,12 @@ await fetchParts().then((fetchedParts) => {
   leanGame.game.stats.addObserver(showStats);
   leanGame.game.stats.addObserver(showIngameStats);
   liveStockComponent = new LiveStock(fetchedParts);
-  personalStockComponent = new PersonalStock(fetchedParts);
   leanGame.game.stock.addObserver(liveStockComponent);
 });
 
 const selectWorkstationComponent = new SelectWorkstation();
 const playerNameInput = new PlayerName();
-const startButton = new StartButton(playerNameInput.playerName);
+const startButton = new StartButton();
 const gameHeader = new GameHeader();
 const gameDescriptionComponent = new GameDescriptionContainer();
 const highscoreBoard = new HighscoreBoard(db); // Pass db instance
@@ -94,6 +92,8 @@ homePage.appendChild(newRoundButton);
 
 selectWorkstationComponent.addEventListener("workstationchange", (event) => {
   const oldSelectedWorkstation = selectedWorkstation || 1;
+  console.log(oldSelectedWorkstation);
+  console.log(event.detail.workstation);
   // Update selected workstation
   selectedWorkstation = parseInt(event.detail.workstation) || 1;
 
@@ -110,13 +110,14 @@ selectWorkstationComponent.addEventListener("workstationchange", (event) => {
 //BUILD COLUMN 1
 configGrid.appendColumn(1, playerNameInput);
 //configGrid.appendColumn(1, kapitaal);
-configGrid.appendColumn(1, personalStockComponent);
 configGrid.appendColumn(1, fixedCosts);
 
 //BUILD COLUMN 2
 configGrid.appendColumn(2, gameDescriptionComponent);
-fetchParts().then((fetchedParts) => {
-  shopComponent = new ShopComponent(fetchedParts);
+await fetchParts().then((fetchedParts) => {
+  let personalStockComponent = new PersonalStock(fetchedParts)
+  leanGame.game.stock.addObserver(personalStockComponent)
+  shopComponent = new ShopComponent(fetchedParts, personalStockComponent);
   configGrid.appendColumn(2, shopComponent);
   shopComponent.addEventListener("buy-parts", (event) => {
     const boughtParts = event.detail.parts;
@@ -159,9 +160,16 @@ chooseLeanMethod.addEventListener("leanmethodchange", (event) => {
   selectedLeanMethod = event.detail.selectedLeanMethod;
 });
 
+// playerNameInput.addEventListener("playernamechange", (event) => {
+//   console.log("Player name changed to: ", event.detail.playerName);
+//   const playerName = event.detail.playerName.value || "";
+//   startButton.update(playerName);
+// });
+
 // Game start
 startButton.addEventListener("startgame", (event) => {
-  const playerName = event.detail.playerName;
+  console.log("Game started with player name:", event.detail.playerName);
+  const playerName = event.detail.playerName.value;
 
   //HIDE
   homePage.classList.add("hidden");
@@ -174,7 +182,6 @@ startButton.addEventListener("startgame", (event) => {
   highscoreBoard.hide();
   shopComponent.hide();
   playerNameInput.hide();
-  personalStockComponent.hide();
   fixedCosts.hide();
   playersOverview.hide();
 
@@ -226,7 +233,6 @@ document.addEventListener("roundover", (event) => {
   newRoundButton.show();
   shopComponent.show();
   playerNameInput.show();
-  personalStockComponent.show();
   fixedCosts.show();
   playersOverview.show();
 

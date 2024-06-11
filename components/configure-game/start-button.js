@@ -1,9 +1,8 @@
 class StartButton extends HTMLElement {
-  constructor(playerName) {
+  constructor() {
     super();
-    this.playerName = playerName;
     this.attachShadow({ mode: "open" });
-
+    this.playerName = "";
     const shadowRoot = this.shadowRoot;
 
     //this.classList.add("start-button-container");
@@ -15,7 +14,12 @@ class StartButton extends HTMLElement {
 
     const startButton = shadowRoot.querySelector("#startButton");
 
+    document.addEventListener("playernamechange", (event) => {
+      this.playerName = event.detail.playerName;
+    });
+
     startButton.addEventListener("click", (event) => {
+      console.log("Start button clicked");
       if (this.validateInput(event)) {
         const playerName = this.playerName;
         this.dispatchEvent(
@@ -42,7 +46,7 @@ class StartButton extends HTMLElement {
       return false;
     } else {
       // Continue with starting the game
-      console.log("Game started with player name:", this.playerNameInput.value);
+      console.log("Game started with player name:", this.playerName);
       return true;
     }
   }

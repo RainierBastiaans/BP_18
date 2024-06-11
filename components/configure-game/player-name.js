@@ -23,11 +23,17 @@ class PlayerName extends HTMLElement {
     this.classList.add("component-style");
 
     //Event listener for input validation
-    this.playerNameInput.addEventListener(
-      "input",
-      this.validateInput.bind(this)
-    );
-    this.playerName = this.playerNameInput.value;
+    this.playerNameInput.addEventListener("input", (event) => {
+      console.log("Input over player name input");
+      this.validateInput.bind(this);
+      this.dispatchEvent(
+        new CustomEvent("playernamechange", {
+          bubbles: true,
+          composed: true,
+          detail: { playerName: this.playerNameInput.value },
+        })
+      );
+    });
   }
 
   validateInput() {
