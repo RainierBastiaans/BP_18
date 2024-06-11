@@ -66,8 +66,8 @@ await fetchParts().then((fetchedParts) => {
 });
 
 const selectWorkstationComponent = new SelectWorkstation();
-const playerNameInput = new PlayerName(leanMethodService.getAllLeanMethods());
-const startButton = new StartButton(playerNameInput.playerName);
+const playerNameInput = new PlayerName();
+const startButton = new StartButton();
 const gameHeader = new GameHeader();
 const gameDescriptionComponent = new GameDescriptionContainer();
 const highscoreBoard = new HighscoreBoard(db); // Pass db instance
@@ -161,9 +161,16 @@ chooseLeanMethod.addEventListener("leanmethodchange", (event) => {
   selectedLeanMethod = event.detail.selectedLeanMethod;
 });
 
+// playerNameInput.addEventListener("playernamechange", (event) => {
+//   console.log("Player name changed to: ", event.detail.playerName);
+//   const playerName = event.detail.playerName.value || "";
+//   startButton.update(playerName);
+// });
+
 // Game start
 startButton.addEventListener("startgame", (event) => {
-  const playerName = event.detail.playerName;
+  console.log("Game started with player name:", event.detail.playerName);
+  const playerName = event.detail.playerName.value;
 
   //HIDE
   homePage.classList.add("hidden");
