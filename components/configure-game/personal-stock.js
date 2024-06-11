@@ -3,7 +3,7 @@ class PersonalStock extends HTMLElement {
     super();
 
     this.parts = parts || []; // Set default empty array if no parts provided
-    this.currentWorkstationIndex = 1; // Track current workstation
+    this.currentWorkstationIndex = 0; // Track current workstation
 
     this.attachShadow({ mode: "open" });
     const shadowRoot = this.shadowRoot;
@@ -21,14 +21,15 @@ class PersonalStock extends HTMLElement {
     );
     this.groupPartsByWorkstation();
     this.render();
-    document.addEventListener("workstationchange", (event) => {
-      const selectedWorkstation = parseInt(event.detail.workstation);
-      this.currentWorkstationIndex = selectedWorkstation;
+    document.addEventListener("change-workstation", (event) => {
+      const newWorkstationIndex = event.detail.currentWorkstationIndex;
+      this.currentWorkstationIndex = newWorkstationIndex;
       this.render(); // Update UI with new parts
     });
   }
 
   update(stock) {
+    console.log(stock)
     stock.forEach((value, key) => {
       const partsForWorkstation = this.partsByWorkstation.get(
         value.workstationFK
@@ -51,7 +52,7 @@ class PersonalStock extends HTMLElement {
 
     //Get the parts in stock of current workstation
     const currentWorkstationParts = this.partsByWorkstation.get(
-      this.currentWorkstationIndex
+      this.currentWorkstationIndex + 1
     );
 
     if (currentWorkstationParts) {

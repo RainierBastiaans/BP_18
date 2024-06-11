@@ -1,5 +1,7 @@
+import { PersonalStock } from "./personal-stock.js";
+
 class ShopComponent extends HTMLElement {
-  constructor(allParts) {
+  constructor(allParts, personalStockComponent) {
     super();
     this.attachShadow({ mode: "open" });
     this.shadowRoot.innerHTML = `
@@ -11,7 +13,11 @@ class ShopComponent extends HTMLElement {
 
     // Group parts by workstation
     this.groupPartsByWorkstation();
-
+    this.personalStockComponent = personalStockComponent;
+    console.log(personalStockComponent)
+    this.shadowRoot.appendChild(this.personalStockComponent);
+  }
+  connectedCallback() {
     this.render();
   }
 

@@ -49,7 +49,6 @@ let otherPlayers = [
   { name: "i-Robot 5", workstation: 5 },
 ];
 let liveStockComponent;
-let personalStockComponent;
 const leanMethodService = new LeanMethodService();
 await leanMethodService.fetchLeanMethods();
 const configGrid = new ConfigGrid();
@@ -61,7 +60,6 @@ await fetchParts().then((fetchedParts) => {
   leanGame.game.stats.addObserver(showStats);
   leanGame.game.stats.addObserver(showIngameStats);
   liveStockComponent = new LiveStock(fetchedParts);
-  personalStockComponent = new PersonalStock(fetchedParts);
   leanGame.game.stock.addObserver(liveStockComponent);
 });
 
@@ -112,13 +110,14 @@ selectWorkstationComponent.addEventListener("workstationchange", (event) => {
 //BUILD COLUMN 1
 configGrid.appendColumn(1, playerNameInput);
 //configGrid.appendColumn(1, kapitaal);
-configGrid.appendColumn(1, personalStockComponent);
 configGrid.appendColumn(1, fixedCosts);
 
 //BUILD COLUMN 2
 configGrid.appendColumn(2, gameDescriptionComponent);
-fetchParts().then((fetchedParts) => {
-  shopComponent = new ShopComponent(fetchedParts);
+await fetchParts().then((fetchedParts) => {
+  let personalStockComponent = new PersonalStock(fetchedParts)
+  leanGame.game.stock.addObserver(personalStockComponent)
+  shopComponent = new ShopComponent(fetchedParts, personalStockComponent);
   configGrid.appendColumn(2, shopComponent);
   shopComponent.addEventListener("buy-parts", (event) => {
     const boughtParts = event.detail.parts;
@@ -183,7 +182,6 @@ startButton.addEventListener("startgame", (event) => {
   highscoreBoard.hide();
   shopComponent.hide();
   playerNameInput.hide();
-  personalStockComponent.hide();
   fixedCosts.hide();
   playersOverview.hide();
 
@@ -237,7 +235,6 @@ document.addEventListener("roundover", (event) => {
   newRoundButton.show();
   shopComponent.show();
   playerNameInput.show();
-  personalStockComponent.show();
   fixedCosts.show();
   playersOverview.show();
 
