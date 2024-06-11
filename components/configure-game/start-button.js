@@ -46,7 +46,6 @@ class StartButton extends HTMLElement {
       return false;
     } else {
       // Continue with starting the game
-      console.log("Game started with player name:", this.playerName);
       return true;
     }
   }

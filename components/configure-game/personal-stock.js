@@ -15,7 +15,6 @@ class PersonalStock extends HTMLElement {
             </div>
         </div>
         `;
-    this.classList.add("component-style");
     this.personalStockElement = shadowRoot.querySelector(
       ".personal-stock-container"
     );

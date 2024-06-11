@@ -27,6 +27,9 @@ class LiveStock extends HTMLElement {
   hide() {
     this.classList.add("hidden");
   }
+  show(){
+    this.classList.remove("hidden")
+  }
 
   update(stock) {
     stock.forEach((value, key) => {
