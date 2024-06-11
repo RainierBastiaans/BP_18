@@ -24,18 +24,17 @@ body {
   color: #333; */
 }
 
-.horizontal-container {
+.horizontal-container{
   display: flex;
   flex-direction: row;
 }
 
-.vertical-container {
+.vertical-container{
   display: flex;
   flex-direction: column;
 }
 
-h2,
-h3 {
+h2, h3 {
   padding: 1%;
   margin: 1%;
 }
@@ -67,7 +66,7 @@ h3 {
   display: flex;
   flex-direction: column;
   align-items: stretch;
-
+  
 }
 
 .config-grid {
@@ -297,7 +296,7 @@ game-description-container {
 =====SELECT WORKSTATION=====
 ==========================*/
 
-.workstation-icon {
+.workstation-icon{
   width: 3em;
   height: 3em;
   padding: 0 5px;
@@ -340,7 +339,7 @@ game-description-container {
 }
 
 .workstation-option label {
-  width: 2.2em;
+  width: 2.2em; 
   height: 1.5em;
   font-size: 2em;
   border-radius: 15px;
@@ -446,7 +445,7 @@ game-description-container {
   position: relative;
 }
 
-.shop-heading .shop-tip {
+.shop-heading .shop-tip{
   visibility: hidden;
   width: 300px;
   background-color: #555;
@@ -553,7 +552,7 @@ input[type="number"] {
 /* Shop Buy button styles */
 .shop-buy-button {
   width: 100%;
-  max-width: inherit;
+  max-width:inherit;
   background-color: #28a745;
   border: none;
   padding: 15px 0;
@@ -588,8 +587,7 @@ input[type="number"] {
 #roundMessage {
   position: absolute;
   top: 18vh;
-  left: 47vw;
-  padding: 0;
+  left: 48vw;
 }
 
 label {
@@ -652,7 +650,7 @@ start-button {
   border-radius: 15px;
   line-height: 1.25;
   max-width: inherit;
-  width: 100%;
+  width: 100% ;
 }
 
 #newRoundButton:hover,
@@ -722,7 +720,7 @@ button:disabled {
   background: url("./img/background/game-station.svg") center center;
   background-size: cover;
   overflow: hidden;
-  height: 95.5vh;
+  height: 100vh;
 }
 
 /*========================= 
@@ -779,7 +777,7 @@ button:disabled {
 .part-container {
   align-content: center;
   justify-items: center;
-  background-color: rgba(0, 89, 255, 0.151);
+  background-color: rgb(226 228 247);
   border: 5px solid black;
   margin: 10px auto;
   width: 260px;
@@ -803,23 +801,6 @@ button:disabled {
   position: absolute;
   top: 24vh;
   left: 44vw;
-  background-color: rgb(87, 146, 255);
-}
-
-#move-car-button:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
-}
-
-#move-car-button:active {
-  transform: translateY(2px);
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-}
-
-#move-car-button:disabled {
-  cursor: not-allowed;
-  background: rgba(0, 0, 0, 0.08);
-  color: rgba(0, 0, 0, 0.3);
 }
 
 #quality-control {
@@ -831,17 +812,10 @@ button:disabled {
   border: 3px solid black;
   border-radius: 50%;
   text-align: center;
-  background-color: rgb(180, 184, 241);
   background-image: url(./img/quality-control/checkmark.svg);
   background-repeat: no-repeat;
   background-position: center center;
   background-size: 60%;
-}
-
-#quality-control:disabled {
-  cursor: not-allowed;
-  background-color: rgba(0, 0, 0, 0.08);
-  color: rgba(0, 0, 0, 0.3);
 }
 
 #remove-button {
@@ -859,53 +833,6 @@ button:disabled {
   background-size: 50%;
 }
 
-#previous-station-button {
-  width: 50px;
-  height: 50px;
-  border: 1px solid black;
-  border-radius: 50%;
-  text-align: center;
-  background-image: url(./img/left-arrow.svg);
-  background-repeat: no-repeat;
-  background-position: center center;
-  background-size: 50%;
-  background-color: rgb(180, 184, 241);
-}
-
-#previous-station-button:disabled {
-  cursor: not-allowed;
-  background-color: rgba(0, 0, 0, 0.08);
-  color: rgba(0, 0, 0, 0.3);
-}
-
-#next-station-button {
-  width: 50px;
-  height: 50px;
-  border: 1px solid black;
-  border-radius: 50%;
-  text-align: center;
-  background-image: url(./img/right-arrow.svg);
-  background-repeat: no-repeat;
-  background-position: center center;
-  background-size: 50%;
-  background-color: rgb(180, 184, 241);
-}
-
-#next-station-button:disabled {
-  cursor: not-allowed;
-  background-color: rgba(0, 0, 0, 0.08);
-  color: rgba(0, 0, 0, 0.3);
-}
-
-.no-P-M {
-  margin: 0;
-  padding: 0;
-}
-
-#message {
-  margin: 0;
-  padding: 5px;
-}
 
 
 /*==============================
@@ -1229,57 +1156,57 @@ button:disabled {
   right: 0;
   position: absolute;
 
-  /*! Statisctics visuals end */
+/*! Statisctics visuals end */
 
 
-  .livestock-part-list {
-    display: flex;
-    justify-content: space-around;
-    list-style: none;
-    padding: 0;
-    margin: 0;
-  }
+.livestock-part-list {
+  display: flex;
+  justify-content: space-around;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
 
-  .livestock-part-list li {
-    text-align: center;
-  }
+.livestock-part-list li {
+  text-align: center;
+}
 
-  .livestock-part-name {
-    display: block;
-  }
+.livestock-part-name {
+  display: block;
+}
 
-  .livestock-part-quantity {
-    display: block;
-    margin-top: 5px;
-    font-weight: bold;
-  }
+.livestock-part-quantity {
+  display: block;
+  margin-top: 5px;
+  font-weight: bold;
+}
 
-  input[type="number"] {
-    width: 60px;
-    padding: 5px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-  }
+input[type="number"] {
+  width: 60px;
+  padding: 5px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
 
-  /* Buy button styles */
-  .shop-buy-button {
-    width: 100%;
-    background-color: #28a745;
-    color: #fff;
-    border: none;
-    padding: 15px 0;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    font-size: 1.1em;
-    font-weight: bold;
-    margin-top: 20px;
-  }
+/* Buy button styles */
+.shop-buy-button {
+  width: 100%;
+  background-color: #28a745;
+  color: #fff;
+  border: none;
+  padding: 15px 0;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  font-size: 1.1em;
+  font-weight: bold;
+  margin-top: 20px;
+}
 
-  .shop-buy-button:hover {
-    background-color: #218838;
-  }
+.shop-buy-button:hover {
+  background-color: #218838;
+} 
 
 
-  /*! Statisctics visuals end */
+/*! Statisctics visuals end */
 }

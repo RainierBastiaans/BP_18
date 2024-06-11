@@ -9,12 +9,12 @@ class LeanGame extends HTMLElement {
     gameTemplate.innerHTML = `
 <link rel="stylesheet" href="styles.css">
 <h2 id="roundMessage">Round </h2>
-<p id="message">Workstation</p>
-<button id="previous-station-button" title="Previous Station"></button>
-<button id="next-station-button" title="Next Station"></button>
-<p class="no-P-M"></p>
+<p id="message">Work On Workstation</p>
+<button id="previous-station-button">Previous Station</button>
+<button id="next-station-button">Next Station</button>
+<p></p>
 <button id="move-car-button">Move Car to Next Station</button>
-<p class="no-P-M"></p>
+<p></p>
 <button id="quality-control" class"circle-button" title="Quality Control" ></button> 
 <button id="remove-button" class"circle-button" title="Remove Car" ></button>
 <div class="car-container" id="car-container"></div>
@@ -232,7 +232,7 @@ class LeanGame extends HTMLElement {
     this.roundMessageEl.textContent =
       "Round " + this.game.currentRound.roundNumber.toString();
     this.messageEl.textContent =
-      "Workstation " + this.getCurrentWorkstation().id;
+      "Work On Workstation " + this.getCurrentWorkstation().id;
 
     if (this.game.getCarFromWorkstation(this.getCurrentWorkstation().id)) {
       this.createButtons();
