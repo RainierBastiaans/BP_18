@@ -19,7 +19,7 @@ class Subject {
       this.observers.forEach((observer) => observer.updateStock(data));
     } else if (sortOfUpdate === "car") {
       this.observers.forEach((observer) => observer.updateCars(data));
-    } else if ((sortOfUpdate === "capital")) {
+    } else if (sortOfUpdate === "capital") {
       this.observers.forEach((observer) => observer.updateCapital(data));
     } else {
       this.observers.forEach((observer) => observer.update(data));

@@ -44,7 +44,7 @@ class StartGrid extends HTMLElement {
 </div>
 
 `;
-                this.classList.add("start-grid")
+    this.classList.add("start-grid");
     this.column1 = this.querySelector("#element1");
     this.column2 = this.querySelector("#element2");
     this.column3 = this.querySelector("#element3");

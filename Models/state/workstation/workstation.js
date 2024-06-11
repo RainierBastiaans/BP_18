@@ -27,12 +27,14 @@ class Workstation {
   }
 
   set maintenanceDuration(value) {
-    if (typeof value !== 'number' || value <= 0) {
-      throw new Error('Invalid maintenanceDuration: must be a non-negative number');
+    if (typeof value !== "number" || value <= 0) {
+      throw new Error(
+        "Invalid maintenanceDuration: must be a non-negative number"
+      );
     }
     this._maintenanceDuration = value;
   }
-  
+
   get maintenanceDuration() {
     return this._maintenanceDuration;
   }

@@ -31,4 +31,3 @@ class CarToAssembly extends Car {
 }
 
 export { CarToAssembly };
-

@@ -17,7 +17,7 @@ class CarBroken extends CarState {
   isBroken() {
     return true;
   }
-  inProgress(){
+  inProgress() {
     return false;
   }
 }

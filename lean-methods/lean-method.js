@@ -6,7 +6,7 @@ class LeanMethod {
     this.isEnabled = false;
   }
 
-  enable(){
+  enable() {
     this.isEnabled = true;
   }
 }

@@ -35,7 +35,7 @@ const leanGame = new LeanGame();
 const db = new HighscoresDB();
 const leanMethodService = new LeanMethodService();
 await leanMethodService.fetchLeanMethods();
-const startGrid = new StartGrid()
+const startGrid = new StartGrid();
 const configGrid = new ConfigGrid();
 const showIngameStats = new ShowIngameStats();
 const showStats = new ShowStats();
@@ -47,14 +47,14 @@ const startButton = new StartButton();
 const gameHeader = new GameHeader();
 const gameDescriptionComponent = new GameDescriptionContainer();
 const newRoundButton = new NewRoundButton();
-const letsgetstartButton = new LetsGetStartButton()
+const letsgetstartButton = new LetsGetStartButton();
 const homePage = document.getElementById("home-page");
-const startPage = document.getElementById("start-page")
+const startPage = document.getElementById("start-page");
 const gameContainer = document.getElementById("game-container");
 const liveContainer = document.getElementById("live");
-const ingameStatsContainer = document.getElementById("ingame-stats-container")
-const liveStockContainer = document.getElementById("live-stock-container")
-const statsContainer = document.getElementById("stats-container")
+const ingameStatsContainer = document.getElementById("ingame-stats-container");
+const liveStockContainer = document.getElementById("live-stock-container");
+const statsContainer = document.getElementById("stats-container");
 
 let selectedLeanMethod;
 let selectedWorkstation;
@@ -125,10 +125,10 @@ document.addEventListener("showConfigScreen", () => {
 function buildScreens() {
   //start
 
-  startGrid.appendColumn(1, gameDescriptionComponent)
-  startGrid.appendColumn(2, highscoreBoard)
-  startGrid.appendColumn(3, letsgetstartButton)
-  startPage.appendChild(startGrid)
+  startGrid.appendColumn(1, gameDescriptionComponent);
+  startGrid.appendColumn(2, highscoreBoard);
+  startGrid.appendColumn(3, letsgetstartButton);
+  startPage.appendChild(startGrid);
 
   homePage.appendChild(configGrid);
   homePage.appendChild(chooseLeanMethod);
@@ -180,13 +180,13 @@ function showConfigScreen() {
   newRoundButton.hide();
   chooseLeanMethod.hide();
   liveStockComponent.hide();
-  letsgetstartButton.hide()
-  startGrid.classList.add("hidden")
+  letsgetstartButton.hide();
+  startGrid.classList.add("hidden");
 }
 
 function showGameScreen() {
   gameContainer.classList.remove("hidden");
-  homePage.classList.add("hidden")
+  homePage.classList.add("hidden");
   leanGame.show();
   showIngameStats.show();
   playerNameInput.hide();
@@ -206,7 +206,7 @@ function showGameScreen() {
 }
 
 function showRoundScreen() {
-  homePage.classList.remove("hidden")
+  homePage.classList.remove("hidden");
   leanGame.hide();
   showIngameStats.hide();
   playerNameInput.hide();
@@ -230,7 +230,7 @@ function showEndGameScreen() {
 }
 
 function showStartScreen() {
-  homePage.classList.add("hidden")
+  homePage.classList.add("hidden");
   gameHeader.show();
   gameDescriptionComponent.show();
   highscoreBoard.show();
@@ -248,9 +248,9 @@ function showStartScreen() {
   newRoundButton.hide();
   chooseLeanMethod.hide();
   liveStockComponent.hide();
-  letsgetstartButton.show()
-  leanGame.hide()
-  gameContainer.classList.add("hidden")
+  letsgetstartButton.show();
+  leanGame.hide();
+  gameContainer.classList.add("hidden");
 }
 
 function startGame(playerName) {
@@ -281,19 +281,12 @@ function updatePlayerWorkstations(oldSelectedWorkstation, selectedWorkstation) {
     }
   });
   playersOverview.update(otherPlayers);
-};
+}
 
 //EVENT LISTENERS
 chooseLeanMethod.addEventListener("leanmethodchange", (event) => {
   selectedLeanMethod = event.detail.selectedLeanMethod;
 });
-
-
-
-
-
-
-
 
 async function fetchParts() {
   try {

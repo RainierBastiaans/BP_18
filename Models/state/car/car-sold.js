@@ -16,7 +16,7 @@ class CarSold extends CarState {
   move() {
     return this;
   }
-  inProgress(){
+  inProgress() {
     return false;
   }
 }

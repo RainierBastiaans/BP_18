@@ -7,7 +7,7 @@ class UnderMaintenanceWorkstation extends Workstation {
     // Default duration in milliseconds (3 seconds)
     super(id, partsList, leanmethodService);
     this.startTime = Date.now(); // Set startTime immediately in constructor
-    this.workstations = workstations;    
+    this.workstations = workstations;
     // Optionally, set up a timer to transition back to working state
     this.setupMaintenanceTimer();
   }

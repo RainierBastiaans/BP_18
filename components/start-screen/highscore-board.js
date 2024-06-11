@@ -46,7 +46,7 @@ class HighscoreBoard extends HTMLElement {
     <img class="trophy-img" src="../../img/highscores.png" alt="Trophy"> 
     <ol></ol>
   
-  `
+  `;
   }
   hide() {
     this.classList.add("hidden");

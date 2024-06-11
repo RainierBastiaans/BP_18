@@ -6,20 +6,19 @@ class TotalProductiveMaintenance extends LeanMethod {
     super(id, name, description);
   }
 
-  getMaintenanceChance(){
-    if (this.isEnabled){
-      return gameValues.workstationBreakdownChanceTPM
+  getMaintenanceChance() {
+    if (this.isEnabled) {
+      return gameValues.workstationBreakdownChanceTPM;
     }
-    return gameValues.workstationBreakdownChanceNoTPM
+    return gameValues.workstationBreakdownChanceNoTPM;
   }
 
-  getMaintenanceDuration(){
-    if (this.isEnabled){
-      return gameValues.workstationMaintenanceDurationTPM
+  getMaintenanceDuration() {
+    if (this.isEnabled) {
+      return gameValues.workstationMaintenanceDurationTPM;
     }
-    return gameValues.workstationMaintenanceDurationNoTPM
+    return gameValues.workstationMaintenanceDurationNoTPM;
   }
-
 }
 
 export default TotalProductiveMaintenance;

@@ -8,17 +8,19 @@ class Bot extends Occupant {
     this.timeIntervalMax = gameValues.botMoveIntervalNoOWMax;
     this.timer = null; // Timer for adding parts
     this.timeoutId = null; // Store the timeout ID
-
   }
 
   startWorking() {
-    const randomInterval = Math.floor(Math.random() * (this.timeIntervalMax - this.timeIntervalMin + 1)) + this.timeIntervalMin;  
+    const randomInterval =
+      Math.floor(
+        Math.random() * (this.timeIntervalMax - this.timeIntervalMin + 1)
+      ) + this.timeIntervalMin;
     this.timeoutId = setTimeout(() => {
       this.performActionAtWorkstation();
       this.startWorking(); // Restart after action
     }, randomInterval);
   }
-  
+
   stopWorking() {
     if (this.timeoutId) {
       clearTimeout(this.timeoutId);
@@ -26,9 +28,13 @@ class Bot extends Occupant {
     }
   }
 
-  refresh(leanMethodService){
-    this.timeIntervalMin = leanMethodService.getLeanMethod("orderly-workplace").getBotIntervalMin()
-    this.timeIntervalMax = leanMethodService.getLeanMethod("orderly-workplace").getBotIntervalMax()
+  refresh(leanMethodService) {
+    this.timeIntervalMin = leanMethodService
+      .getLeanMethod("orderly-workplace")
+      .getBotIntervalMin();
+    this.timeIntervalMax = leanMethodService
+      .getLeanMethod("orderly-workplace")
+      .getBotIntervalMax();
   }
 
   async performActionAtWorkstation() {
@@ -59,7 +65,7 @@ class Bot extends Occupant {
         this.game.manualMove(car); // Move completed car
         break;
       default:
-        //console.error(`Unexpected action: ${action}`);
+      //console.error(`Unexpected action: ${action}`);
     }
   }
 

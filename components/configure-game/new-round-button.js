@@ -19,13 +19,13 @@ class NewRoundButton extends HTMLElement {
         );
       });
   }
-  show(){
-    this.classList.remove("hidden")
+  show() {
+    this.classList.remove("hidden");
   }
-  hide(){
-    this.classList.add("hidden")
+  hide() {
+    this.classList.add("hidden");
   }
 }
 
 customElements.define("new-round-button", NewRoundButton);
-export {NewRoundButton}
+export { NewRoundButton };

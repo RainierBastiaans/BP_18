@@ -7,7 +7,7 @@ import { Car } from "./car.js";
 
 class CarAtWorkstation extends CarState {
   constructor(workstationid) {
-    super()
+    super();
     this.workstationId = workstationid;
     this.partBreakageChance = gameValues.partBreakageChanceNoTQC;
   }
@@ -22,7 +22,7 @@ class CarAtWorkstation extends CarState {
     return parts;
   }
 
-  inProgress(){
+  inProgress() {
     return true;
   }
 
@@ -32,10 +32,11 @@ class CarAtWorkstation extends CarState {
     const addedParts = Array.from(parts.values()).filter(
       (part) => part.partAdded === true
     );
-    this.qualityControlValue = !addedParts.every((part) => part.broken === false);
+    this.qualityControlValue = !addedParts.every(
+      (part) => part.broken === false
+    );
     return this.qualityControlValue;
   }
-
 
   move(cars, workstations) {
     return this;
@@ -46,7 +47,7 @@ class CarAtWorkstation extends CarState {
       if (this.workstationId >= 5) {
         return new CarCheckup();
       } else {
-        return new CarInLine(this.workstationId + 1)
+        return new CarInLine(this.workstationId + 1);
       }
     }
     return;
@@ -61,9 +62,13 @@ class CarAtWorkstation extends CarState {
     // Get the part information from the parts list
     const partInfo = parts.get(partToBreak);
     // Simulate a chance to break with a probability of x
-    const isBroken = Math.random() < leanMethodService.getLeanMethod("total-quality-control").getPartBreakageChance();
+    const isBroken =
+      Math.random() <
+      leanMethodService
+        .getLeanMethod("total-quality-control")
+        .getPartBreakageChance();
     partInfo.broken = isBroken;
-    parts.set(partInfo.name, partInfo)
+    parts.set(partInfo.name, partInfo);
     return parts;
   }
 

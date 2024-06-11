@@ -1,8 +1,8 @@
 import { Subject } from "../subject.js";
 
-class Money extends Subject{
+class Money extends Subject {
   constructor(stats, amount) {
-    super()
+    super();
     this.amount = this.formatAmount(amount); // Format and store initial amount
     this.addObserver(stats);
   }
@@ -10,7 +10,7 @@ class Money extends Subject{
   add(amount) {
     const newAmount = this.formatAmount(this.amount + amount);
     this.amount = newAmount;
-    this.notifyObservers(this, 'capital')
+    this.notifyObservers(this, "capital");
   }
 
   deduct(amount) {
@@ -19,7 +19,7 @@ class Money extends Subject{
     }
     const newAmount = this.formatAmount(this.amount - amount);
     this.amount = newAmount;
-    this.notifyObservers(this, 'capital')
+    this.notifyObservers(this, "capital");
   }
 
   getAmount() {

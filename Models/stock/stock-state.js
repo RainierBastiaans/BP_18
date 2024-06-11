@@ -23,19 +23,19 @@ class StockState extends Subject {
   }
   addPartsToStock(parts, part, count) {
     parts.get(part).quantity += count;
-    this.notifyObservers(
-      { price: parts.get(part).price * count},
-      "stock"
-    );
+    this.notifyObservers({ price: parts.get(part).price * count }, "stock");
     return parts;
   }
 
-  endRound(parts){
+  endRound(parts) {
     let amountOfStock = 0;
-    Array.from(parts.values()).forEach((part)=>{
-      amountOfStock+= part.quantity
-    })
-    this.notifyObservers({price:amountOfStock * gameValues.pricePerPart}, "stock")
+    Array.from(parts.values()).forEach((part) => {
+      amountOfStock += part.quantity;
+    });
+    this.notifyObservers(
+      { price: amountOfStock * gameValues.pricePerPart },
+      "stock"
+    );
   }
 }
 

@@ -43,7 +43,8 @@ class ShowStats extends HTMLElement {
           
         </tr>
         ${Array.from(gameStats.rounds.values())
-          .map((round) => `<tr>
+          .map(
+            (round) => `<tr>
           <td>Round ${round.roundNumber}</td>
           <td>${round.carsCompleted}</td>
           <td>${round.carsInProgress}</td>
@@ -52,7 +53,8 @@ class ShowStats extends HTMLElement {
           <td>${round.capital}</td>
           <td>${round.averageCarCompletionTime}</td>
           
-        </tr>`)
+        </tr>`
+          )
           .join("")}
             </tbody>
         </table>
