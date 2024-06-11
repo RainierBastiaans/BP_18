@@ -4,12 +4,49 @@ class HighscoreBoard extends HTMLElement {
     this.db = db;
 
     const shadowRoot = this.attachShadow({ mode: "open" });
-    const title = document.createElement("h2");
-    title.textContent = "Top 3 Highscores";
-    shadowRoot.appendChild(title);
-
-    const list = document.createElement("ol");
-    shadowRoot.appendChild(list);
+    this.shadowRoot.innerHTML = `
+    <style>
+    :host {
+      display: flex;
+      flex-direction: column; /* Arrange children vertically */
+      align-items: center; /* Center align children horizontally */
+      font-family: Arial, sans-serif;
+      padding: 20px; /* Add padding for spacing */
+      border-radius: 8px; /* Add border radius for rounded corners */
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Add box shadow for depth */
+      width: 100%
+      height: 100%
+  }
+  
+  h2 {
+      margin-top: 0;
+      margin-bottom: 20px; /* Add margin for spacing */
+      text-align: center;
+      color: #0056b3; /* Set text color */
+  }
+  
+  ol {
+      padding-left: 0; /* Remove default padding */
+      list-style-type: none; /* Remove default list style */
+      text-align: center; /* Center align list items */
+  }
+  
+  li {
+      margin-bottom: 10px; /* Add margin for spacing */
+  }
+  
+  .trophy-img {
+      width: 50px; /* Set smaller width for trophy image */
+      height: auto; /* Maintain aspect ratio */
+      margin-bottom: 20px; /* Add margin for spacing */
+  }
+  </style>
+   
+    <h2>Top 3 Highscores</h2>
+    <img class="trophy-img" src="../../img/highscores.png" alt="Trophy"> 
+    <ol></ol>
+  
+  `
   }
   hide() {
     this.classList.add("hidden");
