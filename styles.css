@@ -94,7 +94,7 @@ excludes: player-icon
 =======CONFIGURE VIEW=======
 ==========================*/
 #home-page {
-  max-height: 95%;
+  max-height: 100%;
   background: rgb(236, 232, 232);
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -519,12 +519,11 @@ game-description-container {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 20px;
   background-color: #fff;
   border-radius: 10px;
   box-shadow: 0 2px 4px rgba(187, 179, 236, 0.658);
   transition: transform 0.2s, box-shadow 0.2s;
-  width: 150px;
+  width: 40%;
   text-align: center;
 }
 
