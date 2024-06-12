@@ -14,8 +14,10 @@ class Round {
   startTimer() {
     this.timerInterval = setInterval(() => {
       this.timeLeft--;
-
-      if (this.timeLeft <= 0) {
+      if (this.isOver){
+        clearInterval(this.timerInterval);
+      }
+      else if (this.timeLeft <= 0) {
         this.endRound();
       }
     }, 1000);

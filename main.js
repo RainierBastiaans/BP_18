@@ -1,10 +1,3 @@
-import "./components/gameplay/lean-game.js";
-import "./components/game-header.js";
-import "./components/start-screen/game-description-container.js";
-import "./components/configure-game/start-button.js";
-import "./components/show-stats.js";
-import "./components/show-ingame-stats.js";
-import "./components/configure-game/select-workstation.js";
 import { HighscoresDB } from "./db/highscores.js";
 // COMPONENTS
 import { HighscoreBoard } from "./components/start-screen/highscore-board.js";
@@ -30,11 +23,18 @@ import { LeanMethodService } from "./lean-methods/lean-method-service.js";
 import { LetsGetStartButton } from "./components/start-screen/lets-get-started-button.js";
 import { StartGrid } from "./components/start-screen/start-grid.js";
 import { GameOver } from "./components/start-screen/game-over.js";
+import { InsufficientFundsError } from "./error/insufficient-funds-error.js";
+import { ErrorComponent } from "./components/error.js";
 
 
 // Global error handler
 window.onerror = function(message, source, lineno, colno, error) {
-  showGameOverScreen()
+  if (error instanceof InsufficientFundsError){
+    showGameOverScreen()
+  }
+  else{
+    showErrorScreen(error)
+  }
 }
 
 // INITIALIZE COMPONENTS
@@ -236,6 +236,7 @@ function showRoundScreen() {
 }
 //screen for insufficient funds
 function showGameOverScreen(){
+  leanGame.game.endGame
   showStats.show();
   highscoreBoard.show()
   letsgetstartButton.show()
@@ -243,6 +244,36 @@ function showGameOverScreen(){
   liveContainer.classList.add("hidden")
   startGrid.classList.remove("hidden")
   gameOverComponent.show()
+  homePage.classList.add("hidden")
+}
+
+function showErrorScreen(errormessage){
+  const errorComponent = new ErrorComponent(errormessage)
+  document.body.appendChild(errorComponent)
+  leanGame.game.endGame()
+  
+  homePage.classList.add("hidden");
+  configGrid.hide();
+  gameHeader.hide();
+  gameDescriptionComponent.hide();
+  startButton.hide();
+  selectWorkstationComponent.hide();
+  highscoreBoard.hide();
+  shopComponent.hide();
+  playerNameInput.hide();
+  fixedCosts.hide();
+  playersOverview.hide();
+  newRoundButton.hide();
+  showStats.hide();
+  showIngameStats.hide();
+  leanGame.hide();
+  newRoundButton.hide();
+  chooseLeanMethod.hide();
+  liveStockComponent.hide();
+  letsgetstartButton.hide();
+  startGrid.classList.add("hidden");
+  gameOverComponent.hide();
+
 }
 
 function showEndGameScreen() {

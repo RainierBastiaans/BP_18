@@ -10,6 +10,7 @@ import { gameValues } from "../game-values.js";
 import { LeanMethodService } from "../lean-methods/lean-method-service.js";
 import { Stock } from "./stock/stock.js";
 import { HighscoresDB } from "../db/highscores.js";
+import { InsufficientFundsError } from "../error/insufficient-funds-error.js";
 class Game {
   constructor(db, leanMethodService, parts) {
     this.db = db;
@@ -260,8 +261,14 @@ class Game {
   }
 
   endGame() {
+    this.bots?.forEach((bot) => bot.stopWorking());
     this.isOver = true;
-    this.updateHighscores();
+    if(this.currentRound){
+      this.currentRound.isOver = true;
+    } 
+    if (this.rounds.size === gameValues.numberOfRounds){
+      this.updateHighscores();
+    }
   }
 
   async updateHighscores() {
@@ -282,7 +289,8 @@ class Game {
   }
 
   buyStock(parts) {
-    this.stock.addPartsToStock(parts);
+      this.stock.addPartsToStock(parts);     
+    
   }
 
   getFixedCosts() {
