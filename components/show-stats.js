@@ -80,7 +80,7 @@ class ShowStats extends HTMLElement {
     const roundNumber = document.createElement("span");
     roundNumber.classList.add("h2");
     roundNumber.classList.add("round-label");
-    roundNumber.textContent = `Round ${this.currentRound + 1}`;
+    roundNumber.textContent = `Round ${this.currentRound}`;
     navigation.appendChild(roundNumber);
 
     //next button
@@ -103,15 +103,22 @@ class ShowStats extends HTMLElement {
   renderRoundStats() {
     const statsList = this.shadowRoot.querySelector(".stats-list");
     statsList.innerHTML = ""; // Clear existing stats
+    let currentRoundStats;
+    if (this.currentRound === 0) {
+      currentRoundStats = this.gameStats;
+      const roundNumber = this.shadowRoot.querySelector(".round-label");
+      roundNumber.innerHTML = "";
+      roundNumber.textContent = `Game`;
+    } else {
+      const roundNumber = this.shadowRoot.querySelector(".round-label");
+      roundNumber.innerHTML = "";
+      roundNumber.textContent = `Round ${this.currentRound}`;
 
-    const roundNumber = this.shadowRoot.querySelector(".round-label");
-    roundNumber.innerHTML = "";
-    roundNumber.textContent = `Round ${this.currentRound + 1}`;
-
-    //get RoundStats object for current round
-    const currentRoundStats = this.gameStats.rounds
-      .get(this.currentRound + 1)
-      .getRoundStats();
+      //get RoundStats object for current round
+      currentRoundStats = this.gameStats.rounds
+        .get(this.currentRound)
+        .getRoundStats();
+    }
 
     /*=========================================
     =============BUILD STATS LIST===============
@@ -157,8 +164,13 @@ class ShowStats extends HTMLElement {
     statsList.appendChild(totalIncomeItem);
 
     //Total Capital
-    const capitalTitle = "Total Capital";
-    const capital = currentRoundStats.capital;
+    const capitalTitle = this.currentRound === 0
+    ? "Capital"
+    : "Total Profit";
+    const capital =
+      this.currentRound === 0
+        ? currentRoundStats.capital.amount
+        : currentRoundStats.capital;
     const capitalItem = this.buildStatItem("capital", capitalTitle, capital);
     statsList.appendChild(capitalItem);
 
@@ -201,29 +213,27 @@ class ShowStats extends HTMLElement {
   }
 
   changeRound(offset) {
-
-
     if (this.currentRound + offset < 0) {
       return;
     } else if (
-      this.currentRound + offset > this.gameStats.rounds.size ||
-      this.currentRound + offset === gameValues.numberOfRounds
-    ) {
+      this.currentRound + offset > this.gameStats.rounds.size) {
       return;
     }
 
-    const isOver = this.gameStats.rounds.get(
-      this.currentRound + 1 + offset
-    ).isOver;
+    if (this.currentRound + offset != 0) {
+      const isOver = this.gameStats.rounds.get(
+        this.currentRound + offset
+      ).isOver;
 
-    if (!isOver) {
-      return;
+      if (!isOver) {
+        return;
+      }
     }
 
     const roundSize = this.gameStats.rounds.size;
 
     // Calculate new round number
-    const newIndex = (this.currentRound + offset + roundSize) % roundSize;
+    const newIndex = this.currentRound + offset
 
     // Update current round
     this.currentRound = newIndex;
