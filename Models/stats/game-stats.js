@@ -51,6 +51,7 @@ class GameStats extends Subject {
     this.currentRound.endRound();
   }
   startRound() {
+    this.deductRoundCosts();
     this.currentRound.startRound(this.cars);
   }
   newRound() {
@@ -59,7 +60,6 @@ class GameStats extends Subject {
       new RoundStats(this.rounds.size + 1, this.game)
     );
     this.currentRound = this.rounds.get(this.rounds.size);
-    this.deductRoundCosts();
     this.notifyObservers(this);
   }
 
