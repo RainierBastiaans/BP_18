@@ -1,3 +1,4 @@
+import { formatLargeNumber } from "../../format-number.js";
 class HighscoreBoard extends HTMLElement {
   constructor(db) {
     super();
@@ -72,7 +73,7 @@ class HighscoreBoard extends HTMLElement {
 
     for (const score of highscores) {
       const listItem = document.createElement("li");
-      listItem.textContent = `${score.name}: ${score.score}`;
+      listItem.textContent = `${score.name}: ${formatLargeNumber(score.score)}`;
       list.appendChild(listItem);
     }
   }

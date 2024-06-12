@@ -55,6 +55,14 @@ class CarPositionLine extends HTMLElement {
       this.shadowRoot.querySelectorAll(".car-position-q");
   }
 
+  setSelectedWorkstation(selectedWorkstation) {
+    this.selectedWorkstation = selectedWorkstation;
+    const selectedStation = this.shadowRoot.getElementById(
+      `workstation-${selectedWorkstation}`
+    );
+    selectedStation.classList.add("green-border");
+  }
+
   setCarPositions(cars) {
     this.workstationElements.forEach((element, index) => {
       const workstationId = index + 1; // Adjust for 1-based indexing

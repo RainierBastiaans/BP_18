@@ -42,7 +42,8 @@ h1 {
   font-size: 2em;
 }
 
-h2, h3 {
+h2,
+h3 {
   font-size: 1.4em;
   padding: 1%;
   margin: 1%;
@@ -50,9 +51,12 @@ h2, h3 {
 }
 
 ul {
-  list-style-type: none; /* Removes bullet points or numbers */
-  padding: 0; /* Removes padding */
-  margin: 0; /* Removes margin */
+  list-style-type: none;
+  /* Removes bullet points or numbers */
+  padding: 0;
+  /* Removes padding */
+  margin: 0;
+  /* Removes margin */
 }
 
 li {
@@ -207,7 +211,8 @@ input[type="text"] {
 ==========================*/
 .personal-stock-list {
   display: flex;
-  justify-content: space-around; /* Optional: Distributes space evenly around the items */
+  justify-content: space-around;
+  /* Optional: Distributes space evenly around the items */
   padding: 0;
   margin: 0 0 3% 0;
 }
@@ -221,9 +226,10 @@ input[type="text"] {
   border-radius: 8px;
   padding: 5px;
   min-width: 15%;
-  max-width: 24%; 
+  max-width: 24%;
   min-height: 2em;
-  box-sizing: border-box; /* Ensures padding and border are included in the width */
+  box-sizing: border-box;
+  /* Ensures padding and border are included in the width */
 }
 
 .personal-stock-name {
@@ -384,7 +390,7 @@ game-description-container {
   text-align: center;
 }
 
-.workstation-option input[type="radio"]:hover + label{
+.workstation-option input[type="radio"]:hover+label {
   background-color: #0056b3;
 }
 
@@ -433,7 +439,7 @@ game-description-container {
   width: 100%;
 }
 
-.available-method-container input[type="radio"]:checked + .available-method {
+.available-method-container input[type="radio"]:checked+.available-method {
   background-color: #e850ff;
   color: #fff;
 }
@@ -471,7 +477,8 @@ game-description-container {
   padding: 5px 10px;
   position: absolute;
   z-index: 1;
-  bottom: 125%; /* Position above the text */
+  bottom: 125%;
+  /* Position above the text */
   left: 50%;
   margin-left: -60px;
   opacity: 0;
@@ -725,7 +732,6 @@ label {
 
 label .tooltip {
   visibility: hidden;
-  width: 300px;
   background-color: #555;
   color: #fff;
   text-align: center;
@@ -760,7 +766,8 @@ label:hover .tooltip {
 =======BUTTONS========
 =====================*/
 
-start-button, new-round-button {
+start-button,
+new-round-button {
   display: flex;
   align-self: center;
   align-items: center;
@@ -768,7 +775,8 @@ start-button, new-round-button {
 }
 
 #newRoundButton,
-#startButton, #restartButton{
+#startButton,
+#restartButton {
   display: block;
   padding: 10px 20px;
   font-size: 200%;
@@ -877,6 +885,7 @@ button:disabled {
 #car-game-container {
   justify-content: center;
   align-items: center;
+  min-width: 20vw;
 }
 
 #extra-container {
@@ -884,7 +893,7 @@ button:disabled {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  min-width: 12.5rem;
+  min-width: 20vw;
 }
 
 /*========================= 
@@ -911,7 +920,7 @@ button:disabled {
   display: grid;
   align-items: center;
   justify-content: center;
-  grid-template-columns: repeat(3, 5.5rem);
+  grid-template-columns: repeat(3, 7vw);
   grid-template-rows: repeat(10, 6.5vh);
   width: auto;
   height: auto;
@@ -1042,9 +1051,11 @@ button:disabled {
 ===WORKSTATIONS PARTS VISUALS===
 ==============================*/
 /*=======WORKSTATION 1=========*/
-#chassis {
+#chassis,
+#p1-placeholder {
   position: absolute;
   height: 12%;
+  width: auto;
   top: 10%;
   left: 0;
   right: 0;
@@ -1052,34 +1063,40 @@ button:disabled {
   margin-right: auto;
 }
 
-#hood {
+#hood,
+#p2-placeholder {
   position: absolute;
   top: 21%;
   height: 14%;
-  left: 0;
+  width: auto;
+  left: -7px;
   right: 0;
   margin-left: auto;
   margin-right: auto;
 }
 
-#trunk {
+#trunk,
+#p3-placeholder {
   position: absolute;
   top: 35%;
   height: 14%;
-  left: 0;
+  width: auto;
+  left: -6px;
   right: 0;
   margin-left: auto;
   margin-right: auto;
 }
 
-#door {
+#door,
+#p4-placeholder {
   position: absolute;
   height: 11%;
+  width: auto;
   left: 0;
   right: 0;
   margin-left: auto;
   margin-right: auto;
-  top: 49%;
+  top: 48%;
 }
 
 /*=======WORKSTATION 2=========*/
@@ -1224,16 +1241,6 @@ button:disabled {
   width: 95%;
 }
 
-#w1-holder {
-  height: 50%;
-  width: auto;
-  position: absolute;
-  top: 10%;
-  left: 0;
-  right: 0;
-  margin-left: auto;
-  margin-right: auto;
-}
 
 /** Timer */
 
@@ -1345,6 +1352,11 @@ button:disabled {
   background-color: #bbb;
 }
 
+.green-border {
+  border: 2px solid green;
+  border-radius: 50%;
+}
+
 /*! Game visuals end */
 /** Statisctics visuals */
 /* REFACTOR */
@@ -1379,33 +1391,33 @@ button:disabled {
 }
 
 .livestock-part-list {
-    display: flex;
-    justify-content: space-around;
-    list-style: none;
-    padding: 0;
-    margin: 0;
-  }
+  display: flex;
+  justify-content: space-around;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
 
-  .livestock-part-list li {
-    text-align: center;
-  }
+.livestock-part-list li {
+  text-align: center;
+}
 
-  .livestock-part-name {
-    display: block;
-  }
+.livestock-part-name {
+  display: block;
+}
 
-  .livestock-part-quantity {
-    display: block;
-    margin-top: 5px;
-    font-weight: bold;
-  }
+.livestock-part-quantity {
+  display: block;
+  margin-top: 5px;
+  font-weight: bold;
+}
 
-  input[type="number"] {
-    width: 60px;
-    padding: 5px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-  }
+input[type="number"] {
+  width: 60px;
+  padding: 5px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
 
 
 /*==========================
@@ -1413,7 +1425,16 @@ button:disabled {
 ==========================*/
 .stats-component {
   max-width: 600px;
+  width: 100%
 }
+
+show-stats {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+
 
 .stats-component .round-label {
   font-size: 1.5em;

@@ -26,6 +26,7 @@ import { GameOver } from "./components/start-screen/game-over.js";
 import { InsufficientFundsError } from "./error/insufficient-funds-error.js";
 import { ErrorComponent } from "./components/error.js";
 import { RestartButton } from "./components/restart-button.js";
+import { EndGame } from "./components/start-screen/end-game.js";
 
 // Global error handler
 window.onerror = function (message, source, lineno, colno, error) {
@@ -53,6 +54,7 @@ const startButton = new StartButton();
 const gameHeader = new GameHeader();
 const gameDescriptionComponent = new GameDescriptionContainer();
 const gameOverComponent = new GameOver();
+const endGameComponent = new EndGame();
 const newRoundButton = new NewRoundButton();
 const letsgetstartButton = new LetsGetStartButton();
 const restartButton = new RestartButton();
@@ -284,6 +286,9 @@ function showEndGameScreen() {
   gameContainer.classList.add("hidden");
   liveContainer.classList.add("hidden");
   startGrid.classList.remove("hidden");
+  startGrid.appendColumn(1, endGameComponent)
+  showStats.classList.remove('component-style')
+  startGrid.appendColumn(1, showStats)
 }
 
 function showStartScreen() {

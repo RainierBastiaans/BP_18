@@ -41,7 +41,7 @@ export const gameValues = {
   partsPerRound: 10,
 
   //Price you have to pay each round for a part that is not used
-  pricePerPart: 100,
+  pricePerPart: 200,
 
   //Number of rounds
   numberOfRounds: 5,

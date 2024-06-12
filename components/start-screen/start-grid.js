@@ -16,6 +16,7 @@ class StartGrid extends HTMLElement {
     #element1 {
         flex: 80;
         font-size: 0.8em;
+        items-aling: center;
     }
 
     #element2 {

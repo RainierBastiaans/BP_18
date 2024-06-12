@@ -1,3 +1,6 @@
+import { formatLargeNumber } from "../../format-number.js";
+
+formatLargeNumber
 class FixedCosts extends HTMLElement {
   constructor(fixedCosts) {
     super();
@@ -19,17 +22,17 @@ class FixedCosts extends HTMLElement {
                     ${this.createFixedCostElement(
                       "Start capital",
                       "startCapital",
-                      fixedCosts.startCapital
+                      formatLargeNumber(fixedCosts.startCapital)
                     )}
                     ${this.createFixedCostElement(
                       "Facility costs",
                       "facilityCosts",
-                      fixedCosts.facility
+                      formatLargeNumber(fixedCosts.facility)
                     )}
                     ${this.createFixedCostElement(
                       "Personnel costs",
                       "personnelCosts",
-                      fixedCosts.staff
+                      formatLargeNumber(fixedCosts.staff)
                     )}
                 </ul>
             </div>
