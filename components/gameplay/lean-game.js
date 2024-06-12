@@ -232,20 +232,6 @@ class LeanGame extends HTMLElement {
 
   handlePartButtonClick(button) {
     const partName = button.dataset.partName;
-    if (partName === "chassis") {
-      const p1 = this.shadowRoot.getElementById("p1-placeholder");
-      if (p1 != null) {
-        p1.remove();
-      }
-    }
-
-    if (partName === "door") {
-      const p4 = this.shadowRoot.getElementById("p4-placeholder");
-      if (p4 != null) {
-        console.log(p4.remove());
-        p4.remove();
-      }
-    }
     this.game.addPart(partName, this.getCurrentWorkstation().id);
 
     this.partPosition = this.partPosition.filter(function (obj) {
