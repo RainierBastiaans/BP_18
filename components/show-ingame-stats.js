@@ -1,3 +1,5 @@
+import { formatLargeNumber } from "../format-number.js";
+
 class ShowIngameStats extends HTMLElement {
   constructor() {
     super();
@@ -19,7 +21,7 @@ class ShowIngameStats extends HTMLElement {
       </div>
       <div class="ingame-statistics-item" title="Total capital">
           <img src="img/stats/capital.svg" alt="capital" >
-          <p id="capital">€ 0</p>
+          <p id="capital">0</p>
       </div>
     </div>
       `;
@@ -33,8 +35,8 @@ class ShowIngameStats extends HTMLElement {
   update(gameStats) {
     this.carsCompletedElement.textContent = gameStats.carsCompleted;
     this.carsBrokenElement.textContent = gameStats.carsBroken;
-    this.totalIncomeElement.textContent = "€ " + gameStats.totalIncome;
-    this.capitalElement.textContent = "€ " + gameStats.capital.amount;
+    this.totalIncomeElement.textContent = formatLargeNumber(gameStats.totalIncome);
+    this.capitalElement.textContent = formatLargeNumber(gameStats.capital.amount);
   }
 
   show() {

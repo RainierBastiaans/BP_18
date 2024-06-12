@@ -1,4 +1,5 @@
 import { gameValues } from "../game-values.js";
+import { formatLargeNumber } from "../format-number.js";
 
 class ShowStats extends HTMLElement {
   constructor() {
@@ -181,11 +182,12 @@ class ShowStats extends HTMLElement {
     : "Total Profit";
     const capital =
       this.currentRound === 0
-        ? currentRoundStats.capital.amount
-        : currentRoundStats.capital;
+        ? formatLargeNumber(currentRoundStats.capital.amount)
+        : formatLargeNumber(currentRoundStats.capital);
     const capitalItem = this.buildStatItem("capital", capitalTitle, capital);
     statsList.appendChild(capitalItem);
   }
+  
 
   buildStatItem(itemName, statName, statNumber) {
     const statItem = document.createElement("li");
