@@ -42,7 +42,8 @@ h1 {
   font-size: 2em;
 }
 
-h2, h3 {
+h2,
+h3 {
   font-size: 1.4em;
   padding: 1%;
   margin: 1%;
@@ -885,6 +886,7 @@ button:disabled {
 #car-game-container {
   justify-content: center;
   align-items: center;
+  min-width: 20vw;
 }
 
 #extra-container {
@@ -892,7 +894,7 @@ button:disabled {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  min-width: 12.5rem;
+  min-width: 20vw;
 }
 
 /*========================= 
@@ -919,7 +921,7 @@ button:disabled {
   display: grid;
   align-items: center;
   justify-content: center;
-  grid-template-columns: repeat(3, 0.5fr);
+  grid-template-columns: repeat(3, 7vw);
   grid-template-rows: repeat(10, 6.5vh);
   width: auto;
   height: auto;
