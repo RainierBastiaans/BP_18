@@ -14,8 +14,10 @@ class ShopComponent extends HTMLElement {
     // Group parts by workstation
     this.groupPartsByWorkstation();
     this.personalStockComponent = personalStockComponent;
+    // console.log(personalStockComponent);
     this.shadowRoot.appendChild(this.personalStockComponent);
   }
+
   connectedCallback() {
     this.render();
   }
@@ -51,14 +53,15 @@ class ShopComponent extends HTMLElement {
     const shopSourceReference = document.createElement("a");
     shopSourceReference.href = "https://www.flaticon.com/free-icons/warehouse";
     shopSourceReference.title = "warehouse icons";
+    shopSourceReference.alt =
+      "represented by: Warehouse icons created by Vectors Tank - Flaticon";
     shopSourceContainer.appendChild(shopSourceReference);
 
     // Shop icon
     const shopIcon = document.createElement("img");
     shopIcon.src = "./img/shop.png";
-    shopIcon.alt =
-      "Shop represented by: Warehouse icons created by Vectors Tank - Flaticon";
-    shopIcon.classList.add("shop-icon");
+    shopIcon.alt = "Shop icon";
+    shopIcon.classList.add("header-icon");
     heading.appendChild(shopIcon);
 
     //Title

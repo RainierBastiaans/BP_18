@@ -28,6 +28,7 @@ class PlayersOverview extends HTMLElement {
 
   update(players) {
     this.players = players;
+    // console.log("Players updated: ", this.players);
     this.render(); // Update UI with new players
   }
 
@@ -62,7 +63,7 @@ class PlayersOverview extends HTMLElement {
       const playerIcon = document.createElement("img");
       playerIcon.src = "./img/otherPlayer.png";
       playerIcon.alt = `Player ${player.name} icon`;
-      playerIcon.classList.add("player-icon");
+      playerIcon.classList.add("header-icon");
       otherPlayerElement.appendChild(playerIcon);
 
       // Create a div element for the player information

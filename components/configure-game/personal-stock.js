@@ -28,6 +28,7 @@ class PersonalStock extends HTMLElement {
   }
 
   update(stock) {
+    console.log(stock);
     stock.forEach((value, key) => {
       const partsForWorkstation = this.partsByWorkstation.get(
         value.workstationFK

@@ -10,7 +10,7 @@ class PlayerName extends HTMLElement {
         <div class="input-container">
         <!-- <a href="https://www.flaticon.com/free-icons/worker" title="worker icon" 
         alt="Worker icons created by Smashicons - Flaticon">-->
-        <img src="./img/player.png" alt="player icon" class="player-icon">
+        <img src="./img/player.png" alt="player icon" class="header-icon">
         </a>
         <input type="text" id="playerName" value = "" 
         placeholder="Enter your player name" minLength="3" maxLength="15"/>
@@ -24,6 +24,7 @@ class PlayerName extends HTMLElement {
 
     //Event listener for input validation
     this.playerNameInput.addEventListener("input", (event) => {
+      // console.log("Input over player name input");
       this.validateInput.bind(this);
       this.dispatchEvent(
         new CustomEvent("playernamechange", {

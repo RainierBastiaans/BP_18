@@ -15,6 +15,7 @@ class RoundStats {
     this.cars = new Map();
 
     this.averageCarCompletionTime = 0;
+    this.isOver = false;
   }
 
   deductFacilityCost() {
@@ -26,6 +27,7 @@ class RoundStats {
   }
 
   updateStock(stockPrice) {
+    this.capital -= stockPrice;
     this.capital -= stockPrice;
   }
   startRound(cars) {
@@ -49,8 +51,11 @@ class RoundStats {
   }
 
   endRound() {
+    console.log("end round");
     this.totalTimeRound = this.getElapsedTime();
+    this.isOver = true;
   }
+
   calculateAverageCarCompletionTime() {
     let totalTime = 0;
     Array.from(this.cars.values()).forEach((times) => {
@@ -90,6 +95,20 @@ class RoundStats {
   newCarBroken() {
     this.carsBroken++;
     this.carsInProgress--;
+  }
+
+  getRoundStats() {
+    console.log(
+      "stats of round: " + this.roundNumber + ". written by RoundStats.js"
+    );
+    return {
+      carsCompleted: this.carsCompleted,
+      carsBroken: this.carsBroken,
+      carsInProgress: this.carsInProgress,
+      totalIncome: this.totalIncome,
+      capital: this.capital,
+      averageCarCompletionTime: this.averageCarCompletionTime,
+    };
   }
 }
 export { RoundStats };

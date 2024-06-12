@@ -61,6 +61,7 @@ class GameStats extends Subject {
     );
     this.currentRound = this.rounds.get(this.rounds.size);
     this.notifyObservers(this);
+    console.log("gamestats" + this.currentRound);
   }
 
   updateCapital(capital) {
@@ -69,6 +70,7 @@ class GameStats extends Subject {
   }
 
   updateCars(car) {
+    // console.log(car)
     if (car.isComplete()) {
       this.newCarCompleted(car);
     } else if (car.isBroken()) {

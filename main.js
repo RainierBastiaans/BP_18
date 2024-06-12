@@ -27,16 +27,14 @@ import { InsufficientFundsError } from "./error/insufficient-funds-error.js";
 import { ErrorComponent } from "./components/error.js";
 import { RestartButton } from "./components/restart-button.js";
 
-
 // Global error handler
-window.onerror = function(message, source, lineno, colno, error) {
-  if (error instanceof InsufficientFundsError){
-    showGameOverScreen()
+window.onerror = function (message, source, lineno, colno, error) {
+  if (error instanceof InsufficientFundsError) {
+    showGameOverScreen();
+  } else {
+    showErrorScreen(error);
   }
-  else{
-    showErrorScreen(error)
-  }
-}
+};
 
 // INITIALIZE COMPONENTS
 const leanGame = new LeanGame();
@@ -54,17 +52,17 @@ const playerNameInput = new PlayerName();
 const startButton = new StartButton();
 const gameHeader = new GameHeader();
 const gameDescriptionComponent = new GameDescriptionContainer();
-const gameOverComponent = new GameOver()
+const gameOverComponent = new GameOver();
 const newRoundButton = new NewRoundButton();
 const letsgetstartButton = new LetsGetStartButton();
-const restartButton = new RestartButton()
+const restartButton = new RestartButton();
+//const capital = new Capital(leanGame.game.stats.capital);
 const homePage = document.getElementById("home-page");
 const startPage = document.getElementById("start-page");
 const gameContainer = document.getElementById("game-container");
 const liveContainer = document.getElementById("live");
 const ingameStatsContainer = document.getElementById("ingame-stats-container");
 const liveStockContainer = document.getElementById("live-stock-container");
-const statsContainer = document.getElementById("stats-container");
 
 let selectedLeanMethod;
 let selectedWorkstation;
@@ -138,8 +136,8 @@ function buildScreens() {
   startGrid.appendColumn(1, gameDescriptionComponent);
   startGrid.appendColumn(2, highscoreBoard);
   startGrid.appendColumn(3, letsgetstartButton);
-  startGrid.appendColumn(3, restartButton)
-  startGrid.appendColumn(1, gameOverComponent)
+  startGrid.appendColumn(3, restartButton);
+  startGrid.appendColumn(1, gameOverComponent);
   startPage.appendChild(startGrid);
 
   homePage.appendChild(configGrid);
@@ -147,6 +145,7 @@ function buildScreens() {
   homePage.appendChild(newRoundButton);
 
   configGrid.appendColumn(1, playerNameInput);
+  configGrid.appendColumn(1, showStats);
   configGrid.appendColumn(1, fixedCosts);
   configGrid.appendColumn(2, shopComponent);
   configGrid.appendColumn(2, startButton);
@@ -157,7 +156,6 @@ function buildScreens() {
 
   ingameStatsContainer.appendChild(showIngameStats);
   liveStockContainer.appendChild(liveStockComponent);
-  statsContainer.appendChild(showStats);
 
   //game
   gameContainer.appendChild(leanGame);
@@ -174,7 +172,7 @@ function initShop(fetchedParts) {
 }
 
 function showConfigScreen() {
-  restartButton.hide()
+  restartButton.hide();
   homePage.classList.remove("hidden");
   configGrid.show();
   gameHeader.hide();
@@ -195,7 +193,7 @@ function showConfigScreen() {
   liveStockComponent.hide();
   letsgetstartButton.hide();
   startGrid.classList.add("hidden");
-  gameOverComponent.hide()
+  gameOverComponent.hide();
 }
 
 function showGameScreen() {
@@ -239,23 +237,23 @@ function showRoundScreen() {
   liveStockComponent.hide();
 }
 //screen for insufficient funds
-function showGameOverScreen(){
-  restartButton.show()
-  leanGame.game.endGame
+function showGameOverScreen() {
+  restartButton.show();
+  leanGame.game.endGame;
   showStats.show();
-  highscoreBoard.show()
-  gameContainer.classList.add("hidden")
-  liveContainer.classList.add("hidden")
-  startGrid.classList.remove("hidden")
-  gameOverComponent.show()
-  homePage.classList.add("hidden")
+  highscoreBoard.show();
+  gameContainer.classList.add("hidden");
+  liveContainer.classList.add("hidden");
+  startGrid.classList.remove("hidden");
+  gameOverComponent.show();
+  homePage.classList.add("hidden");
 }
 
-function showErrorScreen(errormessage){
-  const errorComponent = new ErrorComponent(errormessage)
-  document.body.appendChild(errorComponent)
-  leanGame.game.endGame()
-  
+function showErrorScreen(errormessage) {
+  const errorComponent = new ErrorComponent(errormessage);
+  document.body.appendChild(errorComponent);
+  leanGame.game.endGame();
+
   homePage.classList.add("hidden");
   configGrid.hide();
   gameHeader.hide();
@@ -277,20 +275,19 @@ function showErrorScreen(errormessage){
   letsgetstartButton.hide();
   startGrid.classList.add("hidden");
   gameOverComponent.hide();
-
 }
 
 function showEndGameScreen() {
   showStats.show();
-  highscoreBoard.show()
-  restartButton.show()
-  gameContainer.classList.add("hidden")
-  liveContainer.classList.add("hidden")
-  startGrid.classList.remove("hidden")
+  highscoreBoard.show();
+  restartButton.show();
+  gameContainer.classList.add("hidden");
+  liveContainer.classList.add("hidden");
+  startGrid.classList.remove("hidden");
 }
 
 function showStartScreen() {
-  restartButton.hide()
+  restartButton.hide();
   homePage.classList.add("hidden");
   gameHeader.show();
   gameDescriptionComponent.show();
@@ -312,7 +309,7 @@ function showStartScreen() {
   letsgetstartButton.show();
   leanGame.hide();
   gameContainer.classList.add("hidden");
-  gameOverComponent.hide()
+  gameOverComponent.hide();
 }
 
 function startGame(playerName) {
@@ -344,11 +341,6 @@ function updatePlayerWorkstations(oldSelectedWorkstation, selectedWorkstation) {
   });
   playersOverview.update(otherPlayers);
 }
-
-//EVENT LISTENERS
-chooseLeanMethod.addEventListener("leanmethodchange", (event) => {
-  selectedLeanMethod = event.detail.selectedLeanMethod;
-});
 
 async function fetchParts() {
   try {
