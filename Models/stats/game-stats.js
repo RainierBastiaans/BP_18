@@ -49,6 +49,7 @@ class GameStats extends Subject {
 
   endRound() {
     this.currentRound.endRound();
+    console.log(this.cars)
   }
   startRound() {
     this.deductRoundCosts();
@@ -61,7 +62,6 @@ class GameStats extends Subject {
     );
     this.currentRound = this.rounds.get(this.rounds.size);
     this.notifyObservers(this);
-    console.log("gamestats" + this.currentRound);
   }
 
   updateCapital(capital) {
@@ -70,7 +70,6 @@ class GameStats extends Subject {
   }
 
   updateCars(car) {
-    // console.log(car)
     if (car.isComplete()) {
       this.newCarCompleted(car);
     } else if (car.isBroken()) {
@@ -83,7 +82,7 @@ class GameStats extends Subject {
   newCarInProgress(car) {
     this.carsInProgress++;
     this.currentRound.newCarInProgress(car);
-    this.cars.set(car.id, {
+    this.cars.set(car.id, {id: car.id,
       start:
         (this.rounds.size - 1) * gameValues.roundDuration +
         this.currentRound.getElapsedTime(),
@@ -121,7 +120,7 @@ class GameStats extends Subject {
     this.carsBroken++;
     this.carsInProgress--;
     this.cars.delete(car.id);
-    this.currentRound.newCarBroken();
+    this.currentRound.newCarBroken(car);
     this.notifyObservers(this);
   }
 }

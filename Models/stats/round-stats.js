@@ -40,18 +40,17 @@ class RoundStats {
   configureCars(cars) {
     Array.from(cars.values()).forEach((car) => {
       if (!car.end) {
-        this.cars.set(car.id, {
+        this.cars.set(car.id, {id: car.id,
           start:
-            (this.roundNumber - 1) * gameValues.roundDuration +
-            this.getElapsedTime(),
+            car.start,
           end: undefined,
         });
       }
     });
+    this.carsInProgress = this.cars.size;
   }
 
   endRound() {
-    console.log("end round");
     this.totalTimeRound = this.getElapsedTime();
     this.isOver = true;
   }
@@ -64,7 +63,7 @@ class RoundStats {
       }
     });
 
-    this.averageCarCompletionTime = totalTime / this.carsCompleted;
+    this.averageCarCompletionTime = Math.round(totalTime / completedCars);
   }
 
   getElapsedTime() {
@@ -76,7 +75,7 @@ class RoundStats {
   }
 
   newCarInProgress(car) {
-    this.cars.set(car.id, {
+    this.cars.set(car.id, {id: car.id,
       start:
         (this.roundNumber - 1) * gameValues.roundDuration +
         this.getElapsedTime(),
@@ -89,18 +88,19 @@ class RoundStats {
     this.carsCompleted++;
     this.totalIncome += car.fixedPrice;
     this.carsInProgress--;
+    this.cars.get(car.id).end =
+      (this.roundNumber-1) * gameValues.roundDuration +
+      this.getElapsedTime();
     this.capital += car.fixedPrice;
     this.calculateAverageCarCompletionTime();
   }
-  newCarBroken() {
+  newCarBroken(car) {
     this.carsBroken++;
     this.carsInProgress--;
+    this.cars.delete(car.id);
   }
 
   getRoundStats() {
-    console.log(
-      "stats of round: " + this.roundNumber + ". written by RoundStats.js"
-    );
     return {
       carsCompleted: this.carsCompleted,
       carsBroken: this.carsBroken,
