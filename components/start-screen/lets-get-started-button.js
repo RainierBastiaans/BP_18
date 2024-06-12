@@ -8,6 +8,12 @@ class LetsGetStartButton extends HTMLElement {
 
     shadowRoot.innerHTML = `
         <link rel="stylesheet" href="styles.css">
+        <style>
+        #startButton {
+          margin: 0;
+          border-radius: 7px;
+          }
+        </style>
         <button id="startButton">Let's get started!</button>
       `;
 
