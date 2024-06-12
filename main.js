@@ -284,6 +284,8 @@ function showEndGameScreen() {
   gameContainer.classList.add("hidden");
   liveContainer.classList.add("hidden");
   startGrid.classList.remove("hidden");
+  startGrid.appendColumn(1, showStats)
+
 }
 
 function showStartScreen() {
