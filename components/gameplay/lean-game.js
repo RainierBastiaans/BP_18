@@ -258,7 +258,7 @@ class LeanGame extends HTMLElement {
     this.roundMessageEl.textContent =
       "Round " + this.game.currentRound.roundNumber.toString();
     this.messageEl.textContent =
-      "Work On Workstation " + this.getCurrentWorkstation().id;
+      "Workstation " + this.getCurrentWorkstation().id;
 
     if (this.game.getCarFromWorkstation(this.getCurrentWorkstation().id)) {
       this.createButtons();
@@ -461,6 +461,15 @@ class LeanGame extends HTMLElement {
       placeholder.id = `placeholder${workstation.id}`;
       placeholder.src = `./img/placeholders/${workstation.id}.png`;
       placeholder.alt = `image of ${workstation.id}`;
+      this.carContainer.append(placeholder);
+    }
+
+    const checkw1Holder = this.shadowRoot.getElementById(`w1-holder`);
+    if (car && workstation.id == 1 && checkw1Holder == null) {
+      const placeholder = document.createElement("img");
+      placeholder.id = `w1-holder`;
+      placeholder.src = `./img/placeholders/workstation1-placeholder.svg`;
+      placeholder.alt = `image of workstation 1 placeholder`;
       this.carContainer.append(placeholder);
     }
 
