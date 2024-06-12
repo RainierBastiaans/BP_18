@@ -909,9 +909,11 @@ button:disabled {
 ===WORKSTATIONS PARTS VISUALS===
 ==============================*/
 /*=======WORKSTATION 1=========*/
-#chassis {
+#chassis,
+#p1-placeholder {
   position: absolute;
   height: 12%;
+  width: auto;
   top: 10%;
   left: 0;
   right: 0;
@@ -919,34 +921,40 @@ button:disabled {
   margin-right: auto;
 }
 
-#hood {
+#hood,
+#p2-placeholder {
   position: absolute;
   top: 21%;
   height: 14%;
-  left: 0;
+  width: auto;
+  left: -7px;
   right: 0;
   margin-left: auto;
   margin-right: auto;
 }
 
-#trunk {
+#trunk,
+#p3-placeholder {
   position: absolute;
   top: 35%;
   height: 14%;
-  left: 0;
+  width: auto;
+  left: -6px;
   right: 0;
   margin-left: auto;
   margin-right: auto;
 }
 
-#door {
+#door,
+#p4-placeholder {
   position: absolute;
   height: 11%;
+  width: auto;
   left: 0;
   right: 0;
   margin-left: auto;
   margin-right: auto;
-  top: 49%;
+  top: 48%;
 }
 
 /*=======WORKSTATION 2=========*/
@@ -1091,16 +1099,6 @@ button:disabled {
   width: 95%;
 }
 
-#w1-holder {
-  height: 50%;
-  width: auto;
-  position: absolute;
-  top: 10%;
-  left: 0;
-  right: 0;
-  margin-left: auto;
-  margin-right: auto;
-}
 
 /** Timer */
 

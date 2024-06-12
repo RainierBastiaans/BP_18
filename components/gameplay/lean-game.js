@@ -232,7 +232,20 @@ class LeanGame extends HTMLElement {
 
   handlePartButtonClick(button) {
     const partName = button.dataset.partName;
-    //console.log(partName);
+    if (partName === "chassis") {
+      const p1 = this.shadowRoot.getElementById("p1-placeholder");
+      if (p1 != null) {
+        p1.remove();
+      }
+    }
+
+    if (partName === "door") {
+      const p4 = this.shadowRoot.getElementById("p4-placeholder");
+      if (p4 != null) {
+        console.log(p4.remove());
+        p4.remove();
+      }
+    }
     this.game.addPart(partName, this.getCurrentWorkstation().id);
 
     this.partPosition = this.partPosition.filter(function (obj) {
@@ -458,12 +471,26 @@ class LeanGame extends HTMLElement {
     const checkHolder = this.shadowRoot.getElementById(
       `placeholder${workstation.id}`
     );
+
     if (car && workstation.id != 1 && checkHolder == null) {
       const placeholder = document.createElement("img");
       placeholder.id = `placeholder${workstation.id}`;
       placeholder.src = `./img/placeholders/${workstation.id}.png`;
       placeholder.alt = `image of ${workstation.id}`;
       this.carContainer.append(placeholder);
+    }
+
+    const checkp1Holder = this.shadowRoot.getElementById("p2-placeholder");
+    console.log(this.shadowRoot.getElementById("p2-placeholder"));
+
+    if (car && workstation.id === 1 && checkp1Holder === null) {
+      for (let i = 1; i <= 4; i++) {
+        const placeholder = document.createElement("img");
+        placeholder.id = `p${i}-placeholder`;
+        placeholder.src = `./img/placeholders/p${i}-placeholder.png`;
+        placeholder.alt = `image of workstation 1 part ${i} placeholder`;
+        this.carContainer.append(placeholder);
+      }
     }
 
     try {
@@ -481,7 +508,7 @@ class LeanGame extends HTMLElement {
         }
       });
     } catch (error) {
-      throw new Error(error)
+      throw new Error(error);
     }
     if (workstation.getRemainingTime()) {
       this.carContainer.style.backgroundColor = "#ed4f4f";
