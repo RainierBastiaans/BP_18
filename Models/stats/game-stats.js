@@ -49,7 +49,6 @@ class GameStats extends Subject {
 
   endRound() {
     this.currentRound.endRound();
-    console.log(this.cars)
   }
   startRound() {
     this.deductRoundCosts();

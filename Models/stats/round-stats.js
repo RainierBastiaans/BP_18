@@ -28,7 +28,6 @@ class RoundStats {
 
   updateStock(stockPrice) {
     this.capital -= stockPrice;
-    this.capital -= stockPrice;
   }
   startRound(cars) {
     this.deductFacilityCost();
@@ -63,7 +62,7 @@ class RoundStats {
       }
     });
 
-    this.averageCarCompletionTime = Math.round(totalTime / completedCars);
+    this.averageCarCompletionTime = Math.round(totalTime / this.carsCompleted);
   }
 
   getElapsedTime() {
