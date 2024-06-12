@@ -1427,7 +1427,16 @@ input[type="number"] {
 ==========================*/
 .stats-component {
   max-width: 600px;
+  width: 100%
 }
+
+show-stats {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+
 
 .stats-component .round-label {
   font-size: 1.5em;

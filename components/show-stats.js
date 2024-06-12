@@ -163,16 +163,7 @@ class ShowStats extends HTMLElement {
     );
     statsList.appendChild(totalIncomeItem);
 
-    //Total Capital
-    const capitalTitle = this.currentRound === 0
-    ? "Capital"
-    : "Total Profit";
-    const capital =
-      this.currentRound === 0
-        ? currentRoundStats.capital.amount
-        : currentRoundStats.capital;
-    const capitalItem = this.buildStatItem("capital", capitalTitle, capital);
-    statsList.appendChild(capitalItem);
+    
 
     //Average car production time
     const averageCarCompletionTimeTitle = "Average car production time";
@@ -183,6 +174,17 @@ class ShowStats extends HTMLElement {
       averageCarCompletionTime
     );
     statsList.appendChild(averageCarCompletionTimeItem);
+
+    //Total Capital
+    const capitalTitle = this.currentRound === 0
+    ? "Capital (SCORE)"
+    : "Total Profit";
+    const capital =
+      this.currentRound === 0
+        ? currentRoundStats.capital.amount
+        : currentRoundStats.capital;
+    const capitalItem = this.buildStatItem("capital", capitalTitle, capital);
+    statsList.appendChild(capitalItem);
   }
 
   buildStatItem(itemName, statName, statNumber) {
