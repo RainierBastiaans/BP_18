@@ -30,7 +30,6 @@ class ShowStats extends HTMLElement {
   render() {
     const statsComponent = this.shadowRoot.querySelector(".stats-component");
     statsComponent.innerHTML = ""; // Clear existing stats
-    //console.log(this.gameStats);
     //Heading
     const heading = document.createElement("div");
     //refactor
@@ -110,7 +109,6 @@ class ShowStats extends HTMLElement {
     roundNumber.textContent = `Round ${this.currentRound + 1}`;
 
     //get RoundStats object for current round
-    console.log(this.gameStats.rounds.get(this.currentRound + 1));
     const currentRoundStats = this.gameStats.rounds
       .get(this.currentRound + 1)
       .getRoundStats();
@@ -203,10 +201,7 @@ class ShowStats extends HTMLElement {
   }
 
   changeRound(offset) {
-    console.log("changing round");
-    console.log(this.currentRound);
-    console.log(this.gameStats.rounds.get(2));
-    console.log("cureent: " + this.currentRound);
+
 
     if (this.currentRound + offset < 0) {
       return;
@@ -220,14 +215,12 @@ class ShowStats extends HTMLElement {
     const isOver = this.gameStats.rounds.get(
       this.currentRound + 1 + offset
     ).isOver;
-    console.log(isOver);
 
     if (!isOver) {
       return;
     }
 
     const roundSize = this.gameStats.rounds.size;
-    console.log(roundSize);
 
     // Calculate new round number
     const newIndex = (this.currentRound + offset + roundSize) % roundSize;
