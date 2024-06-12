@@ -57,7 +57,6 @@ class HighscoresDB {
   }
 
   async addHighscore(name, score) {
-    console.trace('x')
     if (!this.db) return;
 
     const transaction = this.db.transaction(["scores"], "readwrite");
