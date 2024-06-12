@@ -732,7 +732,6 @@ label {
 
 label .tooltip {
   visibility: hidden;
-  width: 300px;
   background-color: #555;
   color: #fff;
   text-align: center;
