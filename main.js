@@ -148,7 +148,7 @@ function buildScreens() {
   configGrid.appendColumn(1, showStats);
   configGrid.appendColumn(1, fixedCosts);
   configGrid.appendColumn(2, shopComponent);
-  configGrid.appendColumn(2, startButton);
+  configGrid.appendColumn(2, startButton);modified:   main.js
   configGrid.appendColumn(2, newRoundButton);
   configGrid.appendColumn(3, chooseLeanMethod);
   configGrid.appendColumn(3, selectWorkstationComponent);
