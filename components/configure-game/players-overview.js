@@ -28,7 +28,6 @@ class PlayersOverview extends HTMLElement {
 
   update(players) {
     this.players = players;
-    console.log("Players updated: ", this.players);
     this.render(); // Update UI with new players
   }
 

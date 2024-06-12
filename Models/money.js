@@ -1,3 +1,4 @@
+import { InsufficientFundsError } from "../error/insufficient-funds-error.js";
 import { Subject } from "../subject.js";
 
 class Money extends Subject {
@@ -15,7 +16,7 @@ class Money extends Subject {
 
   deduct(amount) {
     if (amount > this.amount) {
-      throw new Error("Insufficient funds");
+      throw new InsufficientFundsError("Insufficient funds");
     }
     const newAmount = this.formatAmount(this.amount - amount);
     this.amount = newAmount;

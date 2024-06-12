@@ -69,7 +69,6 @@ class GameStats extends Subject {
   }
 
   updateCars(car) {
-    console.log(car);
     if (car.isComplete()) {
       this.newCarCompleted(car);
     } else if (car.isBroken()) {
@@ -97,13 +96,11 @@ class GameStats extends Subject {
   calculateAverageCarCompletionTime() {
     let totalTime = 0;
     Array.from(this.cars.values()).forEach((times) => {
-      console.log(times);
       if (times.end) {
         totalTime += times.end - times.start;
       }
     });
     this.averageCarCompletionTime = totalTime / this.carsCompleted;
-    console.log(this.averageCarCompletionTime);
   }
 
   newCarCompleted(car) {

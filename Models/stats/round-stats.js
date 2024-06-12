@@ -53,7 +53,6 @@ class RoundStats {
   calculateAverageCarCompletionTime() {
     let totalTime = 0;
     Array.from(this.cars.values()).forEach((times) => {
-      console.log(times);
       if (times.end) {
         totalTime += times.end - times.start;
       }
