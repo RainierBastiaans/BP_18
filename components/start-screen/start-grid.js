@@ -8,7 +8,6 @@ class StartGrid extends HTMLElement {
     }
 
     #element1, #element2, #element3 {
-        margin: 5px; /* Add margin for spacing */
         padding: 10px; /* Add padding for spacing */
         text-align: center; /* Center align text */
     }

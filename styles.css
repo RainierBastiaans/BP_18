@@ -106,7 +106,7 @@ h3 {
   background-color: rgba(0, 89, 255, 0.151);
   border-radius: 8px;
   border: 2px solid rgba(192, 192, 192, 00.5);
-  margin: 7.5px;
+  /* margin: 7.5px; */
   padding: 10px;
   box-shadow: 0 0 10px rgba(192, 192, 192, 1);
 }
