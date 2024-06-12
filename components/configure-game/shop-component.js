@@ -61,7 +61,7 @@ class ShopComponent extends HTMLElement {
     const shopIcon = document.createElement("img");
     shopIcon.src = "./img/shop.png";
     shopIcon.alt = "Shop icon";
-    shopIcon.classList.add("shop-icon");
+    shopIcon.classList.add("header-icon");
     heading.appendChild(shopIcon);
 
     //Title

@@ -10,6 +10,7 @@ class ShowStats extends HTMLElement {
       <a href="https://www.flaticon.com/free-icons/money" title="money icons">Money icons created by Freepik - Flaticon</a>
       <a href="https://www.flaticon.com/free-icons/fleet-management" title="fleet management icons">Fleet management icons created by prinda895 - Flaticon</a>
       <a href="https://www.flaticon.com/free-icons/car-accident" title="car accident icons">Car accident icons created by Prashanth Rapolu 15 - Flaticon</a>
+      <a href="https://www.flaticon.com/free-icons/measure" title="measure icons">Measure icons created by Eucalyp - Flaticon</a>
     </div>
     `;
     this.classList.add("component-style");
@@ -165,7 +166,7 @@ class ShowStats extends HTMLElement {
     const averageCarCompletionTimeTitle = "Average car production time";
     const averageCarCompletionTime = currentRoundStats.averageCarCompletionTime;
     const averageCarCompletionTimeItem = this.buildStatItem(
-      "carsProduced",
+      "averageCarCompletionTime",
       averageCarCompletionTimeTitle,
       averageCarCompletionTime
     );

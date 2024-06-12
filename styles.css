@@ -39,6 +39,7 @@ body {
 }
 
 h2, h3 {
+  font-size: 1.4em;
   padding: 1%;
   margin: 1%;
 }
@@ -277,13 +278,13 @@ input[type="text"] {
 .fixed-cost-name {
   flex: 1;
   font-weight: bold;
-  font-size: 1.5em;
+  font-size: 1.3em;
   color: #333;
 }
 
 /* Price styling */
 .fixed-cost-price {
-  font-size: 1.5em;
+  font-size: 1.3em;
   color: #28a745;
   font-weight: bold;
 }
@@ -424,7 +425,7 @@ game-description-container {
 .available-method,
 .applied-method {
   display: flex;
-  vertical-align: middle;
+  align-items: center;
   padding: 10px;
   border-radius: 5px;
   background-color: #fff;
@@ -531,13 +532,6 @@ game-description-container {
   box-shadow: 0 4px 8px rgba(155, 93, 255, 0.555);
 }
 
-.player-icon {
-  width: 80px;
-  height: 80px;
-  border-radius: 50%;
-  margin-bottom: 10px;
-}
-
 .other-player-info {
   display: flex;
   flex-direction: column;
@@ -615,7 +609,7 @@ game-description-container {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 20px;
+  margin-bottom: 1em;
 }
 
 .shop-navigation button {
@@ -1376,6 +1370,10 @@ input[type="number"] {
 
 .stats-list {
   padding: 1%;
+  border-radius: 5px;
+  border: 2px solid #007bff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  background-color: #f8f9fa;
 }
 
 .stat-item {
@@ -1396,10 +1394,13 @@ input[type="number"] {
 }
 
 .stat-title {
-  font-size: larger;
+  font-size: 1.3em;
+  font-weight: 600;
 }
 
 .stat-value {
   font-weight: bold;
+  font-size: 1.3em;
   margin: 1%;
+  color: #28a745;
 }
