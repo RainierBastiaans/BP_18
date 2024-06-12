@@ -627,7 +627,7 @@ label:hover .tooltip {
 =======BUTTONS========
 =====================*/
 
-start-button {
+start-button{
   display: flex;
   align-self: center;
   align-items: center;
@@ -635,7 +635,7 @@ start-button {
 }
 
 #newRoundButton,
-#startButton {
+#startButton, #restartButton{
   display: block;
   padding: 10px 20px;
   font-size: 200%;
