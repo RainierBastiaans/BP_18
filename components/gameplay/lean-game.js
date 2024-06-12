@@ -467,7 +467,6 @@ class LeanGame extends HTMLElement {
     }
 
     const checkp1Holder = this.shadowRoot.getElementById("p2-placeholder");
-    console.log(this.shadowRoot.getElementById("p2-placeholder"));
 
     if (car && workstation.id === 1 && checkp1Holder === null) {
       for (let i = 1; i <= 4; i++) {

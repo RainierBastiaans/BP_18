@@ -905,7 +905,7 @@ button:disabled {
   display: grid;
   align-items: center;
   justify-content: center;
-  grid-template-columns: repeat(3, 100px);
+  grid-template-columns: repeat(3, 0.5fr);
   grid-template-rows: repeat(10, 6.5vh);
   width: auto;
   height: auto;
