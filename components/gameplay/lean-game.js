@@ -258,7 +258,7 @@ class LeanGame extends HTMLElement {
     this.roundMessageEl.textContent =
       "Round " + this.game.currentRound.roundNumber.toString();
     this.messageEl.textContent =
-      "Work On Workstation " + this.getCurrentWorkstation().id;
+      "Workstation " + this.getCurrentWorkstation().id;
 
     if (this.game.getCarFromWorkstation(this.getCurrentWorkstation().id)) {
       this.createButtons();
@@ -443,7 +443,9 @@ class LeanGame extends HTMLElement {
       });
 
       gridItems[randomIndex].appendChild(button);
-    } catch (error) {}
+    } catch (error) {
+      //throw new Error (error)
+    }
   }
 
   // Draws the car parts on the screen
@@ -479,7 +481,7 @@ class LeanGame extends HTMLElement {
         }
       });
     } catch (error) {
-      //console.error(error);
+      throw new Error(error)
     }
     if (workstation.getRemainingTime()) {
       this.carContainer.style.backgroundColor = "#ed4f4f";

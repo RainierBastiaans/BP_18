@@ -26,7 +26,7 @@ class CarCheckup extends CarState {
   isBroken() {
     return false;
   }
-  inProgress(){
+  inProgress() {
     return true;
   }
 }

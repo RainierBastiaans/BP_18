@@ -1,6 +1,5 @@
 class CarState {
-  constructor() {
-  }
+  constructor() {}
 
   isComplete() {
     throw new Error("SuperClass");
@@ -9,10 +8,9 @@ class CarState {
   isBroken() {
     throw new Error("SuperClass");
   }
-  inProgress(){
+  inProgress() {
     throw new Error("SuperClass");
   }
-
 
   addPart(parts, partToAdd) {
     throw new Error("SuperClass");

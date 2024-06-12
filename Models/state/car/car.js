@@ -3,11 +3,11 @@ import { Subject } from "../../../subject.js";
 import { CarAtWorkstation } from "./car-at-workstation.js";
 
 class Car extends Subject {
-  constructor(id, parts,stats) {
+  constructor(id, parts, stats) {
     super();
     this.id = id;
     this.fixedPrice = gameValues.carPrice;
-    this.addObserver(stats)
+    this.addObserver(stats);
     this.state = new CarAtWorkstation(1);
     // Create the parts map with key as part name and value as object with properties
     this.parts = new Map(
@@ -28,10 +28,9 @@ class Car extends Subject {
         return acc;
       }, new Map())
     ); // Initialize an empty Map
-
   }
-  inProgress(){
-    return this.state.inProgress()
+  inProgress() {
+    return this.state.inProgress();
   }
 
   set state(newState) {
@@ -40,8 +39,8 @@ class Car extends Subject {
       this.notifyObservers(this, "car");
     }
   }
-  get state(){
-    return this._state
+  get state() {
+    return this._state;
   }
 
   isComplete() {
@@ -61,7 +60,7 @@ class Car extends Subject {
   }
 
   move(cars) {
-    this.state =this.state.move(cars, this.parts);
+    this.state = this.state.move(cars, this.parts);
   }
 
   manualMove(cars, workstations) {

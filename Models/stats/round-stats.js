@@ -13,8 +13,7 @@ class RoundStats {
     this.totalStockCost = 0;
     this.totalIncome = 0;
     this.cars = new Map();
-    this.deductFacilityCost();
-    this.deductStaffCost();
+
     this.averageCarCompletionTime = 0;
     this.isOver = false;
   }
@@ -29,8 +28,11 @@ class RoundStats {
 
   updateStock(stockPrice) {
     this.capital -= stockPrice;
+    this.capital -= stockPrice;
   }
   startRound(cars) {
+    this.deductFacilityCost();
+    this.deductStaffCost();
     this.configureCars(cars);
     this.startTime = performance.now(); // Capture the start time
   }
@@ -57,7 +59,6 @@ class RoundStats {
   calculateAverageCarCompletionTime() {
     let totalTime = 0;
     Array.from(this.cars.values()).forEach((times) => {
-      // console.log(times);
       if (times.end) {
         totalTime += times.end - times.start;
       }

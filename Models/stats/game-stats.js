@@ -18,21 +18,21 @@ class GameStats extends Subject {
     this.rounds = new Map();
     this.facilityCost = gameValues.facilityCost;
     this.staffCost = gameValues.staffCost;
-    this.cars = new Map()
+    this.cars = new Map();
     this.averageCarCompletionTime = 0;
   }
   addObserver(observer) {
     this.observers.push(observer);
-    this.notifyObservers(this)
+    this.notifyObservers(this);
   }
 
   updateStock(addedStock) {
     const stockPrice = addedStock.price;
-    this.currentRound.updateStock(stockPrice)
+    this.currentRound.updateStock(stockPrice);
     this.capital.deduct(stockPrice);
     this.notifyObservers(this);
   }
-  startGame(){
+  startGame() {
     this.startTime = performance.now(); // Capture the start time
   }
 
@@ -43,25 +43,25 @@ class GameStats extends Subject {
     const currentTime = performance.now();
     return Math.floor((currentTime - this.startTime) / 1000); // Time in seconds
   }
-  endGame(){
-    this.totalTimeGame = this.getElapsedTime()
+  endGame() {
+    this.totalTimeGame = this.getElapsedTime();
   }
 
-  endRound(){
-    this.currentRound.endRound()
+  endRound() {
+    this.currentRound.endRound();
   }
-  startRound(){
-    this.currentRound.startRound(this.cars)
+  startRound() {
+    this.deductRoundCosts();
+    this.currentRound.startRound(this.cars);
   }
   newRound() {
     this.rounds.set(
       this.rounds.size + 1,
       new RoundStats(this.rounds.size + 1, this.game)
-    )
-    this.currentRound = this.rounds.get(this.rounds.size)
-    console.log("gamestats" + this.currentRound)
-    this.deductRoundCosts();
-    this.notifyObservers(this)
+    );
+    this.currentRound = this.rounds.get(this.rounds.size);
+    this.notifyObservers(this);
+    console.log("gamestats" + this.currentRound);
   }
 
   updateCapital(capital) {
@@ -75,50 +75,53 @@ class GameStats extends Subject {
       this.newCarCompleted(car);
     } else if (car.isBroken()) {
       this.newCarBroken(car);
-    }
-    else if (car.state.workstationId===1){
-      this.newCarInProgress(car)
+    } else if (car.state.workstationId === 1) {
+      this.newCarInProgress(car);
     }
   }
 
-  newCarInProgress(car){
-    this.carsInProgress ++;
+  newCarInProgress(car) {
+    this.carsInProgress++;
     this.currentRound.newCarInProgress(car);
-    this.cars.set(car.id, {start:(((this.rounds.size-1)*gameValues.roundDuration)+this.currentRound.getElapsedTime()),end: undefined});
+    this.cars.set(car.id, {
+      start:
+        (this.rounds.size - 1) * gameValues.roundDuration +
+        this.currentRound.getElapsedTime(),
+      end: undefined,
+    });
     this.notifyObservers(this);
   }
 
-
   deductRoundCosts() {
-    this.capital.deduct(this.facilityCost+this.staffCost);
+    this.capital.deduct(this.facilityCost + this.staffCost);
   }
-  calculateAverageCarCompletionTime(){
+  calculateAverageCarCompletionTime() {
     let totalTime = 0;
-    Array.from(this.cars.values()).forEach((times)=>{
-      // console.log(times)
-      if (times.end){
-        totalTime+= (times.end-times.start)
+    Array.from(this.cars.values()).forEach((times) => {
+      if (times.end) {
+        totalTime += times.end - times.start;
       }
-    })
-    this.averageCarCompletionTime = totalTime/this.carsCompleted;
-    // console.log(this.averageCarCompletionTime)
+    });
+    this.averageCarCompletionTime = totalTime / this.carsCompleted;
   }
 
   newCarCompleted(car) {
     this.carsCompleted++;
     this.totalIncome += car.fixedPrice;
     this.carsInProgress--;
-    this.cars.get(car.id).end = (((this.rounds.size-1)*gameValues.roundDuration)+this.currentRound.getElapsedTime())
-    this.currentRound.newCarCompleted(car)
+    this.cars.get(car.id).end =
+      (this.rounds.size - 1) * gameValues.roundDuration +
+      this.currentRound.getElapsedTime();
+    this.currentRound.newCarCompleted(car);
     this.capital.add(car.fixedPrice);
-    this.calculateAverageCarCompletionTime()
+    this.calculateAverageCarCompletionTime();
     this.notifyObservers(this);
   }
   newCarBroken(car) {
     this.carsBroken++;
     this.carsInProgress--;
-    this.cars.delete(car.id)
-    this.currentRound.newCarBroken()
+    this.cars.delete(car.id);
+    this.currentRound.newCarBroken();
     this.notifyObservers(this);
   }
 }

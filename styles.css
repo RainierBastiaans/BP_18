@@ -28,12 +28,12 @@ body {
   color: #333; */
 }
 
-.horizontal-container{
+.horizontal-container {
   display: flex;
   flex-direction: row;
 }
 
-.vertical-container{
+.vertical-container {
   display: flex;
   flex-direction: column;
 }
@@ -103,7 +103,6 @@ excludes: player-icon
   display: flex;
   flex-direction: column;
   align-items: stretch;
-  
 }
 
 .config-grid {
@@ -142,7 +141,7 @@ excludes: player-icon
   background-color: rgba(0, 89, 255, 0.151);
   border-radius: 8px;
   border: 2px solid rgba(192, 192, 192, 00.5);
-  margin: 7.5px;
+  /* margin: 7.5px; */
   padding: 10px;
   box-shadow: 0 0 10px rgba(192, 192, 192, 1);
 }
@@ -201,7 +200,8 @@ input[type="text"] {
 .personal-stock-list li {
   display: flex;
   flex-direction: column;
-  text-align: center; /* Centers the stock name and quantity */
+  text-align: center;
+  /* Centers the stock name and quantity */
   background-color: #ffffff;
   border-radius: 8px;
   padding: 5px;
@@ -212,12 +212,15 @@ input[type="text"] {
 }
 
 .personal-stock-name {
-  font-weight: bold; /* Optional: Makes the stock name bold */
+  font-weight: bold;
+  /* Optional: Makes the stock name bold */
 }
 
 .personal-stock-quantity {
-  margin-top: auto; /* Adds some space between the stock name and quantity */
+  margin-top: auto;
+  /* Adds some space between the stock name and quantity */
 }
+
 .personal-stock-list li:hover {
   transform: translateY(-5px);
 }
@@ -294,7 +297,6 @@ input[type="text"] {
   transition: background-color 0.3s ease;
 }
 
-
 /*====================
 ===GAME DESCRIPTION===
 ====================*/
@@ -313,7 +315,7 @@ game-description-container {
 =====SELECT WORKSTATION=====
 ==========================*/
 
-.workstation-icon{
+.workstation-icon {
   width: 3em;
   height: 3em;
   padding: 0 5px;
@@ -352,7 +354,7 @@ game-description-container {
 }
 
 .workstation-option label {
-  width: 2.2em; 
+  width: 2.2em;
   height: 1.5em;
   font-size: 2em;
   border-radius: 15px;
@@ -492,7 +494,7 @@ game-description-container {
 ====================*/
 .players-overview-container {
   padding: 20px;
-  background-color: #ADD8E6;
+  background-color: #add8e6;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(182, 174, 174, 0.795);
   max-width: 800px;
@@ -563,7 +565,7 @@ game-description-container {
   position: relative;
 }
 
-.shop-heading .shop-tip{
+.shop-heading .shop-tip {
   visibility: hidden;
   width: 300px;
   background-color: #555;
@@ -670,7 +672,7 @@ input[type="number"] {
 /* Shop Buy button styles */
 .shop-buy-button {
   width: 100%;
-  max-width:inherit;
+  max-width: inherit;
   background-color: #28a745;
   border: none;
   padding: 15px 0;
@@ -761,7 +763,7 @@ start-button, new-round-button {
   border-radius: 15px;
   line-height: 1.25;
   max-width: inherit;
-  width: 100% ;
+  width: 100%;
 }
 
 #newRoundButton:hover,
@@ -896,7 +898,7 @@ button:disabled {
   align-items: center;
   justify-content: center;
   grid-template-columns: repeat(3, 5.5rem);
-  grid-template-rows: repeat(10, 6vh);
+  grid-template-rows: repeat(10, 6.5vh);
   width: auto;
   height: auto;
   background-color: rgb(180, 184, 241);
@@ -905,12 +907,13 @@ button:disabled {
 
 .part-buttons-oderly {
   display: grid;
-  grid-template-rows: repeat(4, 0.5fr);
+  grid-template-rows: repeat(2, 0.5fr);
+  grid-template-columns: repeat(2, 0.5fr);
   background-color: rgb(180, 184, 241);
   border: 5px solid black;
   width: auto;
   height: auto;
-  padding: 7.5px;
+  padding: 5px;
 }
 
 .part-container {
@@ -918,8 +921,8 @@ button:disabled {
   justify-items: center;
   background-color: rgb(226 228 247);
   border: 5px solid black;
-  margin: 10px auto;
-  width: 260px;
+  margin: 5px;
+  width: 199px;
 }
 
 .part-button {
@@ -952,11 +955,17 @@ button:disabled {
   border: 3px solid black;
   border-radius: 50%;
   text-align: center;
-  background-color: rgb(118, 126, 236);
+  background-color: rgb(87, 146, 255);
   background-image: url(./img/quality-control/checkmark.svg);
   background-repeat: no-repeat;
   background-position: center center;
   background-size: 60%;
+}
+
+#quality-control:disabled {
+  cursor: not-allowed;
+  background-color: rgba(0, 0, 0, 0.08);
+  color: rgba(0, 0, 0, 0.3);
 }
 
 #remove-button {
@@ -1021,30 +1030,42 @@ button:disabled {
 /*=======WORKSTATION 1=========*/
 #chassis {
   position: absolute;
-  top: 10%;
   height: 12%;
-  left: 35%;
+  top: 10%;
+  left: 0;
+  right: 0;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 #hood {
   position: absolute;
   top: 21%;
   height: 14%;
-  left: 49%;
+  left: 0;
+  right: 0;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 #trunk {
   position: absolute;
   top: 35%;
   height: 14%;
-  left: 51%;
+  left: 0;
+  right: 0;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 #door {
   position: absolute;
-  top: 48%;
   height: 11%;
-  left: 35%;
+  left: 0;
+  right: 0;
+  margin-left: auto;
+  margin-right: auto;
+  top: 49%;
 }
 
 /*=======WORKSTATION 2=========*/
@@ -1118,7 +1139,6 @@ button:disabled {
   height: 6%;
 }
 
-
 #alternator {
   position: absolute;
   top: 50%;
@@ -1190,6 +1210,17 @@ button:disabled {
   width: 95%;
 }
 
+#w1-holder {
+  height: 50%;
+  width: auto;
+  position: absolute;
+  top: 10%;
+  left: 0;
+  right: 0;
+  margin-left: auto;
+  margin-right: auto;
+}
+
 /** Timer */
 
 /* Game Timer */
@@ -1231,7 +1262,6 @@ button:disabled {
 .game-timer>svg>text+text {
   font-size: 1rem;
 }
-
 
 /* maintenance Timer */
 .timer {
@@ -1309,50 +1339,60 @@ button:disabled {
 /* In game statistics*/
 .ingame-statistics-container {
   display: flex;
-
-  top: 10px;
+  align-items: center;
+  position: absolute;
+  top: 115px;
+  right: 20px;
 }
 
 .ingame-statistics-item {
-  margin: 5px;
   display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin: 5px;
+}
+
+.ingame-statistics-item p {
+  margin: 0;
+  padding: 0;
 }
 
 .livestock-container {
   width: 33%;
   max-width: 33%;
   right: 0;
+  top: 26%;
   position: absolute;
 }
 
-.livestock-part-list {
-  display: flex;
-  justify-content: space-around;
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
+  .livestock-part-list {
+    display: flex;
+    justify-content: space-around;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
 
-.livestock-part-list li {
-  text-align: center;
-}
+  .livestock-part-list li {
+    text-align: center;
+  }
 
-.livestock-part-name {
-  display: block;
-}
+  .livestock-part-name {
+    display: block;
+  }
 
-.livestock-part-quantity {
-  display: block;
-  margin-top: 5px;
-  font-weight: bold;
-}
+  .livestock-part-quantity {
+    display: block;
+    margin-top: 5px;
+    font-weight: bold;
+  }
 
-input[type="number"] {
-  width: 60px;
-  padding: 5px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-}
+  input[type="number"] {
+    width: 60px;
+    padding: 5px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+  }
 
 
 /*==========================

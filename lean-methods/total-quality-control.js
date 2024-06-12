@@ -6,13 +6,12 @@ class TotalQualityControl extends LeanMethod {
     super(id, name, description);
   }
 
-
-    getPartBreakageChance(){
-      if (this.isEnabled){
-        return gameValues.partBreakageChanceTQC;
-      }
-      return gameValues.partBreakageChanceNoTQC;
+  getPartBreakageChance() {
+    if (this.isEnabled) {
+      return gameValues.partBreakageChanceTQC;
     }
+    return gameValues.partBreakageChanceNoTQC;
   }
+}
 
-  export default TotalQualityControl;
+export default TotalQualityControl;
