@@ -258,7 +258,7 @@ class LeanGame extends HTMLElement {
     this.roundMessageEl.textContent =
       "Round " + this.game.currentRound.roundNumber.toString();
     this.messageEl.textContent =
-      "Work On Workstation " + this.getCurrentWorkstation().id;
+      "Workstation " + this.getCurrentWorkstation().id;
 
     if (this.game.getCarFromWorkstation(this.getCurrentWorkstation().id)) {
       this.createButtons();
