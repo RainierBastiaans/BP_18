@@ -93,8 +93,8 @@ homePage.appendChild(newRoundButton);
 
 selectWorkstationComponent.addEventListener("workstationchange", (event) => {
   const oldSelectedWorkstation = selectedWorkstation || 1;
-  console.log(oldSelectedWorkstation);
-  console.log(event.detail.workstation);
+  //console.log(oldSelectedWorkstation);
+  // console.log(event.detail.workstation);
   // Update selected workstation
   selectedWorkstation = parseInt(event.detail.workstation) || 1;
 

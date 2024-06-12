@@ -52,7 +52,7 @@ class ChooseLeanmethod extends HTMLElement {
         const radioButton = this.shadowRoot.getElementById(
           `leanmethod-${leanMethod.id}`
         );
-        console.log(radioButton);
+        // console.log(radioButton);
 
         if (radioButton) {
           radioButton.addEventListener(
@@ -94,7 +94,7 @@ class ChooseLeanmethod extends HTMLElement {
 
   handleLeanMethodChange(event) {
     const selectedLeanMethod = event.target.value;
-    console.log(selectedLeanMethod);
+    // console.log(selectedLeanMethod);
 
     this.dispatchEvent(
       new CustomEvent("leanmethodchange", {

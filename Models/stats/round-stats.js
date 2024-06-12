@@ -16,6 +16,7 @@ class RoundStats {
     this.deductFacilityCost();
     this.deductStaffCost();
     this.averageCarCompletionTime = 0;
+    this.isOver = false;
   }
 
   deductFacilityCost() {
@@ -48,13 +49,15 @@ class RoundStats {
   }
 
   endRound() {
+    console.log("end round");
     this.totalTimeRound = this.getElapsedTime();
+    this.isOver = true;
   }
 
   calculateAverageCarCompletionTime() {
     let totalTime = 0;
     Array.from(this.cars.values()).forEach((times) => {
-      console.log(times);
+      // console.log(times);
       if (times.end) {
         totalTime += times.end - times.start;
       }

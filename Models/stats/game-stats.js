@@ -59,7 +59,7 @@ class GameStats extends Subject {
       new RoundStats(this.rounds.size + 1, this.game)
     )
     this.currentRound = this.rounds.get(this.rounds.size)
-    console.log(this.currentRound)
+    console.log("gamestats" + this.currentRound)
     this.deductRoundCosts();
     this.notifyObservers(this)
   }
@@ -70,7 +70,7 @@ class GameStats extends Subject {
   }
 
   updateCars(car) {
-    console.log(car)
+    // console.log(car)
     if (car.isComplete()) {
       this.newCarCompleted(car);
     } else if (car.isBroken()) {
@@ -95,13 +95,13 @@ class GameStats extends Subject {
   calculateAverageCarCompletionTime(){
     let totalTime = 0;
     Array.from(this.cars.values()).forEach((times)=>{
-      console.log(times)
+      // console.log(times)
       if (times.end){
         totalTime+= (times.end-times.start)
       }
     })
     this.averageCarCompletionTime = totalTime/this.carsCompleted;
-    console.log(this.averageCarCompletionTime)
+    // console.log(this.averageCarCompletionTime)
   }
 
   newCarCompleted(car) {

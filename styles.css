@@ -114,7 +114,6 @@ excludes: player-icon
   align-items: stretch;
   align-self: center;
   flex-wrap: wrap;
-  overflow-y: auto;
 }
 
 .config-column {

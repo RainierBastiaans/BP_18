@@ -1,3 +1,5 @@
+import { gameValues } from "../game-values.js";
+
 class ShowStats extends HTMLElement {
   constructor() {
     super();
@@ -28,7 +30,7 @@ class ShowStats extends HTMLElement {
   render() {
     const statsComponent = this.shadowRoot.querySelector(".stats-component");
     statsComponent.innerHTML = ""; // Clear existing stats
-    console.log(this.gameStats);
+    //console.log(this.gameStats);
     //Heading
     const heading = document.createElement("div");
     //refactor
@@ -90,29 +92,28 @@ class ShowStats extends HTMLElement {
     });
     navigation.appendChild(nextButton);
 
-    //Render stats for current round
-    this.renderRoundStats();
-  }
-
-  renderRoundStats() {
-    const statsComponent = this.shadowRoot.querySelector(".stats-component");
-
     //Table / list of stats
     const statsList = document.createElement("ul");
     statsList.classList.add("stats-list");
     statsComponent.appendChild(statsList);
 
+    //Render stats for current round
+    this.renderRoundStats();
+  }
+
+  renderRoundStats() {
+    const statsList = this.shadowRoot.querySelector(".stats-list");
+    statsList.innerHTML = ""; // Clear existing stats
+
     const roundNumber = this.shadowRoot.querySelector(".round-label");
     roundNumber.innerHTML = "";
     roundNumber.textContent = `Round ${this.currentRound + 1}`;
-    statsList.innerHTML = ""; // Clear existing stats
 
     //get RoundStats object for current round
     console.log(this.gameStats.rounds.get(this.currentRound + 1));
     const currentRoundStats = this.gameStats.rounds
       .get(this.currentRound + 1)
       .getRoundStats();
-    console.log(currentRoundStats);
 
     /*=========================================
     =============BUILD STATS LIST===============
@@ -202,16 +203,37 @@ class ShowStats extends HTMLElement {
   }
 
   changeRound(offset) {
+    console.log("changing round");
+    console.log(this.currentRound);
+    console.log(this.gameStats.rounds.get(2));
+    console.log("cureent: " + this.currentRound);
+
+    if (this.currentRound + offset < 0) {
+      return;
+    } else if (
+      this.currentRound + offset > this.gameStats.rounds.size ||
+      this.currentRound + offset === gameValues.numberOfRounds
+    ) {
+      return;
+    }
+
+    const isOver = this.gameStats.rounds.get(
+      this.currentRound + 1 + offset
+    ).isOver;
+    console.log(isOver);
+
+    if (!isOver) {
+      return;
+    }
+
     const roundSize = this.gameStats.rounds.size;
     console.log(roundSize);
 
     // Calculate new round number
     const newIndex = (this.currentRound + offset + roundSize) % roundSize;
-    console.log(newIndex);
 
     // Update current round
     this.currentRound = newIndex;
-
     //Render stats for new round
     this.renderRoundStats();
   }

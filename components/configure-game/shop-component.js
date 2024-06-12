@@ -14,7 +14,7 @@ class ShopComponent extends HTMLElement {
     // Group parts by workstation
     this.groupPartsByWorkstation();
     this.personalStockComponent = personalStockComponent;
-    console.log(personalStockComponent);
+    // console.log(personalStockComponent);
     this.shadowRoot.appendChild(this.personalStockComponent);
   }
 

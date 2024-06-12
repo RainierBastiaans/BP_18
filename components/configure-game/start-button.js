@@ -19,7 +19,7 @@ class StartButton extends HTMLElement {
     });
 
     startButton.addEventListener("click", (event) => {
-      console.log("Start button clicked");
+      // console.log("Start button clicked");
       if (this.validateInput(event)) {
         const playerName = this.playerName;
         this.dispatchEvent(
@@ -46,7 +46,7 @@ class StartButton extends HTMLElement {
       return false;
     } else {
       // Continue with starting the game
-      console.log("Game started with player name:", this.playerName);
+      // console.log("Game started with player name:", this.playerName);
       return true;
     }
   }
