@@ -466,15 +466,6 @@ class LeanGame extends HTMLElement {
       this.carContainer.append(placeholder);
     }
 
-    const checkw1Holder = this.shadowRoot.getElementById(`w1-holder`);
-    if (car && workstation.id == 1 && checkw1Holder == null) {
-      const placeholder = document.createElement("img");
-      placeholder.id = `w1-holder`;
-      placeholder.src = `./img/placeholders/workstation1-placeholder.svg`;
-      placeholder.alt = `image of workstation 1 placeholder`;
-      this.carContainer.append(placeholder);
-    }
-
     try {
       // Loop all parts and check if added
       workstation.partnames.forEach((part) => {
