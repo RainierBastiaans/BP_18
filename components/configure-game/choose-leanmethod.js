@@ -83,7 +83,6 @@ class ChooseLeanmethod extends HTMLElement {
 
   handleLeanMethodChange(event) {
     const selectedLeanMethod = event.target.value;
-    console.log(selectedLeanMethod);
 
     this.dispatchEvent(
       new CustomEvent("leanmethodchange", {

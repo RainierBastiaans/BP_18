@@ -444,7 +444,7 @@ class LeanGame extends HTMLElement {
 
       gridItems[randomIndex].appendChild(button);
     } catch (error) {
-      throw new Error (error)
+      //throw new Error (error)
     }
   }
 

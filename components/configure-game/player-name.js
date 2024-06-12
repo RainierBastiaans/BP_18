@@ -24,7 +24,6 @@ class PlayerName extends HTMLElement {
 
     //Event listener for input validation
     this.playerNameInput.addEventListener("input", (event) => {
-      console.log("Input over player name input");
       this.validateInput.bind(this);
       this.dispatchEvent(
         new CustomEvent("playernamechange", {

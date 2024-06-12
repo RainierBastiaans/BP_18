@@ -19,7 +19,6 @@ class StartButton extends HTMLElement {
     });
 
     startButton.addEventListener("click", (event) => {
-      console.log("Start button clicked");
       if (this.validateInput(event)) {
         const playerName = this.playerName;
         this.dispatchEvent(
