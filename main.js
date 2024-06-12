@@ -29,15 +29,12 @@ import { PlayersOverview } from "./components/configure-game/players-overview.js
 import { LeanMethodService } from "./lean-methods/lean-method-service.js";
 import { LetsGetStartButton } from "./components/start-screen/lets-get-started-button.js";
 import { StartGrid } from "./components/start-screen/start-grid.js";
+import { GameOver } from "./components/start-screen/game-over.js";
 
 
 // Global error handler
 window.onerror = function(message, source, lineno, colno, error) {
-  alert('x')
-  console.error(`Error occurred: ${message}\nAt ${source}:${lineno}:${colno}`);
-  if (error) {
-    console.error(`Error object: ${error}`);
-  }
+  showGameOverScreen()
 }
 
 // INITIALIZE COMPONENTS
@@ -56,6 +53,7 @@ const playerNameInput = new PlayerName();
 const startButton = new StartButton();
 const gameHeader = new GameHeader();
 const gameDescriptionComponent = new GameDescriptionContainer();
+const gameOverComponent = new GameOver()
 const newRoundButton = new NewRoundButton();
 const letsgetstartButton = new LetsGetStartButton();
 const homePage = document.getElementById("home-page");
@@ -138,6 +136,7 @@ function buildScreens() {
   startGrid.appendColumn(1, gameDescriptionComponent);
   startGrid.appendColumn(2, highscoreBoard);
   startGrid.appendColumn(3, letsgetstartButton);
+  startGrid.appendColumn(1, gameOverComponent)
   startPage.appendChild(startGrid);
 
   homePage.appendChild(configGrid);
@@ -192,6 +191,7 @@ function showConfigScreen() {
   liveStockComponent.hide();
   letsgetstartButton.hide();
   startGrid.classList.add("hidden");
+  gameOverComponent.hide()
 }
 
 function showGameScreen() {
@@ -234,6 +234,16 @@ function showRoundScreen() {
   chooseLeanMethod.show();
   liveStockComponent.hide();
 }
+//screen for insufficient funds
+function showGameOverScreen(){
+  showStats.show();
+  highscoreBoard.show()
+  letsgetstartButton.show()
+  gameContainer.classList.add("hidden")
+  liveContainer.classList.add("hidden")
+  startGrid.classList.remove("hidden")
+  gameOverComponent.show()
+}
 
 function showEndGameScreen() {
   showStats.show();
@@ -266,6 +276,7 @@ function showStartScreen() {
   letsgetstartButton.show();
   leanGame.hide();
   gameContainer.classList.add("hidden");
+  gameOverComponent.hide()
 }
 
 function startGame(playerName) {
