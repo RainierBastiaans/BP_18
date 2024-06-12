@@ -8,7 +8,7 @@ class HighscoreBoard extends HTMLElement {
     <style>
     :host {
       align-items: center; /* Center align children horizontally */
-      padding: 20px; /* Add padding for spacing */
+      padding: 0.1em; /* Add padding for spacing */
       width: 100%
       height: 100%
   }
@@ -30,8 +30,9 @@ class HighscoreBoard extends HTMLElement {
   }
   
   .trophy-img {
-      width: 50px; /* Set smaller width for trophy image */
+      width: auto; /* Set smaller width for trophy image */
       height: auto; /* Maintain aspect ratio */
+      max-width: 8em; /* Ensure image does not exceed parent width */
       margin-bottom: 20px; /* Add margin for spacing */
   }
   </style>
