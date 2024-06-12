@@ -358,7 +358,7 @@ game-description-container {
   background-color: #0056b3;
 }
 
-.workstation-option input[type="radio"]:checked + label {
+.workstation-option input[type="radio"]:checked+label {
   background-color: #28a745;
 }
 
@@ -912,7 +912,7 @@ button:disabled {
   position: absolute;
   top: 10%;
   height: 12%;
-  left: 35%;
+  left: 33.5%;
 }
 
 #hood {
@@ -933,7 +933,7 @@ button:disabled {
   position: absolute;
   top: 48%;
   height: 11%;
-  left: 35%;
+  left: 33.5%;
 }
 
 /*=======WORKSTATION 2=========*/
@@ -1087,12 +1087,12 @@ button:disabled {
   left: 20px;
 }
 
-.game-timer > svg {
+.game-timer>svg {
   width: 100px;
   height: 100px;
 }
 
-.game-timer > svg > circle {
+.game-timer>svg>circle {
   fill: none;
   stroke-opacity: 0.3;
   stroke: #0400fa;
@@ -1101,22 +1101,22 @@ button:disabled {
   transform: rotate(-90deg);
 }
 
-.game-timer > svg > circle + circle {
+.game-timer>svg>circle+circle {
   stroke-dasharray: 1;
   stroke-dashoffset: 1;
   stroke-linecap: round;
   stroke-opacity: 1;
 }
 
-.game-timer.animatable > svg > circle + circle {
+.game-timer.animatable>svg>circle+circle {
   transition: stroke-dashoffset 0.3s ease;
 }
 
-.game-timer > svg > text {
+.game-timer>svg>text {
   font-size: 1rem;
 }
 
-.game-timer > svg > text + text {
+.game-timer>svg>text+text {
   font-size: 1rem;
 }
 
@@ -1128,12 +1128,12 @@ button:disabled {
   right: 8vw;
 }
 
-.timer > svg {
+.timer>svg {
   width: 200px;
   height: 200px;
 }
 
-.timer > svg > circle {
+.timer>svg>circle {
   fill: none;
   stroke-opacity: 0.3;
   stroke: #fd0d0d;
@@ -1142,22 +1142,22 @@ button:disabled {
   transform: rotate(-90deg);
 }
 
-.timer > svg > circle + circle {
+.timer>svg>circle+circle {
   stroke-dasharray: 1;
   stroke-dashoffset: 1;
   stroke-linecap: round;
   stroke-opacity: 1;
 }
 
-.timer.animatable > svg > circle + circle {
+.timer.animatable>svg>circle+circle {
   transition: stroke-dashoffset 0.3s ease;
 }
 
-.timer > svg > text {
+.timer>svg>text {
   font-size: 2rem;
 }
 
-.timer > svg > text + text {
+.timer>svg>text+text {
   font-size: 1rem;
 }
 
