@@ -1354,6 +1354,11 @@ button:disabled {
   background-color: #bbb;
 }
 
+.green-border {
+  border: 2px solid green;
+  border-radius: 50%;
+}
+
 /*! Game visuals end */
 /** Statisctics visuals */
 /* REFACTOR */

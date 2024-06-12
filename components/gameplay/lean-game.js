@@ -97,6 +97,7 @@ class LeanGame extends HTMLElement {
   draw() {
     this.carPositionLine.setCarPositions(this.game.cars);
     this.carPositionLine.setCurrentWorkstation(this.game.workstations);
+    this.carPositionLine.setSelectedWorkstation(this.selectedWorkstation);
     const workstation = this.getCurrentWorkstation();
 
     // Update visual representation based on maintenance status
@@ -144,6 +145,7 @@ class LeanGame extends HTMLElement {
   }
 
   startGame(playerName, selectedWorkstation = 1, bots) {
+    this.selectedWorkstation = selectedWorkstation;
     this.currentWorkstationIndex = selectedWorkstation;
     // Disable buttons based on selected workstation
     this.previousButton.disabled = selectedWorkstation === 1;
