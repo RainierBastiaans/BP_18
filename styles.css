@@ -424,6 +424,7 @@ game-description-container {
 .available-method,
 .applied-method {
   display: flex;
+  vertical-align: middle;
   padding: 10px;
   border-radius: 5px;
   background-color: #fff;
@@ -432,7 +433,7 @@ game-description-container {
 
 .applied-method {
   background-color: #e9f5ff;
-  color: #28a745;;
+  color: #28a745;
 }
 
 .available-method:hover {
@@ -440,7 +441,6 @@ game-description-container {
 }
 
 .available-method label {
-  padding: 10px;
   cursor: pointer;
   transition: background-color 0.3s ease, color 0.3s ease;
 }
@@ -469,6 +469,8 @@ game-description-container {
 .leanmethod-name {
   font-size: 1.2em;
   font-weight: bold;
+  align-self: center;
+  margin: 10px;
 }
 
 .leanmethod-list-title {

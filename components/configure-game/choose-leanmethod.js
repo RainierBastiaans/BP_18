@@ -86,7 +86,7 @@ class ChooseLeanmethod extends HTMLElement {
   createAppliedLeanMethod(leanMethod) {
     return `
       <li class="applied-method">
-        <img src="img/choose-leanmethods/${leanMethod.id}.png" alt="${leanMethod.name}" class="lean-method-image">
+        <img src="img/choose-leanmethods/${leanMethod.id}.png" alt="${leanMethod.name}" class="icon">
         <span class="leanmethod-name">${leanMethod.name}</span>
       </li>
     `;
