@@ -105,7 +105,7 @@ class LeanGame extends HTMLElement {
     );
     if (workstationElement) {
       if (!workstation) {
-        console.log("das nie goe eh");
+        // console.log("das nie goe eh");
       }
       const seconds = workstation.getRemainingTime();
       if (seconds) {

@@ -5,28 +5,32 @@ class ChooseLeanmethod extends HTMLElement {
 
     this.shadowRoot.innerHTML = `
       <link rel="stylesheet" href="styles.css">
-      <div id="options-container" class="options-container">
+      <div id="leanmethods-container" class="leanmethods-container vertical-container">
         <h2>Select Lean Method</h2>
-        <div id="available-methods" class="options">
-        </div>
-        <div id="applied-methods" class="options">
+        <div class="leanmethods-list-container">
+          <h3 class="leanmethod-list-title">Available Lean Methods</h3>
+          <p class="leanmethod-list-description">Choose a Lean Method to apply to your workstation</p>
+          <ul id="available-methods" class="leanmethods-list">
+          </ul>
+          <h3 class="leanmethod-list-title">Applied Lean Methods</h3>
+          <p class="leanmethod-list-description">You have already applied the lean methods listed below to your assembly process.</p>
+          <ul id="applied-methods" class="leanmethods-list">
+          </ul>
+          <div class="hidden" alt="References for icons of LEAN methods">
+            <a href="https://www.flaticon.com/free-icons/just-in-time" title="just in time icons">Just in time icons created by Iconjam - Flaticon</a>
+            <a href="https://www.flaticon.com/free-icons/excellence" title="Excellence icons">Excellence icons created by Uniconlabs - Flaticon</a>
+            <a href="https://www.flaticon.com/free-icons/maintenance" title="maintenance icons">Maintenance icons created by Freepik - Flaticon</a>
+            <a href="https://www.flaticon.com/free-icons/sort" title="sort icons">Sort icons created by Parzival 1997 - Flaticon</a>
+          </div>
         </div>
       </div>
     `;
     this.classList.add("component-style");
-    this.leanMethods = leanMethods;
+    this.leanMethods = leanMethods || [];
   }
 
   connectedCallback() {
-    this.leanMethodRadioButtons = this.shadowRoot.querySelectorAll(
-      'input[type="radio"][name="game-option"]'
-    );
-    this.leanMethodRadioButtons.forEach((radioButton) => {
-      radioButton.addEventListener(
-        "change",
-        this.handleLeanMethodChange.bind(this)
-      );
-    });
+    this.showLeanMethods(this.leanMethods);
   }
 
   showLeanMethods(leanMethods) {
@@ -40,49 +44,57 @@ class ChooseLeanmethod extends HTMLElement {
 
     leanMethods.forEach((leanMethod) => {
       if (!leanMethod.isEnabled) {
-        const option = document.createElement("div");
-        option.classList.add("option");
-
-        const radioButton = document.createElement("input");
-        radioButton.type = "radio";
-        radioButton.id = leanMethod.id; // Use leanMethod as ID
-        radioButton.name = "game-option";
-        radioButton.value = leanMethod.id;
-        radioButton.addEventListener(
-          "change",
-          this.handleLeanMethodChange.bind(this)
+        availableMethodsContainer.insertAdjacentHTML(
+          "beforeend",
+          this.createLeanMethodOption(leanMethod)
         );
 
-        const label = document.createElement("label");
-        label.textContent = leanMethod.name;
-        label.htmlFor = leanMethod.id;
+        const radioButton = this.shadowRoot.getElementById(
+          `leanmethod-${leanMethod.id}`
+        );
+        // console.log(radioButton);
 
-        // Create tooltip element
-        const tooltip = document.createElement("span");
-        tooltip.classList.add("tooltip");
-        tooltip.textContent = leanMethod.description;
-
-        option.appendChild(radioButton);
-        option.appendChild(label);
-        label.appendChild(tooltip);
-
-        availableMethodsContainer.appendChild(option);
+        if (radioButton) {
+          radioButton.addEventListener(
+            "change",
+            this.handleLeanMethodChange.bind(this)
+          );
+        }
       } else {
-        // Create display for already applied methods (unchanged)
-        const appliedMethod = document.createElement("div");
-        appliedMethod.classList.add("applied-method");
-
-        const message = document.createElement("span");
-        message.textContent = `- ${leanMethod.name} (Already Applied)`;
-
-        appliedMethod.appendChild(message);
-        appliedMethodsContainer.appendChild(appliedMethod);
+        appliedMethodsContainer.insertAdjacentHTML(
+          "beforeend",
+          this.createAppliedLeanMethod(leanMethod)
+        );
       }
     });
   }
 
+  createLeanMethodOption(leanMethod) {
+    return `
+      <li class="available-method-container">
+        <input type="radio" id="leanmethod-${leanMethod.id}" name="game-option" value="${leanMethod.id}" class="hidden">
+        <div class="available-method">
+          <img src="img/choose-leanmethods/${leanMethod.id}.png" alt="${leanMethod.name}" class="icon">
+          <label for="leanmethod-${leanMethod.id}" class="leanmethod-name">${leanMethod.name}
+            <span class="tooltip">${leanMethod.description}</span>
+          </label>
+        </div>
+      </li>
+    `;
+  }
+
+  createAppliedLeanMethod(leanMethod) {
+    return `
+      <li class="applied-method">
+        <img src="img/choose-leanmethods/${leanMethod.id}.png" alt="${leanMethod.name}" class="icon">
+        <span class="leanmethod-name">${leanMethod.name}</span>
+      </li>
+    `;
+  }
+
   handleLeanMethodChange(event) {
     const selectedLeanMethod = event.target.value;
+    // console.log(selectedLeanMethod);
 
     this.dispatchEvent(
       new CustomEvent("leanmethodchange", {
@@ -92,6 +104,7 @@ class ChooseLeanmethod extends HTMLElement {
       })
     );
   }
+
   show() {
     this.classList.remove("hidden");
   }

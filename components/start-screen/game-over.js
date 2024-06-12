@@ -6,6 +6,7 @@ class GameOver extends HTMLElement {
               <link rel="stylesheet" href="styles.css">
               <h1 class="game-title">Game Over</h1>
           <h2 class="game-subtitle">Insufficient funds</h2>
+          <h3> Try Again </h3>
           `;
   }
 

@@ -178,6 +178,7 @@ class Game {
   endRound() {
     this.bots.forEach((bot) => bot.stopWorking());
     this.stock.endRound();
+    this.stats.endRound();
     if (this.currentRound.roundNumber === gameValues.numberOfRounds) {
       this.endGame();
       return;

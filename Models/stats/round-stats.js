@@ -15,6 +15,7 @@ class RoundStats {
     this.cars = new Map();
 
     this.averageCarCompletionTime = 0;
+    this.isOver = false;
   }
 
   deductFacilityCost() {
@@ -27,6 +28,7 @@ class RoundStats {
 
   updateStock(stockPrice) {
     this.capital -= stockPrice;
+    this.capital -= stockPrice;
   }
   startRound(cars) {
     this.deductFacilityCost();
@@ -38,19 +40,21 @@ class RoundStats {
   configureCars(cars) {
     Array.from(cars.values()).forEach((car) => {
       if (!car.end) {
-        this.cars.set(car.id, {
+        this.cars.set(car.id, {id: car.id,
           start:
-            (this.roundNumber - 1) * gameValues.roundDuration +
-            this.getElapsedTime(),
+            car.start,
           end: undefined,
         });
       }
     });
+    this.carsInProgress = this.cars.size;
   }
 
   endRound() {
     this.totalTimeRound = this.getElapsedTime();
+    this.isOver = true;
   }
+
   calculateAverageCarCompletionTime() {
     let totalTime = 0;
     Array.from(this.cars.values()).forEach((times) => {
@@ -59,7 +63,7 @@ class RoundStats {
       }
     });
 
-    this.averageCarCompletionTime = totalTime / this.carsCompleted;
+    this.averageCarCompletionTime = Math.round(totalTime / completedCars);
   }
 
   getElapsedTime() {
@@ -71,7 +75,7 @@ class RoundStats {
   }
 
   newCarInProgress(car) {
-    this.cars.set(car.id, {
+    this.cars.set(car.id, {id: car.id,
       start:
         (this.roundNumber - 1) * gameValues.roundDuration +
         this.getElapsedTime(),
@@ -84,12 +88,27 @@ class RoundStats {
     this.carsCompleted++;
     this.totalIncome += car.fixedPrice;
     this.carsInProgress--;
+    this.cars.get(car.id).end =
+      (this.roundNumber-1) * gameValues.roundDuration +
+      this.getElapsedTime();
     this.capital += car.fixedPrice;
     this.calculateAverageCarCompletionTime();
   }
-  newCarBroken() {
+  newCarBroken(car) {
     this.carsBroken++;
     this.carsInProgress--;
+    this.cars.delete(car.id);
+  }
+
+  getRoundStats() {
+    return {
+      carsCompleted: this.carsCompleted,
+      carsBroken: this.carsBroken,
+      carsInProgress: this.carsInProgress,
+      totalIncome: this.totalIncome,
+      capital: this.capital,
+      averageCarCompletionTime: this.averageCarCompletionTime,
+    };
   }
 }
 export { RoundStats };
