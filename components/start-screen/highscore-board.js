@@ -7,19 +7,13 @@ class HighscoreBoard extends HTMLElement {
     this.shadowRoot.innerHTML = `
     <style>
     :host {
-      display: flex;
-      flex-direction: column; /* Arrange children vertically */
       align-items: center; /* Center align children horizontally */
-      font-family: Arial, sans-serif;
       padding: 20px; /* Add padding for spacing */
-      border-radius: 8px; /* Add border radius for rounded corners */
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Add box shadow for depth */
       width: 100%
       height: 100%
   }
   
-  h2 {
-      margin-top: 0;
+  h1 {
       margin-bottom: 20px; /* Add margin for spacing */
       text-align: center;
       color: #0056b3; /* Set text color */
@@ -42,11 +36,12 @@ class HighscoreBoard extends HTMLElement {
   }
   </style>
    
-    <h2>Top 3 Highscores</h2>
+    <h1>Top 3 Highscores</h1>
     <img class="trophy-img" src="../../img/highscores.png" alt="Trophy"> 
     <ol></ol>
   
   `;
+    this.classList.add("vertical-container");
   }
   hide() {
     this.classList.add("hidden");

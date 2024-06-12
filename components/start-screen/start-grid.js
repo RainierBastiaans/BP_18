@@ -23,7 +23,10 @@ class StartGrid extends HTMLElement {
 
     #element3 {
         flex: 100;
-        height: 1vh
+        height: 1vh;
+        padding: 0;
+        background-color: #28a745;
+        border: 0;
     }
     /* New CSS for the wrapper container */
     #element-container {
@@ -37,7 +40,7 @@ class StartGrid extends HTMLElement {
 <div id="elements">
     <div id="element-container">
         <section class="component-style" id="element1"></section>
-        <section class="component-style" id="element2"></section>
+        <section class="component-style start-screen";" id="element2"></section>
     </div>
     <section class="component-style" id="element3"></section>
 </div>

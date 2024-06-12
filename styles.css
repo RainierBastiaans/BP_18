@@ -38,10 +38,15 @@ body {
   flex-direction: column;
 }
 
+h1 {
+  font-size: 2em;
+}
+
 h2, h3 {
   font-size: 1.4em;
   padding: 1%;
   margin: 1%;
+  text-align: center;
 }
 
 ul {
@@ -75,6 +80,16 @@ excludes: player-icon
   max-width: 3.5em;
   max-height: 3.5em;
 }
+
+/**=========================
+=========START SCREEN=============
+==========================*/
+
+.start-screen {
+  background: linear-gradient(135deg, #ffcc33, #ff66cc);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
 
 /**=========================
 =========Header=============
