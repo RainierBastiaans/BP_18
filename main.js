@@ -25,6 +25,7 @@ import { StartGrid } from "./components/start-screen/start-grid.js";
 import { GameOver } from "./components/start-screen/game-over.js";
 import { InsufficientFundsError } from "./error/insufficient-funds-error.js";
 import { ErrorComponent } from "./components/error.js";
+import { RestartButton } from "./components/restart-button.js";
 
 
 // Global error handler
@@ -56,6 +57,7 @@ const gameDescriptionComponent = new GameDescriptionContainer();
 const gameOverComponent = new GameOver()
 const newRoundButton = new NewRoundButton();
 const letsgetstartButton = new LetsGetStartButton();
+const restartButton = new RestartButton()
 const homePage = document.getElementById("home-page");
 const startPage = document.getElementById("start-page");
 const gameContainer = document.getElementById("game-container");
@@ -136,6 +138,7 @@ function buildScreens() {
   startGrid.appendColumn(1, gameDescriptionComponent);
   startGrid.appendColumn(2, highscoreBoard);
   startGrid.appendColumn(3, letsgetstartButton);
+  startGrid.appendColumn(3, restartButton)
   startGrid.appendColumn(1, gameOverComponent)
   startPage.appendChild(startGrid);
 
@@ -171,6 +174,7 @@ function initShop(fetchedParts) {
 }
 
 function showConfigScreen() {
+  restartButton.hide()
   homePage.classList.remove("hidden");
   configGrid.show();
   gameHeader.hide();
@@ -236,10 +240,10 @@ function showRoundScreen() {
 }
 //screen for insufficient funds
 function showGameOverScreen(){
+  restartButton.show()
   leanGame.game.endGame
   showStats.show();
   highscoreBoard.show()
-  letsgetstartButton.show()
   gameContainer.classList.add("hidden")
   liveContainer.classList.add("hidden")
   startGrid.classList.remove("hidden")
@@ -279,13 +283,14 @@ function showErrorScreen(errormessage){
 function showEndGameScreen() {
   showStats.show();
   highscoreBoard.show()
-  letsgetstartButton.show()
+  restartButton.show()
   gameContainer.classList.add("hidden")
   liveContainer.classList.add("hidden")
   startGrid.classList.remove("hidden")
 }
 
 function showStartScreen() {
+  restartButton.hide()
   homePage.classList.add("hidden");
   gameHeader.show();
   gameDescriptionComponent.show();
