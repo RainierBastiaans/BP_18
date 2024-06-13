@@ -13,6 +13,7 @@ class LiveStock extends HTMLElement {
     // Create a container element (replace with your desired structure)
     const container = document.createElement("div");
     container.classList.add("livestock-container");
+    container.id = "livestock-container";
     this.shadowRoot.appendChild(container);
 
     this.groupPartsByWorkstation();

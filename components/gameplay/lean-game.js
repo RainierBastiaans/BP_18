@@ -273,6 +273,19 @@ class LeanGame extends HTMLElement {
       this.qualityControlButton.style.display = "none";
       this.removeButton.style.display = "none";
     }
+
+    const liveStockContainer = document.getElementById("live-stock-container");
+
+    if (this.leanMethodService.getLeanMethod("just-in-time").isEnabled) {
+      liveStockContainer.classList.add("hidden");
+    } else if (
+      this.leanMethodService.getLeanMethod("orderly-workplace").isEnabled &&
+      this.game.selectedWorkstation === this.getCurrentWorkstation().id
+    ) {
+      liveStockContainer.classList.add("hidden");
+    } else {
+      liveStockContainer.classList.remove("hidden");
+    }
   }
 
   clearButtons() {
