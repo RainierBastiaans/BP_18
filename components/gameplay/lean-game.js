@@ -168,6 +168,7 @@ class LeanGame extends HTMLElement {
 
   newRound(leanMethod) {
     this.game.newRound(leanMethod);
+    this.changeWorkstation(this.selectedWorkstation) 
     this.game.currentRound.emitter.on("roundoverInModel", () => {
       this.endRound();
     });
@@ -542,7 +543,6 @@ class LeanGame extends HTMLElement {
     // Update button states
     this.previousButton.disabled = this.currentWorkstationIndex === 1;
     this.nextButton.disabled = this.currentWorkstationIndex === 5;
-    console.log(this.currentWorkstationIndex)
 
     this.updateMessage();
     this.draw();
@@ -559,7 +559,6 @@ class LeanGame extends HTMLElement {
   }
 
   getCurrentWorkstation() {
-    console.log(this.game.workstations.get(parseInt(this.currentWorkstationIndex)))
     return this.game.workstations.get(parseInt(this.currentWorkstationIndex));
   }
   show() {
