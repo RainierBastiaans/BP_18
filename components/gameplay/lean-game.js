@@ -146,12 +146,9 @@ class LeanGame extends HTMLElement {
 
   startGame(playerName, selectedWorkstation = 1, bots) {
     this.selectedWorkstation = selectedWorkstation;
-    this.currentWorkstationIndex = selectedWorkstation;
-    // Disable buttons based on selected workstation
-    this.previousButton.disabled = selectedWorkstation === 1;
-    this.nextButton.disabled = selectedWorkstation === 5;
     this.game.startGame(selectedWorkstation, playerName, bots);
     this.newRound();
+    this.changeWorkstation(selectedWorkstation) 
   }
 
   endGame() {
@@ -188,9 +185,9 @@ class LeanGame extends HTMLElement {
     if (event.target.classList.contains("part-button")) {
       this.handlePartButtonClick(event.target);
     } else if (event.target === this.previousButton) {
-      this.goToPreviousWorkstation();
+      this.changeWorkstation(this.currentWorkstationIndex - 1);
     } else if (event.target === this.nextButton) {
-      this.goToNextWorkstation();
+      this.changeWorkstation(this.currentWorkstationIndex + 1);
     } else if (event.target === this.moveCarButton) {
       this.moveCar();
     } else if (event.target === this.qualityControlButton) {
@@ -538,36 +535,14 @@ class LeanGame extends HTMLElement {
     }
   }
 
-  goToPreviousWorkstation() {
+  changeWorkstation(index) {
     // Decrement index with modulo to handle wrap-around
-    this.currentWorkstationIndex--;
+    this.currentWorkstationIndex = index;
 
     // Update button states
     this.previousButton.disabled = this.currentWorkstationIndex === 1;
-    this.nextButton.disabled = false; // Reset next button
-
-    this.updateMessage();
-    this.draw();
-    // Dispatch custom event 'change-workstation'
-    document.dispatchEvent(
-      new CustomEvent("change-workstation", {
-        detail: {
-          currentWorkstationIndex: this.currentWorkstationIndex - 1,
-          bubbles: true,
-          composed: true,
-        },
-      })
-    );
-  }
-
-  goToNextWorkstation() {
-    // Increment index with modulo to handle wrap-around
-    this.currentWorkstationIndex++;
-
-    // Update button states
-    this.previousButton.disabled = false; // Reset previous button
-    this.nextButton.disabled =
-      this.currentWorkstationIndex === this.game.workstations.size;
+    this.nextButton.disabled = this.currentWorkstationIndex === 5;
+    console.log(this.currentWorkstationIndex)
 
     this.updateMessage();
     this.draw();
@@ -584,6 +559,7 @@ class LeanGame extends HTMLElement {
   }
 
   getCurrentWorkstation() {
+    console.log(this.game.workstations.get(parseInt(this.currentWorkstationIndex)))
     return this.game.workstations.get(parseInt(this.currentWorkstationIndex));
   }
   show() {
