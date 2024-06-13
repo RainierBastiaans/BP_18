@@ -223,6 +223,7 @@ game-description-container {
   align-items: stretch;
   align-self: center;
   flex-wrap: wrap;
+  gap: 1%;
 }
 
 .config-column {
@@ -230,6 +231,7 @@ game-description-container {
   display: flex;
   flex-direction: column;
   align-items: stretch;
+  gap: 1.5%;
 }
 
 #config-column-1 {
@@ -331,10 +333,6 @@ input[type="text"] {
 .personal-stock-quantity {
   margin-top: auto;
   /* Adds some space between the stock name and quantity */
-}
-
-.personal-stock-list li:hover {
-  transform: translateY(-5px);
 }
 
 /*====================
@@ -465,6 +463,7 @@ input[type="text"] {
 
 .workstation-option input[type="radio"]:hover+label {
   background-color: #0056b3;
+  transform: translateY(-5px);
 }
 
 .workstation-option input[type="radio"]:checked+label {
@@ -623,7 +622,7 @@ input[type="text"] {
 }
 
 .other-player-container:hover {
-  transform: translateY(-5px);
+  transform: translateY(-2px);
   box-shadow: 0 4px 8px rgba(155, 93, 255, 0.555);
 }
 
@@ -896,6 +895,7 @@ button:hover,
 button:focus {
   background-color: #16437e;
   color: #ffffff;
+  transform: translateY(-5px);
 }
 
 button:active {
