@@ -16,6 +16,7 @@ class StartGrid extends HTMLElement {
     }
 
     #element1 {
+        width: 80%;   
         max-width: 80%;
         font-size: 0.8em;
         max-height: 100%;
@@ -23,6 +24,7 @@ class StartGrid extends HTMLElement {
 
     #element2 {
         flex: 1; /* Take up remaining horizontal space */
+        max-width: 20%;
     }
 
     #element3 {
@@ -47,10 +49,14 @@ class StartGrid extends HTMLElement {
             height: auto;
             flex-direction: column; /* Elements 1 and 2 will be displayed on top of each other */
             align-items: stretch; /* Center align elements */
+            gap: 10px; /* Add gap between elements */
+            width: 100%; /* Set width to 100% */
         }
 
         #element1, #element2 {
             max-width: 100%; /* Set max width to 100% */
+            align-self: stretch; /* Stretch elements to fill the container */
+            width: 97%; /* Set width to 97% */
         }
     }
     </style>

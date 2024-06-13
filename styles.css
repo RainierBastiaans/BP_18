@@ -226,6 +226,13 @@ game-description-container {
   gap: 1%;
 }
 
+@media screen and (max-width: 1030px) {
+  .config-grid {
+    width: 98%;
+    height: 100%;
+  }
+}
+
 .config-column {
   flex: 1;
   display: flex;
@@ -509,6 +516,10 @@ input[type="text"] {
 
 .available-method-container input[type="radio"] {
   width: 100%;
+}
+
+.available-method-container:hover {
+  transform: translateY(-5px);
 }
 
 .available-method-container input[type="radio"]:checked+.available-method {
@@ -1507,10 +1518,8 @@ show-stats {
   align-items: center;
 }
 
-
-
 .stats-component .round-label {
-  font-size: 1.5em;
+  font-size: 1.2em;
   font-weight: bold;
 }
 
@@ -1540,13 +1549,13 @@ show-stats {
 }
 
 .stat-title {
-  font-size: 1.3em;
+  font-size: 1.1em;
   font-weight: 600;
 }
 
 .stat-value {
   font-weight: bold;
-  font-size: 1.3em;
+  font-size: 1.1em;
   margin: 1%;
   color: #28a745;
 }
