@@ -8,7 +8,7 @@
   /*===SETTING GENERAL FONT-SIZE====
   IMPORTANT: ALL OTHER FONTS AND ICONS ARE RELATIVE TO THIS FONT-SIZE USING "REM" expressed in "em"
   ===============================*/
-  font-size: 11px;
+  font-size: 1em;
   /* margin: 0;
   padding: 0; */
 }
@@ -86,7 +86,7 @@ excludes: player-icon
 }
 
 /**=========================
-=========START SCREEN=============
+=========START SCREEN=======
 ==========================*/
 
 .start-screen {
@@ -94,6 +94,97 @@ excludes: player-icon
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
+/**=========================
+======GAME DESCRIPTION======
+==========================*/
+game-description-container {
+  display: flex;
+  flex-direction: column;
+  max-height: 100%;
+  max-width: 100%;
+}
+
+.game-description-heading {
+  text-align: center;
+  margin: 0.5%;
+  flex: 25;
+}
+
+.game-description-title-container {
+  justify-content: center;
+  align-items: center;
+}
+
+.game-name {
+  flex: 20;
+  color: rgb(222, 9, 255);
+  font-weight: 800;
+  background-color: whitesmoke;
+  border-radius: 8px;
+}
+
+.game-title {
+  flex: 80;
+  font-size: 1.75rem;
+  font-style: italic;
+  font-weight: 800;
+  border-bottom: 2px solid rgba(222, 9, 255, 0.377);
+  border-top: 2px solid rgba(222, 9, 255, 0.377);
+}
+
+.game-about {
+  text-align: left;
+  margin: 0;
+  font-size: 1.1em;
+}
+
+.game-description-main {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  flex: 75;
+}
+
+.game-description-step {
+  flex: 40%;
+  background: #f9f9f9;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  margin: 1em;
+}
+
+.game-description-step-heading {
+  border-bottom: 2px solid rgba(222, 9, 255, 0.377);
+  padding: 0.5%;
+  width: 99%;
+  align-items: center;
+  vertical-align: middle;
+  text-align: center;
+}
+
+.game-description-step-number {
+  color: white;
+  font-size: 1.5em;
+  font-weight: 600;
+  text-align: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 0.5em;
+  background-color: rgba(222, 9, 255, 0.637);
+  border: 2px solid #6a0dad;
+  min-width: 1.5em;
+  min-height: 1.5em;
+  margin: 0.25em
+}
+
+.game-description-step-title {
+  text-align: left;
+}
+
+.game-description-step-text {
+  text-align: left;
+  padding: 2%;
+  line-height: 1.5;
+}
 
 /**=========================
 =========Header=============
@@ -255,9 +346,8 @@ input[type="text"] {
   border: 2px solid #007bff;
   border-radius: 10px;
   background-color: #f8f9fa;
-  padding: 20px;
+  padding: 5%;
   max-width: 100%;
-  margin: auto;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
@@ -265,8 +355,7 @@ input[type="text"] {
 .fixed-costs-container h2 {
   text-align: center;
   color: #007bff;
-  margin-bottom: 20px;
-  font-size: 24px;
+  margin-bottom: 1%;
 }
 
 /* List container styling */
@@ -301,13 +390,11 @@ input[type="text"] {
 .fixed-cost-name {
   flex: 1;
   font-weight: bold;
-  font-size: 1.3em;
   color: #333;
 }
 
 /* Price styling */
 .fixed-cost-price {
-  font-size: 1.3em;
   color: #28a745;
   font-weight: bold;
 }
@@ -316,20 +403,6 @@ input[type="text"] {
 .fixed-costs-list li:hover {
   background-color: #e9ecef;
   transition: background-color 0.3s ease;
-}
-
-/*====================
-===GAME DESCRIPTION===
-====================*/
-game-description-container {
-  max-width: 100%;
-}
-
-.game-description {
-  text-align: center;
-  font-size: 1.1em;
-  color: #555;
-  padding: 5px;
 }
 
 /*==========================

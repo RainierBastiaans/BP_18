@@ -28,6 +28,8 @@ class HighscoreBoard extends HTMLElement {
   
   li {
       margin-bottom: 10px; /* Add margin for spacing */
+      font-size: 1.25em; /* Set font size */
+      font-weight: bold; /* Set font weight */
   }
   
   .trophy-img {

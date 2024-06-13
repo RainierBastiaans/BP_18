@@ -5,6 +5,8 @@ class StartGrid extends HTMLElement {
     #elements {
         display: flex;
         flex-direction: column;
+        justify-items: stretch;
+        align-items: stretch;
         height: 98vh;
     }
 
@@ -14,29 +16,42 @@ class StartGrid extends HTMLElement {
     }
 
     #element1 {
-        flex: 80;
+        max-width: 80%;
         font-size: 0.8em;
-        items-aling: center;
+        max-height: 100%;
     }
 
     #element2 {
-        flex: 20;
+        flex: 1; /* Take up remaining horizontal space */
     }
 
     #element3 {
-        height: 10vh;
         padding: 0;
         background-color: #28a745;
         border: 0;
+        flex: 1; /* Take up remaining vertical space */
+        max-height: 30%;
     }
 
     /* New CSS for the wrapper container */
     #element-container {
         display: flex;
         flex-direction: row; /* Elements 1 and 2 will be displayed next to each other */
-        flex: 1; /* Take up remaining vertical space */
-        height: 80vh;
         flex-wrap: wrap; /* Allow elements to wrap to the next row */
+        align-items: stretch; /* Stretch elements to fill the container */
+        height: 90%;
+    }
+
+    @media (max-width: 950px) {
+        #element-container {
+            height: auto;
+            flex-direction: column; /* Elements 1 and 2 will be displayed on top of each other */
+            align-items: stretch; /* Center align elements */
+        }
+
+        #element1, #element2 {
+            max-width: 100%; /* Set max width to 100% */
+        }
     }
     </style>
 
