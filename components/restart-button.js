@@ -8,6 +8,14 @@ class RestartButton extends HTMLElement {
 
     shadowRoot.innerHTML = `
           <link rel="stylesheet" href="styles.css">
+          <style>
+          #restartButton {
+            margin: 0;
+            border-radius: 7px;
+            height: 100%;
+            width: 100%;
+            }
+          </style>
           <button id="restartButton">Restart game</button>
         `;
 

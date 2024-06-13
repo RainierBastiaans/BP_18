@@ -12,6 +12,8 @@ class LetsGetStartButton extends HTMLElement {
         #startButton {
           margin: 0;
           border-radius: 7px;
+          height: 100%;
+          width: 100%;
           }
         </style>
         <button id="startButton">Let's get started!</button>

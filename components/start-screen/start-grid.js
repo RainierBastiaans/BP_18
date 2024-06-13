@@ -5,6 +5,9 @@ class StartGrid extends HTMLElement {
     #elements {
         display: flex;
         flex-direction: column;
+        justify-items: stretch;
+        align-items: stretch;
+        height: 98vh;
     }
 
     #element1, #element2, #element3 {
@@ -13,40 +16,59 @@ class StartGrid extends HTMLElement {
     }
 
     #element1 {
-        flex: 80;
+        width: 80%;   
+        max-width: 80%;
         font-size: 0.8em;
-        items-aling: center;
+        max-height: 100%;
     }
 
     #element2 {
-        flex: 20;
+        flex: 1; /* Take up remaining horizontal space */
+        max-width: 20%;
     }
 
     #element3 {
-        flex: 100;
-        height: 1vh;
         padding: 0;
         background-color: #28a745;
         border: 0;
+        flex: 1; /* Take up remaining vertical space */
+        max-height: 30%;
     }
+
     /* New CSS for the wrapper container */
     #element-container {
         display: flex;
         flex-direction: row; /* Elements 1 and 2 will be displayed next to each other */
-        flex: 1; /* Take up remaining vertical space */
-        height: 80vh
+        flex-wrap: wrap; /* Allow elements to wrap to the next row */
+        align-items: stretch; /* Stretch elements to fill the container */
+        height: 90%;
     }
-</style>
 
-<div id="elements">
+    @media (max-width: 950px) {
+        #element-container {
+            height: auto;
+            flex-direction: column; /* Elements 1 and 2 will be displayed on top of each other */
+            align-items: stretch; /* Center align elements */
+            gap: 10px; /* Add gap between elements */
+            width: 100%; /* Set width to 100% */
+        }
+
+        #element1, #element2 {
+            max-width: 100%; /* Set max width to 100% */
+            align-self: stretch; /* Stretch elements to fill the container */
+            width: 97%; /* Set width to 97% */
+        }
+    }
+    </style>
+
+  <div id="elements">
     <div id="element-container">
         <section class="component-style" id="element1"></section>
-        <section class="component-style start-screen";" id="element2"></section>
+        <section class="component-style start-screen" id="element2"></section>
     </div>
     <section class="component-style" id="element3"></section>
-</div>
-
-`;
+  </div>
+  `;
     this.classList.add("start-grid");
     this.column1 = this.querySelector("#element1");
     this.column2 = this.querySelector("#element2");
