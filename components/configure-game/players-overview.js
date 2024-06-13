@@ -8,7 +8,7 @@ class PlayersOverview extends HTMLElement {
     const shadowRoot = this.shadowRoot;
     shadowRoot.innerHTML = `
         <link rel="stylesheet" href="styles.css">
-        <div class="players-overview-container">
+        <div>
             <h2>Other players</h2>
             <div class="players-overview-list-container">
             </div>

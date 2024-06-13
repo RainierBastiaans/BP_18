@@ -2,7 +2,7 @@ class StartButton extends HTMLElement {
   constructor() {
     super();
     this.attachShadow({ mode: "open" });
-    this.playerName = "kaas";
+    this.playerName = "";
     const shadowRoot = this.shadowRoot;
 
     //this.classList.add("start-button-container");

@@ -827,6 +827,7 @@ label .tooltip {
   margin-left: -60px;
   opacity: 0;
   transition: opacity 0.3s;
+  font-size: small;
 }
 
 label .tooltip::after {

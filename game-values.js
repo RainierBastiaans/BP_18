@@ -13,7 +13,7 @@ export const gameValues = {
   workstationBreakdownChanceTPM: 0.0075,
   // - Chance of breakdown without preventive maintenance
   workstationBreakdownChanceNoTPM: 0.05,
-  // - Workstation maintenance duration (seconds)
+  // - Workstation maintenance duration (milliseconds)
   workstationMaintenanceDurationTPM: 3000,
   workstationMaintenanceDurationNoTPM: 5000,
 

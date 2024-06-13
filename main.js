@@ -231,7 +231,7 @@ function showRoundScreen() {
   selectWorkstationComponent.hide();
   highscoreBoard.hide();
   shopComponent.show();
-  fixedCosts.show();
+  // fixedCosts.show();
   playersOverview.hide();
   newRoundButton.show();
   showStats.show();
