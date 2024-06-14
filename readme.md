@@ -25,7 +25,7 @@ Set-ExecutionPolicy RemoteSigned -Scope Process
 
 This file contains the standard values of the game.
 You can access this file for reference and to adjust specific values as needed for your game configuration.
-#### Following fields can be adjusted:
+### Following fields can be adjusted:
 - **startCapital:** the amount of money a player starts with each game
 - **facilityCost:** the cost for running the factory each round
 - **staffCost:** the cost to pay personnel each round
