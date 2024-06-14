@@ -37,7 +37,7 @@ export const gameValues = {
   roundDuration: 60, // Shorter name for timeOfRound
 
   // Parts added to stock per round
-  //REFACTOR
+  //This value was used before the shop was implemented, now this is no longer used. The code for this is still available in the stock classes.
   partsPerRound: 10,
 
   //Price you have to pay each round for a part that is not used
