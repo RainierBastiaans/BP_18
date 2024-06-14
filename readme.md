@@ -20,4 +20,5 @@ Set-ExecutionPolicy RemoteSigned -Scope Process
 ```
 
 
-This section will provide a clear and concise reference to the critical game values defined in `./game-values.js`. Adjust the details according to the actual values and variables you have in that file.
+Game Values (./game-values.js)
+This section contains the value of the game, for example, round duration or start capital. These critical game values are defined within the separate ./game-values.js file. You can access this file for reference and to adjust specific values as needed for your game configuration.
