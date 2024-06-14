@@ -75,7 +75,7 @@ class HighscoreBoard extends HTMLElement {
 
     for (const score of highscores) {
       const listItem = document.createElement("li");
-      listItem.textContent = `${score.name}: ${formatLargeNumber(score.score)}`;
+      listItem.textContent = `${score.name}: € ${formatLargeNumber(score.score)}`;
       list.appendChild(listItem);
     }
   }

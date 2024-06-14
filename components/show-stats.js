@@ -159,8 +159,8 @@ class ShowStats extends HTMLElement {
     const totalIncome = currentRoundStats.totalIncome;
     const totalIncomeItem = this.buildStatItem(
       "totalIncome",
-      totalIncomeTitle,
-      totalIncome
+      totalIncomeTitle,("€ " +
+      formatLargeNumber(totalIncome))
     );
     statsList.appendChild(totalIncomeItem);
 
@@ -172,7 +172,7 @@ class ShowStats extends HTMLElement {
     const averageCarCompletionTimeItem = this.buildStatItem(
       "averageCarCompletionTime",
       averageCarCompletionTimeTitle,
-      averageCarCompletionTime
+      (averageCarCompletionTime + "s")
     );
     statsList.appendChild(averageCarCompletionTimeItem);
 
@@ -182,8 +182,8 @@ class ShowStats extends HTMLElement {
     : "Total Profit";
     const capital =
       this.currentRound === 0
-        ? formatLargeNumber(currentRoundStats.capital.amount)
-        : formatLargeNumber(currentRoundStats.capital);
+        ? ("€ " +formatLargeNumber(currentRoundStats.capital.amount))
+        : ("€ " +formatLargeNumber(currentRoundStats.capital));
     const capitalItem = this.buildStatItem("capital", capitalTitle, capital);
     statsList.appendChild(capitalItem);
   }

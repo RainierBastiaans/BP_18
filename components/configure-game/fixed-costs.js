@@ -22,17 +22,17 @@ class FixedCosts extends HTMLElement {
                     ${this.createFixedCostElement(
                       "Start capital",
                       "startCapital",
-                      formatLargeNumber(fixedCosts.startCapital)
+                      ("€ " +formatLargeNumber(fixedCosts.startCapital))
                     )}
                     ${this.createFixedCostElement(
                       "Facility costs",
                       "facilityCosts",
-                      formatLargeNumber(fixedCosts.facility)
+                      ("€ " +formatLargeNumber(fixedCosts.facility))
                     )}
                     ${this.createFixedCostElement(
                       "Personnel costs",
                       "personnelCosts",
-                      formatLargeNumber(fixedCosts.staff)
+                      ("€ " +formatLargeNumber(fixedCosts.staff))
                     )}
                 </ul>
             </div>
