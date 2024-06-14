@@ -1,84 +1,24 @@
 {
-    "parts": [
-        {
-            "name": "chassis",
-            "price": 1000.99
-        },
-        {
-            "name": "hood",
-            "price": 55.55
-        },
-        {
-            "name": "trunk",
-            "price": 33.33
-        },
-        {
-            "name": "door",
-            "price": 22.22
-        },
-        {
-            "name": "engineBlock",
-            "price": 500.50
-        },
-                {
-            "name": "cylinderHead",
-            "price": 49.99
-        },
-        {
-            "name": "piston",
-            "price": 120.22
-        },
-        {
-            "name": "sparkPlugs",
-            "price": 99.99
-        },
-        {
-            "name": "dashboard",
-            "price": 299.99
-        },
-                {
-            "name": "seat",
-            "price": 5.99
-        },
-        {
-            "name": "steeringWheel",
-            "price": 69.69
-        },
-        {
-            "name": "carpet",
-            "price": 50.01
-        },
-        {
-            "name": "battery",
-            "price": 121.11
-        },
-                {
-            "name": "alternator",
-            "price": 130.00
-        },
-        {
-            "name": "headlights",
-            "price": 44.44
-        },
-        {
-            "name": "wiringHarness",
-            "price": 169.20
-        },
-        {
-            "name": "tire",
-            "price": 1.00
-        },
-                {
-            "name": "wheel",
-            "price": 99.00
-        },
-        {
-            "name": "hubcap",
-            "price": 0.69
-        },
-        {
-            "name": "brakePads",
-            "price": 666.66
-        }
-    ]
+  "parts": [
+    { "id": "chassis", "name": "Chassis", "price": 999, "workstationFK": 1 },
+    { "id": "hood", "name": "Hood", "price": 55, "workstationFK": 1 },
+    { "id": "trunk", "name": "Trunk", "price": 33, "workstationFK": 1 },
+    { "id": "door", "name": "Door", "price": 75, "workstationFK": 1 },
+    { "id": "engineBlock", "name": "Engine Block", "price": 500, "workstationFK": 2 },
+    { "id": "cylinderHead", "name": "Cylinder Head", "price": 49, "workstationFK": 2 },
+    { "id": "piston", "name": "Piston", "price": 120, "workstationFK": 2 },
+    { "id": "sparkPlugs", "name": "Spark Plugs", "price": 99, "workstationFK": 2 },
+    { "id": "dashboard", "name": "Dashboard", "price": 299, "workstationFK": 3 },
+    { "id": "steeringWheel", "name": "Steering Wheel", "price": 69, "workstationFK": 3 },
+    { "id": "seat", "name": "Seat", "price": 30, "workstationFK": 3 },
+    { "id": "carpet", "name": "Carpet", "price": 50, "workstationFK": 3 },
+    { "id": "battery", "name": "Battery", "price": 121, "workstationFK": 4 },
+    { "id": "alternator", "name": "Alternator", "price": 130, "workstationFK": 4 },
+    { "id": "wiringHarness", "name": "Wiring Harness", "price": 169, "workstationFK": 4 },
+    { "id": "headlights", "name": "Headlights", "price": 44, "workstationFK": 4 },
+    { "id": "brakePads", "name": "Brake Pads", "price": 666, "workstationFK": 5 },
+    { "id": "wheel", "name": "Wheel", "price": 99, "workstationFK": 5 },
+    { "id": "tire", "name": "Tire", "price": 50, "workstationFK": 5 },
+    { "id": "hubcap", "name": "Hubcap", "price": 25, "workstationFK": 5 }
+  ]
 }

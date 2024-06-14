@@ -1,13 +1,42 @@
+import { gameValues } from "../../../game-values.js";
+
 class Workstation {
-  constructor(id, partsList, tpm, workstations) {
+  constructor(id, partsList, leanMethodService) {
     this.id = id;
     this.partnames = partsList; // Create a list of part names
-    this.occupant = null; // Reference to the current occupant (User or Bot)
-    this.maintenanceChance = tpm ? 0.001 : 0.1; // Ternary operator for conditional assignment
+    this.leanMethodService = leanMethodService;
+    this.maintenanceChance = leanMethodService
+      .getLeanMethod("total-productive-maintenance")
+      .getMaintenanceChance();
+    this.maintenanceDuration = leanMethodService
+      .getLeanMethod("total-productive-maintenance")
+      .getMaintenanceDuration();
   }
 
-  setMaintenanceChance(maintenanceChance) {
-    this.maintenanceChance = maintenanceChance;
+  set maintenanceChance(value) {
+    if (typeof value !== "number" || value < 0 || value > 1) {
+      throw new Error(
+        "Invalid maintenanceChance: must be a number between 0 and 1"
+      );
+    }
+    this._maintenanceChance = value;
+  }
+
+  get maintenanceChance() {
+    return this._maintenanceChance;
+  }
+
+  set maintenanceDuration(value) {
+    if (typeof value !== "number" || value <= 0) {
+      throw new Error(
+        "Invalid maintenanceDuration: must be a non-negative number"
+      );
+    }
+    this._maintenanceDuration = value;
+  }
+
+  get maintenanceDuration() {
+    return this._maintenanceDuration;
   }
 
   isComplete(carParts) {

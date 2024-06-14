@@ -1,89 +1,173 @@
-import { Workstation } from "./state/workstation/workstation.js";
 import { Round } from "./round.js";
 import { Bot } from "./occupant/bot.js";
-import data from "../db/parts.json" with { type: "json" };
 import { GameStats } from "./stats/game-stats.js";
-import { Money } from "./money.js";
-import { RoundStats } from "./stats/round-stats.js";
-import { JustInTime } from "../lean-methods/just-in-time.js";
-import { QualityControl } from "../lean-methods/quality-control.js";
 import { TraditionalStock } from "./stock/traditional-stock.js";
-import { JITStock } from "./stock/jit-stock.js";
 import { CarAtWorkstation } from "./state/car/car-at-workstation.js";
-import { CarInLine } from "./state/car/car-inline.js";
-import { CarToAssembly } from "./state/car/car-to-assembly.js";
-import { CarCheckup } from "./state/car/car-checkup.js";
 import { WorkingWorkstation } from "./state/workstation/workstation-working.js";
-import { TotalProductiveMaintenance } from "../lean-methods/total-productive-maintenance.js";
+import { Car } from "./state/car/car.js";
+import { Emitter } from "../emitter.js";
+import { gameValues } from "../game-values.js";
+import { LeanMethodService } from "../lean-methods/lean-method-service.js";
+import { Stock } from "./stock/stock.js";
+import { HighscoresDB } from "../db/highscores.js";
+import { InsufficientFundsError } from "../error/insufficient-funds-error.js";
 class Game {
-  constructor(selectedWorkstation) {
+  constructor(db, leanMethodService, parts) {
+    this.db = db;
+    this.leanMethodService = leanMethodService;
     this.workstations = new Map();
-    this.cost = 0;
     this.rounds = new Map();
     this.carId = 1;
+    this.startTime = null; // Variable to store the start time
     this.cars = new Map();
-    this.parts = data.parts;
+    this.parts = parts;
     this.leanMethods = new Map();
-
-    this.createOrRefreshWorkstations();
-    this.bots = [];
-    // Create bots only for workstations other than selectedWorkstation
-    for (let i = 1; i <= 5; i++) {
-      if (i !== parseInt(selectedWorkstation)) {
-        this.bots.push(new Bot(`bot${i}`, i, this));
-      }
-    }
+    this.emitter = new Emitter(); // Create an Emitter instance
     this.isOver = false;
+    this.stats = new GameStats(this);
+    this.stock = new Stock(this.parts, this.stats, this.leanMethodService);
+    this.stats.newRound(); //stats already start at the beginning
+  }
+
+  partExists(partName) {
+    try{
+      const matchingPart = this.parts.find((part) => part.id === partName);
+      if (!matchingPart) {
+        throw new Error(
+          `Part not found: '${partName}' does not exist in available parts`
+        );
+      }
+      return true;
+    }
+    catch (error){
+      window.reportError(error)
+    }
+    
+  }
+
+  set db(db) {
+    try{
+      if (!(db instanceof HighscoresDB)) {
+        throw new Error("Invalid db: must be of type HighscoreDB");
+      }
+      this._db = db; // Use a private property to prevent further modification
+    }
+    catch(error){
+      window.reportError(error)
+    }
+  }
+
+  set leanMethodService(leanMethodService) {
+    try{
+      if (!(leanMethodService instanceof LeanMethodService)) {
+        throw new Error(
+          "Invalid leanMethodService: must be of type LeanMethodService"
+        );
+      }
+      this._leanMethodService = leanMethodService; // Use a private property
+    }
+    catch(error){
+      window.reportError(error)
+    }
+  }
+
+  get db() {
+    return this._db; // Return the private property for db
+  }
+
+  get leanMethodService() {
+    return this._leanMethodService; // Return the private property for leanMethodService
   }
 
   createOrRefreshWorkstations() {
-    //every new round workstations get refreshed
-    for (let i = 0; i < this.parts.length / 4; i++) {
-      const startIndex = i * 4; // Starting index for each workstation (multiples of 4)
-      const partList = this.parts.slice(startIndex, startIndex + 4); // Slice the first 4 parts
-      this.workstations.set(
-        i + 1,
-        new WorkingWorkstation(
-          i + 1,
-          partList.map((partData) => partData.name),
-          this.leanMethods.get("tpm")
-        )
+    try{
+      if (this.parts === undefined || this.parts.length === 0) {
+        throw new Error(
+          "Parts are not defined or empty. Cannot create workstations without parts."
+        );
+      }
+  
+      const partsByWorkstation = new Map();
+      for (const part of this.parts) {
+        if (part.workstationFK === undefined || part.workstationFK === null) {
+          throw new Error("WorkstationFK is not defined for part: " + part.id);
+        }
+        if (!partsByWorkstation.has(part.workstationFK)) {
+          partsByWorkstation.set(part.workstationFK, []);
+        }
+        partsByWorkstation.get(part.workstationFK).push(part);
+      }
+  
+      for (let i = 1; i <= 5; i++) {
+        const partsList = partsByWorkstation.get(i) || [];
+        this.workstations.set(
+          i,
+          new WorkingWorkstation(
+            i,
+            partsList.map((partData) => partData.id),
+            this.leanMethodService
+          )
+        );
+      }
+    }
+    catch(error){
+      window.reportError(error)
+    }    
+  }
+
+  startGame(selectedWorkstation, playerName, bots) {
+    this.playerName = playerName;
+    this.selectedWorkstation = parseInt(selectedWorkstation);
+    this.bots = [];
+    for (let i = 0; i < bots.length; i++) {
+      this.bots.push(new Bot(bots[i].name, bots[i].workstation, this));
+    }
+    this.emitter.on("gameOverInModel", () => {
+      this.endGame();
+    });
+  }
+
+  // Add a setter for selectedWorkstation
+  set selectedWorkstation(value) {
+    if (!Number.isInteger(value) || value < 1 || value > 5) {
+      throw new Error(
+        "Invalid selectedWorkstation: must be an integer between 1 and 5"
       );
     }
+    this._selectedWorkstation = value;
   }
-  newGame() {
-    this.capital = new Money(50000);
-    this.stock = new TraditionalStock(this.parts);
-    this.newCar();
-    this.newRound();
-    this.stats = new GameStats(this);
+
+  // Add a getter for selectedWorkstation (optional)
+  get selectedWorkstation() {
+    return this._selectedWorkstation;
   }
 
   newRound(leanMethod) {
-    console.log('x')
     const roundnumber = this.rounds.size + 1;
-    const newRound = new Round(new RoundStats(roundnumber, this));
+    const newRound = new Round(roundnumber);
+    this.stats.startRound();
     this.rounds.set(roundnumber, newRound);
     this.currentRound = newRound;
     this.newLeanMethod(leanMethod);
-    this.stock.newRound();
+    this.stock.refreshStock(this.leanMethodService, this.stats);
+    this.bots.forEach((bot) => {
+      bot.refresh(this.leanMethodService);
+    });
+    this.stock.refreshStock(this.leanMethodService, this.stats);
+    this.bots.forEach((bot) => {
+      bot.refresh(this.leanMethodService);
+    });
+    // this.stock.newRound();
     this.bots.forEach((bot) => bot.startWorking());
     this.createOrRefreshWorkstations();
+    this.currentRound.emitter.on("roundoverInModel", () => {
+      this.endRound();
+    });
   }
 
   newLeanMethod(method) {
-    if (method === "jit") {
-      this.leanMethods.set(method, new JustInTime());
-      this.stock = new JITStock(this.stock.parts);
-    }
-    if (method === "qc") {
-      this.leanMethods.set(method, new QualityControl());
-    }
-    if (method === "tpm") {
-      this.leanMethods.set(
-        method,
-        new TotalProductiveMaintenance(this.workstations)
-      );
+    if (method) {
+      this.leanMethodService.enableLeanMethod(method);
     }
   }
 
@@ -92,34 +176,51 @@ class Game {
   }
 
   endRound() {
-    console.log(this.cars)
-    this.currentRound.endRound();
-    this.bots.forEach((bot) => bot.stopAddingParts());
-    this.capital.add(this.currentRound.stats.capital);
-    if (this.rounds.size === 5) {
+    this.bots.forEach((bot) => bot.stopWorking());
+    this.stock.endRound();
+    this.stats.endRound();
+    if (this.currentRound.roundNumber === gameValues.numberOfRounds) {
       this.endGame();
+      return;
     }
+    this.stats.newRound(); //stats already start at the beginning
   }
 
   newCar() {
-    new CarToAssembly(this.cars.size, this.parts, this.cars);
+    const newCar = new Car(this.cars.size, this.parts, this.stats);
+    this.cars.set(this.cars.size, newCar);
   }
 
-  getCarFromWorkstation(workstationid) {
-    // Find the car with matching state
-    const matchingCar = Array.from(this.cars.values()).find(
-      (car) =>
-        car.workstationId === workstationid && car instanceof CarAtWorkstation
-    );
-    return matchingCar; // Might return undefined if no car is found
+  getCarFromWorkstation(workstationId) {
+    try{
+      if (
+        !Number.isInteger(workstationId) ||
+        workstationId < 1 ||
+        workstationId > 5
+      ) {
+        throw new Error(
+          "Invalid workstationId: must be an integer between 1 and 5"
+        );
+      }
+  
+      // Find the car with matching state
+      const matchingCar = Array.from(this.cars.values()).find(
+        (car) =>
+          car.state instanceof CarAtWorkstation &&
+          car.state.workstationId === workstationId
+      );
+      return matchingCar; // Might return undefined if no car is found
+    }
+    catch(error){
+      window.reportError(error)
+    }
   }
 
-  moveWaitingcars() {
+  moveWaitingCars() {
     for (const car of this.cars.values()) {
       this.moveCar(car);
     }
     this.newCarAtWorkstation1();
-    this.stats.updateCarStats(this.cars)
   }
 
   newCarAtWorkstation1() {
@@ -129,43 +230,77 @@ class Game {
   }
 
   addPart(part, workstationId) {
-    this.moveWaitingcars();
-    const currentWorkstation = this.workstations.get(workstationId);
-    const car = this.getCarFromWorkstation(workstationId);
-    try {
-      currentWorkstation.addPartToCar(this.workstations);
-      this.stock.requestPart(part);
-      this.cars.get(car.id).addPart(part, currentWorkstation);
-    } catch (error) {
-      //console.error(error);
-    }
-  }
+    if (this.partExists(part)) {
+      this.moveWaitingCars();
+      const currentWorkstation = this.workstations.get(workstationId);
+      const car = this.getCarFromWorkstation(workstationId);
 
-  carCompleted(car) {
-    this.stats.updateOnCarCompletion(car);
-    this.currentRound.stats.updateOnCarCompletion(car);
-  }
+      try {
+        currentWorkstation.addPartToCar(
+          this.workstations,
 
-  addPartOrMoveBot(workstationId) {
-    this.moveWaitingcars();
-    const car = this.getCarFromWorkstation(workstationId);
-    if (car) {
-      const workstation = Array.from(this.workstations.values()).find(
-        (workstation) => workstation.id === workstationId
-      );
-      if (workstation.isComplete(car.parts)) {
-        //if car is complete move to next station
-        car.manualMove(this.cars, this.workstations);
-      } else if (workstation.getIncompletePart(car.parts)) {
-        this.addPart(
-          workstation.getIncompletePart(car.parts).name,
-          workstationId
+          this.leanMethodService
         );
+        this.stock.requestPart(part);
+        this.cars.get(car.id).addPart(part, this.leanMethodService);
+      } catch (error) {
+        return; //part isn't in stock or workstation is under maintenance
       }
     }
   }
+
+  manualMove(car) {
+    try{
+      if (!(car instanceof Car)) {
+        throw new Error("Invalid car: must be of type Car");
+      }
+      car.manualMove(this.cars, this.workstations);
+    }
+    catch(error){
+      window.reportError(error)
+    }
+  }
+
   endGame() {
+    this.bots?.forEach((bot) => bot.stopWorking());
     this.isOver = true;
+    if(this.currentRound){
+      this.currentRound.isOver = true;
+    } 
+    if (this.rounds.size === gameValues.numberOfRounds){
+      this.updateHighscores();
+    }
+  }
+
+  async updateHighscores() {
+    await this.db.addHighscore(this.playerName, this.stats.capital.amount);
+  }
+
+  getAmountOfPart(part) {
+    return this.stock.getAmountOfPart(part);
+  }
+
+  getStockFromWorkstation(workstationIndex) {
+    console.log(workstationIndex);
+    return this.workstations.get(workstationIndex).getStock();
+  }
+
+  getRemainingTime() {
+    return this.currentRound.getRemainingTime();
+  }
+
+  buyStock(parts) {
+      this.stock.addPartsToStock(parts);     
+    
+  }
+
+  getFixedCosts() {
+    let fixedCosts = {};
+    fixedCosts.startCapital = gameValues.startCapital;
+    fixedCosts.staff = gameValues.staffCost;
+    fixedCosts.facility = gameValues.facilityCost;
+    fixedCosts.pricePerPart = gameValues.pricePerPart;
+    return fixedCosts;
   }
 }
 

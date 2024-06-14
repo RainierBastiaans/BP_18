@@ -1,33 +1,74 @@
-class Car {
-  constructor(id) {
+import { gameValues } from "../../../game-values.js";
+import { Subject } from "../../../subject.js";
+import { CarAtWorkstation } from "./car-at-workstation.js";
+
+class Car extends Subject {
+  constructor(id, parts, stats) {
+    super();
     this.id = id;
-    this.fixedPrice = 20000;
+    this.fixedPrice = gameValues.carPrice;
+    this.addObserver(stats);
+    this.state = new CarAtWorkstation(1);
+    // Create the parts map with key as part name and value as object with properties
+    this.parts = new Map(
+      parts.reduce((acc, part) => {
+        // Ensure each part is an object with a "name" property
+        if (!part || !part.id) {
+          console.warn("Warning: Ignoring invalid part in parts array:", part);
+          return acc; // Skip invalid parts
+        }
+
+        // Create a new object with partAdded and broken properties
+        const partInfo = {
+          name: part.id,
+          partAdded: false,
+          broken: undefined,
+        };
+        acc.set(part.id, partInfo);
+        return acc;
+      }, new Map())
+    ); // Initialize an empty Map
+  }
+  inProgress() {
+    return this.state.inProgress();
   }
 
-  isComplete(){
-    return false;
+  set state(newState) {
+    if (this._state !== newState) {
+      this._state = newState;
+      this.notifyObservers(this, "car");
+    }
+  }
+  get state() {
+    return this._state;
+  }
+
+  isComplete() {
+    return this.state.isComplete();
+  }
+
+  isBroken() {
+    return this.state.isBroken();
   }
 
   qualityControl() {
-    throw new Error("Superclass does not have qualityControl");
+    this.state.qualityControl(this.parts);
   }
 
-  // Abstract method - subclasses must implement how to add parts
-  addPart(part, workstation) {
-    throw new Error("Subclasses must implement addPart method");
-  }
-
-  breakPart(part) {
-    // Get the part information from the parts list
-    const partInfo = this.parts.get(part);
-
-    // Simulate a chance to break with a probability of 0.01
-    const isBroken = Math.random() < 0.02;
-    partInfo.broken = isBroken;
+  addPart(partsToAdd, leanMethodService) {
+    this.parts = this.state.addPart(this.parts, partsToAdd, leanMethodService);
   }
 
   move(cars) {
-    throw new Error("Subclasses must implement moveCar method");
+    this.state = this.state.move(cars, this.parts);
+  }
+
+  manualMove(cars, workstations) {
+    this.state = this.state.manualMove(this.parts, workstations);
+  }
+
+  remove() {
+    this.state = this.state.remove();
   }
 
   isAdded(part) {
@@ -37,6 +78,9 @@ class Car {
 
     // Return the partAdded property (assuming it indicates addition)
     return partInfo && partInfo.partAdded; // Avoid returning undefined if part exists but partAdded is not set
+  }
+  getQualityControlValue() {
+    return this.state.qualityControlValue;
   }
 }
 

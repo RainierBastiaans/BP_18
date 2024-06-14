@@ -1,70 +1,113 @@
+import { gameValues } from "../../game-values.js";
+
 class RoundStats {
   constructor(roundNumber, game) {
     this.game = game;
     this.capital = 0;
     this.roundNumber = roundNumber;
     this.carsCompleted = 0; // Number of cars completed
+    this.carsBroken = 0;
+    this.carsInProgress = 0;
     this.totalCompletionTime = 0; // Total time taken for completed cars
     this.partUsage = {}; // Object to track parts used in this round (partName: count)
     this.totalStockCost = 0;
     this.totalIncome = 0;
-    this.deductStaffCost(3000);
-    this.deductStockMaintenanceCost(1000);
-    this.deductFacilityCost(50000);
+    this.cars = new Map();
+
+    this.averageCarCompletionTime = 0;
+    this.isOver = false;
   }
 
-  getRoundCapital() {
-    return this.capital;
+  deductFacilityCost() {
+    this.capital -= gameValues.facilityCost;
   }
 
-  updateOnCarCompletion(car) {
+  deductStaffCost() {
+    this.capital -= gameValues.staffCost;
+  }
+
+  updateStock(stockPrice) {
+    this.capital -= stockPrice;
+  }
+  startRound(cars) {
+    this.deductFacilityCost();
+    this.deductStaffCost();
+    this.configureCars(cars);
+    this.startTime = performance.now(); // Capture the start time
+  }
+
+  configureCars(cars) {
+    Array.from(cars.values()).forEach((car) => {
+      if (!car.end) {
+        this.cars.set(car.id, {id: car.id,
+          start:
+            car.start,
+          end: undefined,
+        });
+      }
+    });
+    this.carsInProgress = this.cars.size;
+  }
+
+  endRound() {
+    this.totalTimeRound = this.getElapsedTime();
+    this.isOver = true;
+  }
+
+  calculateAverageCarCompletionTime() {
+    let totalTime = 0;
+    Array.from(this.cars.values()).forEach((times) => {
+      if (times.end) {
+        totalTime += times.end - times.start;
+      }
+    });
+
+    this.averageCarCompletionTime = Math.round(totalTime / this.carsCompleted);
+  }
+
+  getElapsedTime() {
+    if (!this.startTime) {
+      return 0; // No start time means no elapsed time
+    }
+    const currentTime = performance.now();
+    return Math.floor((currentTime - this.startTime) / 1000); // Time in seconds
+  }
+
+  newCarInProgress(car) {
+    this.cars.set(car.id, {id: car.id,
+      start:
+        (this.roundNumber - 1) * gameValues.roundDuration +
+        this.getElapsedTime(),
+      end: undefined,
+    });
+    this.carsInProgress++;
+  }
+
+  newCarCompleted(car) {
     this.carsCompleted++;
     this.totalIncome += car.fixedPrice;
-    this.capital += (car.fixedPrice);
-    this.totalCompletionTime += car.completionTime; // Assuming car has a completionTime property
-
-    // Update part usage for this round
-    for (const [partName, isAdded] of Object.entries(car.parts)) {
-      if (isAdded) {
-        this.partUsage[partName] = (this.partUsage[partName] || 0) + 1;
-      }
-    }
+    this.carsInProgress--;
+    this.cars.get(car.id).end =
+      (this.roundNumber-1) * gameValues.roundDuration +
+      this.getElapsedTime();
+    this.capital += car.fixedPrice;
+    this.calculateAverageCarCompletionTime();
   }
-  deductFacilityCost(facilityCost) {
-    this.capital -= facilityCost;
-  }
-
-  deductStockMaintenanceCost(costPerPart) {
-    const totalStockCost = Object.values(this.game.stock.parts).reduce(
-      (sum, count) => sum * costPerPart,
-      0
-    );
-    this.totalStockCost += totalStockCost;
-    this.capital -= totalStockCost;
+  newCarBroken(car) {
+    this.carsBroken++;
+    this.carsInProgress--;
+    this.cars.delete(car.id);
   }
 
-  deductStaffCost(staffCost) {
-    this.capital -= staffCost;
-  }
-
-  getAverageCompletionTime() {
-    if (this.carsCompleted === 0) {
-      return 0; // No cars completed this round
-    }
-    return this.totalCompletionTime / this.carsCompleted;
-  }
-
-  getMostUsedPart() {
-    if (Object.keys(this.partUsage).length === 0) {
-      return null; // No parts used this round
-    }
-    const mostUsedPart = Object.entries(this.partUsage).reduce(
-      (prev, current) => {
-        return current[1] > prev[1] ? current : prev;
-      },
-      [null, 0]
-    ); // Initialize with null and 0
-    return mostUsedPart[0]; // Return the part name
+  getRoundStats() {
+    return {
+      carsCompleted: this.carsCompleted,
+      carsBroken: this.carsBroken,
+      carsInProgress: this.carsInProgress,
+      totalIncome: this.totalIncome,
+      capital: this.capital,
+      averageCarCompletionTime: this.averageCarCompletionTime,
+    };
   }
 }
 export { RoundStats };

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="66.570091mm"
+   height="51.103859mm"
+   viewBox="0 0 66.570091 51.103859"
+   version="1.1"
+   id="svg1"
+   inkscape:version="1.3.1 (9b9bdc1480, 2023-11-25, custom)"
+   sodipodi:docname="little-car.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#505050"
+     bordercolor="#eeeeee"
+     borderopacity="1"
+     inkscape:showpageshadow="0"
+     inkscape:pageopacity="0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#505050"
+     inkscape:document-units="mm"
+     inkscape:zoom="0.72248176"
+     inkscape:cx="396.5498"
+     inkscape:cy="561.25984"
+     inkscape:window-width="1850"
+     inkscape:window-height="1011"
+     inkscape:window-x="70"
+     inkscape:window-y="32"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1" />
+  <defs
+     id="defs1" />
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(-45.619954,-90.815648)">
+    <path
+       id="path1"
+       style="fill:#000000;fill-opacity:0.988241;stroke-width:0.245194"
+       d="M 62.633903,90.815645 V 102.35758 H 45.619954 v 21.69118 h 9.255766 a 12.5,12.5 0 0 0 -1.123962,5.17798 12.5,12.5 0 0 0 12.500012,12.50001 12.5,12.5 0 0 0 12.500012,-12.50001 12.5,12.5 0 0 0 -1.126029,-5.17798 h 4.65708 a 12.5,12.5 0 0 0 -1.226799,5.37073 12.5,12.5 0 0 0 12.500013,12.50001 12.5,12.5 0 0 0 12.500013,-12.50001 12.5,12.5 0 0 0 -1.21285,-5.37073 h 7.34684 V 102.35758 H 102.9901 V 90.815645 Z" />
+  </g>
+</svg>

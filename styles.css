@@ -1,86 +1,886 @@
+/**=========================
+======Regular visuals=======
+==========================*/
+
+* {
+  /* box-sizing: border-box; */
+  font-family: "Roboto", sans-serif;
+  /*===SETTING GENERAL FONT-SIZE====
+  IMPORTANT: ALL OTHER FONTS AND ICONS ARE RELATIVE TO THIS FONT-SIZE USING "REM" expressed in "em"
+  ===============================*/
+  font-size: 1em;
+  /* margin: 0;
+  padding: 0; */
+}
+
+.hidden {
+  display: none !important;
+}
+
 body {
-  font-family: "Arial", sans-serif;
-  background-color: #f4f4f4;
-  margin: 0;
+  background-color: rgba(192, 192, 192, 0.4);
+  /* 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #e0e0e0;
+  color: #333; */
+}
+
+.horizontal-container {
+  display: flex;
+  flex-direction: row;
+}
+
+.vertical-container {
+  display: flex;
+  flex-direction: column;
+}
+
+h1 {
+  font-size: 2em;
+}
+
+h2,
+h3 {
+  font-size: 1.4em;
+  padding: 1%;
+  margin: 1%;
+  text-align: center;
+}
+
+ul {
+  list-style-type: none;
+  /* Removes bullet points or numbers */
   padding: 0;
+  /* Removes padding */
+  margin: 0;
+  /* Removes margin */
+}
+
+li {
+  padding: 0;
+  margin: 0;
+}
+
+/*========General icons========
+excludes: player-icon
+=============================*/
+.icon {
+  width: auto;
+  height: auto;
+  margin-right: 10px;
+  vertical-align: middle;
+  max-width: 2.5em;
+  max-height: 2.5em;
+}
+
+.header-icon {
+  width: auto;
+  height: auto;
+  margin-right: 10px;
+  vertical-align: middle;
+  max-width: 3.5em;
+  max-height: 3.5em;
+}
+
+/**=========================
+=========START SCREEN=======
+==========================*/
+
+.start-screen {
+  background: linear-gradient(135deg, #ffcc33, #ff66cc);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/**=========================
+======GAME DESCRIPTION======
+==========================*/
+game-description-container {
+  display: flex;
+  flex-direction: column;
+  max-height: 100%;
+  max-width: 100%;
+}
+
+.game-description-heading {
+  text-align: center;
+  margin: 0.5%;
+  flex: 25;
+}
+
+.game-description-title-container {
+  justify-content: center;
+  align-items: center;
+}
+
+.game-name {
+  flex: 20;
+  color: rgb(222, 9, 255);
+  font-weight: 800;
+  background-color: whitesmoke;
+  border-radius: 8px;
+}
+
+.game-title {
+  flex: 80;
+  font-size: 1.75rem;
+  font-style: italic;
+  font-weight: 800;
+  border-bottom: 2px solid rgba(222, 9, 255, 0.377);
+  border-top: 2px solid rgba(222, 9, 255, 0.377);
+}
+
+.game-about {
+  text-align: left;
+  margin: 0;
+  font-size: 1.1em;
+}
+
+.game-description-main {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  flex: 75;
+}
+
+.game-description-step {
+  flex: 40%;
+  background: #f9f9f9;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  margin: 1em;
+}
+
+.game-description-step-heading {
+  border-bottom: 2px solid rgba(222, 9, 255, 0.377);
+  padding: 0.5%;
+  width: 99%;
+  align-items: center;
+  vertical-align: middle;
+  text-align: center;
+}
+
+.game-description-step-number {
+  color: white;
+  font-size: 1.5em;
+  font-weight: 600;
+  text-align: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 0.5em;
+  background-color: rgba(222, 9, 255, 0.637);
+  border: 2px solid #6a0dad;
+  min-width: 1.5em;
+  min-height: 1.5em;
+  margin: 0.25em
+}
+
+.game-description-step-title {
+  text-align: left;
+}
+
+.game-description-step-text {
+  text-align: left;
+  padding: 2%;
+  line-height: 1.5;
+}
+
+/**=========================
+=========Header=============
+==========================*/
+.header {
+  grid-area: header;
+  text-align: center;
+  background: #4b4b4b;
+  color: #fff;
+  padding: 10px;
+  border-radius: 4px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+/**=========================
+=======CONFIGURE VIEW=======
+==========================*/
+#home-page {
+  max-height: 100%;
+  background: rgb(236, 232, 232);
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 10px;
+  border: 2px solid #ccc;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.config-grid {
+  width: 95vw;
+  height: 95vh;
+  display: flex;
+  column-gap: 2%;
+  align-items: stretch;
+  align-self: center;
+  flex-wrap: wrap;
+  gap: 1%;
+}
+
+@media screen and (max-width: 1030px) {
+  .config-grid {
+    width: 98%;
+    height: 100%;
+  }
+}
+
+.config-column {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 1.5%;
+}
+
+#config-column-1 {
+  margin: 5px;
+  display: flex;
+  align-content: stretch;
+  border-radius: 5px;
+}
+
+#config-column-2 {
+  margin: 5px;
+}
+
+#config-column-3 {
+  margin: 5px;
+}
+
+.component-style {
+  background-color: rgba(0, 89, 255, 0.151);
+  border-radius: 8px;
+  border: 2px solid rgba(192, 192, 192, 00.5);
+  /* margin: 7.5px; */
+  padding: 10px;
+  box-shadow: 0 0 10px rgba(192, 192, 192, 1);
 }
 
 img {
   height: 20px;
   width: auto;
   padding: 0;
-  margin: 0;
+  margin: 5px;
 }
 
-.part-button {
-  width: 160px;
-  height: 60px;
-  border: 2px solid #2980b9;
+p {
+  margin: 1%;
+  padding: 1%;
+}
+
+/*=========================
+=========PLAYER===========
+==========================*/
+.input-container {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  padding: 10px;
   border-radius: 5px;
-  padding: 30px;
+  max-width: 90%;
+}
+
+#playerName {
+  border: 2px solid;
+  width: 60%;
+  transition: border-color 5s, box-shadow 5s;
+}
+
+input[type="text"] {
+  display: block;
+  width: 90%;
+  padding: 10px;
+  font-size: 1.5em;
   margin: 10px;
-  color: #ffffff;
+  border: 1px solid #6666;
+  border-radius: 4px;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+/*=========================
+=======PERSONAL STOCK======
+==========================*/
+.personal-stock-list {
+  display: flex;
+  justify-content: space-around;
+  /* Optional: Distributes space evenly around the items */
+  padding: 0;
+  margin: 0 0 3% 0;
+}
+
+.personal-stock-list li {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  /* Centers the stock name and quantity */
+  background-color: #ffffff;
+  border-radius: 8px;
+  padding: 5px;
+  min-width: 15%;
+  max-width: 24%;
+  min-height: 2em;
+  box-sizing: border-box;
+  /* Ensures padding and border are included in the width */
+}
+
+.personal-stock-name {
+  font-weight: bold;
+  /* Optional: Makes the stock name bold */
+}
+
+.personal-stock-quantity {
+  margin-top: auto;
+  /* Adds some space between the stock name and quantity */
+}
+
+/*====================
+=====FIXED COSTS======
+====================*/
+
+/* Container styling */
+.fixed-costs-container {
+  border: 2px solid #007bff;
+  border-radius: 10px;
+  background-color: #f8f9fa;
+  padding: 5%;
+  max-width: 100%;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-.container {
-  height: 100vh;
+/* Header styling */
+.fixed-costs-container h2 {
+  text-align: center;
+  color: #007bff;
+  margin-bottom: 1%;
+}
+
+/* List container styling */
+.fixed-costs-list-container {
+  background-color: #ffffff;
+  padding: 0.1%;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* List styling */
+.fixed-costs-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+/* List item styling */
+.fixed-costs-list li {
+  display: flex;
+  align-items: center;
+  padding: 7.5px;
+  border-bottom: 1px solid #ddd;
+}
+
+/* Last item has no border */
+.fixed-costs-list li:last-child {
+  border-bottom: none;
+}
+
+/* Name styling */
+.fixed-cost-name {
+  flex: 1;
+  font-weight: bold;
+  color: #333;
+}
+
+/* Price styling */
+.fixed-cost-price {
+  color: #28a745;
+  font-weight: bold;
+}
+
+/* Hover effect for list items */
+.fixed-costs-list li:hover {
+  background-color: #e9ecef;
+  transition: background-color 0.3s ease;
+}
+
+/*==========================
+=====SELECT WORKSTATION=====
+==========================*/
+
+.workstation-icon {
+  width: 3em;
+  height: 3em;
+  padding: 0 5px;
+  margin: 0 5px;
+}
+
+.workstation-options-container {
+  text-align: center;
+  margin: 1%;
+  align-items: center;
+}
+
+.option-display {
+  align-items: center;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
-  margin: 20px;
 }
 
-.drop-targets {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-around;
-  align-items: center;
-  margin: 20px 0;
-}
-
-.box {
-  height: 150px;
-  width: 150px;
-  border: solid 3px #ccc;
-  margin: 10px;
-
-  /* align items in the box */
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+.workstation-options {
   justify-content: center;
+  align-items: center;
+  margin: 2% 0;
+  max-height: 90%;
+  max-width: 90%;
+  flex-wrap: wrap;
 }
 
-.drag-over {
-  border: dashed 3px red;
+.workstation-option {
+  align-items: center;
+  margin: 10px 0;
 }
 
-.item {
-  height: 75px;
-  width: 75px;
-  background-color: #f0db4f;
-}
-
-.hidden {
+.workstation-option input[type="radio"] {
   display: none;
 }
 
-#game-container {
-  width: 100%;
-  padding: 20px;
-  background-color: #f4f4f4;
-  border-radius: 5px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+.workstation-option label {
+  width: 2.2em;
+  height: 1.5em;
+  font-size: 2em;
+  border-radius: 15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
   text-align: center;
+}
+
+.workstation-option input[type="radio"]:hover+label {
+  background-color: #0056b3;
+  transform: translateY(-5px);
+}
+
+.workstation-option input[type="radio"]:checked+label {
+  background-color: #28a745;
+}
+
+
+/*====================
+===CHOOSE LEAN METHOD==
+====================*/
+.leanmethods-container {
+  align-items: center;
+}
+
+.leanmethods-list-container {
+  display: flex;
+  align-items: left;
+  flex-direction: column;
+  width: 85%
+}
+
+.leanmethods-list {
+  justify-content: space-around;
+  max-width: 100%;
+  margin-bottom: 1em;
+}
+
+#available-methods,
+#applied-methods {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-items: space-between;
+  gap: 0.8em;
+  width: 100%;
+  padding: 1%;
+}
+
+.leanmethods li {
+  display: flex;
+  width: inherit;
+}
+
+.available-method-container input[type="radio"] {
+  width: 100%;
+}
+
+.available-method-container:hover {
+  transform: translateY(-5px);
+}
+
+.available-method-container input[type="radio"]:checked+.available-method {
+  background-color: #e850ff;
+  color: #fff;
+}
+
+.available-method,
+.applied-method {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  border-radius: 5px;
+  background-color: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.applied-method {
+  background-color: #e9f5ff;
+  color: #28a745;
+}
+
+.available-method:hover {
+  background-color: #f1f1f1;
+}
+
+.available-method label {
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.available-method label .tooltip {
+  visibility: hidden;
+  background-color: #333;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 10px;
+  position: absolute;
+  z-index: 1;
+  bottom: 125%;
+  /* Position above the text */
+  left: 50%;
+  margin-left: -60px;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.available-method:hover label .tooltip {
+  visibility: visible;
+  opacity: 1;
+}
+
+.leanmethod-name {
+  font-size: 1.2em;
+  font-weight: bold;
+  align-self: center;
+  margin: 10px;
+}
+
+.leanmethod-list-title {
+  font-size: 1.2em;
+  font-weight: 600;
+  text-align: left;
+  margin: 0;
+}
+
+.leanmethod-list-description {
+  font-size: 0.8em;
+  text-align: left;
+  margin: 0;
+}
+
+/*TODO VANAF HIER */
+/*====================
+===PLAYERS OVERVIEW====
+====================*/
+.players-overview-container {
+  padding: 20px;
+  background-color: #add8e6;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(182, 174, 174, 0.795);
+  max-width: 800px;
+  margin: auto;
+}
+
+.players-overview-container h2 {
+  text-align: center;
+  color: #343a40;
+  margin-bottom: 20px;
+}
+
+.players-overview-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+  padding: 0;
+}
+
+.other-player-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(187, 179, 236, 0.658);
+  transition: transform 0.2s, box-shadow 0.2s;
+  width: 40%;
+  text-align: center;
+}
+
+.other-player-container:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(155, 93, 255, 0.555);
+}
+
+.other-player-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.other-player-name {
+  font-size: 1.2em;
+  color: rgba(155, 93, 255, 0.863);
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+.other-player-workstation {
+  font-size: 0.9em;
+  color: #6c757d;
+  font-weight: bold;
+}
+
+/*====================
+=========SHOP=========
+====================*/
+.shop-component {
+  max-width: 600px;
+}
+
+/* Shop Heading */
+.shop-heading {
+  align-items: center;
+  align-content: center;
   position: relative;
+}
+
+.shop-heading .shop-tip {
+  visibility: hidden;
+  width: 300px;
+  background-color: #555;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 0;
+  position: absolute;
+  z-index: 1;
+  bottom: 125%;
+  left: 10%;
+  margin-left: -60px;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.shop-heading .shop-tip::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: #555 transparent transparent transparent;
+}
+
+.shop-heading:hover .shop-tip {
+  visibility: visible;
+  opacity: 1;
+}
+
+.shop-icon {
+  width: 2.5em;
+  height: 3em;
+  padding: 0 0;
+  margin: 0 0;
+}
+
+/* Shop Navigation*/
+.shop-navigation {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1em;
+}
+
+.shop-navigation button {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.shop-navigation button:hover {
+  background-color: #0056b3;
+}
+
+.workstation-label {
+  font-weight: bold;
+  font-size: 1.2em;
+}
+
+/* Parts list styles */
+.shop-parts-list {
+  list-style: none;
+  padding: 1%;
+  margin: 0;
+}
+
+.shop-part-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 0;
+  border-bottom: 1px solid #ddd;
+}
+
+.shop-part-item:last-child {
+  border-bottom: none;
+}
+
+.shop-part-details {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  margin-right: 10px;
+}
+
+.shop-part-details span:first-child {
+  font-weight: bold;
+}
+
+input[type="number"] {
+  width: 60px;
+  padding: 5px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+/* Shop Buy button styles */
+.shop-buy-button {
+  width: 100%;
+  max-width: inherit;
+  background-color: #28a745;
+  border: none;
+  padding: 15px 0;
+  border-radius: 8px;
+  transition: background-color 0.3s ease;
+  font-size: 150%;
+  font-weight: 700;
+  margin: 1%;
+}
+
+.shop-buy-button:hover {
+  background-color: #218838;
+}
+
+.shop-add-amount-buttons {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+.shop-add-amount-button {
+  border-radius: 8px;
+  transition: background-color 0.3s ease;
+  font-size: 1em;
+  width: 30%;
+}
+
+.summary-text {
+  margin-bottom: 20px;
+}
+
+label {
+  position: relative;
+  display: inline-block;
+}
+
+label .tooltip {
+  visibility: hidden;
+  background-color: #555;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 0;
+  position: absolute;
+  z-index: 1;
+  bottom: 125%;
+  left: 50%;
+  margin-left: -60px;
+  opacity: 0;
+  transition: opacity 0.3s;
+  font-size: small;
+}
+
+label .tooltip::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: #555 transparent transparent transparent;
+}
+
+label:hover .tooltip {
+  visibility: visible;
+  opacity: 1;
+}
+
+/*===================
+=======BUTTONS========
+=====================*/
+
+start-button,
+new-round-button {
+  display: flex;
+  align-self: center;
+  align-items: center;
+  width: 80%;
+}
+
+#newRoundButton,
+#startButton,
+#restartButton {
+  display: block;
+  padding: 10px 20px;
+  font-size: 200%;
+  margin: 5px;
+  background-color: #28a745;
+  border-radius: 15px;
+  line-height: 1.25;
+  max-width: inherit;
+  width: 100%;
+}
+
+#newRoundButton:hover,
+#startButton:hover {
+  background-color: #218838;
 }
 
 button {
   align-items: center;
   background-color: #0a66c2;
-  border: 0;
+  border: none;
   box-sizing: border-box;
   color: #ffffff;
   cursor: pointer;
@@ -89,14 +889,12 @@ button {
   font-weight: 600;
   justify-content: center;
   line-height: 20px;
-  max-width: 480px;
+  max-width: 90%;
   min-height: 40px;
   min-width: 0px;
   overflow: hidden;
   margin: 5px;
-  padding: 0px;
-  padding-left: 20px;
-  padding-right: 20px;
+  padding: 0px 20px;
   text-align: center;
   touch-action: manipulation;
   transition: background-color 0.167s cubic-bezier(0.4, 0, 0.2, 1) 0s,
@@ -109,6 +907,7 @@ button:hover,
 button:focus {
   background-color: #16437e;
   color: #ffffff;
+  transform: translateY(-5px);
 }
 
 button:active {
@@ -122,210 +921,459 @@ button:disabled {
   color: rgba(0, 0, 0, 0.3);
 }
 
-.options-container {
+/** Home screen*/
+.game-header {
+  color: #fff;
+  background-color: #333;
+  padding: 20px;
+  margin-top: 0px;
   text-align: center;
-  margin: 20px;
 }
 
-.options-heading {
-  font-size: 1.5em;
-  margin-bottom: 10px;
+/*! Regular visuals end */
+
+/*==========================
+=======GAME VISUALS========= 
+==========================*/
+#game-container {
+  text-align: center;
 }
 
-.option {
-  margin: 5px 0;
-}
-
-.option-display {
+.flex-row {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
   align-items: center;
+}
+
+#game-info {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#current-workstation {
+  size: 90px;
+}
+
+#visuals-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+}
+
+#stock-container {
+  min-width: 12.5rem;
+}
+
+#car-game-container {
+  justify-content: center;
+  align-items: center;
+  min-width: 20vw;
+}
+
+#extra-container {
   display: flex;
   flex-direction: column;
-  justify-content: center;
-}
-
-.player-container {
-  display: none;
-  /* grid */
-  grid-template-columns: 10rem;
-  grid-template-rows: 7.5rem;
-  gap: 0px 0px;
-  grid-template-areas:
-    ". ."
-    ". .";
-}
-
-/* Style the statistics container */
-.statistics-container {
-  text-align: center;
-  margin-top: 20px;
-}
-
-.statistics-heading {
-  font-size: 1.5em;
-  margin-bottom: 10px;
-}
-
-.statistics-table {
-  width: 50%;
-  margin: 0 auto;
-  border-collapse: collapse;
-}
-
-.statistics-table th,
-.statistics-table td {
-  border: 2px solid #ddd;
-  padding: 8px;
-}
-
-.statistics-table th {
-  background-color: #1c87c9;
-  text-align: left;
-}
-
-.statistics-table td {
-  text-align: left;
-}
-
-#completedCarsElement {
-  color: green;
-}
-
-/* car visuals */
-#car-container {
-  display: flex;
-  justify-content: center;
   align-items: center;
-  margin: 20px auto;
-  border: 2px solid black;
-  width: 300px;
-  height: 400px;
+  justify-content: center;
+  min-width: 20vw;
+}
+
+/*========================= 
+========CAR VISUALS======== 
+=========================*/
+.car-container {
   position: relative;
+  justify-items: center;
+  align-content: center;
+  border: 5px solid black;
+  background-color: rgb(190, 184, 122);
+  height: 50vh;
+  width: auto;
+  aspect-ratio: 8 / 10;
 }
 
 .car-part {
   max-width: 125px;
   margin: 5px 0;
+
+}
+
+.part-buttons {
+  display: grid;
+  align-items: center;
+  justify-content: center;
+  grid-template-columns: repeat(3, 7vw);
+  grid-template-rows: repeat(10, 6.5vh);
+  width: auto;
+  height: auto;
+  background-color: rgb(180, 184, 241);
+  border: 5px solid black;
+}
+
+.part-buttons-oderly {
+  display: grid;
+  grid-template-rows: repeat(2, 0.5fr);
+  grid-template-columns: repeat(2, 0.5fr);
+  background-color: rgb(180, 184, 241);
+  border: 5px solid black;
+  width: auto;
+  height: auto;
+  padding: 5px;
+}
+
+.part-container {
+  align-content: center;
+  justify-items: center;
+  background-color: rgb(226 228 247);
+  border: 5px solid black;
+  margin: 5px;
+  width: 199px;
+}
+
+.part-button {
+  max-width: 70px;
+  max-height: 56px;
+  padding: 10px;
+}
+
+.part-button:hover:enabled {
+  background-color: rgba(127, 245, 123, 0.445);
+}
+
+.part-button:hover:disabled {
+  background-color: rgba(245, 123, 123, 0.445);
+}
+
+#move-car-button {
+  background-color: rgb(87, 146, 255);
+}
+
+#move-car-button:disabled {
+  cursor: not-allowed;
+  background: rgba(0, 0, 0, 0.08);
+  color: rgba(0, 0, 0, 0.3);
+}
+
+#quality-control {
+  width: 100px;
+  height: 100px;
+  border: 3px solid black;
+  border-radius: 50%;
+  text-align: center;
+  background-color: rgb(87, 146, 255);
+  background-image: url(./img/quality-control/checkmark.svg);
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: 60%;
+}
+
+#quality-control:disabled {
+  cursor: not-allowed;
+  background-color: rgba(0, 0, 0, 0.08);
+  color: rgba(0, 0, 0, 0.3);
+}
+
+#remove-button {
+  width: 100px;
+  height: 100px;
+  border: 3px solid black;
+  border-radius: 50%;
+  text-align: center;
+  background-image: url(./img/quality-control/trashcan.svg);
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: 50%;
+}
+
+#previous-station-button {
+  width: 40px;
+  height: 40px;
+  border: 1px solid black;
+  border-radius: 50%;
+  text-align: center;
+  background-image: url(./img/left-arrow.svg);
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: 50%;
+  background-color: rgb(87, 146, 255);
+}
+
+#previous-station-button:disabled {
+  cursor: not-allowed;
+  background-color: rgba(0, 0, 0, 0.08);
+  color: rgba(0, 0, 0, 0.3);
+}
+
+#next-station-button {
+  width: 40px;
+  height: 40px;
+  border: 1px solid black;
+  border-radius: 50%;
+  text-align: center;
+  background-image: url(./img/right-arrow.svg);
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: 50%;
+  background-color: rgb(87, 146, 255);
+}
+
+#next-station-button:disabled {
+  cursor: not-allowed;
+  background-color: rgba(0, 0, 0, 0.08);
+  color: rgba(0, 0, 0, 0.3);
+}
+
+#message {
+  margin: 0;
+  padding: 5px;
+}
+
+
+/*==============================
+===WORKSTATIONS PARTS VISUALS===
+==============================*/
+/*=======WORKSTATION 1=========*/
+#chassis,
+#p1-placeholder {
   position: absolute;
+  height: 12%;
+  width: auto;
+  top: 10%;
+  left: 0;
+  right: 0;
+  margin-left: auto;
+  margin-right: auto;
 }
 
-/** Workstations parts css start*/
-/* Workstation 1 parts css */
-#chassis {
-  top: 62px;
-  left: 28.50%;
-  height: 50px;
+#hood,
+#p2-placeholder {
+  position: absolute;
+  top: 21%;
+  height: 14%;
+  width: auto;
+  left: -7px;
+  right: 0;
+  margin-left: auto;
+  margin-right: auto;
 }
 
-#hood {
-  top: 100px;
-  height: 50px;
+#trunk,
+#p3-placeholder {
+  position: absolute;
+  top: 35%;
+  height: 14%;
+  width: auto;
+  left: -6px;
+  right: 0;
+  margin-left: auto;
+  margin-right: auto;
 }
 
-#trunk {
-  top: 150px;
-  height: 50px;
+#door,
+#p4-placeholder {
+  position: absolute;
+  height: 11%;
+  width: auto;
+  left: 0;
+  right: 0;
+  margin-left: auto;
+  margin-right: auto;
+  top: 48%;
 }
 
-#door {
-  top: 200px;
-  height: 50px;
-}
-
-/* Workstation 2 parts css */
+/*=======WORKSTATION 2=========*/
 #engineBlock {
-  top: 200px;
-  height: 50px;
+  position: absolute;
+  top: 51%;
+  left: 81%;
+  height: 5%;
+  width: auto;
 }
 
 #cylinderHead {
-  top: 150px;
-  height: 50px;
+  position: absolute;
+  top: 47%;
+  left: 81%;
+  height: 5%;
+  width: auto;
 }
 
 #piston {
-  top: 162px;
-  height: 20px;
+  position: absolute;
+  top: 48%;
+  left: 82%;
+  height: 2%;
+  width: auto;
 }
 
 #sparkPlugs {
-  top: 125px;
-  height: 25px;
+  position: absolute;
+  top: 44%;
+  left: 82%;
+  height: 3%;
+  width: auto;
 }
 
-/* Workstation 3 parts css */
+/*=======WORKSTATION 3=========*/
 #dashboard {
-  top: 100px;
-  height: 50px;
-}
-
-#seat {
-  top: 225px;
-  left: 100px;
-  height: 60px;
+  position: absolute;
+  top: 20%;
+  left: 32%;
+  height: 14%;
+  width: auto;
 }
 
 #steeringWheel {
-  top: 100px;
-  left: 100px;
-  height: 50px;
+  position: absolute;
+  top: 21%;
+  left: 32%;
+  height: 13%;
+}
+
+#seat {
+  position: absolute;
+  top: 53%;
+  left: 23%;
+  height: 20%;
 }
 
 #carpet {
-  top: 160px;
-  left: 100px;
-  height: 50px;
+  position: absolute;
+  top: 37%;
+  left: 29%;
+  height: 14%;
 }
 
-/* Workstation 4 parts css */
+/*=======WORKSTATION 4=========*/
 #battery {
-  top: 250px;
-  height: 50px;
+  position: absolute;
+  top: 47%;
+  left: 28%;
+  height: 6%;
 }
-
 
 #alternator {
-  top: 135px;
-  height: 40px;
-}
-
-#headlights {
-  top: 80px;
-  height: 40px;
-}
-
-#wiringHarness {
-  top: 190px;
-  height: 40px;
-}
-
-/* Workstation 5 parts css */
-#tire {
-  top: 152px;
-  height: 117px;
-}
-
-#wheel {
-  top: 160px;
-  height: 100px;
-}
-
-#hubcap {
-  top: 172px;
-  height: 75px;
-}
-
-#brakePads {
-  top: 180px;
-  height: 60px;
-}
-
-/*! Workstations parts css end */
-/** Timer css*/
-.timer {
-  margin-top: 10px;
   position: absolute;
   top: 50%;
   left: 10%;
+  height: 4%;
+}
+
+#wiringHarness {
+  position: absolute;
+  top: 49%;
+  left: 19%;
+  height: 3%;
+}
+
+#headlights {
+  position: absolute;
+  top: 50%;
+  left: 89%;
+  height: 4%;
+}
+
+/*=======WORKSTATION 5=========*/
+#brakePads {
+  position: absolute;
+  top: 55%;
+  left: 62%;
+  height: 7%;
+}
+
+#wheel {
+  position: absolute;
+  top: 54%;
+  left: 60%;
+  height: 10%;
+}
+
+#tire {
+  position: absolute;
+  top: 53%;
+  left: 59%;
+  height: 12%;
+}
+
+#hubcap {
+  position: absolute;
+  top: 56%;
+  left: 62%;
+  height: 7%;
+}
+
+/* Background/Placeholder for workstations */
+#placeholder2 {
+  height: auto;
+  width: 95%;
+}
+
+#placeholder3 {
+  height: 80%;
+  width: auto;
+}
+
+#placeholder4 {
+  height: auto;
+  width: 85%;
+}
+
+#placeholder5 {
+  height: auto;
+  width: 95%;
+}
+
+
+/** Timer */
+
+/* Game Timer */
+.game-timer {
+  top: 50px;
+  left: 20px;
+}
+
+.game-timer>svg {
+  width: 100px;
+  height: 100px;
+}
+
+.game-timer>svg>circle {
+  fill: none;
+  stroke-opacity: 0.3;
+  stroke: #0400fa;
+  stroke-width: 10;
+  transform-origin: center center;
+  transform: rotate(-90deg);
+}
+
+.game-timer>svg>circle+circle {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  stroke-linecap: round;
+  stroke-opacity: 1;
+}
+
+.game-timer.animatable>svg>circle+circle {
+  transition: stroke-dashoffset 0.3s ease;
+}
+
+.game-timer>svg>text {
+  font-size: 1rem;
+}
+
+.game-timer>svg>text+text {
+  font-size: 1rem;
+}
+
+/* maintenance Timer */
+.timer {
+  margin-top: 10px;
+
+  top: 40vh;
+  right: 8vw;
 }
 
 .timer>svg {
@@ -336,7 +1384,7 @@ button:disabled {
 .timer>svg>circle {
   fill: none;
   stroke-opacity: 0.3;
-  stroke: #0d6efd;
+  stroke: #fd0d0d;
   stroke-width: 10;
   transform-origin: center center;
   transform: rotate(-90deg);
@@ -359,4 +1407,156 @@ button:disabled {
 
 .timer>svg>text+text {
   font-size: 1rem;
+}
+
+/** Car queue */
+.car-position-line {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+.car-position-box {
+  display: flex;
+  align-items: center;
+  align-content: center;
+  justify-content: center;
+  justify-items: center;
+}
+
+.car-position {
+  align-content: center;
+  font-weight: bold;
+  border: 1px solid black;
+  padding: 5px;
+  height: 20px;
+  width: 20px;
+}
+
+.car-position.active {
+  background-color: #bbb;
+}
+
+.green-border {
+  border: 2px solid green;
+  border-radius: 50%;
+}
+
+/*! Game visuals end */
+/** Statisctics visuals */
+/* REFACTOR */
+
+/* In game statistics*/
+.ingame-statistics-container {
+  display: flex;
+  align-items: center;
+  position: absolute;
+  top: 115px;
+  right: 20px;
+}
+
+.ingame-statistics-item {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin: 5px;
+}
+
+.ingame-statistics-item p {
+  margin: 0;
+  padding: 0;
+}
+
+.livestock-container {
+  width: 33%;
+  max-width: 33%;
+  right: 0;
+  top: 26%;
+  position: absolute;
+}
+
+.livestock-part-list {
+  display: flex;
+  justify-content: space-around;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.livestock-part-list li {
+  text-align: center;
+}
+
+.livestock-part-name {
+  display: block;
+}
+
+.livestock-part-quantity {
+  display: block;
+  margin-top: 5px;
+  font-weight: bold;
+}
+
+input[type="number"] {
+  width: 60px;
+  padding: 5px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+
+/*==========================
+=========SHOW STATS=========
+==========================*/
+.stats-component {
+  max-width: 600px;
+  width: 100%
+}
+
+show-stats {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.stats-component .round-label {
+  font-size: 1.2em;
+  font-weight: bold;
+}
+
+.stats-list {
+  padding: 1%;
+  border-radius: 5px;
+  border: 2px solid #007bff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  background-color: #f8f9fa;
+}
+
+.stat-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1%;
+  border-bottom: 1px solid #ddd;
+}
+
+.stat-item:last-child {
+  border-bottom: none;
+}
+
+.stat-title-container {
+  display: flex;
+  align-items: center;
+}
+
+.stat-title {
+  font-size: 1.1em;
+  font-weight: 600;
+}
+
+.stat-value {
+  font-weight: bold;
+  font-size: 1.1em;
+  margin: 1%;
+  color: #28a745;
 }
