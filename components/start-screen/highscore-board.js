@@ -65,6 +65,7 @@ class HighscoreBoard extends HTMLElement {
       .catch((error) => {
         console.error("Error opening database:", error);
       });
+      
   }
 
   async loadScores() {

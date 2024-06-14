@@ -5,6 +5,7 @@ class HighscoresDB {
       this.openRequest.onsuccess = (event) => {
         this.db = event.target.result;
         console.log("IndexedDB database opened successfully!");
+        this.removeAllAndAddDefault()
         resolve(); // Resolve the promise when database is opened
       };
       this.openRequest.onerror = (event) => {
@@ -77,6 +78,35 @@ class HighscoresDB {
     });
   }
 
+  async removeAllAndAddDefault() {
+    if (!this.db) return;
+
+    const newScores = [
+      { name: "Coach Bart", score: 500000 },
+      { name: "Groep 18", score: 750000 },
+      { name: "Klant David", score: 950000 },
+    ];
+
+    const transaction = this.db.transaction(["scores"], "readwrite");
+    const objectStore = transaction.objectStore("scores");
+
+    const clearRequest = objectStore.clear();
+
+    await new Promise((resolve, reject) => {
+      clearRequest.onsuccess = (event) => {
+        resolve();
+      };
+      clearRequest.onerror = (event) => {
+        reject(event.target.error);
+      };
+    });
+
+    // Add the new high scores after clearing
+    for (const newScore of newScores) {
+      await this.addHighscore(newScore.name, newScore.score);
+    }
+  }
+
   async getHighscores() {
     if (!this.db) return [];
 
@@ -85,7 +115,7 @@ class HighscoresDB {
     const index = objectStore.index("scoreIndex");
 
     // Request only 3 entries in descending order
-    const request = index.openCursor(IDBKeyRange.lowerBound(3), "prev", 3);
+    const request = index.openCursor(IDBKeyRange.lowerBound(5), "prev", 5);
 
     return new Promise((resolve, reject) => {
       const highscores = [];
