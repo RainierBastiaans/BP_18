@@ -100,7 +100,7 @@ class GameStats extends Subject {
         totalTime += times.end - times.start;
       }
     });
-    this.averageCarCompletionTime = totalTime / this.carsCompleted;
+    this.averageCarCompletionTime = Math.round(totalTime / this.carsCompleted);
   }
 
   newCarCompleted(car) {
