@@ -1,0 +1,32 @@
+## Verbeterpunten voor de code:
+
+**Architectuur:**
+
+* Geen Facade-klasse aanwezig: Maak een Facade-klasse om de complexiteit van de applicatie te verbergen.
+* Te veel logica in main.js: Verplaats logica van main.js naar andere geschikte klassen.
+* Workstation-klasse verkeerd geïmplementeerd: Gebruik het State-designpatroon in plaats van subklassen (zoals Car en Stock).
+* User-klasse niet in gebruik: Verwijder de User-klasse of vind er een nuttige functie voor (Multiplayer?).
+
+**CSS:**
+
+* Alle CSS in één bestand: Verdeel de CSS over aparte bestanden per webcomponent.
+
+**Shadow DOM:**
+
+* Begrijp Shadow DOM voordat je aan de UI begint
+
+**Documentatie:**
+
+* Lees het verslag en de handleiding voor meer informatie.
+
+**Algemeen:**
+
+* De code is al goed herbruikbaar, maar kan met kleine aanpassingen nog efficiënter worden gemaakt.
+
+**Extra tip:**
+
+* Maak gebruik van unittests om de kwaliteit van de code te garanderen.
+
+
+
+Veel Succes
