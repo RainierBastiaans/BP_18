@@ -94,7 +94,7 @@ class CarPositionLine extends HTMLElement {
             .classList.remove("hidden");
         } else if (count > 3) {
           this.carPositionQElements[index].classList.remove("hidden");
-          this.carPositionQElements[index].innerHTML = count - 3;
+          this.carPositionQElements[index].innerHTML = count - 1;
         } else {
           this.carPositionQElements[index].classList.add("hidden");
           this.shadowRoot
