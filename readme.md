@@ -21,5 +21,5 @@ Set-ExecutionPolicy RemoteSigned -Scope Process
 
 
 ### Game Values 
-[a link] ((https://github.com/RainierBastiaans/BP_18/blob/main/game-values.js))
+[link] (https://github.com/RainierBastiaans/BP_18/blob/main/game-values.js)
 This section contains the value of the game, for example, round duration or start capital. These critical game values are defined within the separate ./game-values.js file. You can access this file for reference and to adjust specific values as needed for your game configuration.
