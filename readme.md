@@ -20,7 +20,7 @@ Set-ExecutionPolicy RemoteSigned -Scope Process
 ```
 
 
-### Game Values 
+## Game Values 
 [View the default game values of the game](./game-values.js)
 
 This file contains the standard values of the game.
