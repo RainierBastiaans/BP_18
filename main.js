@@ -44,7 +44,7 @@ const leanMethodService = new LeanMethodService();
 await leanMethodService.fetchLeanMethods();
 const startGrid = new StartGrid();
 const configGrid = new ConfigGrid();
-const showIngameStats = new ShowIngameStats();
+//const showIngameStats = new ShowIngameStats();
 const showStats = new ShowStats();
 const highscoreBoard = new HighscoreBoard(db); // Pass db instance
 const chooseLeanMethod = new ChooseLeanmethod();
@@ -63,13 +63,13 @@ const homePage = document.getElementById("home-page");
 const startPage = document.getElementById("start-page");
 const gameContainer = document.getElementById("game-container");
 const liveContainer = document.getElementById("live");
-const ingameStatsContainer = document.getElementById("ingame-stats-container");
-const liveStockContainer = document.getElementById("live-stock-container");
+// const ingameStatsContainer = document.getElementById("ingame-stats-container");
+//const liveStockContainer = document.getElementById("live-stock-container");
 
 let selectedLeanMethod;
 let selectedWorkstation;
 let shopComponent;
-let liveStockComponent;
+// let liveStockComponent;
 let fixedCosts;
 
 // Normally this would be fetched from the database
@@ -86,9 +86,9 @@ const playersOverview = new PlayersOverview(otherPlayers);
 await fetchParts().then((fetchedParts) => {
   leanGame.newGame(db, leanMethodService, fetchedParts);
   leanGame.game.stats.addObserver(showStats);
-  leanGame.game.stats.addObserver(showIngameStats);
-  liveStockComponent = new LiveStock(fetchedParts);
-  leanGame.game.stock.addObserver(liveStockComponent);
+  //leanGame.game.stats.addObserver(showIngameStats);
+  //liveStockComponent = new LiveStock(fetchedParts);
+  //leanGame.game.stock.addObserver(liveStockComponent);
   fixedCosts = new FixedCosts(leanGame.game.getFixedCosts());
   initShop(fetchedParts);
 });
@@ -156,8 +156,8 @@ function buildScreens() {
   configGrid.appendColumn(3, selectWorkstationComponent);
   configGrid.appendColumn(3, playersOverview);
 
-  ingameStatsContainer.appendChild(showIngameStats);
-  liveStockContainer.appendChild(liveStockComponent);
+  //ingameStatsContainer.appendChild(showIngameStats);
+  //liveStockContainer.appendChild(liveStockComponent);
 
   //game
   gameContainer.appendChild(leanGame);
@@ -188,11 +188,11 @@ function showConfigScreen() {
   playersOverview.show();
   newRoundButton.show();
   showStats.hide();
-  showIngameStats.hide();
+  //showIngameStats.hide();
   leanGame.hide();
   newRoundButton.hide();
   chooseLeanMethod.hide();
-  liveStockComponent.hide();
+  // liveStockComponent.hide();
   letsgetstartButton.hide();
   startGrid.classList.add("hidden");
   gameOverComponent.hide();
@@ -202,7 +202,7 @@ function showGameScreen() {
   gameContainer.classList.remove("hidden");
   homePage.classList.add("hidden");
   leanGame.show();
-  showIngameStats.show();
+  //showIngameStats.show();
   playerNameInput.hide();
   configGrid.hide();
   gameHeader.hide();
@@ -216,13 +216,13 @@ function showGameScreen() {
   newRoundButton.hide();
   showStats.hide();
   chooseLeanMethod.hide();
-  liveStockComponent.show();
+  // liveStockComponent.show();
 }
 
 function showRoundScreen() {
   homePage.classList.remove("hidden");
   leanGame.hide();
-  showIngameStats.hide();
+  //showIngameStats.hide();
   playerNameInput.hide();
   configGrid.show();
   gameHeader.hide();
@@ -236,7 +236,7 @@ function showRoundScreen() {
   newRoundButton.show();
   showStats.show();
   chooseLeanMethod.show();
-  liveStockComponent.hide();
+  // liveStockComponent.hide();
 }
 //screen for insufficient funds
 function showGameOverScreen() {
@@ -269,11 +269,11 @@ function showErrorScreen(errormessage) {
   playersOverview.hide();
   newRoundButton.hide();
   showStats.hide();
-  showIngameStats.hide();
+  // showIngameStats.hide();
   leanGame.hide();
   newRoundButton.hide();
   chooseLeanMethod.hide();
-  liveStockComponent.hide();
+  // liveStockComponent.hide();
   letsgetstartButton.hide();
   startGrid.classList.add("hidden");
   gameOverComponent.hide();
@@ -306,11 +306,11 @@ function showStartScreen() {
   playersOverview.hide();
   newRoundButton.hide();
   showStats.hide();
-  showIngameStats.hide();
+  // showIngameStats.hide();
   leanGame.hide();
   newRoundButton.hide();
   chooseLeanMethod.hide();
-  liveStockComponent.hide();
+  // liveStockComponent.hide();
   letsgetstartButton.show();
   leanGame.hide();
   gameContainer.classList.add("hidden");

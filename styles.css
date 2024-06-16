@@ -238,22 +238,21 @@ game-description-container {
   display: flex;
   flex-direction: column;
   align-items: stretch;
-  gap: 1.5%;
+  gap: 10px;
+  margin: 5px;
 }
 
 #config-column-1 {
-  margin: 5px;
   display: flex;
   align-content: stretch;
   border-radius: 5px;
+  max-width: 100%;
 }
 
 #config-column-2 {
-  margin: 5px;
 }
 
 #config-column-3 {
-  margin: 5px;
 }
 
 .component-style {
@@ -263,6 +262,7 @@ game-description-container {
   /* margin: 7.5px; */
   padding: 10px;
   box-shadow: 0 0 10px rgba(192, 192, 192, 1);
+  max-width: 100%;
 }
 
 img {
@@ -309,6 +309,10 @@ input[type="text"] {
 /*=========================
 =======PERSONAL STOCK======
 ==========================*/
+.personal-stock-list-container {
+  margin: 5px;
+}
+
 .personal-stock-list {
   display: flex;
   justify-content: space-around;
@@ -653,6 +657,7 @@ input[type="text"] {
   font-size: 0.9em;
   color: #6c757d;
   font-weight: bold;
+  padding: 2px;
 }
 
 /*====================
@@ -937,6 +942,8 @@ button:disabled {
 ==========================*/
 #game-container {
   text-align: center;
+  display: flex;
+  flex-direction: column;
 }
 
 .flex-row {
@@ -946,11 +953,11 @@ button:disabled {
   align-items: center;
 }
 
-#game-info {
-  display: flex;
-  flex-direction: row;
+#game-info-container {
   justify-content: space-between;
   align-items: center;
+  flex-wrap: wrap;
+  padding: 15px;
 }
 
 #current-workstation {
@@ -960,17 +967,21 @@ button:disabled {
 #visuals-container {
   display: flex;
   flex-direction: row;
-  justify-content: space-evenly;
+  justify-content: space-around;
 }
 
 #stock-container {
-  min-width: 12.5rem;
+  min-width: 30%;
+  width: auto;
+  max-width: 100%;
 }
 
 #car-game-container {
   justify-content: center;
   align-items: center;
   min-width: 20vw;
+  max-width: 100%;
+  width: 30%;
 }
 
 #extra-container {
@@ -979,6 +990,23 @@ button:disabled {
   align-items: center;
   justify-content: center;
   min-width: 20vw;
+  max-width: 100%;
+  width: 30%;
+  flex-wrap: wrap-reverse;
+}
+
+.game-events-container {
+  align-items: center;
+  justify-content: center;
+  max-width: 90%;
+  flex-wrap: wrap-reverse;
+  flex: 9;
+}
+
+.TQC-options-container {
+  align-items: center;
+  justify-content: center;
+  max-width: 100%;
 }
 
 /*========================= 
@@ -992,7 +1020,7 @@ button:disabled {
   background-color: rgb(190, 184, 122);
   height: 50vh;
   width: auto;
-  aspect-ratio: 8 / 10;
+  max-width: 100%;
 }
 
 .car-part {
@@ -1126,9 +1154,10 @@ button:disabled {
   color: rgba(0, 0, 0, 0.3);
 }
 
-#message {
+#workstation-message {
   margin: 0;
   padding: 5px;
+  align-self: center;
 }
 
 
@@ -1314,11 +1343,12 @@ button:disabled {
 #placeholder3 {
   height: 80%;
   width: auto;
+  max-width: 90%;
 }
 
 #placeholder4 {
   height: auto;
-  width: 85%;
+  width: 85%; 
 }
 
 #placeholder5 {
@@ -1370,15 +1400,15 @@ button:disabled {
 
 /* maintenance Timer */
 .timer {
-  margin-top: 10px;
+  width: 95%;
+  height: auto;
+  aspect-ratio: 1/1;
 
-  top: 40vh;
-  right: 8vw;
 }
 
 .timer>svg {
-  width: 200px;
-  height: 200px;
+  width: 100%;
+  height: 100%;
 }
 
 .timer>svg>circle {
@@ -1402,11 +1432,11 @@ button:disabled {
 }
 
 .timer>svg>text {
-  font-size: 2rem;
+  font-size: 2em;
 }
 
 .timer>svg>text+text {
-  font-size: 1rem;
+  font-size: 1em;
 }
 
 /** Car queue */
@@ -1414,6 +1444,7 @@ button:disabled {
   display: flex;
   justify-content: space-evenly;
   align-items: center;
+  flex-wrap: wrap;
 }
 
 .car-position-box {
@@ -1448,11 +1479,7 @@ button:disabled {
 
 /* In game statistics*/
 .ingame-statistics-container {
-  display: flex;
   align-items: center;
-  position: absolute;
-  top: 115px;
-  right: 20px;
 }
 
 .ingame-statistics-item {
@@ -1467,34 +1494,53 @@ button:disabled {
   padding: 0;
 }
 
-.livestock-container {
-  width: 33%;
-  max-width: 33%;
-  right: 0;
-  top: 26%;
-  position: absolute;
+#live-stock-container {
+  max-width: 100%;
+  flex-wrap: wrap;
+  flex: 1;
+  justify-content: center;
+  align-items: center;
 }
 
 .livestock-part-list {
   display: flex;
   justify-content: space-around;
-  list-style: none;
-  padding: 0;
-  margin: 0;
+  padding: 5px;
+  flex-wrap: wrap;
+  border: 2px solid #ddd;
+  background: linear-gradient(135deg, black, transparent);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  gap: 6px;
+  max-width: 98%;
 }
 
 .livestock-part-list li {
   text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+  padding: 15px;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
+  transition: transform 0.2s ease-in-out;
 }
 
 .livestock-part-name {
   display: block;
+  font-size: 1.2em;
+  font-weight: 600;
 }
 
 .livestock-part-quantity {
   display: block;
   margin-top: 5px;
   font-weight: bold;
+  font-size: 1.2em;
+  background-color: #f0f0f0;
+  padding: 5px 10px;
+  border-radius: 5px;
 }
 
 input[type="number"] {
@@ -1503,7 +1549,6 @@ input[type="number"] {
   border: 1px solid #ddd;
   border-radius: 4px;
 }
-
 
 /*==========================
 =========SHOW STATS=========

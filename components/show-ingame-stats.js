@@ -6,7 +6,7 @@ class ShowIngameStats extends HTMLElement {
     this.attachShadow({ mode: "open" });
     this.shadowRoot.innerHTML = `
     <link rel="stylesheet" href="styles.css">
-    <div class="ingame-statistics-container">
+    <div class="ingame-statistics-container horizontal-container">
       <div class="ingame-statistics-item" title="Number of completed cars">
           <img src="img/stats/completed.svg" alt="completed cars" >
           <p id="carsCompleted">€ 0</p>
@@ -24,7 +24,7 @@ class ShowIngameStats extends HTMLElement {
           <p id="capital">0</p>
       </div>
     </div>
-      `;
+    `;
     this.carsCompletedElement = this.shadowRoot.querySelector("#carsCompleted");
     this.carsBrokenElement = this.shadowRoot.querySelector("#carsBroken");
     this.totalIncomeElement = this.shadowRoot.querySelector("#totalIncome");

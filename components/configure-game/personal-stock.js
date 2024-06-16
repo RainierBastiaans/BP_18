@@ -10,7 +10,10 @@ class PersonalStock extends HTMLElement {
     shadowRoot.innerHTML = `
         <link rel="stylesheet" href="styles.css">
         <div class="personal-stock-container">
+          <div class="horizontal-container shop-heading">
+            <img src="img/live-stock.png" alt="live stock" class="header-icon">
             <h2>Parts in stock</h2>
+          </div>
             <div class="personal-stock-list-container">
             </div>
         </div>

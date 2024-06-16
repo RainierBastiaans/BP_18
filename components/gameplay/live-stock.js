@@ -1,20 +1,18 @@
 class LiveStock extends HTMLElement {
   constructor(parts) {
     super();
-
     this.parts = parts || []; // Set default empty array if no parts provided
-
     this.currentWorkstationIndex = 0; // Track current workstation
-
-    this.attachShadow({ mode: "open" }); // Create shadow DOM
+    this.attachShadow({ mode: "open" }); 
     this.shadowRoot.innerHTML = `
     <link rel="stylesheet" href="styles.css">
-  `;
-    // Create a container element (replace with your desired structure)
-    const container = document.createElement("div");
-    container.classList.add("livestock-container");
-    container.id = "livestock-container";
-    this.shadowRoot.appendChild(container);
+    `;
+    // Create a container element 
+    // <a href="https://www.flaticon.com/free-icons/in-stock" title="in stock icons">In stock icons created by Freepik - Flaticon</a>
+
+    this.partList = document.createElement("ul");
+    this.partList.classList.add("livestock-part-list");
+    this.shadowRoot.appendChild(this.partList);
 
     this.groupPartsByWorkstation();
     this.render();
@@ -68,18 +66,18 @@ class LiveStock extends HTMLElement {
   }
 
   render() {
-    let container = this.shadowRoot.querySelector(".livestock-container");
-    container.innerHTML = "";
-
+    this.partList.innerHTML = "";
+    
     // Get parts for the current workstation
     const currentWorkstationParts = this.partsByWorkstation.get(
       this.currentWorkstationIndex + 1 // Access workstation based on index + 1
     );
+    console.log(this.partList);
 
     if (currentWorkstationParts) {
       // List parts (replace with your desired rendering logic)
-      const partList = document.createElement("ul");
-      partList.classList.add("livestock-part-list");
+      // const partList = document.createElement("ul");
+      // partList.classList.add("livestock-part-list");
       for (const part of currentWorkstationParts) {
         const listItem = document.createElement("li");
 
@@ -96,9 +94,8 @@ class LiveStock extends HTMLElement {
         listItem.appendChild(partName);
         listItem.appendChild(partQuantity);
 
-        partList.appendChild(listItem);
+        this.partList.appendChild(listItem);
       }
-      container.appendChild(partList);
     }
   }
 }

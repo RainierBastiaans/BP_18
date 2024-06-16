@@ -11,6 +11,7 @@ import { LeanMethodService } from "../lean-methods/lean-method-service.js";
 import { Stock } from "./stock/stock.js";
 import { HighscoresDB } from "../db/highscores.js";
 import { InsufficientFundsError } from "../error/insufficient-funds-error.js";
+
 class Game {
   constructor(db, leanMethodService, parts) {
     this.db = db;

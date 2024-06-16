@@ -1,70 +1,78 @@
 import { Game } from "../../Models/game.js";
 import { CarPositionLine } from "./car-position.js";
 import { gameValues } from "../../game-values.js";
+import { ShowIngameStats } from "../show-ingame-stats.js";
+import { LiveStock } from "./live-stock.js";
 
 class LeanGame extends HTMLElement {
   constructor() {
     super();
     const gameTemplate = document.createElement("template");
     gameTemplate.innerHTML = `
-<link rel="stylesheet" href="styles.css">
-<div id="game-info" class="component-style">
-  <div class="game-timer">
-    <svg>
-      <circle cx="50%" cy="50%" r="45"/>
-      <circle cx="50%" cy="50%" r="45" pathLength="1" />
-      <text x="50" y="50" text-anchor="middle"><tspan id="game-timeLeft"></tspan></text>
-      <text x="50" y="65" text-anchor="middle">seconds</text>
-    </svg>
-  </div>
+      <link rel="stylesheet" href="styles.css">
+      <div id="game-info-container" class="component-style horizontal-container">
+        <div class="game-timer">
+          <svg>
+            <circle cx="50%" cy="50%" r="45"/>
+            <circle cx="50%" cy="50%" r="45" pathLength="1" />
+            <text x="50" y="50" text-anchor="middle">
+              <tspan id="game-timeLeft"></tspan>
+            </text>
+            <text x="50" y="65" text-anchor="middle">seconds</text>
+          </svg>
+        </div>
 
-  <div>
-    <h2 id="roundMessage">Round</h2>
-    <div class="flex-row">
-      <button id="previous-station-button" title="Previous Station"></button>
-      <p id="message">Workstation</p>
-      <button id="next-station-button" title="Next Station"></button>
-    </div>
-  </div>
+        <div class="workstation-navigation">
+          <h2 id="roundMessage">Round</h2>
+          <div class="horizontal-container">
+            <button id="previous-station-button" title="Previous Station"></button>
+            <p id="workstation-message">Workstation</p>
+            <button id="next-station-button" title="Next Station"></button>
+          </div>
+          <p id="current-workstation"> </p>
+        </div>
 
-  <p id="current-workstation"> </p>
-</div>
+        <div id="ingame-stats-container" class="horizontal-container"></div>
+      </div>
 
-<div id="visuals-container" class="component-style" >
-  <div id="stock-container">
-    <p id="stockTitle">Available stock</p>
-    <div id="part-buttons"></div>
-  </div>
+      <div id="visuals-container" class="component-style" >
+        <div id="stock-container">
+          <p id="stockTitle">Available stock</p>
+          <div id="part-buttons"></div>
+        </div>
 
-  <div id="car-game-container">
-    <p id="workstationTitle">Workstation</p>
-    <button id="move-car-button">Move Car to Next Station</button>
-    <div id="car-container" class="car-container"></div>
-  </div>
+        <div id="car-game-container">
+          <p id="workstationTitle">Workstation</p>
+          <button id="move-car-button">Move Car to Next Station</button>
+          <div id="car-container" class="car-container"></div>
+        </div>
 
-  <div id="extra-container">
-    <button id="quality-control" class="circle-button" title="Quality Control"></button> 
-    <button id="remove-button" class="circle-button" title="Remove Car"></button>
-
-    <div class="timer">
-      <svg>
-        <circle cx="50%" cy="50%" r="90"/>
-        <circle cx="50%" cy="50%" r="90" pathLength="1" />
-        <text x="100" y="100" text-anchor="middle"><tspan id="timeLeft"></tspan></text>
-        <text x="100" y="120" text-anchor="middle">seconds till fixed</text>
-      </svg>
-    </div>
-  </div>
-</div>
-  
-`;
+        <div id="extra-container">
+          <div id="live-stock-container" class="hidden horizontal-container">
+            <img src="img/live-stock.png" alt="live stock" class="header-icon">
+          </div>
+          <div class="game-events-container horizontal-container">
+            <div class="TQC-options-container vertical-container">
+              <button id="quality-control" class="circle-button" title="Quality Control"></button> 
+              <button id="remove-button" class="circle-button" title="Remove Car"></button>
+            </div>
+            <div class="timer">
+              <svg viewBox="0 0 200 200">
+                <circle cx="50%" cy="50%" r="45%"/>
+                <circle cx="50%" cy="50%" r="45%" pathLength="1" />
+                <text x="50%" y="45%" text-anchor="middle"><tspan id="timeLeft"></tspan></text>
+                <text x="50%" y="55%" text-anchor="middle">seconds till fixed</text>
+              </svg>
+            </div>
+          </div>
+        </div>
+      </div>
+    `;
 
     const shadowRoot = this.attachShadow({ mode: "open" });
     shadowRoot.appendChild(gameTemplate.content.cloneNode(true));
-
-    this.messageEl = shadowRoot.getElementById("message");
+    this.messageEl = shadowRoot.getElementById("workstation-message");
     this.roundMessageEl = shadowRoot.getElementById("roundMessage");
-
     this.previousButton = shadowRoot.getElementById("previous-station-button");
     this.nextButton = shadowRoot.getElementById("next-station-button");
     this.moveCarButton = shadowRoot.getElementById("move-car-button");
@@ -79,6 +87,9 @@ class LeanGame extends HTMLElement {
     this.removeButton.style.display = "none";
     this.removeButton.disabled = true;
     this.partPosition = [];
+
+    this.liveStockContainer = shadowRoot.getElementById("live-stock-container");
+    this.ingameStatsContainer = shadowRoot.getElementById("ingame-stats-container");
   }
 
   connectedCallback() {
@@ -106,7 +117,7 @@ class LeanGame extends HTMLElement {
     );
     if (workstationElement) {
       if (!workstation) {
-        // console.log("das nie goe eh");
+        //console.log("das nie goe eh");
       }
       const seconds = workstation.getRemainingTime();
       if (seconds) {
@@ -142,6 +153,13 @@ class LeanGame extends HTMLElement {
   newGame(db, leanMethodService, parts) {
     this.game = new Game(db, leanMethodService, parts);
     this.leanMethodService = leanMethodService;
+    this.showIngameStats = new ShowIngameStats();
+    this.game.stats.addObserver(this.showIngameStats);
+    this.ingameStatsContainer.appendChild(this.showIngameStats);
+
+    this.liveStock = new LiveStock(parts);
+    this.game.stock.addObserver(this.liveStock);
+    this.liveStockContainer.appendChild(this.liveStock);
   }
 
   startGame(playerName, selectedWorkstation = 1, bots) {
@@ -272,17 +290,15 @@ class LeanGame extends HTMLElement {
       this.removeButton.style.display = "none";
     }
 
-    const liveStockContainer = document.getElementById("live-stock-container");
-
     if (this.leanMethodService.getLeanMethod("just-in-time").isEnabled) {
-      liveStockContainer.classList.add("hidden");
+      this.liveStockContainer.classList.add("hidden");
     } else if (
       this.leanMethodService.getLeanMethod("orderly-workplace").isEnabled &&
       this.game.selectedWorkstation === this.getCurrentWorkstation().id
     ) {
-      liveStockContainer.classList.add("hidden");
+      this.liveStockContainer.classList.add("hidden");
     } else {
-      liveStockContainer.classList.remove("hidden");
+      this.liveStockContainer.classList.remove("hidden");
     }
   }
 
