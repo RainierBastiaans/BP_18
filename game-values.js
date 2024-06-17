@@ -34,7 +34,7 @@ export const gameValues = {
   jitExtraPrice: 1.5, // Shorter name for extrapriceJit
 
   // Round duration (seconds)
-  roundDuration: 60, // Shorter name for timeOfRound
+  roundDuration: 5, // Shorter name for timeOfRound
 
   // Parts added to stock per round
   //This value was used before the shop was implemented, now this is no longer used. The code for this is still available in the stock classes.
@@ -44,5 +44,5 @@ export const gameValues = {
   pricePerPart: 200,
 
   //Number of rounds
-  numberOfRounds: 5,
+  numberOfRounds: 2,
 };

@@ -72,7 +72,6 @@ class LiveStock extends HTMLElement {
     const currentWorkstationParts = this.partsByWorkstation.get(
       this.currentWorkstationIndex + 1 // Access workstation based on index + 1
     );
-    console.log(this.partList);
 
     if (currentWorkstationParts) {
       // List parts (replace with your desired rendering logic)

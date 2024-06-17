@@ -58,7 +58,6 @@ const restartButton = new RestartButton();
 const homePage = document.getElementById("home-page");
 const startPage = document.getElementById("start-page");
 const gameContainer = document.getElementById("game-container");
-const liveContainer = document.getElementById("live");
 
 let selectedLeanMethod;
 let selectedWorkstation;
