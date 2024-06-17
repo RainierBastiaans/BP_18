@@ -72,8 +72,8 @@ excludes: player-icon
   height: auto;
   margin-right: 10px;
   vertical-align: middle;
-  max-width: 2.5em;
-  max-height: 2.5em;
+  max-width: 2em;
+  max-height: 2em;
 }
 
 .header-icon {
@@ -81,8 +81,8 @@ excludes: player-icon
   height: auto;
   margin-right: 10px;
   vertical-align: middle;
-  max-width: 3.5em;
-  max-height: 3.5em;
+  max-width: 3em;
+  max-height: 3em;
 }
 
 /**=========================
@@ -664,7 +664,10 @@ input[type="text"] {
 =========SHOP=========
 ====================*/
 .shop-component {
-  max-width: 600px;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  max-width: 100%; 
 }
 
 /* Shop Heading */
@@ -957,7 +960,31 @@ button:disabled {
   justify-content: space-between;
   align-items: center;
   flex-wrap: wrap;
-  padding: 15px;
+  padding: 6px;
+  max-width: 100%;
+  gap: 10px;
+}
+
+.workstation-navigation {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0;
+  flex: 5;
+  max-width: 50%;
+}
+
+#ingame-stats-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+  border-radius: 5px;
+  background-color: #f8f9fa;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  flex: 2;
+  flex-wrap: wrap;
 }
 
 #current-workstation {
@@ -1026,7 +1053,6 @@ button:disabled {
 .car-part {
   max-width: 125px;
   margin: 5px 0;
-
 }
 
 .part-buttons {
@@ -1114,6 +1140,19 @@ button:disabled {
   background-repeat: no-repeat;
   background-position: center center;
   background-size: 50%;
+}
+
+#roundMessage {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  background-color: #f8f9fa;
+  border-radius: 5px;
+  font-size: 1.3em;
+}
+
+#workstation-navigation-buttons {
+  background-color: #f8f9fa;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
 }
 
 #previous-station-button {
@@ -1361,8 +1400,7 @@ button:disabled {
 
 /* Game Timer */
 .game-timer {
-  top: 50px;
-  left: 20px;
+  flex: 2;
 }
 
 .game-timer>svg {
@@ -1465,7 +1503,7 @@ button:disabled {
 }
 
 .car-position.active {
-  background-color: #bbb;
+  background-color: rgba(0, 128, 0, 0.24);
 }
 
 .green-border {
@@ -1480,6 +1518,7 @@ button:disabled {
 /* In game statistics*/
 .ingame-statistics-container {
   align-items: center;
+  flex-wrap: wrap;
 }
 
 .ingame-statistics-item {
@@ -1529,7 +1568,7 @@ button:disabled {
 
 .livestock-part-name {
   display: block;
-  font-size: 1.2em;
+  font-size: 1em;
   font-weight: 600;
 }
 
@@ -1537,7 +1576,7 @@ button:disabled {
   display: block;
   margin-top: 5px;
   font-weight: bold;
-  font-size: 1.2em;
+  font-size: 1em;
   background-color: #f0f0f0;
   padding: 5px 10px;
   border-radius: 5px;

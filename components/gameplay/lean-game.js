@@ -24,12 +24,12 @@ class LeanGame extends HTMLElement {
 
         <div class="workstation-navigation">
           <h2 id="roundMessage">Round</h2>
-          <div class="horizontal-container">
+          <div id="workstation-navigation-buttons" class="horizontal-container">
             <button id="previous-station-button" title="Previous Station"></button>
             <p id="workstation-message">Workstation</p>
             <button id="next-station-button" title="Next Station"></button>
           </div>
-          <p id="current-workstation"> </p>
+          <p id="current-workstation" class="hidden"> </p>
         </div>
 
         <div id="ingame-stats-container" class="horizontal-container"></div>
@@ -49,6 +49,7 @@ class LeanGame extends HTMLElement {
 
         <div id="extra-container">
           <div id="live-stock-container" class="hidden horizontal-container">
+            <a href="https://www.flaticon.com/free-icons/in-stock" class="hidden" title="in stock icons">In stock icons created by Freepik - Flaticon</a>
             <img src="img/live-stock.png" alt="live stock" class="header-icon">
           </div>
           <div class="game-events-container horizontal-container">

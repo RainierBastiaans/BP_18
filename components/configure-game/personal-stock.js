@@ -11,6 +11,7 @@ class PersonalStock extends HTMLElement {
         <link rel="stylesheet" href="styles.css">
         <div class="personal-stock-container">
           <div class="horizontal-container shop-heading">
+            <a href="https://www.flaticon.com/free-icons/in-stock" class="hidden" title="in stock icons">In stock icons created by Freepik - Flaticon</a>
             <img src="img/live-stock.png" alt="live stock" class="header-icon">
             <h2>Parts in stock</h2>
           </div>
